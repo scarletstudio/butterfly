@@ -1,0 +1,1 @@
+alias run='./run.sh'
