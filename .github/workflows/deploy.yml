@@ -18,12 +18,12 @@ jobs:
       - name: Install and Build 🔧
         run: |
           cd frontend
-          echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env
-          echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env
-          echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env
-          echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env
-          echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env
-          echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env
+          echo "VITE_firebase_apiKey=$VITE_FIREBASE_APIKEY" > .env
+          echo "VITE_firebase_authDomain=$VITE_FIREBASE_AUTHDOMAIN" >> .env
+          echo "VITE_firebase_projectId=$VITE_FIREBASE_PROJECTID" >> .env
+          echo "VITE_firebase_storageBucket=$VITE_FIREBASE_STORAGEBUCKET" >> .env
+          echo "VITE_firebase_messagingSenderId=$VITE_FIREBASE_MESSAGINGSENDERID" >> .env
+          echo "VITE_firebase_appId=$VITE_FIREBASE_APPID" >> .env
           npm install
           npm run build
           touch butterfly/.nojekyll
