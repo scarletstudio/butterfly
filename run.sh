@@ -31,7 +31,7 @@ if [ "$1" == "frontend" ]; then
   # Run the frontend in development mode
   npm run dev
 
-elif [ "$1" == "static-frontend" ]; then
+elif [ "$1" == "frontend-static" ]; then
   echo "Building static frontend site..."
   echo "Remember to use `./run.sh frontend` first, so that frontend/.env is created before building."
   cd frontend
