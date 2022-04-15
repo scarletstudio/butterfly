@@ -8,15 +8,17 @@ import LoginPage from './pages/LoginPage'
 import AllChatsPage from './pages/AllChatsPage'
 import ChatPage from './pages/ChatPage'
 
+const BASE_URL = 'butterfly'
 const REDIRECT_PATHNAME_KEY = 'butterfly__pathname'
 
 function App() {
   // Handle redirect on static site
   const navigateTo = useNavigate();
   useEffect(() => {
-    const redirectPathname = localStorage.getItem(REDIRECT_PATHNAME_KEY)
+    const redirectFullPathname = localStorage.getItem(REDIRECT_PATHNAME_KEY)
     if (redirectPathname) {
       localStorage.setItem(REDIRECT_PATHNAME_KEY, '')
+      const redirectPathname = redirectFullPathname.substring(BASE_URL.length)
       navigateTo(redirectPathname)
     }
   }, [])
