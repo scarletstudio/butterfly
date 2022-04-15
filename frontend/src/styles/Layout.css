@@ -1,0 +1,11 @@
+.Layout {
+  --font-size: 18px;
+}
+
+.Page {
+  padding: 1.5em;
+}
+
+.Content {
+  font-size: var(--font-size);
+}

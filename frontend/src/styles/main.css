@@ -1,0 +1,112 @@
+/* Headings and Text */
+
+body {
+  font-size: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  line-height: 1.1em;
+  margin: 0.5em 0;
+}
+
+h1 {
+  font-size: 2.25em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.75em;
+}
+
+h4 {
+  font-size: 1.5;
+}
+
+h5 {
+  font-size: 1.25em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.1em;
+  margin: 1em 0;
+}
+
+pre {
+  font-family: monospace;
+  font-size: 1em;
+  margin: 1em 0;
+  white-space: pre-wrap;
+}
+
+.BigTitle {
+  color: var(--color-main);
+  font-size: 3.5em;
+  line-height: 1em;
+  margin: 0;
+}
+
+.NoDecorate {
+  text-decoration: none;
+}
+
+/* Utilities */
+
+.FullPage {
+  /* Fill full page */
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.VerticalCenter {
+  /* Center vertically with flexbox */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Icons */
+
+.IconAfter {
+  margin-left: 0.5em;
+}
+
+.IconBefore {
+  margin-right: 0.5em;
+}
+
+/* Buttons */
+
+.Button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.5em;
+  margin: 0.25em 0;
+  border-radius: 0.25em;;
+}
+
+.Button:hover {
+  cursor: pointer;
+}
+
+/*
+ * Hide scrollbar, but allow scrolling
+ * https://blog.hubspot.com/website/hide-scrollbar-css
+ */
+
+ body {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}

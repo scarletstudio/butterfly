@@ -1,0 +1,42 @@
+/* Colors */
+
+.Theme {
+  --color-main: rgb(42, 222, 250);
+  --color-light: rgb(224, 252, 255);
+  --color-dark: rgb(5, 108, 120);
+  --color-text: rgb(18, 18, 18);
+  --color-contrast: white;
+}
+
+.App {
+  background: var(--color-light);
+  color: var(--color-text);
+}
+
+h1 {
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-text);
+}
+
+/* Links */
+
+a:hover {
+  color: var(--color-main);
+}
+
+/* Buttons */
+
+.Button.Primary {
+  background: var(--color-main);
+  border: 1px solid transparent;
+  color: var(--color-contrast);
+}
+
+.Button.Primary:hover {
+  background: transparent;
+  border: 1px solid var(--color-main);
+  color: var(--color-main);
+}

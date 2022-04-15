@@ -1,0 +1,9 @@
+.AllChatsPage, .ChatPage {
+  background: var(--color-contrast);
+}
+
+.Message {
+  background: var(--color-light);
+  padding: 0.5em;
+  border-radius: 0.25em;
+}
