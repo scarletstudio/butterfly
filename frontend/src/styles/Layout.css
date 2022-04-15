@@ -9,3 +9,7 @@
 .Content {
   font-size: var(--font-size);
 }
+
+.NotFoundPage {
+  text-align: center;
+}
