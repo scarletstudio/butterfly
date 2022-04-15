@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage'
 import AllChatsPage from './pages/AllChatsPage'
 import ChatPage from './pages/ChatPage'
 
-const BASE_URL = 'butterfly'
+const BASE_URL = '/butterfly'
 const REDIRECT_PATHNAME_KEY = 'butterfly__pathname'
 
 function App() {
