@@ -24,6 +24,9 @@ jobs:
           echo "VITE_firebase_storageBucket=$VITE_FIREBASE_STORAGEBUCKET" >> .env
           echo "VITE_firebase_messagingSenderId=$VITE_FIREBASE_MESSAGINGSENDERID" >> .env
           echo "VITE_firebase_appId=$VITE_FIREBASE_APPID" >> .env
+          echo "First 30 chars:"
+          echo head -c 30 .env
+          echo "Done."
           npm install
           npm run build
           touch butterfly/.nojekyll
