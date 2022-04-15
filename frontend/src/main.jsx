@@ -14,9 +14,13 @@ const registeredIcons = [
 ]
 library.add(registeredIcons)
 
+// Set page title for entire app
+document.title = 'Butterfly'
+
+// Initialize React app
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="butterfly">
       <App />
     </BrowserRouter>
   </React.StrictMode>
