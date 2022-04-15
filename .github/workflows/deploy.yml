@@ -31,6 +31,9 @@ jobs:
           echo VITE_firebase_storageBucket=$VITE_firebase_storageBucket >> .env
           echo VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId >> .env
           echo VITE_firebase_appId=$VITE_firebase_appId >> .env
+          echo $VITE_firebase_projectId
+          echo $VITE_FIREBASE_PROJECTID
+          echo ${{ secrets.VITE_FIREBASE_PROJECTID }}
           echo "First 30 chars:"
           echo $(head -c 30 .env)
           echo "Done."
