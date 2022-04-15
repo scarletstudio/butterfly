@@ -25,12 +25,12 @@ jobs:
           VITE_firebase_appId: ${{ secrets.VITE_FIREBASE_APPID }}
         run: |
           cd frontend
-          echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env
-          echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env
-          echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env
-          echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env
-          echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env
-          echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env
+          echo VITE_firebase_apiKey=$VITE_firebase_apiKey > .env
+          echo VITE_firebase_authDomain=$VITE_firebase_authDomain >> .env
+          echo VITE_firebase_projectId=$VITE_firebase_projectId >> .env
+          echo VITE_firebase_storageBucket=$VITE_firebase_storageBucket >> .env
+          echo VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId >> .env
+          echo VITE_firebase_appId=$VITE_firebase_appId >> .env
           echo "First 30 chars:"
           echo $(head -c 30 .env)
           echo "Done."
