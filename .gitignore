@@ -1,6 +1,8 @@
 # Project
 
 frontend/butterfly/**
+frontend/.env.firebase
+.env.firebase
 
 # Node
 

@@ -12,12 +12,22 @@ if [ "$1" == "frontend" ]; then
     gp env VITE_BACKEND_URL=$(gp url 8000)
     gp env VITE_FRONTEND_URL=$(gp url 3000)
     eval $(gp env -e)
+    touch .env.firebase
+    echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env.firebase
+    echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env.firebase
+    echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env.firebase
+    echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env.firebase
+    echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env.firebase
+    echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env.firebase
   else
     VITE_BACKEND_URL="http://localhost:8000"
     VITE_FRONTEND_URL="http://localhost:3000"
+    cp ../.env.firebase .env.firebase
   fi
   echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" > .env
   echo "VITE_FRONTEND_URL=$VITE_FRONTEND_URL" >> .env
+  cat .env.firebase >> .env
+  rm .env.firebase
   # Run the frontend in development mode
   npm run dev
 
