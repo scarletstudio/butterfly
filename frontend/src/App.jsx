@@ -16,7 +16,7 @@ function App() {
   const navigateTo = useNavigate();
   useEffect(() => {
     const redirectFullPathname = localStorage.getItem(REDIRECT_PATHNAME_KEY)
-    if (redirectPathname) {
+    if (redirectFullPathname) {
       localStorage.setItem(REDIRECT_PATHNAME_KEY, '')
       const redirectPathname = redirectFullPathname.substring(BASE_URL.length)
       navigateTo(redirectPathname)
