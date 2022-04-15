@@ -12,9 +12,7 @@ export default function LoginPage() {
     const { user, signInError } = await signInUser()
     if (user) {
       console.log(`Welcome, ${user.displayName}!`)
-      setTimeout(() => {
-        navigateTo('/chats')
-      }, 3000)
+      navigateTo('/chats')
     } else {
       console.error(signInError)
     }

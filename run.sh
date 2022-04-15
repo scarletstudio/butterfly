@@ -31,6 +31,13 @@ if [ "$1" == "frontend" ]; then
   # Run the frontend in development mode
   npm run dev
 
+elif [ "$1" == "static-frontend" ]; then
+  echo "Building static frontend site..."
+  echo "Remember to use `./run.sh frontend` first, so that frontend/.env is created before building."
+  cd frontend
+  npm run build
+  python3 -m http.server 3000
+
 elif [ "$1" == "install-frontend" ]; then
   echo "Installing frontend dependencies..."
   # Install Node dependencies within frontend directory
