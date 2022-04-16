@@ -1,6 +1,8 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
+import { FirebaseAppContext, createFirebaseApp } from './common/utils/firebase'
+
 import Layout from './pages/Layout'
 import NotFoundPage from './pages/NotFoundPage'
 import HomePage from './pages/HomePage'
@@ -11,7 +13,7 @@ import ChatPage from './pages/ChatPage'
 const BASE_URL = '/butterfly'
 const REDIRECT_PATHNAME_KEY = 'butterfly__pathname'
 
-function App() {
+function AppRouting() {
   // Handle redirect on static site
   const navigateTo = useNavigate();
   useEffect(() => {
@@ -40,4 +42,13 @@ function App() {
   )
 }
 
-export default App
+export default function App() {
+  const firebaseApp = createFirebaseApp()
+  return (
+    <div className="App Theme">
+      <FirebaseAppContext.Provider value={firebaseApp}>
+        <AppRouting />
+      </FirebaseAppContext.Provider>
+    </div>
+  )
+}

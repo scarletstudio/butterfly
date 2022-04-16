@@ -97,12 +97,30 @@ pre {
   cursor: pointer;
 }
 
+/* Errors */
+
+.Error {
+  border-radius: 0.25em;
+  padding: 1em;
+  text-align: left;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.Error :first-child {
+  margin-top: 0;
+}
+
+.Error :last-child {
+  margin-bottom: 0;
+}
+
 /*
  * Hide scrollbar, but allow scrolling
  * https://blog.hubspot.com/website/hide-scrollbar-css
  */
 
- body {
+body {
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
 }
