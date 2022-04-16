@@ -33,13 +33,13 @@ a:hover {
 
 .Button.Primary {
   background: var(--color-main);
-  border: 1px solid transparent;
+  border-color: transparent;
   color: var(--color-contrast);
 }
 
 .Button.Primary:hover {
   background: transparent;
-  border: 1px solid var(--color-main);
+  border-color: var(--color-main);
   color: var(--color-main);
 }
 
@@ -48,4 +48,10 @@ a:hover {
 .Error {
   border-color: var(--color-danger);
   background: var(--color-danger-light);
+}
+
+/* Layout */
+
+hr {
+  background: var(--color-main);
 }

@@ -1,4 +1,11 @@
-import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
+import { useState } from 'react'
+import {
+  GoogleAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth'
 
 export async function signInUser() {
   try {
@@ -16,4 +23,31 @@ export async function signInUser() {
       signInError: err,
     }
   }
+}
+
+export async function signOutUser() {
+  try {
+    const auth = getAuth()
+    await signOut(auth)
+    return {
+      isSuccess: true,
+      signOutError: null,
+    }
+  } catch (err) {
+    return {
+      isSuccess: false,
+      signOutError: err,
+    }
+  }
+}
+
+export function useCurrentAuthUser() {
+  const auth = getAuth()
+  const [ authUser, setAuthUser ] = useState(null)
+  onAuthStateChanged(auth, (user) => {
+    if (authUser !== user) {
+      setAuthUser(user)
+    }
+  })
+  return authUser
 }

@@ -90,7 +90,9 @@ pre {
   text-decoration: none;
   padding: 0.5em;
   margin: 0.25em 0;
-  border-radius: 0.25em;;
+  border-radius: 0.25em;
+  border-width: 1px;
+  border-style: solid;
 }
 
 .Button:hover {
@@ -113,6 +115,13 @@ pre {
 
 .Error :last-child {
   margin-bottom: 0;
+}
+
+/* Layout */
+
+hr {
+  border: none;
+  height: 1px;
 }
 
 /*
