@@ -1,13 +1,16 @@
-/* Colors */
+/* Colors and Fonts */
 
 .Theme {
   --color-main: rgb(42, 222, 250);
   --color-light: rgb(224, 252, 255);
   --color-dark: rgb(5, 108, 120);
+  --color-alt: rgb(255, 208, 107);
+  --color-alt-light: rgb(255, 237, 199);
   --color-text: rgb(18, 18, 18);
   --color-contrast: white;
   --color-danger: rgb(245, 66, 51);
   --color-danger-light: rgb(255, 205, 201);
+  --font-body: serif;
 }
 
 .App {
@@ -54,4 +57,40 @@ a:hover {
 
 hr {
   background: var(--color-main);
+}
+
+/* Chat */
+
+.AllChatsPage, .ChatPage {
+  background: var(--color-contrast);
+}
+
+.Message, .ChatComposer .Input {
+  font-family: var(--font-body);
+}
+
+.Message.Mine .MessageInner {
+  background: var(--color-light);
+}
+
+.Message.Theirs .MessageInner {
+  background: var(--color-alt-light);
+}
+
+.ChatComposer .Input, .ChatComposer .Send {
+  border-color: var(--color-dark);
+  outline-color: var(--color-dark);
+}
+
+.ChatComposer .Send {
+  background: var(--color-dark);
+  color: var(--color-contrast);
+}
+
+.ChatComposer .Send:hover {
+  background: var(--color-main);
+}
+
+.ChatComposer .Input {
+  background: var(--color-light);
 }

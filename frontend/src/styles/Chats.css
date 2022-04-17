@@ -1,9 +1,74 @@
-.AllChatsPage, .ChatPage {
-  background: var(--color-contrast);
+/* Variables */
+
+.ChatApp {
+  --send-width: 60px;
+  --send-height: 4em;
 }
 
+/* Chat Page */
+
+.ChatContainer {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Chat App */
+
+.ChatApp {
+  padding: 1em;
+}
+
+/* Messages */
+
 .Message {
-  background: var(--color-light);
+  display: block;
+  margin: 0.5em 0;
+}
+
+.Message.Mine {
+  text-align: right;
+}
+
+.Message.Theirs {
+  text-align: left;
+}
+
+.MessageInner {
+  display: inline-block;
+  width: 75%;
   padding: 0.5em;
   border-radius: 0.25em;
+  text-align: left;
+}
+
+.MessageInner p {
+  margin: 0;
+}
+
+/* Composer */
+
+.ChatComposer .Input, .ChatComposer .Send {
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  height: var(--send-height);
+  min-height: var(--send-height);
+  margin: 0;
+  padding: 0.5em;
+  font-size: 1em;
+  border-radius: 0;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.ChatComposer .Send {
+  width: var(--send-width);
+  margin-left: var(--send-margin);
+  text-align: center;
+}
+
+.ChatComposer .Input {
+  --input-width: calc(100% - var(--send-width));
+  min-width: var(--input-width);
+  max-width: var(--input-width);
 }

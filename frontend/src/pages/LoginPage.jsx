@@ -19,7 +19,7 @@ function CurrentLogin({ authUser, doLogOut }) {
           <FontAwesomeIcon icon={faSignOutAlt} className="IconBefore" />
           <span>Log Out</span>
         </span>
-        </p>
+      </p>
     </div>
   )
 }

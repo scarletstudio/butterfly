@@ -1,9 +1,11 @@
 .Layout {
   --font-size: 18px;
+  box-sizing: border-box;
 }
 
 .Page {
   padding: 1.5em;
+  box-sizing: border-box;
 }
 
 .Content {

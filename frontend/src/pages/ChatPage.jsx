@@ -1,18 +1,16 @@
 import { useParams } from 'react-router-dom'
 
-import { useCurrentAuthUser } from '../common/utils/auth'
+import { ChatApp } from '../common/components/Chat'
 
 import '../styles/Chats.css'
 
 export default function ChatPage() {
   const { chatId } = useParams()
-  const authUser = useCurrentAuthUser()
   return (
-    <div className="Page Content ChatPage FullPage">
-      <h1>Chat with Someone</h1>
-      <p>Your messages will appear here.</p>
-      <pre>Chat ID: {chatId}</pre>
-      <div className="Message">This is an example message.</div>
+    <div className="Content ChatPage FullPage">
+      <div className="ChatContainer">
+        <ChatApp chatId={chatId} />
+      </div>
     </div>
   )
 }
