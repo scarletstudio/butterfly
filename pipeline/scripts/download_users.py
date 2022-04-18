@@ -1,32 +1,29 @@
-"""
-Download user details from Firebase.
-"""
+import sys
+sys.path.append("./")
 
-import firebase_admin
+import argparse
 import pandas as pd
-from decouple import Config, RepositoryEnv
-from firebase_admin import credentials, db
+from firebase_admin import db
+
+from pipeline.utils.firebase import initialize_firebase
 
 
-# Read from .env.firebase in root folder instead of local .env file
-DOTENV = '.env.firebase'
-config = Config(RepositoryEnv(DOTENV))
-
-# Initialize Firebase Admin service account
-cred = credentials.Certificate("credentials.json")
-firebase_admin.initialize_app(cred, {
-  "databaseURL": config.get("VITE_firebase_databaseURL")
-})
-
-OUTFILE = "data/raw_users.csv"
+cli = argparse.ArgumentParser(description="Read users from Firebase.")
+cli.add_argument("--outfile", default="data/raw_users.csv")
+args = cli.parse_args()
 
 
 def main():
+  # Fetch users and store in DataFrame
+  initialize_firebase()
   all_users = db.reference("users").get()
-  users = pd.DataFrame(all_users.values())
-  users = users[users.latestLogin.notna()]
-  users.to_csv(OUTFILE, index=False)
-  print("Wrote {} rows, {} cols to: {}".format(*users.shape, OUTFILE))
+  df_users = pd.DataFrame(all_users.values())
+
+  # Filter out users who have not logged in
+  df_users = df_users[df_users.latestLogin.notna()]
+  df_users.to_csv(args.outfile, index=False)
+  msg = "Wrote {} rows, {} cols to: {}"
+  print(msg.format(*df_users.shape, args.outfile))
 
 
 if __name__ == "__main__":

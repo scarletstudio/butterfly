@@ -42,7 +42,9 @@ class User:
 @dataclass
 class Match:
   users: Set[UserId]
+  community: Optional[str] = None
   release: Optional[datetime.datetime] = None
+  key: Optional[str] = None
 
 
 # Constants
