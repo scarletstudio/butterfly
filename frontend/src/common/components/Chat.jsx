@@ -39,7 +39,7 @@ function ChatMessages({ chatId, chat, myUserId }) {
   ))
 
   const loadingEl = (
-    <p>Loading messages...</p>
+    <p>No messages yet... Will you start things off?</p>
   )
 
   return (
@@ -106,10 +106,10 @@ function getChatDisplayError(chatId, chat, myUserId) {
   return null
 }
 
-export function ChatApp({ chatId }) {
-  const chat = useGetChatData(chatId)
+export function ChatApp({chatId }) {
   const authUser = useCurrentAuthUser()
   const myUserId = authUser?.uid
+  const chat = useGetChatData(`${chatId}~${myUserId}`)
 
   const displayError = getChatDisplayError(chatId, chat, myUserId)
   const isReady = chat.isLoaded && !displayError

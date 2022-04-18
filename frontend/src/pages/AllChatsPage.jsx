@@ -1,13 +1,37 @@
 import { Link } from 'react-router-dom'
 
+import { useCurrentAuthUser } from '../common/utils/auth'
+import { useGetMatches } from '../common/utils/match'
+import { COMMUNITY } from '../common/utils/constants'
+
 import '../styles/Chats.css'
 
+function Match({data}) {
+  const { id, release } = data
+  return (
+    <div className="Match">
+      <h3>{release}</h3>
+      <p>
+        <Link to={`/chats/${id}`}>Chat {id}</Link>
+      </p>
+    </div>
+  )
+}
+
 export default function AllChatsPage() {
+  const authUser = useCurrentAuthUser()
+  const matches = useGetMatches(COMMUNITY, authUser?.uid)
+  const matchEls = matches.length > 0
+    ? matches.map((m) => (
+      <Match key={m.id} data={m} />
+    ))
+    : <p>Loading matches...</p>
   return (
     <div className="Page Content AllChatsPage FullPage">
       <h1>Chats</h1>
       <p>Your chats will appear here.</p>
-      <Link to="/chats/123">Chat 123</Link>
+      <h2>Demo Community</h2>
+      {matchEls}
     </div>
   )
 }

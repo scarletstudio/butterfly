@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   GoogleAuthProvider,
   getAuth,
@@ -44,16 +44,19 @@ export async function signOutUser() {
 export function useCurrentAuthUser() {
   const [ authUser, setAuthUser ] = useState(null)
 
-  // Update based on state of authenticated user
+  // Update state of authenticated user
   const auth = getAuth()
-  onAuthStateChanged(auth, (user) => {
-    setAuthUser((prevAuthUser) => {
-      if (prevAuthUser !== user) {
-        return user
-      }
-      return authUser
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthUser((prevAuthUser) => {
+        if (prevAuthUser?.uid !== user?.uid) {
+          return user
+        }
+        return prevAuthUser
+      })
     })
-  })
+    return unsubscribe
+  }, [])
 
   return authUser
 }

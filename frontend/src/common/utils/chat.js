@@ -38,7 +38,7 @@ export function useGetChatData(chatId) {
 
   useEffect(() => {
     const db = getDatabase()
-    const chatPath = `${DB_PATH.CHATS}/${chatId}`
+    const chatPath = `${DB_PATH.MATCHES}/${chatId}`
     const chatRef = ref(db, chatPath)
     // Fetch chat data
     const unsubscribe = onValue(chatRef, async (snap) => {
