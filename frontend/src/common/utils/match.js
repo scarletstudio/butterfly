@@ -21,7 +21,7 @@ export function useGetMatches(communityId, userId) {
     const matchesRef = ref(db, path)
     const queryRef = query(matchesRef, orderByChild('for'), equalTo(userId))
     onValue(queryRef, (snap) => {
-      const matchMap = snap.val()
+      const matchMap = snap.val() || {}
       const matchList = Object.values(matchMap)
       setMatches(matchList)
     })

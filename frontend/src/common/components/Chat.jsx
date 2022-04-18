@@ -1,5 +1,4 @@
 import { createRef, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -129,11 +128,6 @@ export function ChatApp({chatId }) {
       <Error hasError={displayError}>
         <h1>No Chat Here...</h1>
         <pre>{displayError}</pre>
-        <p>
-          <Link to="/chats">  
-            <span>Back to Chats</span>
-          </Link>
-        </p>
       </Error>
     </div>
   )

@@ -7,12 +7,12 @@ import { COMMUNITY } from '../common/utils/constants'
 import '../styles/Chats.css'
 
 function Match({data}) {
-  const { id, release } = data
+  const { id, release_tag, title } = data
   return (
     <div className="Match">
-      <h3>{release}</h3>
+      <h3>{release_tag}</h3>
       <p>
-        <Link to={`/chats/${id}`}>Chat {id}</Link>
+        <Link to={`/chats/${id}`}>{title}</Link>
       </p>
     </div>
   )
