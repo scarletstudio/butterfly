@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser, signOutUser } from '../common/utils/auth'
+import { maybeUpdateUserDetails } from '../common/utils/user'
 import { MOCK_USERS, signInMockUser } from '../common/mock/auth'
 import { CurrentLogin } from '../common/components/Auth'
 import { Error } from '../common/components/Errors'
@@ -48,6 +49,7 @@ export default function MockLoginPage() {
   const doLogIn = async (mockUserEmail) => {
     const { user, signInError } = await signInMockUser(mockUserEmail)
     if (user) {
+      await maybeUpdateUserDetails(user)
       console.log(`Welcome, ${user.displayName}!`)
       setLoginError(null)
     } else {

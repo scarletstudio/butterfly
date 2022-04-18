@@ -5,6 +5,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 import { signInUser, signOutUser, useCurrentAuthUser } from '../common/utils/auth'
+import { maybeUpdateUserDetails } from '../common/utils/user'
 import { CurrentLogin } from '../common/components/Auth'
 import { Error } from '../common/components/Errors'
 
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const doLogIn = async () => {
     const { user, signInError } = await signInUser()
     if (user) {
+      await maybeUpdateUserDetails(user)
       console.log(`Welcome, ${user.displayName}!`)
       setLoginError(null)
       navigateTo('/chats')
