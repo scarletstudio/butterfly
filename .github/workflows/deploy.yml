@@ -23,6 +23,7 @@ jobs:
           VITE_firebase_storageBucket: ${{ secrets.VITE_FIREBASE_STORAGEBUCKET }}
           VITE_firebase_messagingSenderId: ${{ secrets.VITE_FIREBASE_MESSAGINGSENDERID }}
           VITE_firebase_appId: ${{ secrets.VITE_FIREBASE_APPID }}
+          VITE_firebase_mockUserPassword: ${{ secrets.VITE_FIREBASE_MOCKUSERPASSWORD }}
         run: |
           cd frontend
           echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env
@@ -31,12 +32,7 @@ jobs:
           echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env
           echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env
           echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env
-          echo $VITE_firebase_projectId
-          echo $VITE_FIREBASE_PROJECTID
-          echo ${{ secrets.VITE_FIREBASE_PROJECTID }}
-          echo "First 30 chars:"
-          echo $(head -c 30 .env)
-          echo "Done."
+          echo "VITE_firebase_mockUserPassword=$VITE_firebase_mockUserPassword" >> .env
           npm install
           npm run build
           touch butterfly/.nojekyll

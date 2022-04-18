@@ -5,24 +5,10 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 import { signInUser, signOutUser, useCurrentAuthUser } from '../common/utils/auth'
+import { CurrentLogin } from '../common/components/Auth'
 import { Error } from '../common/components/Errors'
 
 import '../styles/LoginPage.css'
-
-function CurrentLogin({ authUser, doLogOut }) {
-  return authUser && (
-    <div>
-      <hr />
-      <p>Currently logged in as {authUser.displayName}.</p>
-      <p>
-        <span className="Button" onClick={doLogOut}>
-          <FontAwesomeIcon icon={faSignOutAlt} className="IconBefore" />
-          <span>Log Out</span>
-        </span>
-      </p>
-    </div>
-  )
-}
 
 export default function LoginPage() {
   const [ loginError, setLoginError ] = useState(null)
@@ -45,7 +31,7 @@ export default function LoginPage() {
   const doLogOut = async () => {
     const { isSuccess, signOutError } = await signOutUser()
     if (!isSuccess) {
-      setLoginError(signOutUser)
+      setLoginError(signOutError)
     }
   }
 

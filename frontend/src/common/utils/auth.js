@@ -42,12 +42,18 @@ export async function signOutUser() {
 }
 
 export function useCurrentAuthUser() {
-  const auth = getAuth()
   const [ authUser, setAuthUser ] = useState(null)
+
+  // Update based on state of authenticated user
+  const auth = getAuth()
   onAuthStateChanged(auth, (user) => {
-    if (authUser !== user) {
-      setAuthUser(user)
-    }
+    setAuthUser((prevAuthUser) => {
+      if (prevAuthUser !== user) {
+        return user
+      }
+      return authUser
+    })
   })
+
   return authUser
 }
