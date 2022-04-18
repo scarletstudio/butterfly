@@ -45,6 +45,7 @@ class Match:
   community: Optional[str] = None
   release: Optional[datetime.datetime] = None
   key: Optional[str] = None
+  title: Optional[str] = None
 
 
 # Constants
@@ -83,6 +84,15 @@ def validate_matches(
   no_extra_users = len(matched_users - all_users) == 0
   assert no_missing_users
   assert no_extra_users
+
+  # Validate that no user is matched more than once
+  uid_list = [
+    uid
+    for m in matches
+    for uid in m.users
+  ]
+  no_multiple_matches = len(uid_list) == len(all_users)
+  assert no_multiple_matches
 
   # Validate that matches are the right size
   for m in matches:
