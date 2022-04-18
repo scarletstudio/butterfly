@@ -1,8 +1,11 @@
 # Project
 
+.venv/**
+data/**
 frontend/butterfly/**
 frontend/.env.firebase
 .env.firebase
+credentials.json
 
 # Node
 

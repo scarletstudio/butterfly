@@ -15,10 +15,12 @@ if [ "$1" == "frontend" ]; then
     touch .env.firebase
     echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env.firebase
     echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env.firebase
+    echo "VITE_firebase_databaseURL=$VITE_firebase_databaseURL" >> .env.firebase
     echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env.firebase
     echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env.firebase
     echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env.firebase
     echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env.firebase
+    echo "VITE_firebase_mockUserPassword=$VITE_firebase_mockUserPassword" >> .env.firebase
   else
     VITE_BACKEND_URL="http://localhost:8000"
     VITE_FRONTEND_URL="http://localhost:3000"

@@ -19,6 +19,7 @@ jobs:
         env:
           VITE_firebase_apiKey: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_firebase_authDomain: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
+          VITE_firebase_databaseURL: ${{ secrets.VITE_FIREBASE_DATABASEURL }}
           VITE_firebase_projectId: ${{ secrets.VITE_FIREBASE_PROJECTID }}
           VITE_firebase_storageBucket: ${{ secrets.VITE_FIREBASE_STORAGEBUCKET }}
           VITE_firebase_messagingSenderId: ${{ secrets.VITE_FIREBASE_MESSAGINGSENDERID }}
@@ -28,6 +29,7 @@ jobs:
           cd frontend
           echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env
           echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env
+          echo "VITE_firebase_databaseURL=$VITE_firebase_databaseURL" >> .env
           echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env
           echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env
           echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env
