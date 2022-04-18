@@ -24,7 +24,9 @@ OUTFILE = "data/raw_users.csv"
 def main():
   all_users = db.reference("users").get()
   users = pd.DataFrame(all_users.values())
+  users = users[users.latestLogin.notna()]
   users.to_csv(OUTFILE, index=False)
+  print("Wrote {} rows, {} cols to: {}".format(*users.shape, OUTFILE))
 
 
 if __name__ == "__main__":

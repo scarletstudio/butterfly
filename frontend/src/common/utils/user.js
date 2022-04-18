@@ -21,6 +21,7 @@ export async function maybeUpdateUserDetails(details) {
     const userPath = `${DB_PATH.USERS}/${uid}`
     const userRef = ref(db, userPath)
     await update(userRef, {
+      uid,
       email,
       displayName,
       photoURL,
