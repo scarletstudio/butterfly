@@ -6,7 +6,7 @@ import datetime
 import random
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import DefaultDict, List, Optional, Set
+from typing import Callable, DefaultDict, List, Optional, Set
 
 """
 Demo Design
@@ -28,7 +28,7 @@ Notes:
 - For an odd number of members, there will be at least one group of three
 """
 
-# Type Hints and Dataclasses
+# Dataclasses and Type Hints
 
 UserId = str
 
@@ -46,6 +46,11 @@ class Match:
   release: Optional[datetime.datetime] = None
   key: Optional[str] = None
   title: Optional[str] = None
+
+
+RecentMatches = List[Match]
+OutputMatches = List[Match]
+MatchingFunction = Callable[[List[User], RecentMatches], OutputMatches]
 
 
 # Constants
@@ -113,6 +118,62 @@ def validate_matches(
     else:
       n_tier[2] += 1
   print(f"\tTotal = {len(matches)}, T2: {n_tier[2]}, T3: {n_tier[3]}")
+
+
+def best_effort_minimize_repeat_matches(n_retries: int = 5):
+  """
+  Re-runs a matching function up to n times and returns the output with
+  the fewest tier 3 matches. Otherwise, returns the last output.
+  """
+
+  def decorate_matching_function(do_matching: MatchingFunction):
+
+    def inner(
+      users: List[User],
+      recent_matches: List[Match]
+    ) -> List[Match]:
+      # Get recent match sets to check for repeat matches
+      recent = get_recent_match_sets(recent_matches)
+
+      # Track the best output so far
+      fewest_repeat_matches = len(users)
+      best_output = None
+
+      for i in range(1, n_retries + 1):
+        # Run matching function
+        print(f"Running attempt {i}...")
+        matches = do_matching(users, recent_matches)
+        
+        # Count repeat matches
+        n_repeat_matches = 0
+        for m in matches:
+          is_repeat = False
+          for uid in m.users:
+            previous_users = m.users.intersection(recent[uid])
+            if len(previous_users) > 0:
+              is_repeat = True
+              break
+          if is_repeat:
+            n_repeat_matches += 1
+        # If no repeat matches, quit early
+        if n_repeat_matches == 0:
+          best_output = matches
+          break
+        # Compare to current best output
+        if n_repeat_matches < fewest_repeat_matches:
+          fewest_repeat_matches = n_repeat_matches
+          best_output = matches
+      
+      # Return best output
+      print((
+        f"Best output has {n_repeat_matches} repeat matches "
+        f"after {i} attempts."
+      ))
+      return best_output
+
+    return inner
+
+  return decorate_matching_function
 
 
 def get_matches(
