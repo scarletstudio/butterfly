@@ -6,8 +6,10 @@
 }
 
 .UserRow .UserTile {
-  margin: 0;
+  margin-top: var(--margin-size);
   margin-right: var(--margin-size);
+  margin-left: 0;
+  margin-bottom: 0;
 }
 
 .UserRow .UserTile:last-child {

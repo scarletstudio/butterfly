@@ -109,7 +109,7 @@ function ChatHeader({ myUserId, chat }) {
 }
 
 function ChatLoading() {
-  return <p>Loading chat...</p>
+  return <p className="Centered">Loading chat...</p>
 }
 
 function getChatDisplayError(chatId, chat, myUserId) {

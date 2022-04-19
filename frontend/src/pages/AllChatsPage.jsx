@@ -9,9 +9,9 @@ import { useGetMatches } from '../common/utils/match'
 import { useGetManyUserData } from '../common/utils/user'
 import { UserTile } from '../common/components/User'
 
-import '../styles/Chats.css'
+import '../styles/Matches.css'
 
-function Match({ match, users }) {
+function MatchTile({ match, users }) {
   const {
     id,
     release_tag,
@@ -28,7 +28,7 @@ function Match({ match, users }) {
     ))
 
   return (
-    <div className="Match">
+    <div className="MatchTile">
       <h3>Week of {formatMatchDate(release_timestamp)}</h3>
       <div className="UserRow">
         {userEls}
@@ -56,7 +56,7 @@ export default function AllChatsPage() {
     ? matches
       .sort((a, b) => b.release_timestamp - a.release_timestamp)
       .map((m) => (
-        <Match key={m.id} match={m} users={matchedUsers} />
+        <MatchTile key={m.id} match={m} users={matchedUsers} />
       ))
     : <p>No matches yet.</p>
 

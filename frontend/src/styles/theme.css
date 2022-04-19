@@ -20,8 +20,8 @@
   color: var(--color-text);
 }
 
-h1 {
-  color: var(--color-text);
+.BigTitle {
+  color: var(--color-main);
 }
 
 a {
@@ -67,9 +67,25 @@ hr {
   background: var(--color-main);
 }
 
+/* Matches */
+
+.AllChatsPage {
+  --all-chats-page-text-color: var(--color-text);
+  color: var(--all-chats-page-text-color);
+}
+
+.MatchTile {
+  background: var(--color-contrast);
+}
+
+.AllChatsPage .MatchTile .Button {
+  border-color: var(--all-chats-page-text-color);
+  color: var(--all-chats-page-text-color);
+}
+
 /* Chat */
 
-.AllChatsPage, .ChatPage {
+.ChatPage {
   background: var(--color-contrast);
 }
 
@@ -109,4 +125,8 @@ hr {
 
 .ChatComposer .Input {
   background: var(--color-light);
+}
+
+.ChatHeader {
+  background: rgba(255, 255, 255, 0.75);
 }
