@@ -1,0 +1,26 @@
+.UserTile {
+  --image-size: 40px;
+  --font-size: 20px;
+  font-size: 0;
+  display: inline-block;
+}
+
+.UserTile .ProfileImage, .UserTile .DisplayName {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.UserTile .ProfileImage {
+  width: var(--image-size);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.UserTile .ProfileImage img {
+  width: 100%;
+}
+
+.UserTile .DisplayName {
+  font-size: var(--font-size);
+  padding: 0.5em;
+}

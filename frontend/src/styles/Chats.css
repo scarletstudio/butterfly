@@ -18,6 +18,20 @@
   padding-top: 1em;
 }
 
+/* Chat Header */
+
+.ChatHeader {
+  text-align: center;;
+}
+
+.ChatHeader .Participants {
+  margin: 1em 0;
+}
+
+.ChatHeader .Participants .UserTile {
+  margin: 0 10px;
+}
+
 /* Messages */
 
 .Message {

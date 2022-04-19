@@ -11,23 +11,7 @@ import {
   serverTimestamp,
 } from 'firebase/database'
 import { DB_PATH, MESSAGE_TYPE } from './constants'
-
-/*
- * Returns a Promise to get data about a given user.
- */
-export function getUserData(userId) {
-  const db = getDatabase()
-  const userPath = `${DB_PATH.USERS}/${userId}`
-  const userRef = ref(db, userPath)
-  return new Promise((resolve, reject) => {
-    onValue(userRef, (snap) => {
-      resolve({
-        uid: snap.key,
-        ...snap.val(),
-      })
-    })
-  })
-}
+import { getUserData } from './user'
 
 /*
  * Hook that returns a state variable containing data

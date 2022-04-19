@@ -5,7 +5,9 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentAuthUser } from '../utils/auth'
 import { useGetChatData, useGetMessages, sendMessage } from '../utils/chat'
 import { MESSAGE_TYPE, UNKNOWN_USER } from '../utils/constants'
+import { formatMatchDate } from '../utils/datetime'
 import { Error } from '../components/Errors'
+import { UserTile } from '../components/User'
 
 function Message({ data, myUserId, participants }) {
   const { message, from, type, timestamp } = data
@@ -71,20 +73,20 @@ function ChatComposer({ chatId, myUserId }) {
   )
 }
 
-/*
- * Search the participants and return a record with a different user ID
- * from the given user ID. Otherwise, return an unknown user entry.
- */
-function getUserChattingWith(myUserId, participants = {}) {
-  const otherUserIds = Object.keys(participants).filter(uid => uid !== myUserId)
-  return participants?.[otherUserIds?.[0]] || UNKNOWN_USER
-}
-
 function ChatHeader({ myUserId, chat }) {
-  const chattingWith = getUserChattingWith(myUserId, chat.participants)
+  const userEls = Object
+    .values(chat?.participants || {})
+    .map((user) => (
+      <UserTile key={user.uid} user={user} />
+    ))
+  const matchDate = formatMatchDate(chat?.release_timestamp)
   return (
     <div className="ChatHeader">
-      <h1>Chat with {chattingWith.displayName}</h1>
+      <h1>Butterfly Chat</h1>
+      <p>Your match for the week of {matchDate}.</p>
+      <div className="Participants">
+        {userEls}
+      </div>
     </div>
   )
 }
