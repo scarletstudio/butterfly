@@ -1,3 +1,5 @@
+/* Page Layout */
+
 .Layout {
   --font-size: 18px;
   box-sizing: border-box;
@@ -12,6 +14,34 @@
   font-size: var(--font-size);
 }
 
+/* Not Found Page */
+
 .NotFoundPage {
   text-align: center;
+}
+
+/* Mock Login Shortcut */
+
+.MockLoginButton {
+  --icon-height: 36px;
+  font-size: var(--font-size);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 1em;
+  height: var(--icon-height);
+}
+
+.MockLoginButton .IconBefore {
+  font-size: var(--icon-height);
+}
+
+.MockLoginTooltip {
+  display: none;
+  height: var(--icon-height);
+  vertical-align: middle;
+}
+
+.MockLoginButton:hover .MockLoginTooltip {
+  display: inline-block;
 }

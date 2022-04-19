@@ -28,7 +28,7 @@ function AppRouting() {
   }, [])
 
   return (
-    <div className="App Theme">
+    <>
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="/" element={<Layout />} >
@@ -41,7 +41,7 @@ function AppRouting() {
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </div>
+    </>
   )
 }
 
