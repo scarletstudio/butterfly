@@ -26,20 +26,29 @@ export function getUserData(userId) {
   })
 }
 
-export function useGetUserDetails(userIdMap) {
+export function useGetManyUserData(userIdMap) {
   const [userDetails, setUserDetails] = useState({})
+  // Try to fetch new users whenever the input updates
   useEffect(() => {
+    // Filter out user IDs that were already fetched
     Object.keys(userIdMap)
       .filter(k => !(k in userDetails))
       .map(getUserData)
-      .forEach(async (promise) => {
-        const userData = await promise
-        setUserDetails((prev) => ({
-          ...prev,
-          [userData.uid]: userData,
-        }))
+      .forEach((promise) => {
+        promise.then((userData) => {
+          if (userData?.uid) {
+            // Add the new user to the existing state
+            setUserDetails((prev) => ({
+              ...prev,
+              [userData.uid]: userData,
+            }))            
+          }
+        }).catch((err) => {
+          console.log('Error while fetching many user records.')
+          console.error(err)
+        })
       })
-  }, userIdMap)
+  }, [userIdMap])
   return userDetails
 }
 

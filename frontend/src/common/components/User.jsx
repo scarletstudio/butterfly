@@ -6,7 +6,7 @@ export function UserTile({ user }) {
   return (
     <div className="UserTile">
       <div className="ProfileImage">
-        <img src={photoURL} alt={alt} />
+        <img src={photoURL} alt={alt} className="Image" />
       </div>
       <div className="DisplayName">
         <span>{displayName}</span>

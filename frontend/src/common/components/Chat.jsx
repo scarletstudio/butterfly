@@ -9,18 +9,35 @@ import { formatMatchDate } from '../utils/datetime'
 import { Error } from '../components/Errors'
 import { UserTile } from '../components/User'
 
+function getAuthorClasses(participants, myUserId) {
+  return Object
+    .keys(participants)
+    .filter((uid) => uid !== myUserId)
+    .sort()
+    .reduce((agg, uid, i) => ({
+      ...agg,
+      [uid]: `Theirs Participant${i}`,
+    }), { [myUserId]: 'Mine' })
+}
+
 function Message({ data, myUserId, participants }) {
   const { message, from, type, timestamp } = data
+  // Apply different styles for each participant
+  const authorClasses = getAuthorClasses(participants, myUserId)
   // Only render messages
   if (type !== MESSAGE_TYPE) return null
   const userAuthor = participants?.[from] || UNKNOWN_USER
-  // Apply different styles for each participant
-  const authorClass = from === myUserId ? 'Mine' : 'Theirs'
+  // Retain newlines from the message
+  const messageLines = message
+    .split("\n")
+    .map((line, i) => (
+      <p key={i}>{line}</p>
+    ))
   return (
-    <div className={`Message ${authorClass}`}>
+    <div className={`Message ${authorClasses[from]}`}>
       <div className="MessageInner">
-        <p>{userAuthor.displayName}</p>
-        <p>{message}</p>
+        <p className="Author">{userAuthor.displayName}</p>
+        <div className="Body">{messageLines}</div>
       </div>
     </div>
   )
@@ -84,7 +101,7 @@ function ChatHeader({ myUserId, chat }) {
     <div className="ChatHeader">
       <h1>Butterfly Chat</h1>
       <p>Your match for the week of {matchDate}.</p>
-      <div className="Participants">
+      <div className="UserRowCentered">
         {userEls}
       </div>
     </div>
@@ -116,11 +133,11 @@ export function ChatApp({chatId }) {
   const isReady = chat.isLoaded && !displayError
 
   const chatAppEl = (
-    <>
+    <div className="ChatAppInner HideScroll">
       <ChatHeader myUserId={myUserId} chat={chat} />
       <ChatMessages chatId={chatId} myUserId={myUserId} chat={chat} />
       <ChatComposer chatId={chatId} myUserId={myUserId} />
-    </>
+    </div>
   )
   
   return (

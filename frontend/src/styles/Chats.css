@@ -1,35 +1,55 @@
 /* Variables */
 
-.ChatApp {
+.ChatContainer {
   --send-width: 60px;
   --send-height: 4em;
+  --chat-max-width: 500px;
+  --chat-padding-top: 16em;
+  --chat-padding-bottom: 8em;
 }
 
 /* Chat Page */
 
 .ChatContainer {
-  max-width: 500px;
+  max-width: var(--chat-max-width);
   margin: 0 auto;
 }
 
 /* Chat App */
 
-.ChatApp {
-  padding-top: 1em;
+.ChatAppInner {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.ChatHeader, .ChatComposer {
+  position: absolute;
+  width: 100%;
+  max-width: var(--chat-max-width);
+}
+
+.ChatHeader {
+  top: 0;
+  z-index: 1;
+  padding: 1em 0;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(5px);
+}
+
+.ChatComposer {
+  bottom: 0;
+}
+
+.ChatMessages {
+  padding: 1em;
+  padding-top: var(--chat-padding-top);
+  padding-bottom: var(--chat-padding-bottom);
 }
 
 /* Chat Header */
 
 .ChatHeader {
-  text-align: center;;
-}
-
-.ChatHeader .Participants {
-  margin: 1em 0;
-}
-
-.ChatHeader .Participants .UserTile {
-  margin: 0 10px;
+  text-align: center;
 }
 
 /* Messages */
@@ -47,16 +67,30 @@
   text-align: left;
 }
 
+.Message.Mine .MessageInner {
+  border-bottom-right-radius: 0;
+}
+
+.Message.Theirs .MessageInner {
+  border-top-left-radius: 0;
+}
+
 .MessageInner {
   display: inline-block;
   width: 75%;
   padding: 0.5em;
-  border-radius: 0.25em;
+  border-radius: 0.7em;
   text-align: left;
 }
 
 .MessageInner p {
   margin: 0;
+}
+
+.Message .Author {
+  font-size: 0.8em;
+  margin-bottom: 0.2em;
+  opacity: 0.75;
 }
 
 /* Composer */

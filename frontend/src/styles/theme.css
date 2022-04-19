@@ -4,8 +4,10 @@
   --color-main: rgb(42, 222, 250);
   --color-light: rgb(224, 252, 255);
   --color-dark: rgb(5, 108, 120);
-  --color-alt: rgb(255, 208, 107);
-  --color-alt-light: rgb(255, 237, 199);
+  --color-accent: rgb(255, 208, 107);
+  --color-light-0: rgb(255, 237, 199);
+  --color-light-1: rgb(239, 224, 255);
+  --color-light-: rgb(240, 255, 224);
   --color-text: rgb(18, 18, 18);
   --color-contrast: white;
   --color-danger: rgb(245, 66, 51);
@@ -79,8 +81,16 @@ hr {
   background: var(--color-light);
 }
 
-.Message.Theirs .MessageInner {
-  background: var(--color-alt-light);
+.Message.Participant0 .MessageInner {
+  background: var(--color-light-0);
+}
+
+.Message.Participant1 .MessageInner {
+  background: var(--color-light-1);
+}
+
+.Message.Participant2 .MessageInner {
+  background: var(--color-light-2);
 }
 
 .ChatComposer .Input, .ChatComposer .Send {

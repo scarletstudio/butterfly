@@ -20,28 +20,48 @@
   text-align: center;
 }
 
-/* Mock Login Shortcut */
+/* Floating Buttons */
 
-.MockLoginButton {
-  --icon-height: 36px;
+.FloatingButton {
   font-size: var(--font-size);
   position: fixed;
-  bottom: 0;
-  left: 0;
+  z-index: 2;
   margin: 1em;
   height: var(--icon-height);
 }
 
-.MockLoginButton .IconBefore {
+.FloatingButton .IconBefore {
   font-size: var(--icon-height);
 }
 
-.MockLoginTooltip {
+.FloatingButtonTooltip {
   display: none;
   height: var(--icon-height);
   vertical-align: middle;
 }
 
-.MockLoginButton:hover .MockLoginTooltip {
+.FloatingButton:hover .FloatingButtonTooltip {
   display: inline-block;
+}
+
+.FloatingButton path {
+  opacity: 0.35;
+}
+
+.FloatingButton:hover path {
+  opacity: 1.0;
+}
+
+/* Specific Floating Buttons */
+
+.MockLoginButton {
+  --icon-height: 36px;
+  bottom: 4em;
+  left: 0;
+}
+
+.BackToChatsButton {
+  --icon-height: 36px;
+  top: 0;
+  left: 0;
 }

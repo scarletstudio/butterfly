@@ -6,10 +6,10 @@ import '../styles/Layout.css'
 
 function MockLoginButton() {
   return (
-    <div className="MockLoginButton">
+    <div className="FloatingButton MockLoginButton">
       <Link to="/mocklogin" className="NoDecorate">
         <FontAwesomeIcon icon={faUserNinja} className="IconBefore" />
-        <span className="MockLoginTooltip">Go to Mock Login</span>
+        <span className="FloatingButtonTooltip">Go to Mock Login</span>
       </Link>
     </div>
   )

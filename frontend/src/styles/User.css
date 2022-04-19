@@ -1,8 +1,21 @@
 .UserTile {
-  --image-size: 40px;
-  --font-size: 20px;
+  --image-size: 35px;
+  --margin-size: 5px;
   font-size: 0;
   display: inline-block;
+}
+
+.UserRow .UserTile {
+  margin: 0;
+  margin-right: var(--margin-size);
+}
+
+.UserRow .UserTile:last-child {
+  margin-right: 0;
+}
+
+.UserRowCentered .UserTile {
+  margin: var(--margin-size);
 }
 
 .UserTile .ProfileImage, .UserTile .DisplayName {
@@ -16,7 +29,7 @@
   overflow: hidden;
 }
 
-.UserTile .ProfileImage img {
+.UserTile .ProfileImage .Image {
   width: 100%;
 }
 

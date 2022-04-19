@@ -1,18 +1,43 @@
 import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser } from '../common/utils/auth'
-import { useGetMatches } from '../common/utils/match'
 import { COMMUNITY } from '../common/utils/constants'
+import { formatMatchDate } from '../common/utils/datetime'
+import { useGetMatches } from '../common/utils/match'
+import { useGetManyUserData } from '../common/utils/user'
+import { UserTile } from '../common/components/User'
 
 import '../styles/Chats.css'
 
-function Match({data}) {
-  const { id, release_tag, title } = data
+function Match({ match, users }) {
+  const {
+    id,
+    release_tag,
+    release_timestamp,
+    participants,
+  } = match
+
+  const userEls = Object
+    .keys(participants)
+    .filter((uid) => (uid !== match.for))
+    .map((uid) => (users?.[uid] || { uid }))
+    .map((u) => (
+      <UserTile key={u.uid} user={u} />
+    ))
+
   return (
     <div className="Match">
-      <h3>{release_tag}</h3>
+      <h3>Week of {formatMatchDate(release_timestamp)}</h3>
+      <div className="UserRow">
+        {userEls}
+      </div>
       <p>
-        <Link to={`/chats/${id}`}>{title}</Link>
+        <Link to={`/chats/${id}`} className="Button">
+          <FontAwesomeIcon icon={faComments} className="IconBefore" />
+          <span>Open Chat</span>
+        </Link>
       </p>
     </div>
   )
@@ -21,15 +46,25 @@ function Match({data}) {
 export default function AllChatsPage() {
   const authUser = useCurrentAuthUser()
   const matches = useGetMatches(COMMUNITY, authUser?.uid)
+  const matchedUserIds = matches.reduce((agg, m) => ({
+    ...agg,
+    ...m.participants,
+  }), {})
+  const matchedUsers = useGetManyUserData(matchedUserIds)
+
   const matchEls = matches.length > 0
-    ? matches.map((m) => (
-      <Match key={m.id} data={m} />
-    ))
-    : <p>Loading matches...</p>
+    ? matches
+      .sort((a, b) => b.release_timestamp - a.release_timestamp)
+      .map((m) => (
+        <Match key={m.id} match={m} users={matchedUsers} />
+      ))
+    : <p>No matches yet.</p>
+
   return (
     <div className="Page Content AllChatsPage FullPage">
-      <h1>Chats</h1>
-      <p>Your chats will appear here.</p>
+      <h1>Butterfly Chats</h1>
+      <p>Each week, you will be matched to another person in your community.</p>
+      <p>Check back on Mondays to see who you are matched with!</p>
       <h2>Demo Community</h2>
       {matchEls}
     </div>
