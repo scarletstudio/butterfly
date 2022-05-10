@@ -100,6 +100,7 @@ function ChatHeader({ myUserId, chat }) {
   return (
     <div className="ChatHeader">
       <h1>Butterfly Chat</h1>
+      <p>Messages will disappear after 30 days.</p>
       <p>Your match for the week of {matchDate}.</p>
       <div className="UserRowCentered">
         {userEls}
