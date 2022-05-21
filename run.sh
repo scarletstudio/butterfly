@@ -46,6 +46,14 @@ elif [ "$1" == "install-frontend" ]; then
   cd frontend
   npm install
 
+elif [ "$1" == "lint-frontend" ]; then
+  cd frontend
+  npm run lint "${@:2}"
+
+elif [ "$1" == "format-frontend" ]; then
+  cd frontend
+  npm run format "${@:2}"
+
 elif [ "$1" == "ui" ]; then
   # Open the frontend in the GitPod preview window
   if command -v gp &> /dev/null; then
