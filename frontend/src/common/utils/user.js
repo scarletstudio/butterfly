@@ -41,7 +41,7 @@ export function useGetManyUserData(userIdMap) {
             setUserDetails((prev) => ({
               ...prev,
               [userData.uid]: userData,
-            }))            
+            }))
           }
         }).catch((err) => {
           console.log('Error while fetching many user records.')
@@ -59,7 +59,7 @@ export function useGetManyUserData(userIdMap) {
 export async function maybeUpdateUserDetails(details) {
   try{
     if (!details?.uid) {
-      throw 'No user ID provided to update user details.' 
+      throw 'No user ID provided to update user details.'
     }
     const { uid, email, displayName, photoURL } = details
     const db = getDatabase()
