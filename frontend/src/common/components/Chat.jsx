@@ -63,7 +63,7 @@ function ChatMessages({ chatId, chat, myUserId }) {
   return (
     <div className="ChatMessages">
       {isLoaded ? messageEls : loadingEl}
-    </div>              
+    </div>
   )
 }
 
@@ -140,7 +140,7 @@ export function ChatApp({chatId }) {
       <ChatComposer chatId={chatId} myUserId={myUserId} />
     </div>
   )
-  
+
   return (
     <div className="ChatApp">
       {!chat.isLoaded && <ChatLoading />}
