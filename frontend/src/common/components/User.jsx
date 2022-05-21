@@ -1,7 +1,8 @@
+import React from 'react'
 import '../../styles/User.css'
 
 export function UserTile({ user }) {
-    const { uid, displayName, photoURL } = user
+    const { displayName, photoURL } = user
     const alt = `Profile image for ${displayName}.`
     return (
         <div className="UserTile">

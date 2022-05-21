@@ -73,7 +73,7 @@ export function useGetMessages(chatId, limit = 50) {
         )
         // Listen for new messages
         const unsubscribe = onChildAdded(messagesRef, (snap) => {
-            const key = snap.key
+            const { key } = snap
             const val = { key, ...snap.val() }
             setMessages((prev) => {
                 // Skip if already received
@@ -88,7 +88,7 @@ export function useGetMessages(chatId, limit = 50) {
             })
         })
         return unsubscribe
-    }, [chatId])
+    }, [chatId, limit])
 
     return messages.values
 }
@@ -101,10 +101,10 @@ export function useGetMessages(chatId, limit = 50) {
  */
 export async function sendMessage(chatId, data) {
     if (!data.from) {
-        throw 'Missing `from` in message data.'
+        throw new Error('Missing `from` in message data.')
     }
     if (!data.message) {
-        throw 'Missing `message` in message data.'
+        throw new Error('Missing `message` in message data.')
     }
     const messageValue = {
         type: MESSAGE_TYPE,

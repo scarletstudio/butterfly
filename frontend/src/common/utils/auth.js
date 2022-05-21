@@ -11,8 +11,7 @@ export async function signInUser() {
     try {
         const auth = getAuth()
         const provider = new GoogleAuthProvider()
-        const res = await signInWithPopup(auth, provider)
-        const user = res.user
+        const { user } = await signInWithPopup(auth, provider)
         return {
             user,
             signInError: null,
@@ -56,7 +55,7 @@ export function useCurrentAuthUser() {
             })
         })
         return unsubscribe
-    }, [])
+    }, [auth])
 
     return authUser
 }
