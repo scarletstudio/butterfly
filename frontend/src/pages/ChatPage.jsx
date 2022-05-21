@@ -1,8 +1,8 @@
+import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
-import { useCurrentAuthUser } from '../common/utils/auth'
 import { ChatApp } from '../common/components/Chat'
 import { COMMUNITY } from '../common/utils/constants'
 

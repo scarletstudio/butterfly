@@ -1,4 +1,4 @@
-import { createRef, useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
@@ -32,7 +32,13 @@ function MockUserLoginSelector({ mockUsers, doLogIn }) {
                 </select>
             </p>
             <p>
-                <span className="Button Primary" onClick={doMockUserLogin}>
+                <span
+                    className="Button Primary"
+                    role="button"
+                    tabIndex={0}
+                    onClick={doMockUserLogin}
+                    onKeyDown={doMockUserLogin}
+                >
                     <FontAwesomeIcon icon={faUserNinja} className="IconBefore" />
                     <span>Log in as Mock User</span>
                 </span>
@@ -52,9 +58,9 @@ export default function MockLoginPage() {
         const { user, signInError } = await signInMockUser(mockUserEmail)
         if (user) {
             await maybeUpdateUserDetails(user)
-            console.log(`Welcome, ${user.displayName}!`)
             setLoginError(null)
         } else {
+            // eslint-disable-next-line no-console
             console.error(signInError)
             setLoginError(signInError)
         }

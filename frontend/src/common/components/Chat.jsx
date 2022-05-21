@@ -1,4 +1,4 @@
-import { createRef, useEffect, useState } from 'react'
+import React, { createRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -6,8 +6,8 @@ import { useCurrentAuthUser } from '../utils/auth'
 import { useGetChatData, useGetMessages, sendMessage } from '../utils/chat'
 import { MESSAGE_TYPE, UNKNOWN_USER } from '../utils/constants'
 import { formatMatchDate } from '../utils/datetime'
-import { Error } from '../components/Errors'
-import { UserTile } from '../components/User'
+import { Error } from './Errors'
+import { UserTile } from './User'
 
 function getAuthorClasses(participants, myUserId) {
     return Object.keys(participants)
@@ -23,13 +23,14 @@ function getAuthorClasses(participants, myUserId) {
 }
 
 function Message({ data, myUserId, participants }) {
-    const { message, from, type, timestamp } = data
+    const { message, from, type } = data
     // Apply different styles for each participant
     const authorClasses = getAuthorClasses(participants, myUserId)
     // Only render messages
     if (type !== MESSAGE_TYPE) return null
     const userAuthor = participants?.[from] || UNKNOWN_USER
     // Retain newlines from the message
+    // eslint-disable-next-line react/no-array-index-key
     const messageLines = message.split('\n').map((line, i) => <p key={i}>{line}</p>)
     return (
         <div className={`Message ${authorClasses[from]}`}>
@@ -71,15 +72,15 @@ function ChatComposer({ chatId, myUserId }) {
 
     return (
         <div className="ChatComposer">
-            <textarea ref={textRef} className="Input"></textarea>
-            <button onClick={doSend} className="Button Send">
+            <textarea ref={textRef} className="Input" />
+            <button type="button" onClick={doSend} className="Button Send">
                 <FontAwesomeIcon icon={faArrowRight} className="IconBefore" />
             </button>
         </div>
     )
 }
 
-function ChatHeader({ myUserId, chat }) {
+function ChatHeader({ chat }) {
     const userEls = Object.values(chat?.participants || {}).map((user) => (
         <UserTile key={user.uid} user={user} />
     ))
@@ -102,9 +103,11 @@ function getChatDisplayError(chatId, chat, myUserId) {
     const participants = chat?.participants || {}
     if (!chat.isLoaded) {
         return null
-    } else if (!chat?.exists) {
+    }
+    if (!chat?.exists) {
         return `No chat found for ID: ${chatId}`
-    } else if (!(myUserId in participants)) {
+    }
+    if (!(myUserId in participants)) {
         return 'You are not a participant in this chat.'
     }
     return null
@@ -120,7 +123,7 @@ export function ChatApp({ chatId }) {
 
     const chatAppEl = (
         <div className="ChatAppInner HideScroll">
-            <ChatHeader myUserId={myUserId} chat={chat} />
+            <ChatHeader chat={chat} />
             <ChatMessages chatId={chatId} myUserId={myUserId} chat={chat} />
             <ChatComposer chatId={chatId} myUserId={myUserId} />
         </div>

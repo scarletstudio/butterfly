@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +13,8 @@ import { UserTile } from '../common/components/User'
 import '../styles/Matches.css'
 
 function MatchTile({ match, users }) {
-    const { id, release_tag, release_timestamp, participants } = match
+    // eslint-disable-next-line camelcase
+    const { id, release_timestamp, participants } = match
 
     const userEls = Object.keys(participants)
         .filter((uid) => uid !== match.for)
