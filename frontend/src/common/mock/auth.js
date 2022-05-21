@@ -49,8 +49,7 @@ export async function signInMockUser(mockUserEmail) {
         const { email, displayName, photoURL } = mockUser
         // Currently, we will only use email and password authentication
         // for mock users. Real users should login with Google.
-        const res = await signInWithEmailAndPassword(auth, email, MOCK_USER_PASSWORD)
-        const user = res.user
+        const { user } = await signInWithEmailAndPassword(auth, email, MOCK_USER_PASSWORD)
         // Update the Firebase authentication user profile for the mock user
         await updateProfile(auth.currentUser, { displayName, photoURL })
         // Return the authenticated user

@@ -10,7 +10,7 @@ export function getUserData(userId) {
     const db = getDatabase()
     const userPath = `${DB_PATH.USERS}/${userId}`
     const userRef = ref(db, userPath)
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         onValue(userRef, (snap) => {
             resolve({
                 uid: snap.key,
@@ -40,11 +40,13 @@ export function useGetManyUserData(userIdMap) {
                         }
                     })
                     .catch((err) => {
+                        // eslint-disable-next-line no-console
                         console.log('Error while fetching many user records.')
+                        // eslint-disable-next-line no-console
                         console.error(err)
                     })
             })
-    }, [userIdMap])
+    }, [userIdMap, userDetails])
     return userDetails
 }
 
@@ -55,7 +57,7 @@ export function useGetManyUserData(userIdMap) {
 export async function maybeUpdateUserDetails(details) {
     try {
         if (!details?.uid) {
-            throw 'No user ID provided to update user details.'
+            throw new Error('No user ID provided to update user details.')
         }
         const { uid, email, displayName, photoURL } = details
         const db = getDatabase()
@@ -70,8 +72,11 @@ export async function maybeUpdateUserDetails(details) {
         })
         return null
     } catch (err) {
+        // eslint-disable-next-line no-console
         console.error('Failed to update user details.')
+        // eslint-disable-next-line no-console
         console.log(details)
+        // eslint-disable-next-line no-console
         console.error(err)
         return err
     }
