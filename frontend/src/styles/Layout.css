@@ -1,67 +1,67 @@
 /* Page Layout */
 
 .Layout {
-  --font-size: 18px;
-  box-sizing: border-box;
+    --font-size: 18px;
+    box-sizing: border-box;
 }
 
 .Page {
-  padding: 1.5em;
-  box-sizing: border-box;
+    padding: 1.5em;
+    box-sizing: border-box;
 }
 
 .Content {
-  font-size: var(--font-size);
+    font-size: var(--font-size);
 }
 
 /* Not Found Page */
 
 .NotFoundPage {
-  text-align: center;
+    text-align: center;
 }
 
 /* Floating Buttons */
 
 .FloatingButton {
-  font-size: var(--font-size);
-  position: fixed;
-  z-index: 2;
-  margin: 1em;
-  height: var(--icon-height);
+    font-size: var(--font-size);
+    position: fixed;
+    z-index: 2;
+    margin: 1em;
+    height: var(--icon-height);
 }
 
 .FloatingButton .IconBefore {
-  font-size: var(--icon-height);
+    font-size: var(--icon-height);
 }
 
 .FloatingButtonTooltip {
-  display: none;
-  height: var(--icon-height);
-  vertical-align: middle;
+    display: none;
+    height: var(--icon-height);
+    vertical-align: middle;
 }
 
 .FloatingButton:hover .FloatingButtonTooltip {
-  display: inline-block;
+    display: inline-block;
 }
 
 .FloatingButton path {
-  opacity: 0.35;
+    opacity: 0.35;
 }
 
 .FloatingButton:hover path {
-  opacity: 1.0;
+    opacity: 1;
 }
 
 /* Specific Floating Buttons */
 
 .MockLoginButton {
-  --icon-height: 36px;
-  bottom: 4em;
-  left: 0;
+    --icon-height: 36px;
+    bottom: 4em;
+    left: 0;
 }
 
 .BackToChatsButton {
-  --icon-height: 36px;
-  top: 0;
-  left: 0;
+    --icon-height: 36px;
+    top: 0;
+    left: 0;
 }

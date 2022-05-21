@@ -1,132 +1,135 @@
 /* Colors and Fonts */
 
 .Theme {
-  --color-main: rgb(42, 222, 250);
-  --color-light: rgb(224, 252, 255);
-  --color-dark: rgb(5, 108, 120);
-  --color-accent: rgb(255, 208, 107);
-  --color-light-0: rgb(255, 237, 199);
-  --color-light-1: rgb(239, 224, 255);
-  --color-light-: rgb(240, 255, 224);
-  --color-text: rgb(18, 18, 18);
-  --color-contrast: white;
-  --color-danger: rgb(245, 66, 51);
-  --color-danger-light: rgb(255, 205, 201);
-  --font-body: serif;
+    --color-main: rgb(42, 222, 250);
+    --color-light: rgb(224, 252, 255);
+    --color-dark: rgb(5, 108, 120);
+    --color-accent: rgb(255, 208, 107);
+    --color-light-0: rgb(255, 237, 199);
+    --color-light-1: rgb(239, 224, 255);
+    --color-light-: rgb(240, 255, 224);
+    --color-text: rgb(18, 18, 18);
+    --color-contrast: white;
+    --color-danger: rgb(245, 66, 51);
+    --color-danger-light: rgb(255, 205, 201);
+    --font-body: serif;
 }
 
 .App {
-  background: var(--color-light);
-  color: var(--color-text);
+    background: var(--color-light);
+    color: var(--color-text);
 }
 
 .BigTitle {
-  color: var(--color-main);
+    color: var(--color-main);
 }
 
 a {
-  color: var(--color-text);
+    color: var(--color-text);
 }
 
 /* Links */
 
 a:hover {
-  color: var(--color-main);
+    color: var(--color-main);
 }
 
 /* Buttons */
 
 .Button.Primary {
-  background: var(--color-main);
-  border-color: transparent;
-  color: var(--color-contrast);
+    background: var(--color-main);
+    border-color: transparent;
+    color: var(--color-contrast);
 }
 
 .Button.Primary:hover {
-  background: transparent;
-  border-color: var(--color-main);
-  color: var(--color-main);
+    background: transparent;
+    border-color: var(--color-main);
+    color: var(--color-main);
 }
 
 /* Forms */
 
-select, input {
-  font-family: var(--font-body);
+select,
+input {
+    font-family: var(--font-body);
 }
 
 /* Errors */
 
 .Error {
-  border-color: var(--color-danger);
-  background: var(--color-danger-light);
+    border-color: var(--color-danger);
+    background: var(--color-danger-light);
 }
 
 /* Layout */
 
 hr {
-  background: var(--color-main);
+    background: var(--color-main);
 }
 
 /* Matches */
 
 .AllChatsPage {
-  --all-chats-page-text-color: var(--color-text);
-  color: var(--all-chats-page-text-color);
+    --all-chats-page-text-color: var(--color-text);
+    color: var(--all-chats-page-text-color);
 }
 
 .MatchTile {
-  background: var(--color-contrast);
+    background: var(--color-contrast);
 }
 
 .AllChatsPage .MatchTile .Button {
-  border-color: var(--all-chats-page-text-color);
-  color: var(--all-chats-page-text-color);
+    border-color: var(--all-chats-page-text-color);
+    color: var(--all-chats-page-text-color);
 }
 
 /* Chat */
 
 .ChatPage {
-  background: var(--color-contrast);
+    background: var(--color-contrast);
 }
 
-.Message, .ChatComposer .Input {
-  font-family: var(--font-body);
+.Message,
+.ChatComposer .Input {
+    font-family: var(--font-body);
 }
 
 .Message.Mine .MessageInner {
-  background: var(--color-light);
+    background: var(--color-light);
 }
 
 .Message.Participant0 .MessageInner {
-  background: var(--color-light-0);
+    background: var(--color-light-0);
 }
 
 .Message.Participant1 .MessageInner {
-  background: var(--color-light-1);
+    background: var(--color-light-1);
 }
 
 .Message.Participant2 .MessageInner {
-  background: var(--color-light-2);
+    background: var(--color-light-2);
 }
 
-.ChatComposer .Input, .ChatComposer .Send {
-  border-color: var(--color-dark);
-  outline-color: var(--color-dark);
+.ChatComposer .Input,
+.ChatComposer .Send {
+    border-color: var(--color-dark);
+    outline-color: var(--color-dark);
 }
 
 .ChatComposer .Send {
-  background: var(--color-dark);
-  color: var(--color-contrast);
+    background: var(--color-dark);
+    color: var(--color-contrast);
 }
 
 .ChatComposer .Send:hover {
-  background: var(--color-main);
+    background: var(--color-main);
 }
 
 .ChatComposer .Input {
-  background: var(--color-light);
+    background: var(--color-light);
 }
 
 .ChatHeader {
-  background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.75);
 }

@@ -12,61 +12,55 @@ import { UserTile } from '../common/components/User'
 import '../styles/Matches.css'
 
 function MatchTile({ match, users }) {
-  const {
-    id,
-    release_tag,
-    release_timestamp,
-    participants,
-  } = match
+    const { id, release_tag, release_timestamp, participants } = match
 
-  const userEls = Object
-    .keys(participants)
-    .filter((uid) => (uid !== match.for))
-    .map((uid) => (users?.[uid] || { uid }))
-    .map((u) => (
-      <UserTile key={u.uid} user={u} />
-    ))
+    const userEls = Object.keys(participants)
+        .filter((uid) => uid !== match.for)
+        .map((uid) => users?.[uid] || { uid })
+        .map((u) => <UserTile key={u.uid} user={u} />)
 
-  return (
-    <div className="MatchTile">
-      <h3>Week of {formatMatchDate(release_timestamp)}</h3>
-      <div className="UserRow">
-        {userEls}
-      </div>
-      <p>
-        <Link to={`/chats/${id}`} className="Button">
-          <FontAwesomeIcon icon={faComments} className="IconBefore" />
-          <span>Open Chat</span>
-        </Link>
-      </p>
-    </div>
-  )
+    return (
+        <div className="MatchTile">
+            <h3>Week of {formatMatchDate(release_timestamp)}</h3>
+            <div className="UserRow">{userEls}</div>
+            <p>
+                <Link to={`/chats/${id}`} className="Button">
+                    <FontAwesomeIcon icon={faComments} className="IconBefore" />
+                    <span>Open Chat</span>
+                </Link>
+            </p>
+        </div>
+    )
 }
 
 export default function AllChatsPage() {
-  const authUser = useCurrentAuthUser()
-  const matches = useGetMatches(COMMUNITY, authUser?.uid)
-  const matchedUserIds = matches.reduce((agg, m) => ({
-    ...agg,
-    ...m.participants,
-  }), {})
-  const matchedUsers = useGetManyUserData(matchedUserIds)
+    const authUser = useCurrentAuthUser()
+    const matches = useGetMatches(COMMUNITY, authUser?.uid)
+    const matchedUserIds = matches.reduce(
+        (agg, m) => ({
+            ...agg,
+            ...m.participants,
+        }),
+        {}
+    )
+    const matchedUsers = useGetManyUserData(matchedUserIds)
 
-  const matchEls = matches.length > 0
-    ? matches
-      .sort((a, b) => b.release_timestamp - a.release_timestamp)
-      .map((m) => (
-        <MatchTile key={m.id} match={m} users={matchedUsers} />
-      ))
-    : <p>No matches yet.</p>
+    const matchEls =
+        matches.length > 0 ? (
+            matches
+                .sort((a, b) => b.release_timestamp - a.release_timestamp)
+                .map((m) => <MatchTile key={m.id} match={m} users={matchedUsers} />)
+        ) : (
+            <p>No matches yet.</p>
+        )
 
-  return (
-    <div className="Page Content AllChatsPage FullPage">
-      <h1>Butterfly Chats</h1>
-      <p>Each week, you will be matched to another person in your community.</p>
-      <p>Check back on Mondays to see who you are matched with!</p>
-      <h2>Demo Community</h2>
-      {matchEls}
-    </div>
-  )
+    return (
+        <div className="Page Content AllChatsPage FullPage">
+            <h1>Butterfly Chats</h1>
+            <p>Each week, you will be matched to another person in your community.</p>
+            <p>Check back on Mondays to see who you are matched with!</p>
+            <h2>Demo Community</h2>
+            {matchEls}
+        </div>
+    )
 }
