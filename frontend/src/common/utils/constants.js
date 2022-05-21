@@ -1,13 +1,13 @@
 export const DB_PATH = {
-  MESSAGES: 'messages',
-  USERS: 'users',
-  MATCHES: 'matches',
+    MESSAGES: 'messages',
+    USERS: 'users',
+    MATCHES: 'matches',
 }
 
 export const MESSAGE_TYPE = 'MESSAGE'
 export const UNKNOWN_USER = {
-  uid: null,
-  displayName: 'Unknown User',
+    uid: null,
+    displayName: 'Unknown User',
 }
 
-export const COMMUNITY = "demo"
+export const COMMUNITY = 'demo'

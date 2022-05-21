@@ -13,16 +13,16 @@ const appId = import.meta.env.VITE_firebase_appId
  * can then be referenced via context provider
  */
 export function createFirebaseApp() {
-  const firebaseConfig = {
-    apiKey,
-    authDomain,
-    projectId,
-    storageBucket,
-    messagingSenderId,
-    appId,
-  };
-  const app = initializeApp(firebaseConfig)
-  return app
+    const firebaseConfig = {
+        apiKey,
+        authDomain,
+        projectId,
+        storageBucket,
+        messagingSenderId,
+        appId,
+    }
+    const app = initializeApp(firebaseConfig)
+    return app
 }
 
 export const FirebaseAppContext = createContext()

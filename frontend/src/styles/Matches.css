@@ -1,15 +1,15 @@
 /* Variables */
 
 .AllChatsPage {
-  --max-width: 500px;
-  max-width: var(--max-width);
-  margin: 0 auto;
+    --max-width: 500px;
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
 
 /* Matches */
 
 .MatchTile {
-  margin: 1em 0;
-  padding: 0.5em 1em;
-  border-radius: 0.5em;
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
 }

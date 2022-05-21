@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  getDatabase,
-  onValue,
-  ref,
-  serverTimestamp,
-  update,
-} from 'firebase/database'
+import { getDatabase, onValue, ref, serverTimestamp, update } from 'firebase/database'
 
 import { DB_PATH } from './constants'
 
@@ -13,43 +7,45 @@ import { DB_PATH } from './constants'
  * Returns a Promise to get data about a given user.
  */
 export function getUserData(userId) {
-  const db = getDatabase()
-  const userPath = `${DB_PATH.USERS}/${userId}`
-  const userRef = ref(db, userPath)
-  return new Promise((resolve, reject) => {
-    onValue(userRef, (snap) => {
-      resolve({
-        uid: snap.key,
-        ...snap.val(),
-      })
+    const db = getDatabase()
+    const userPath = `${DB_PATH.USERS}/${userId}`
+    const userRef = ref(db, userPath)
+    return new Promise((resolve, reject) => {
+        onValue(userRef, (snap) => {
+            resolve({
+                uid: snap.key,
+                ...snap.val(),
+            })
+        })
     })
-  })
 }
 
 export function useGetManyUserData(userIdMap) {
-  const [userDetails, setUserDetails] = useState({})
-  // Try to fetch new users whenever the input updates
-  useEffect(() => {
-    // Filter out user IDs that were already fetched
-    Object.keys(userIdMap)
-      .filter(k => !(k in userDetails))
-      .map(getUserData)
-      .forEach((promise) => {
-        promise.then((userData) => {
-          if (userData?.uid) {
-            // Add the new user to the existing state
-            setUserDetails((prev) => ({
-              ...prev,
-              [userData.uid]: userData,
-            }))
-          }
-        }).catch((err) => {
-          console.log('Error while fetching many user records.')
-          console.error(err)
-        })
-      })
-  }, [userIdMap])
-  return userDetails
+    const [userDetails, setUserDetails] = useState({})
+    // Try to fetch new users whenever the input updates
+    useEffect(() => {
+        // Filter out user IDs that were already fetched
+        Object.keys(userIdMap)
+            .filter((k) => !(k in userDetails))
+            .map(getUserData)
+            .forEach((promise) => {
+                promise
+                    .then((userData) => {
+                        if (userData?.uid) {
+                            // Add the new user to the existing state
+                            setUserDetails((prev) => ({
+                                ...prev,
+                                [userData.uid]: userData,
+                            }))
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('Error while fetching many user records.')
+                        console.error(err)
+                    })
+            })
+    }, [userIdMap])
+    return userDetails
 }
 
 /*
@@ -57,26 +53,26 @@ export function useGetManyUserData(userIdMap) {
  * details in our database.
  */
 export async function maybeUpdateUserDetails(details) {
-  try{
-    if (!details?.uid) {
-      throw 'No user ID provided to update user details.'
+    try {
+        if (!details?.uid) {
+            throw 'No user ID provided to update user details.'
+        }
+        const { uid, email, displayName, photoURL } = details
+        const db = getDatabase()
+        const userPath = `${DB_PATH.USERS}/${uid}`
+        const userRef = ref(db, userPath)
+        await update(userRef, {
+            uid,
+            email,
+            displayName,
+            photoURL,
+            latestLogin: serverTimestamp(),
+        })
+        return null
+    } catch (err) {
+        console.error('Failed to update user details.')
+        console.log(details)
+        console.error(err)
+        return err
     }
-    const { uid, email, displayName, photoURL } = details
-    const db = getDatabase()
-    const userPath = `${DB_PATH.USERS}/${uid}`
-    const userRef = ref(db, userPath)
-    await update(userRef, {
-      uid,
-      email,
-      displayName,
-      photoURL,
-      latestLogin: serverTimestamp(),
-    })
-    return null
-  } catch (err) {
-    console.error('Failed to update user details.')
-    console.log(details)
-    console.error(err)
-    return err
-  }
 }
