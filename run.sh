@@ -102,6 +102,12 @@ elif [ "$1" == "prefect-agent" ]; then
   # Starter local agent, necessary for executing flows
   prefect agent local start
 
+elif [ "$1" == "prefect-register" ]; then
+  # Register latest version of flows with Prefect Server
+  source .venv/bin/activate
+  prefect create project butterfly
+  python3 pipeline/register_all_flows.py
+
 else
   echo "No run shortcut found for: $1"
   echo "Did you pull the latest version?"
