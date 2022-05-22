@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "description": "Frontend for the Butterfly app.",
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --port 4000",
         "build": "vite build",
         "preview": "vite preview",
         "lint": "./node_modules/.bin/eslint",
