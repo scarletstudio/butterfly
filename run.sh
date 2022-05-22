@@ -62,6 +62,10 @@ elif [ "$1" == "ui" ]; then
     open "http://localhost:3000"
   fi
 
+elif [ "$1" == "prefect-local" ]; then
+  # Set Prefect secrets then run a flow
+  env $(cat .env.prefect | xargs) python3 "$2"
+
 else
   echo "No run shortcut found for: $1"
   echo "Did you pull the latest version?"

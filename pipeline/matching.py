@@ -6,7 +6,7 @@ import datetime
 import random
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Callable, DefaultDict, List, Optional, Set
+from typing import Callable, DefaultDict, List, Optional, Set, Tuple
 
 """
 Demo Design
@@ -75,7 +75,7 @@ def get_recent_match_sets(
 
 def validate_matches(
     matches: List[Match], users: List[User], recent_matches: List[Match]
-):
+) -> Tuple[int, int, int]:
     # Validate that correct users are present
     matched_users = {uid for m in matches for uid in m.users}
     all_users = {u.uid for u in users}
@@ -107,10 +107,12 @@ def validate_matches(
             n_tier[3] += 1
         else:
             n_tier[2] += 1
-    print(f"\tTotal = {len(matches)}, T2: {n_tier[2]}, T3: {n_tier[3]}")
+    return len(matches), n_tier[2], n_tier[3]
 
 
-def best_effort_minimize_repeat_matches(n_retries: int = 5):
+def best_effort_minimize_repeat_matches(
+    n_retries: int = 5, log: Callable = print
+):
     """
     Re-runs a matching function up to n times and returns the output with
     the fewest tier 3 matches. Otherwise, returns the last output.
@@ -129,7 +131,7 @@ def best_effort_minimize_repeat_matches(n_retries: int = 5):
 
             for i in range(1, n_retries + 1):
                 # Run matching function
-                print(f"Running attempt {i}...")
+                log(f"Running attempt {i}...")
                 matches = do_matching(users, recent_matches)
 
                 # Count repeat matches
@@ -153,7 +155,7 @@ def best_effort_minimize_repeat_matches(n_retries: int = 5):
                     best_output = matches
 
             # Return best output
-            print(
+            log(
                 (
                     f"Best output has {n_repeat_matches} repeat matches "
                     f"after {i} attempts."
@@ -266,7 +268,8 @@ if __name__ == "__main__":
     print("Validate Previous Matches:")
     past_matches = []
     for current_matches in week_matches:
-        validate_matches(current_matches, users, past_matches)
+        total, t2, t3 = validate_matches(current_matches, users, past_matches)
+        print(f"\tTotal = {total}, T2: {t2}, T3: {t3}")
         past_matches.extend(current_matches)
     print()
 
@@ -275,7 +278,8 @@ if __name__ == "__main__":
     matches = get_matches(users, recent_matches)
     for m in matches:
         print(f"\t{m}")
-    validate_matches(matches, users, recent_matches)
+    total, t2, t3 = validate_matches(matches, users, recent_matches)
+    print(f"\tTotal = {total}, T2: {t2}, T3: {t3}")
     print()
 
     # Run matching and validate output with a new user
@@ -285,7 +289,8 @@ if __name__ == "__main__":
     matches = get_matches(new_users, recent_matches)
     for m in matches:
         print(f"\t{m}")
-    validate_matches(matches, new_users, recent_matches)
+    total, t2, t3 = validate_matches(matches, new_users, recent_matches)
+    print(f"\tTotal = {total}, T2: {t2}, T3: {t3}")
     print()
 
     print("Done.")
