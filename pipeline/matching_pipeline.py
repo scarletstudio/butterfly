@@ -4,11 +4,12 @@ sys.path.append("./")
 
 import dataclasses
 import json
+import os
 import pandas as pd
 import firebase_admin
 from firebase_admin import credentials, db
 import prefect
-from prefect import task, Flow, Parameter
+from prefect import Flow, Parameter, task
 from prefect.tasks.secrets import PrefectSecret
 from pipeline.matching import (
     Match,
@@ -33,6 +34,10 @@ def initialize_firebase_for_prefect(database_url: str, admin_credentials: str):
     # Initialize Firebase Admin service account
     cred = credentials.Certificate(credentials_outfile)
     firebase_admin.initialize_app(cred, {"databaseURL": database_url})
+
+    # After initialization, delete raw credentials file
+    if os.path.exists(credentials_outfile):
+        os.remove(credentials_outfile)
     return db
 
 
@@ -138,8 +143,8 @@ def compute_matches(
 def matching_pipeline() -> Flow:
     with Flow(name="matching_pipeline") as flow:
         param_community = Parameter(name="community", required=True)
-        param_release = Parameter(name="release", required=True)
         param_matching_retries = Parameter(name="matching_retries", default=5)
+        param_release = Parameter(name="release", required=True)
 
         secret_database_url = PrefectSecret("database_url")
         secret_admin_credentials = PrefectSecret("admin_credentials")
