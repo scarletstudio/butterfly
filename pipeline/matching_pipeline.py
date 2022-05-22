@@ -135,7 +135,7 @@ def compute_matches(
     return df_matches
 
 
-def matching_pipeline():
+def matching_pipeline() -> Flow:
     with Flow(name="matching_pipeline") as flow:
         param_community = Parameter(name="community", required=True)
         param_release = Parameter(name="release", required=True)
