@@ -13,11 +13,32 @@ github:
     addBadge: false
 ports:
   - name: Frontend
-    port: 3000
+    port: 4000
     onOpen: open-preview
     visibility: public
   - name: Backend
     port: 8000
+    onOpen: ignore
+    visibility: public
+  # Ports used by Prefect Server
+  - name: Prefect Server UI
+    port: 8080
+    onOpen: open-browser
+    visibility: public
+  - name: Prefect Server Hasura
+    port: 3000
+    onOpen: ignore
+    visibility: public
+  - name: Prefect Server Core
+    port: 4200
+    onOpen: ignore
+    visibility: public
+  - name: Prefect Server Apollo GraphQL
+    port: 4201
+    onOpen: ignore
+    visibility: public
+  - name: Prefect Server Postgres
+    port: 5432
     onOpen: ignore
     visibility: public
 tasks:
@@ -38,5 +59,6 @@ tasks:
       source ~/.bashrc
       python3 -m venv .venv
       source .venv/bin/activate
+      pip3 install -r requirements.txt
       pip3 install -r requirements-dev.txt
       pre-commit install

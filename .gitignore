@@ -4,7 +4,9 @@ data/**
 frontend/butterfly/**
 frontend/.env.firebase
 .env.firebase
+.env.prefect
 credentials.json
+prefect-credentials.json
 
 # Node
 # Source: https://github.com/github/gitignore/blob/main/Node.gitignore
