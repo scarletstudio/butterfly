@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Message } from '../common/components/Chat'
+import { UserTile } from '../common/components/User'
 
 const EXAMPLE_PARTICIPANTS = {
     'user-a': { displayName: 'Me' },
@@ -26,6 +27,24 @@ export default function StyleGuidePage() {
                     <h5>Heading 5</h5>
                     <h6>Heading 6</h6>
                     <p>Paragraph</p>
+                </section>
+                <section className="Section">
+                    <h2>User Elements</h2>
+                    <hr />
+                    <div className="UserRow">
+                        <UserTile
+                            user={{
+                                displayName: 'Ernesto Saúl',
+                                photoURL: 'https://randomuser.me/api/portraits/men/61.jpg',
+                            }}
+                        />
+                        <UserTile
+                            user={{
+                                displayName: 'Quyên Hương',
+                                photoURL: 'https://randomuser.me/api/portraits/women/12.jpg',
+                            }}
+                        />
+                    </div>
                 </section>
                 <section className="Section">
                     <h2>Chat Elements</h2>
