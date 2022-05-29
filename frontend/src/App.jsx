@@ -13,6 +13,7 @@ import AllChatsPage from './pages/AllChatsPage'
 import ChatPage from './pages/ChatPage'
 
 import MockLoginPage from './pages/MockLoginPage'
+import StyleGuidePage from './pages/StyleGuide'
 
 const BASE_URL = '/butterfly'
 const REDIRECT_PATHNAME_KEY = 'butterfly__pathname'
@@ -39,6 +40,9 @@ function AppRouting() {
                     <Route path=":chatId" element={<ChatPage />} />
                 </Route>
                 <Route path="mocklogin" element={<MockLoginPage />} />
+                <Route path="resources">
+                    <Route path="styleguide" element={<StyleGuidePage />} />
+                </Route>
             </Route>
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
