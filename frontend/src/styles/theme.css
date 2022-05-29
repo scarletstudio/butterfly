@@ -1,13 +1,17 @@
 /* Colors and Fonts */
 
 .Theme {
+    --color-page-background: rgb(255, 255, 255);
+    --color-theme-main: rgb(51, 31, 163);
+    --color-theme-accent: rgb(252, 221, 192);
+    --color-theme-contrast: rgb(255, 255, 255);
     --color-main: rgb(42, 222, 250);
     --color-light: rgb(224, 252, 255);
     --color-dark: rgb(5, 108, 120);
     --color-accent: rgb(255, 208, 107);
     --color-light-0: rgb(255, 237, 199);
     --color-light-1: rgb(239, 224, 255);
-    --color-light-: rgb(240, 255, 224);
+    --color-light-2: rgb(240, 255, 224);
     --color-text: rgb(18, 18, 18);
     --color-contrast: white;
     --color-danger: rgb(245, 66, 51);
@@ -16,12 +20,13 @@
 }
 
 .App {
-    background: var(--color-light);
+    background: var(--color-theme-contrast);
     color: var(--color-text);
 }
 
-.BigTitle {
-    color: var(--color-main);
+.Header {
+    background: var(--color-theme-main);
+    color: var(--color-theme-accent);
 }
 
 a {
@@ -65,7 +70,7 @@ input {
 /* Layout */
 
 hr {
-    background: var(--color-main);
+    background: var(--color-theme-accent);
 }
 
 /* Matches */

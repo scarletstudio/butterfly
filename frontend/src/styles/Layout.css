@@ -14,6 +14,23 @@
     font-size: var(--font-size);
 }
 
+.Header {
+    padding: 1.5em;
+    box-sizing: border-box;
+}
+
+.Section {
+    margin: 1em 0;
+}
+
+.Section:first-child {
+    margin-top: 0;
+}
+
+.Section:last-child {
+    margin-bottom: 0;
+}
+
 /* Not Found Page */
 
 .NotFoundPage {

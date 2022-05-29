@@ -16,19 +16,19 @@ h6 {
 }
 
 h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size: 1.8em;
-}
-
-h3 {
     font-size: 1.6em;
 }
 
-h4 {
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
     font-size: 1.4em;
+}
+
+h4 {
+    font-size: 1.3em;
 }
 
 h5 {
@@ -36,7 +36,7 @@ h5 {
 }
 
 h6 {
-    font-size: 1em;
+    font-size: 1.1em;
 }
 
 p {
@@ -155,12 +155,14 @@ hr {
  * https://blog.hubspot.com/website/hide-scrollbar-css
  */
 
-body {
+.App {
+    height: 100vh;
+    overflow-y: scroll;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
 }
 
-body::-webkit-scrollbar {
+.App::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
 }
 
