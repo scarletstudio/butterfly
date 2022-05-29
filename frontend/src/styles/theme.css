@@ -1,10 +1,10 @@
 /* Colors and Fonts */
 
 .Theme {
-    --color-page-background: rgb(255, 255, 255);
-    --color-theme-main: rgb(51, 31, 163);
+    --color-theme-main: rgb(16, 23, 122);
     --color-theme-accent: rgb(252, 221, 192);
     --color-theme-contrast: rgb(255, 255, 255);
+    --color-page-background: rgb(255, 255, 255);
     --color-main: rgb(42, 222, 250);
     --color-light: rgb(224, 252, 255);
     --color-dark: rgb(5, 108, 120);

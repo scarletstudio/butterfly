@@ -2,6 +2,13 @@ import React from 'react'
 
 import { Message } from '../common/components/Chat'
 
+const EXAMPLE_PARTICIPANTS = {
+    'user-a': { displayName: 'Me' },
+    'user-b': { displayName: 'User B' },
+    'user-c': { displayName: 'User C' },
+    'user-d': { displayName: 'User D' },
+}
+
 export default function StyleGuidePage() {
     return (
         <div className="Layout Content">
@@ -25,21 +32,39 @@ export default function StyleGuidePage() {
                     <hr />
                     <Message
                         data={{
-                            from: 'user-a',
                             type: 'MESSAGE',
+                            from: 'user-a',
                             message: 'Hello,\nThis is a multi-paragraph message I sent!',
                         }}
                         myUserId="user-a"
-                        participants={{ 'user-a': { displayName: 'Me' } }}
+                        participants={EXAMPLE_PARTICIPANTS}
                     />
                     <Message
                         data={{
-                            from: 'user-b',
                             type: 'MESSAGE',
+                            from: 'user-b',
                             message: 'And I am replying to you.',
                         }}
                         myUserId="user-a"
-                        participants={{ 'user-b': { displayName: 'Someone Else' } }}
+                        participants={EXAMPLE_PARTICIPANTS}
+                    />
+                    <Message
+                        data={{
+                            type: 'MESSAGE',
+                            from: 'user-c',
+                            message: 'I am another participant.',
+                        }}
+                        myUserId="user-a"
+                        participants={EXAMPLE_PARTICIPANTS}
+                    />
+                    <Message
+                        data={{
+                            type: 'MESSAGE',
+                            from: 'user-d',
+                            message: 'And I am yet another participant.',
+                        }}
+                        myUserId="user-a"
+                        participants={EXAMPLE_PARTICIPANTS}
                     />
                 </section>
                 <section className="Section">
