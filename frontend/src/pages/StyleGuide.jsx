@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Message } from '../common/components/Chat'
+import { Error } from '../common/components/Errors'
 import { UserTile } from '../common/components/User'
 
 const EXAMPLE_PARTICIPANTS = {
@@ -85,6 +86,14 @@ export default function StyleGuidePage() {
                         myUserId="user-a"
                         participants={EXAMPLE_PARTICIPANTS}
                     />
+                </section>
+                <section className="Section">
+                    <h2>Error Elements</h2>
+                    <hr />
+                    <Error hasError>
+                        <h3>Something went wrong.</h3>
+                        <p>We broke it, sorry about that!</p>
+                    </Error>
                 </section>
                 <section className="Section">
                     <h2>Lists</h2>
