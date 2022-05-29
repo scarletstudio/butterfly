@@ -91,7 +91,7 @@ export default function StyleGuidePage() {
                     <h2>Error Elements</h2>
                     <hr />
                     <Error hasError>
-                        <h3>Something went wrong.</h3>
+                        <h4>Something went wrong.</h4>
                         <p>We broke it, sorry about that!</p>
                     </Error>
                 </section>
@@ -118,11 +118,31 @@ export default function StyleGuidePage() {
                     </ol>
                 </section>
                 <section className="Section">
-                    <h2>Page Elements</h2>
+                    <h2>Card Elements</h2>
                     <hr />
-                    <div className="Card">
-                        <h3>Card Heading 3</h3>
+                    <h4>Full Cards</h4>
+                    <div className="Card Full">
+                        <h4>Card 1</h4>
                         <p>Card Content</p>
+                    </div>
+                    <div className="Card Full">
+                        <h4>Card 2</h4>
+                        <p>Card Content</p>
+                    </div>
+                    <h3>Card Row</h3>
+                    <div className="CardRow">
+                        <div className="Card">
+                            <h4>Card A</h4>
+                            <p>Card Content</p>
+                        </div>
+                        <div className="Card">
+                            <h4>Card B</h4>
+                            <p>Card Content</p>
+                        </div>
+                        <div className="Card">
+                            <h4>Card C</h4>
+                            <p>Card Content</p>
+                        </div>
                     </div>
                 </section>
             </div>

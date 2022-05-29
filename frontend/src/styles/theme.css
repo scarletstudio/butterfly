@@ -1,8 +1,10 @@
 /* Colors and Fonts */
 
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
+
 .Theme {
     --color-theme-main: rgb(16, 23, 122);
-    --color-theme-accent: rgb(252, 221, 192);
+    --color-theme-accent: rgb(42, 222, 250);
     --color-theme-contrast: rgb(255, 255, 255);
     --color-page-background: rgb(255, 255, 255);
     --color-main: rgb(42, 222, 250);
@@ -16,17 +18,28 @@
     --color-contrast: white;
     --color-danger: rgb(245, 66, 51);
     --color-danger-light: rgb(255, 205, 201);
-    --font-body: serif;
+    --font-heading: 'Assistant', sans-serif;
+    --font-body: 'Assistant', sans-serif;
 }
 
 .App {
     background: var(--color-theme-contrast);
     color: var(--color-text);
+    font-family: var(--font-body);
 }
 
 .Header {
     background: var(--color-theme-main);
     color: var(--color-theme-accent);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
 }
 
 a {
