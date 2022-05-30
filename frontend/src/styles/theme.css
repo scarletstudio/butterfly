@@ -64,15 +64,27 @@ a:hover {
 /* Buttons */
 
 .Button.Primary {
-    background: var(--color-main);
+    background: var(--color-theme-accent);
     border-color: transparent;
-    color: var(--color-contrast);
+    color: var(--color-theme-contrast);
 }
 
 .Button.Primary:hover {
     background: transparent;
     border-color: var(--color-main);
     color: var(--color-main);
+}
+
+.Button {
+    background: transparent;
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.Button:hover {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-theme-contrast);
 }
 
 /* Forms */

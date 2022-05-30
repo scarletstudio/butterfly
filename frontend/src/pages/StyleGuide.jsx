@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCrown, faGhost } from '@fortawesome/free-solid-svg-icons'
 
 import { Message } from '../common/components/Chat'
 import { Error } from '../common/components/Errors'
@@ -115,7 +117,25 @@ export default function StyleGuidePage() {
                         </div>
                     </div>
                 </section>
-
+                <section className="Section">
+                    <h2>Buttons</h2>
+                    <hr />
+                    <div className="ButtonRow">
+                        <span className="Button Primary">Primary</span>
+                        <span className="Button">Secondary</span>
+                    </div>
+                    <div className="ButtonRow">
+                        <span className="Button Primary">
+                            <FontAwesomeIcon icon={faCrown} className="IconBefore" />
+                            <span>With Icon</span>
+                        </span>
+                        <span className="Button">
+                            <FontAwesomeIcon icon={faGhost} className="IconBefore" />
+                            <span>With Icon</span>
+                        </span>
+                    </div>
+                    <span className="Button">Single Button</span>
+                </section>
                 <section className="Section">
                     <h2>Error Elements</h2>
                     <hr />

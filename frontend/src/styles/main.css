@@ -110,10 +110,11 @@ ol {
 /* Buttons */
 
 .Button {
+    box-sizing: border-box;
     display: inline-block;
     text-decoration: none;
-    padding: 0.5em;
-    margin: 0.25em 0;
+    padding: 0.75em 1em;
+    margin: 0.5em 0;
     border-radius: 0.25em;
     border-width: 1px;
     border-style: solid;
@@ -121,6 +122,26 @@ ol {
 
 .Button:hover {
     cursor: pointer;
+}
+
+.ButtonRow .Button {
+    display: inline-block;
+    margin: 0.5em;
+}
+
+.ButtonRow .Button:first-child {
+    margin-left: 0;
+}
+
+.ButtonRow .Button:last-child {
+    margin-right: 0;
+}
+
+.Button .IconBefore,
+.Button .IconAfter,
+.Button span {
+    vertical-align: top;
+    margin-top: 0;
 }
 
 /* Errors */
