@@ -22,7 +22,7 @@ function MatchTile({ match, users }) {
         .map((u) => <UserTile key={u.uid} user={u} />)
 
     return (
-        <div className="MatchTile">
+        <div className="MatchTile Card Full">
             <h3>Week of {formatMatchDate(release_timestamp)}</h3>
             <div className="UserRow">{userEls}</div>
             <p>
@@ -57,12 +57,16 @@ export default function AllChatsPage() {
         )
 
     return (
-        <div className="Page Content AllChatsPage FullPage">
-            <h1>Butterfly Chats</h1>
-            <p>Each week, you will be matched to another person in your community.</p>
-            <p>Check back on Mondays to see who you are matched with!</p>
-            <h2>Demo Community</h2>
-            {matchEls}
+        <div className="AllChatsPage">
+            <div className="Header">
+                <h1 className="BigTitle">Butterfly Chats</h1>
+                <p>Each week, you will be matched to another person in your community.</p>
+                <p>Check back on Mondays to see who you are matched with!</p>
+            </div>
+            <div className="Page">
+                <h2>Demo Community</h2>
+                {matchEls}
+            </div>
         </div>
     )
 }

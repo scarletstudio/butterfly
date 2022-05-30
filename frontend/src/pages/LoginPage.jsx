@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { signInUser, signOutUser, useCurrentAuthUser } from '../common/utils/auth'
 import { maybeUpdateUserDetails } from '../common/utils/user'
@@ -9,6 +10,17 @@ import { CurrentLogin } from '../common/components/Auth'
 import { Error } from '../common/components/Errors'
 
 import '../styles/LoginPage.css'
+
+function MockLoginButton() {
+    return (
+        <div className="FloatingButton MockLoginButton">
+            <Link to="/mocklogin" className="NoDecorate">
+                <FontAwesomeIcon icon={faUserNinja} className="IconBefore" />
+                <span className="FloatingButtonTooltip">Go to Mock Login</span>
+            </Link>
+        </div>
+    )
+}
 
 export default function LoginPage() {
     const [loginError, setLoginError] = useState(null)
@@ -37,7 +49,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="Page Content LoginPage FullPage VerticalCenter">
+        <div className="Page LoginPage FullHeight VerticalCenter">
             <div>
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>
@@ -59,6 +71,7 @@ export default function LoginPage() {
                 </Error>
                 <CurrentLogin authUser={authUser} doLogOut={doLogOut} />
             </div>
+            <MockLoginButton />
         </div>
     )
 }

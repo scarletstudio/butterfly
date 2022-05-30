@@ -37,6 +37,6 @@
 }
 
 .UserTile .DisplayName {
-    font-size: var(--font-size);
+    font-size: var(--text-size);
     padding: 0.5em;
 }

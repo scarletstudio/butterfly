@@ -74,7 +74,7 @@ export default function MockLoginPage() {
     }
 
     return (
-        <div className="Page Content LoginPage FullPage VerticalCenter">
+        <div className="Page LoginPage FullHeight VerticalCenter">
             <div>
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>

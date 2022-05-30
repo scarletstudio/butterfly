@@ -22,7 +22,7 @@ function getAuthorClasses(participants, myUserId) {
         )
 }
 
-function Message({ data, myUserId, participants }) {
+export function Message({ data, myUserId, participants }) {
     const { message, from, type } = data
     // Apply different styles for each participant
     const authorClasses = getAuthorClasses(participants, myUserId)
