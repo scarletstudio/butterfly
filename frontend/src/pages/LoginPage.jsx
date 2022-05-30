@@ -49,7 +49,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="Page Content LoginPage VerticalCenter">
+        <div className="Page Content LoginPage FullHeight VerticalCenter">
             <div>
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>

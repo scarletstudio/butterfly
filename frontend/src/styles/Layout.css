@@ -1,10 +1,5 @@
 /* Page Layout */
 
-.App {
-    --text-size: 20px;
-    font-size: var(--text-size);
-}
-
 .Layout {
     box-sizing: border-box;
 }
@@ -15,6 +10,8 @@
 }
 
 .Content {
+    --text-size: 20px;
+    font-size: var(--text-size);
 }
 
 .Header {

@@ -93,6 +93,10 @@ ol {
     align-items: center;
 }
 
+.FullHeight {
+    height: 100vh;
+}
+
 /* Icons */
 
 .IconAfter {
