@@ -73,7 +73,7 @@ ol {
 .BigTitle {
     font-size: 2.4em;
     line-height: 1em;
-    margin: 0;
+    margin: 0.25em 0;
 }
 
 .NoDecorate {
@@ -85,12 +85,6 @@ ol {
 }
 
 /* Utilities */
-
-.FullPage {
-    /* Fill full page */
-    height: 100vh;
-    box-sizing: border-box;
-}
 
 .VerticalCenter {
     /* Center vertically with flexbox */
@@ -157,6 +151,7 @@ hr {
 
 .App {
     height: 100vh;
+    box-sizing: border-box;
     overflow-y: scroll;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */

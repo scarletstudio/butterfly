@@ -23,7 +23,7 @@ export default function ChatPage() {
     const { chatId } = useParams()
     const fullChatId = `${COMMUNITY}/${chatId}`
     return (
-        <div className="Content ChatPage FullPage">
+        <div className="Content ChatPage">
             <div className="ChatContainer">
                 <BackToChatsButton />
                 <ChatApp chatId={fullChatId} />

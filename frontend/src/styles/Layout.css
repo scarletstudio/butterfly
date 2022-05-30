@@ -1,7 +1,11 @@
 /* Page Layout */
 
+.App {
+    --text-size: 20px;
+    font-size: var(--text-size);
+}
+
 .Layout {
-    --font-size: 20px;
     box-sizing: border-box;
 }
 
@@ -11,7 +15,6 @@
 }
 
 .Content {
-    font-size: var(--font-size);
 }
 
 .Header {
@@ -31,6 +34,8 @@
     margin-bottom: 0;
 }
 
+/* Cards */
+
 .CardRow {
     margin: 0.5em -0.5em;
     display: block;
@@ -44,7 +49,7 @@
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.1);
     margin: 0.5em;
     padding: 1em;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .Card.Full {
@@ -53,11 +58,11 @@
 }
 
 .Card :first-child {
-    margin-top: 0;
+    margin-top: 0.25em;
 }
 
 .Card :last-child {
-    margin-bottom: 0;
+    margin-bottom: 0.25em;
 }
 
 /* Not Found Page */
@@ -69,7 +74,7 @@
 /* Floating Buttons */
 
 .FloatingButton {
-    font-size: var(--font-size);
+    font-size: 1em;
     position: fixed;
     z-index: 2;
     margin: 1em;

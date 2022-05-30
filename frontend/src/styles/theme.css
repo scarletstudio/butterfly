@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
 
 .Theme {
-    --color-theme-main: rgb(16, 23, 122);
+    --color-theme-main: rgb(27, 14, 100);
     --color-theme-accent: rgb(42, 222, 250);
     --color-theme-contrast: rgb(255, 255, 255);
     --color-page-background: rgb(255, 255, 255);
@@ -30,7 +30,7 @@
 
 .Header {
     background: var(--color-theme-main);
-    color: var(--color-theme-accent);
+    color: var(--color-theme-contrast);
 }
 
 h1,
@@ -40,6 +40,15 @@ h4,
 h5,
 h6 {
     font-family: var(--font-heading);
+}
+
+.Header h1,
+.Header h2,
+.Header h3,
+.Header h4,
+.Header h5,
+.Header h6 {
+    color: var(--color-theme-accent);
 }
 
 a {

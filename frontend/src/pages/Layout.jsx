@@ -5,7 +5,7 @@ import '../styles/Layout.css'
 
 export default function Layout() {
     return (
-        <div className="Layout FullPage ">
+        <div className="Layout">
             <Outlet />
         </div>
     )
