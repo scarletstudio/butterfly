@@ -5,7 +5,7 @@ import '../styles/HomePage.css'
 
 export default function HomePage() {
     return (
-        <div className="Page Content HomePage FullHeight VerticalCenter">
+        <div className="Layout Page HomePage FullHeight VerticalCenter">
             <div>
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>

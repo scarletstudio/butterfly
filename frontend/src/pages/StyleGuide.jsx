@@ -13,7 +13,7 @@ const EXAMPLE_PARTICIPANTS = {
 
 export default function StyleGuidePage() {
     return (
-        <div className="Layout Content">
+        <div className="Layout">
             <div className="Header">
                 <h1 className="BigTitle">Style Guide</h1>
             </div>
@@ -88,6 +88,35 @@ export default function StyleGuidePage() {
                     />
                 </section>
                 <section className="Section">
+                    <h2>Card Elements</h2>
+                    <hr />
+                    <h4>Full Cards</h4>
+                    <div className="Card Full">
+                        <h4>Card 1</h4>
+                        <p>Card Content</p>
+                    </div>
+                    <div className="Card Full">
+                        <h4>Card 2</h4>
+                        <p>Card Content</p>
+                    </div>
+                    <h3>Card Row</h3>
+                    <div className="CardRow">
+                        <div className="Card">
+                            <h4>Card A</h4>
+                            <p>Card Content</p>
+                        </div>
+                        <div className="Card">
+                            <h4>Card B</h4>
+                            <p>Card Content</p>
+                        </div>
+                        <div className="Card">
+                            <h4>Card C</h4>
+                            <p>Card Content</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="Section">
                     <h2>Error Elements</h2>
                     <hr />
                     <Error hasError>
@@ -118,30 +147,56 @@ export default function StyleGuidePage() {
                     </ol>
                 </section>
                 <section className="Section">
-                    <h2>Card Elements</h2>
+                    <h2>Columns</h2>
                     <hr />
-                    <h4>Full Cards</h4>
-                    <div className="Card Full">
-                        <h4>Card 1</h4>
-                        <p>Card Content</p>
-                    </div>
-                    <div className="Card Full">
-                        <h4>Card 2</h4>
-                        <p>Card Content</p>
-                    </div>
-                    <h3>Card Row</h3>
-                    <div className="CardRow">
-                        <div className="Card">
-                            <h4>Card A</h4>
-                            <p>Card Content</p>
+                    <h3>Two Columns</h3>
+                    <div className="Columns">
+                        <div className="Column Half">
+                            <h4>Column 1</h4>
+                            <p>Column Content</p>
                         </div>
-                        <div className="Card">
-                            <h4>Card B</h4>
-                            <p>Card Content</p>
+                        <div className="Column Half">
+                            <h4>Column 2</h4>
+                            <p>Column Content</p>
                         </div>
-                        <div className="Card">
-                            <h4>Card C</h4>
-                            <p>Card Content</p>
+                    </div>
+                    <h3>Three Columns</h3>
+                    <div className="Columns">
+                        <div className="Column Third">
+                            <h4>Col 1</h4>
+                            <p>Column Content</p>
+                        </div>
+                        <div className="Column Third">
+                            <h4>Col 2</h4>
+                            <p>Column Content</p>
+                        </div>
+                        <div className="Column Third">
+                            <h4>Col 3</h4>
+                            <p>Column Content</p>
+                        </div>
+                    </div>
+
+                    <h3>Columns with Elements</h3>
+                    <div className="Columns">
+                        <div className="Column Half">
+                            <h4>Column 1</h4>
+                            <h5>List</h5>
+                            <ul>
+                                <li>List Item 1</li>
+                                <li>List Item 2</li>
+                                <li>List Item 3</li>
+                                <li>
+                                    List item with a lot of content that should wrap over to the
+                                    next line.
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="Column Half">
+                            <h4>Column 2</h4>
+                            <div className="Card Full">
+                                <h5>Card</h5>
+                                <p>Card Content</p>
+                            </div>
                         </div>
                     </div>
                 </section>

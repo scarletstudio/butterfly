@@ -2,16 +2,13 @@
 
 .Layout {
     box-sizing: border-box;
+    --text-size: 20px;
+    font-size: var(--text-size);
 }
 
 .Page {
     padding: 1.5em;
     box-sizing: border-box;
-}
-
-.Content {
-    --text-size: 20px;
-    font-size: var(--text-size);
 }
 
 .Header {
@@ -46,7 +43,8 @@
     box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.1);
     margin: 0.5em;
     padding: 1em;
-    border-radius: 3px;
+    border-radius: 0.25em;
+    text-align: left;
 }
 
 .Card.Full {
@@ -59,6 +57,36 @@
 }
 
 .Card :last-child {
+    margin-bottom: 0.25em;
+}
+
+/* Columns */
+
+.Columns {
+    display: block;
+    margin: 0 -1em;
+}
+
+.Column {
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 1em;
+}
+
+.Half {
+    width: 50%;
+}
+
+.Third {
+    width: 33.3%;
+}
+
+.Column :first-child {
+    margin-top: 0.25em;
+}
+
+.Column :last-child {
     margin-bottom: 0.25em;
 }
 

@@ -16,23 +16,23 @@ h6 {
 }
 
 h1 {
-    font-size: 1.6em;
+    font-size: 1.85em;
 }
 
 h2 {
-    font-size: 1.5em;
+    font-size: 1.7em;
 }
 
 h3 {
-    font-size: 1.4em;
+    font-size: 1.55em;
 }
 
 h4 {
-    font-size: 1.3em;
+    font-size: 1.4em;
 }
 
 h5 {
-    font-size: 1.2em;
+    font-size: 1.25em;
 }
 
 h6 {
@@ -126,11 +126,9 @@ ol {
 /* Errors */
 
 .Error {
-    border-radius: 0.25em;
-    padding: 1em;
-    text-align: left;
     border-width: 1px;
     border-style: solid;
+    box-shadow: none;
 }
 
 .Error :first-child {
