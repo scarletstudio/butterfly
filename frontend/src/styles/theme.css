@@ -123,6 +123,10 @@ hr {
     color: var(--all-chats-page-text-color);
 }
 
+.AllChatsPage .MatchTile .Button:hover {
+    background: var(--color-light);
+}
+
 /* Chat */
 
 .ChatPage {
