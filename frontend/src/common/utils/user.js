@@ -12,10 +12,14 @@ export function getUserData(userId) {
     const userRef = ref(db, userPath)
     return new Promise((resolve) => {
         onValue(userRef, (snap) => {
-            resolve({
-                uid: snap.key,
-                ...snap.val(),
-            })
+            // To check for unknown users and not add them
+            const userData = snap.val()
+            resolve(
+                userData && {
+                    uid: snap.key,
+                    ...userData,
+                }
+            )
         })
     })
 }
