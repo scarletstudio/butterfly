@@ -114,19 +114,6 @@ hr {
     color: var(--all-chats-page-text-color);
 }
 
-.MatchTile {
-    background: var(--color-contrast);
-}
-
-.AllChatsPage .MatchTile .Button {
-    border-color: var(--all-chats-page-text-color);
-    color: var(--all-chats-page-text-color);
-}
-
-.AllChatsPage .MatchTile .Button:hover {
-    background: var(--color-light);
-}
-
 /* Chat */
 
 .ChatPage {
