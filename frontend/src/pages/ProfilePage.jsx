@@ -17,15 +17,13 @@ export default function ProfilePage() {
     }
     const { photoURL, displayName } = userProfile
     return (
-        userProfile && (
-            <div>
-                <div className="ProfileImage">
-                    <img src={photoURL} alt="Profile" className="Image" />
-                </div>
-                <div className="DisplayName">
-                    <span>{displayName}</span>
-                </div>
+        <div>
+            <div className="ProfileImage">
+                <img src={photoURL} alt="Profile" className="Image" />
             </div>
-        )
+            <div className="DisplayName">
+                <span>{displayName}</span>
+            </div>
+        </div>
     )
 }
