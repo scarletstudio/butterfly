@@ -1,13 +1,13 @@
-import React, { createRef } from 'react'
+import React, { createRef, createContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser } from '../utils/auth'
 import { useGetChatData, useGetMessages, sendMessage } from '../utils/chat'
 import { MESSAGE_TYPE, UNKNOWN_USER } from '../utils/constants'
-import { formatMatchDate } from '../utils/datetime'
 import { Error } from './Errors'
-import { UserTile } from './User'
+
+export const ChatContext = createContext()
 
 function getAuthorClasses(participants, myUserId) {
     return Object.keys(participants)
@@ -80,19 +80,8 @@ function ChatComposer({ chatId, myUserId }) {
     )
 }
 
-function ChatHeader({ chat }) {
-    const userEls = Object.values(chat?.participants || {}).map((user) => (
-        <UserTile key={user.uid} user={user} />
-    ))
-    const matchDate = formatMatchDate(chat?.release_timestamp)
-    return (
-        <div className="ChatHeader">
-            <h1>Butterfly Chat</h1>
-            <p>Messages will disappear after 30 days.</p>
-            <p>Your match for the week of {matchDate}.</p>
-            <div className="UserRowCentered">{userEls}</div>
-        </div>
-    )
+function ChatHeaderWrapper({ header }) {
+    return <div className="ChatHeader">{header}</div>
 }
 
 function ChatLoading() {
@@ -113,7 +102,7 @@ function getChatDisplayError(chatId, chat, myUserId) {
     return null
 }
 
-export function ChatApp({ chatId }) {
+export function ChatApp({ chatId, header }) {
     const authUser = useCurrentAuthUser()
     const myUserId = authUser?.uid
     const chat = useGetChatData(`${chatId}~${myUserId}`)
@@ -122,11 +111,13 @@ export function ChatApp({ chatId }) {
     const isReady = chat.isLoaded && !displayError
 
     const chatAppEl = (
-        <div className="ChatAppInner HideScroll">
-            <ChatHeader chat={chat} />
-            <ChatMessages chatId={chatId} myUserId={myUserId} chat={chat} />
-            <ChatComposer chatId={chatId} myUserId={myUserId} />
-        </div>
+        <ChatContext.Provider value={chat}>
+            <div className="ChatAppInner HideScroll">
+                <ChatHeaderWrapper header={header} />
+                <ChatMessages chatId={chatId} myUserId={myUserId} chat={chat} />
+                <ChatComposer chatId={chatId} myUserId={myUserId} />
+            </div>
+        </ChatContext.Provider>
     )
 
     return (
