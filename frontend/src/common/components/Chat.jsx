@@ -75,7 +75,12 @@ export function ChatApp({ chatId, header, conversation, composer }) {
         })
     }
 
-    const chatMemo = useMemo(() => ({ chat, messages, myUserId, sendChatMessage }))
+    const chatMemo = useMemo(() => ({
+        chat,
+        messages,
+        myUserId,
+        sendChatMessage,
+    }))
 
     const chatAppEl = (
         <ChatContext.Provider value={chatMemo}>
