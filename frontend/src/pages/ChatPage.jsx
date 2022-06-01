@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React, { createRef, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { ChatApp, ChatContext, Message } from '../common/components/Chat'
 import { UserTile } from '../common/components/User'
@@ -51,6 +51,25 @@ function ChatConversation() {
     return isLoaded ? messageEls : loadingEl
 }
 
+function ChatComposer() {
+    const textRef = createRef()
+    const { sendChatMessage } = useContext(ChatContext)
+
+    const doSend = () => {
+        sendChatMessage(textRef.current.value)
+        textRef.current.value = ''
+    }
+
+    return (
+        <>
+            <textarea ref={textRef} className="Input" />
+            <button type="button" onClick={doSend} className="Button Send">
+                <FontAwesomeIcon icon={faArrowRight} className="IconBefore" />
+            </button>
+        </>
+    )
+}
+
 export default function ChatPage() {
     const { chatId } = useParams()
     const fullChatId = `${COMMUNITY}/${chatId}`
@@ -62,6 +81,7 @@ export default function ChatPage() {
                     chatId={fullChatId}
                     header={<ChatHeader />}
                     conversation={<ChatConversation />}
+                    composer={<ChatComposer />}
                 />
             </div>
         </div>
