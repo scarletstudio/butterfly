@@ -65,6 +65,10 @@ elif [ "$1" == "ui" ]; then
     open "http://localhost:$FRONTEND_PORT"
   fi
 
+elif [ "$1" == "storybook" ]; then
+  cd frontend
+  npm run storybook
+
 elif [ "$1" == "prefect-local-flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
