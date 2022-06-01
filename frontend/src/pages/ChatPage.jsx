@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React, { createRef, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
-import { ChatApp, ChatContext } from '../common/components/Chat'
+import { ChatApp, ChatContext, Message } from '../common/components/Chat'
 import { UserTile } from '../common/components/User'
 import { COMMUNITY } from '../common/utils/constants'
 import { formatMatchDate } from '../common/utils/datetime'
@@ -22,7 +22,7 @@ function BackToChatsButton() {
 }
 
 function ChatHeader() {
-    const chat = useContext(ChatContext)
+    const { chat } = useContext(ChatContext)
     const userEls = Object.values(chat?.participants || {}).map((user) => (
         <UserTile key={user.uid} user={user} />
     ))
@@ -37,6 +37,39 @@ function ChatHeader() {
     )
 }
 
+function ChatConversation() {
+    const { chat, messages, myUserId } = useContext(ChatContext)
+
+    const isLoaded = chat.isLoaded && messages.length > 0
+    const messageEls =
+        isLoaded &&
+        messages.map((m) => (
+            <Message key={m.key} data={m} myUserId={myUserId} participants={chat.participants} />
+        ))
+    const loadingEl = <p>No messages yet... Will you start things off?</p>
+
+    return isLoaded ? messageEls : loadingEl
+}
+
+function ChatComposer() {
+    const textRef = createRef()
+    const { sendChatMessage } = useContext(ChatContext)
+
+    const doSend = () => {
+        sendChatMessage(textRef.current.value)
+        textRef.current.value = ''
+    }
+
+    return (
+        <>
+            <textarea ref={textRef} className="Input" />
+            <button type="button" onClick={doSend} className="Button Send">
+                <FontAwesomeIcon icon={faArrowRight} className="IconBefore" />
+            </button>
+        </>
+    )
+}
+
 export default function ChatPage() {
     const { chatId } = useParams()
     const fullChatId = `${COMMUNITY}/${chatId}`
@@ -44,7 +77,12 @@ export default function ChatPage() {
         <div className="ChatPage">
             <div className="ChatContainer">
                 <BackToChatsButton />
-                <ChatApp chatId={fullChatId} header={<ChatHeader />} />
+                <ChatApp
+                    chatId={fullChatId}
+                    header={<ChatHeader />}
+                    conversation={<ChatConversation />}
+                    composer={<ChatComposer />}
+                />
             </div>
         </div>
     )
