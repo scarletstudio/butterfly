@@ -1,4 +1,4 @@
-import React, { createRef, createContext } from 'react'
+import React, { createRef, createContext, useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
@@ -42,21 +42,6 @@ export function Message({ data, myUserId, participants }) {
     )
 }
 
-function ChatMessages({ chatId, chat, myUserId }) {
-    const messages = useGetMessages(chatId)
-    const isLoaded = chat.isLoaded && messages.length > 0
-
-    const messageEls =
-        isLoaded &&
-        messages.map((m) => (
-            <Message key={m.key} data={m} myUserId={myUserId} participants={chat.participants} />
-        ))
-
-    const loadingEl = <p>No messages yet... Will you start things off?</p>
-
-    return <div className="ChatMessages">{isLoaded ? messageEls : loadingEl}</div>
-}
-
 function ChatComposer({ chatId, myUserId }) {
     const textRef = createRef()
 
@@ -80,10 +65,6 @@ function ChatComposer({ chatId, myUserId }) {
     )
 }
 
-function ChatHeaderWrapper({ header }) {
-    return <div className="ChatHeader">{header}</div>
-}
-
 function ChatLoading() {
     return <p className="Centered">Loading chat...</p>
 }
@@ -102,19 +83,21 @@ function getChatDisplayError(chatId, chat, myUserId) {
     return null
 }
 
-export function ChatApp({ chatId, header }) {
+export function ChatApp({ chatId, header, conversation }) {
     const authUser = useCurrentAuthUser()
     const myUserId = authUser?.uid
     const chat = useGetChatData(`${chatId}~${myUserId}`)
+    const messages = useGetMessages(chatId)
+    const chatMemo = useMemo(() => ({ chat, messages, myUserId }))
 
     const displayError = getChatDisplayError(chatId, chat, myUserId)
     const isReady = chat.isLoaded && !displayError
 
     const chatAppEl = (
-        <ChatContext.Provider value={chat}>
+        <ChatContext.Provider value={chatMemo}>
             <div className="ChatAppInner HideScroll">
-                <ChatHeaderWrapper header={header} />
-                <ChatMessages chatId={chatId} myUserId={myUserId} chat={chat} />
+                <div className="ChatHeader">{header}</div>
+                <div className="ChatMessages">{conversation}</div>
                 <ChatComposer chatId={chatId} myUserId={myUserId} />
             </div>
         </ChatContext.Provider>
