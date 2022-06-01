@@ -2,6 +2,7 @@
     "parser": "@typescript-eslint/parser",
     "extends": [
         "airbnb",
+        "plugin:import/resolver",
         "plugin:prettier/recommended",
         "plugin:react/recommended",
         "plugin:react-hooks/recommended",
