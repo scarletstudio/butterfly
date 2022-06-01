@@ -20,6 +20,11 @@ ports:
     port: 8000
     onOpen: ignore
     visibility: public
+  # Ports used by Storybook
+  - name: Storybook
+    port: 6006
+    onOpen: open-browser
+    visibility: public
   # Ports used by Prefect Server
   - name: Prefect Server UI
     port: 8080
