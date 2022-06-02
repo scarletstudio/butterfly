@@ -37,18 +37,31 @@ function ChatHeader() {
     )
 }
 
-function ChatConversation() {
+function ChatConversation({ chatConversationStarter }) {
     const { chat, messages, myUserId } = useContext(ChatContext)
 
-    const isLoaded = chat.isLoaded && messages.length > 0
+    const converstationStarterEl = <div key="conversation_starter"> {chatConversationStarter} </div>
+    const loadingEl = <p>Loading chat...</p>
+    const defaultConversationStarter = <p>No messages yet, will you start things off?</p>
     const messageEls =
-        isLoaded &&
+        chat.isLoaded &&
         messages.map((m) => (
             <Message key={m.key} data={m} myUserId={myUserId} participants={chat.participants} />
         ))
-    const loadingEl = <p>No messages yet... Will you start things off?</p>
 
-    return isLoaded ? messageEls : loadingEl
+    if (!chat.isLoaded) {
+        return loadingEl
+    }
+
+    if (chatConversationStarter) {
+        return [converstationStarterEl, ...messageEls]
+    }
+
+    if (messages.length > 0) {
+        return messageEls
+    }
+
+    return defaultConversationStarter
 }
 
 function ChatComposer() {
@@ -70,6 +83,13 @@ function ChatComposer() {
     )
 }
 
+// List of possible conversation starters, not a list of children to render
+const conversationStarters = [
+    <p>What is your favorite thing to do on the weekend?</p>, // eslint-disable-line react/jsx-key
+    <p>What is your favorite food?</p>, // eslint-disable-line react/jsx-key
+]
+const shouldShowConversationStarter = true
+
 export default function ChatPage() {
     const { chatId } = useParams()
     const fullChatId = `${COMMUNITY}/${chatId}`
@@ -80,7 +100,13 @@ export default function ChatPage() {
                 <ChatApp
                     chatId={fullChatId}
                     header={<ChatHeader />}
-                    conversation={<ChatConversation />}
+                    conversation={
+                        <ChatConversation
+                            chatConversationStarter={
+                                shouldShowConversationStarter && conversationStarters[1]
+                            }
+                        />
+                    }
                     composer={<ChatComposer />}
                 />
             </div>
