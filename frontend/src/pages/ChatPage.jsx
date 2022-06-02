@@ -88,7 +88,7 @@ const conversationStarters = [
     <p>What is your favorite thing to do on the weekend?</p>, // eslint-disable-line react/jsx-key
     <p>What is your favorite food?</p>, // eslint-disable-line react/jsx-key
 ]
-const shouldShowConversationStarter = true
+const shouldShowConversationStarter = false
 
 export default function ChatPage() {
     const { chatId } = useParams()
