@@ -30,9 +30,13 @@ jobs:
         with:
           python-version: "3.7"
 
-      - name: Install and Test 🧪
+      - name: Install Backend Dependencies
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
           ./run.sh install-backend
+
+      - name: Run Tests 🧪
+        run: |
+          source .venv/bin/activate
           pytest -vvl
