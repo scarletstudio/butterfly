@@ -69,6 +69,18 @@ elif [ "$1" == "storybook" ]; then
   cd frontend
   npm run storybook
 
+elif [ "$1" == "install-backend" ]; then
+  echo "Installing backend and offline dependencies..."
+  # Install Python dependencies within virtual environment
+  source .venv/bin/activate
+  pip3 install -r requirements.txt
+  pip3 install -r requirements-dev.txt
+
+elif [ "$1" == "pytest" ]; then
+  echo "Running: pytest ${@:2}"
+  source .venv/bin/activate
+  pytest "${@:2}"
+
 elif [ "$1" == "prefect-local-flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
@@ -80,6 +92,7 @@ elif [ "$1" == "prefect-local-flow" ]; then
 
 elif [ "$1" == "prefect-dashboard" ]; then
   # Run local Prefect UI to explore and run offline pipelines
+  source .venv/bin/activate
   # Set Prefect backend to local server
   prefect backend server
   # Start Prefect services in the background
