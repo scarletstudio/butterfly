@@ -1,10 +1,9 @@
-from firebase_admin import db
 from unittest.mock import MagicMock
 from pipeline.extract.users import extract_users
 
 
 def test_extract_users_excludes_users_with_null_latest_login():
-    # Mock database call so that test does actually query a database
+    # Mock database call so that test does not actually query a database
     users = {
         "1": {"uid": "1"},
         "2": {"uid": "2", "latestLogin": 100},

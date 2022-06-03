@@ -5,6 +5,7 @@ set -e
 
 FRONTEND_PORT=4000
 BACKEND_PORT=8000
+PREFECT_DASHBOARD_PORT=8080
 
 if [ "$1" == "frontend" ]; then
   echo "Starting frontend app..."
@@ -124,6 +125,13 @@ elif [ "$1" == "prefect-register" ]; then
   source .venv/bin/activate
   prefect create project butterfly
   python3 pipeline/register_all_flows.py
+
+elif [ "$1" == "open-prefect" ]; then
+  if command -v gp &> /dev/null; then
+    gp preview $(gp url "$PREFECT_DASHBOARD_PORT")
+  else
+    open "http://localhost:$PREFECT_DASHBOARD_PORT"
+  fi
 
 else
   echo "No run shortcut found for: $1"

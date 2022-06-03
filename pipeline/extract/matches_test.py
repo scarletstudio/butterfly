@@ -1,11 +1,10 @@
 import pandas as pd
-from firebase_admin import db
 from unittest.mock import MagicMock
 from pipeline.extract.matches import extract_recent_matches
 
 
 def test_extract_recent_matches_converts_user_match_records_to_match_records():
-    # Mock database call so that test does actually query a database
+    # Mock database call so that test does not actually query a database
     default_expected = {"title": None}
     matches = {
         "1~A": {
