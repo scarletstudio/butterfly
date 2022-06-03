@@ -5,7 +5,6 @@ Simple matching engine.
 import datetime
 import random
 from collections import defaultdict
-from dataclasses import dataclass
 from typing import Callable, DefaultDict, List, Optional, Set, Tuple
 from pipeline.schema.user import User, UserId
 from pipeline.schema.match import Match

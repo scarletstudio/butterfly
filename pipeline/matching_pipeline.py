@@ -102,6 +102,7 @@ def delete_previous_release(
                 "You are trying to delete a past round of matches.\n"
                 "Are you sure?\n"
                 "This will also delete any chats from those matches.\n"
+                "Skipped deleting records.\n"
                 "Use the `force` parameter to run this deletion."
             )
         )

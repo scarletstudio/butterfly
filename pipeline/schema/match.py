@@ -1,5 +1,7 @@
 import datetime
+from dataclasses import dataclass
 from pipeline.schema.user import UserId
+from typing import Optional, Set
 
 
 @dataclass

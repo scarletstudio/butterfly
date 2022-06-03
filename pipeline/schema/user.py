@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+
 UserId = str
 
 

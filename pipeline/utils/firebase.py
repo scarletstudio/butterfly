@@ -2,7 +2,8 @@ import json
 import os
 import firebase_admin
 from decouple import Config, RepositoryEnv
-from firebase_admin import credentials
+from firebase_admin import credentials, db
+from prefect import task
 
 
 def initialize_firebase():
