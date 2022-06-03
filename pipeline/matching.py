@@ -5,8 +5,9 @@ Simple matching engine.
 import datetime
 import random
 from collections import defaultdict
-from dataclasses import dataclass
 from typing import Callable, DefaultDict, List, Optional, Set, Tuple
+from pipeline.schema.user import User, UserId
+from pipeline.schema.match import Match
 
 """
 Demo Design
@@ -29,25 +30,6 @@ Notes:
 """
 
 # Dataclasses and Type Hints
-
-UserId = str
-
-
-@dataclass
-class User:
-    uid: str
-    displayName: str
-
-
-@dataclass
-class Match:
-    users: Set[UserId]
-    community: Optional[str] = None
-    release: Optional[datetime.datetime] = None
-    key: Optional[str] = None
-    title: Optional[str] = None
-
-
 RecentMatches = List[Match]
 OutputMatches = List[Match]
 MatchingFunction = Callable[[List[User], RecentMatches], OutputMatches]
