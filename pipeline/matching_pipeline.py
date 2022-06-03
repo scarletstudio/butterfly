@@ -12,8 +12,8 @@ from firebase_admin import credentials, db
 import prefect
 from prefect import Flow, Parameter, task
 from prefect.tasks.secrets import PrefectSecret
-from pipeline.ingestion.users import extract_users
-from pipeline.ingestion.matches import extract_recent_matches
+from pipeline.extract.users import extract_users
+from pipeline.extract.matches import extract_recent_matches
 from pipeline.matching import (
     best_effort_minimize_repeat_matches,
     get_matches,
