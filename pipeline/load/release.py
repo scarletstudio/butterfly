@@ -9,13 +9,17 @@ from pipeline.utils.release import from_release_tag, to_release_tag
 
 @task
 def delete_previous_release(
-    db, community: str, release_tag: str, force: bool = False
+    db,
+    community: str,
+    release_tag: str,
+    now: datetime.datetime,
+    force: bool = False,
 ):
     logger = prefect.context.get("logger")
     release = from_release_tag(release_tag)
     if force:
         logger.info("Proceeding with forced deletion.")
-    elif release < datetime.datetime.now():
+    elif release < now:
         logger.warning(
             (
                 "You are trying to delete a past round of matches.\n"
@@ -61,7 +65,7 @@ def upload_matches(
     db,
     df_matches: pd.DataFrame,
     community: str,
-    release_tag: str,
+    load_release_tag: str,
     force: bool = False,
 ):
     logger = prefect.context.get("logger")
@@ -75,6 +79,11 @@ def upload_matches(
     res = {}
     for m in matches:
         release_tag = to_release_tag(m.release)
+        if release_tag != load_release_tag:
+            logger.warning(
+                f"Skipped loading match for a different release: {release_tag}"
+            )
+            continue
         release_ts = m.release.timestamp() * MS
         participants = {other_uid: True for other_uid in m.users}
         match_id = f"{release_tag}~{m.key}"

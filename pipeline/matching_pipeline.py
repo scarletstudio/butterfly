@@ -11,6 +11,7 @@ import firebase_admin
 from firebase_admin import credentials, db
 import prefect
 from prefect import Flow, Parameter, task
+from prefect.tasks.core.constants import Constant
 from prefect.tasks.secrets import PrefectSecret
 from pipeline.extract.users import extract_users
 from pipeline.extract.matches import extract_recent_matches
@@ -94,6 +95,7 @@ def matching_pipeline() -> Flow:
         param_matching_retries = Parameter(name="matching_retries", default=5)
         param_release = Parameter(name="release", required=True)
         param_force = Parameter(name="force", required=False)
+        const_now = Constant(name="now", value=datetime.datetime.now())
 
         secret_database_url = PrefectSecret("database_url")
         secret_admin_credentials = PrefectSecret("admin_credentials")
@@ -113,7 +115,7 @@ def matching_pipeline() -> Flow:
 
         # Do not attempt deletion until new matches are ready
         deleted = delete_previous_release(
-            db, param_community, param_release, param_force
+            db, param_community, param_release, const_now, param_force
         )
         deleted.set_upstream(df_matches)
 
