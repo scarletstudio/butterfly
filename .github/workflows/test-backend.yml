@@ -1,0 +1,38 @@
+name: Test Backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/test-backend.yml
+      - requirements.txt
+      - requirements-dev.txt
+      - run.sh
+      - "**.py"
+  pull_request:
+    paths:
+      - .github/workflows/test-backend.yml
+      - requirements.txt
+      - requirements-dev.txt
+      - run.sh
+      - "**.py"
+
+jobs:
+  test-pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+
+      - name: Setup Python 3.7 🐍
+        uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.7"
+
+      - name: Install and Test 🧪
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          ./run.sh install-backend
+          pytest -vvl
