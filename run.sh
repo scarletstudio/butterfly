@@ -82,13 +82,15 @@ elif [ "$1" == "pytest" ]; then
   source .venv/bin/activate
   pytest "${@:2}"
 
-elif [ "$1" == "prefect-local-flow" ]; then
+elif [ "$1" == "flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
+  FLOW_NAME="$2"
+  PATH_TO_FLOW="pipeline/flows/$FLOW_NAME.py"
   if command -v gp &> /dev/null; then
-    env $(gp env) python3 "$2"
+    env $(gp env) python3 "$PATH_TO_FLOW"
   else
-    env $(cat .env.prefect | xargs) python3 "$2"
+    env $(cat .env.prefect | xargs) python3 "$PATH_TO_FLOW"
   fi
 
 elif [ "$1" == "prefect-dashboard" ]; then
@@ -101,7 +103,7 @@ elif [ "$1" == "prefect-dashboard" ]; then
   # Create project for flows
   prefect create project butterfly
   # Register latest version of flows
-  python3 pipeline/register_all_flows.py
+  python3 pipeline/scripts/register_all_flows.py
   # Show developer how to connect to local services
   if command -v gp &> /dev/null; then
     echo "Copy this URL into the Prefect Server GraphQL endpoint:"
@@ -124,7 +126,7 @@ elif [ "$1" == "prefect-register" ]; then
   # Register latest version of flows with Prefect Server
   source .venv/bin/activate
   prefect create project butterfly
-  python3 pipeline/register_all_flows.py
+  python3 pipeline/scripts/register_all_flows.py
 
 elif [ "$1" == "open-prefect" ]; then
   if command -v gp &> /dev/null; then

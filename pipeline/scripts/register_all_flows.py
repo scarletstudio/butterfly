@@ -2,10 +2,10 @@ import sys
 
 sys.path.append("./")
 
-from matching_pipeline import matching_pipeline
+from pipeline.flows.matching import matching_flow
 
 PROJECT = "butterfly"
-FLOWS = [matching_pipeline]
+FLOWS = [matching_flow]
 
 
 if __name__ == "__main__":
