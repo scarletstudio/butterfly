@@ -15,5 +15,5 @@ jobs:
         with:
           python-version: "3.8"
       - name: Install frontend dependencies
-        run: ./run.sh install-frontend
+        run: ./run.sh install-frontend-ci
       - uses: pre-commit/action@v2.0.3
