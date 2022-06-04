@@ -3,7 +3,7 @@ import string
 from collections import defaultdict
 from typing import DefaultDict, List, Set
 
-from pipeline.matching.core.types import RecentlyMatchedUsers
+from pipeline.schema.engine import RecentlyMatchedUsers
 from pipeline.schema.match import Match
 from pipeline.schema.user import User, UserId
 

@@ -1,7 +1,7 @@
 from typing import Callable, List
 
-from pipeline.matching.core.types import MatchingFunction
 from pipeline.matching.core.utils import get_recent_match_sets
+from pipeline.schema.engine import MatchingFunction
 from pipeline.schema.match import Match
 from pipeline.schema.user import User
 
