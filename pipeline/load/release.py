@@ -1,4 +1,5 @@
 import datetime
+from typing import Dict
 
 import pandas as pd
 import prefect
@@ -7,6 +8,9 @@ from prefect import task
 from pipeline.matching.core.release import from_release_tag, to_release_tag
 from pipeline.schema.match import Match
 from pipeline.utils.constants import MS
+
+DatabasePath = str
+RecordsToDelete = Dict[DatabasePath, None]
 
 
 @task
@@ -41,14 +45,14 @@ def delete_previous_release(
     logger.info(f"Found {len(match_records)} user-match records to remove.")
 
     # Add chat messages from those matches to the removal set
-    deleted_chats = {}
+    deleted_chats: RecordsToDelete = {}
     for match in match_records.values():
         deleted_chats[match["id"]] = None
 
     # Only remove if records are found, otherwise, we might accidentally
     # delete all match user-records!
     if match_records:
-        deleted_matches = {key: None for key in match_records}
+        deleted_matches: RecordsToDelete = {key: None for key in match_records}
         matches_ref.update(deleted_matches)
         logger.info(f"Removed {len(deleted_matches)} user-match records.")
     else:
@@ -80,13 +84,13 @@ def upload_matches(
     # Build match records for each user
     res = {}
     for m in matches:
-        release_tag = to_release_tag(m.release)
+        release_tag = to_release_tag(m.release)  # type: ignore
         if release_tag != load_release_tag:
             logger.warning(
                 f"Skipped loading match for a different release: {release_tag}"
             )
             continue
-        release_ts = m.release.timestamp() * MS
+        release_ts = m.release.timestamp() * MS  # type: ignore
         participants = {other_uid: True for other_uid in m.users}
         match_id = f"{release_tag}~{m.key}"
         for my_uid in m.users:

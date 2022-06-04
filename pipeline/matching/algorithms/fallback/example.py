@@ -7,6 +7,7 @@ import sys
 sys.path.append("./")
 
 import datetime
+from typing import List
 
 from pipeline.matching.algorithms.fallback import get_fallback_matches
 from pipeline.matching.evaluation.validation import validate_matches
@@ -37,7 +38,7 @@ if __name__ == "__main__":
 
     # Validate past matches
     print("Validate Previous Matches:")
-    past_matches = []
+    past_matches: List[Match] = []
     for current_matches in week_matches:
         total, t2, t3 = validate_matches(current_matches, users, past_matches)
         print(f"\tTotal = {total}, T2: {t2}, T3: {t3}")
