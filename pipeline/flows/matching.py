@@ -16,8 +16,8 @@ from pipeline.matching.algorithms.fallback import compute_fallback_matches
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
-def matching_pipeline() -> Flow:
-    with Flow(name="matching_pipeline") as flow:
+def matching_flow() -> Flow:
+    with Flow(name="matching_flow") as flow:
         param_community = Parameter(name="community", required=True)
         param_matching_retries = Parameter(name="matching_retries", default=5)
         param_release = Parameter(name="release", required=True)
@@ -56,7 +56,7 @@ def matching_pipeline() -> Flow:
 
 
 if __name__ == "__main__":
-    flow = matching_pipeline()
+    flow = matching_flow()
     flow.run(
         parameters={
             "community": "demo",
