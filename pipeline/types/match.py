@@ -1,4 +1,3 @@
-import datetime
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 
@@ -13,7 +12,7 @@ class Match:
     users: Set[UserId]
     metadata: Dict = field(default_factory=dict)
     community: Optional[str] = None
-    release: Optional[datetime.datetime] = None
+    release: Optional[ReleaseTag] = None
     key: Optional[str] = None
     title: Optional[str] = None
 

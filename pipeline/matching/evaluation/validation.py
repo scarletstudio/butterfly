@@ -7,6 +7,10 @@ from pipeline.types import Match, User
 MatchCountsByTier = Tuple[int, int, int]
 
 
+class MatchValidationError(Exception):
+    pass
+
+
 def validate_matches(
     matches: List[Match], users: List[User], recent_matches: List[Match]
 ) -> MatchCountsByTier:
@@ -15,18 +19,22 @@ def validate_matches(
     all_users = {u.uid for u in users}
     no_missing_users = len(all_users - matched_users) == 0
     no_extra_users = len(matched_users - all_users) == 0
-    assert no_missing_users
-    assert no_extra_users
+    if not no_missing_users:
+        raise MatchValidationError("Not all users have been matched.")
+    if not no_extra_users:
+        raise MatchValidationError("Output matches include extra users.")
 
     # Validate that no user is matched more than once
     uid_list = [uid for m in matches for uid in m.users]
     no_multiple_matches = len(uid_list) == len(all_users)
-    assert no_multiple_matches
+    if not no_multiple_matches:
+        raise MatchValidationError("Some users are matched more than once.")
 
     # Validate that matches are the right size
     for m in matches:
         two_or_three_members = len(m.users) in {2, 3}
-        assert two_or_three_members
+        if not two_or_three_members:
+            raise MatchValidationError("Invalid number of users for a match.")
 
     # Summarize tiers
     recent = get_recently_matched_users_by_user(recent_matches)
