@@ -3,6 +3,9 @@ from typing import Iterator, Set
 
 from pipeline.types import Match, MatchGenerator, MatchingInput
 
+GENERATOR_COMMON_LETTERS = "commonLetterGenerator"
+METADATA_FIELD_COMMON_LETTERS = "commonLetters"
+
 
 def get_unique_letters_from_name(name: str) -> Set[str]:
     return set(name.lower())
@@ -22,8 +25,16 @@ def configure_common_letter_generator(min_common: int = 0) -> MatchGenerator:
         for user_a, user_b in combinations(inp.users, r=2):
             letters_a = get_unique_letters_from_name(user_a.displayName)
             letters_b = get_unique_letters_from_name(user_b.displayName)
-            n_common = len(letters_a.intersection(letters_b))
-            if n_common >= min_common:
-                yield Match(users={user_a.uid, user_b.uid})
+            common_letters = letters_a.intersection(letters_b)
+            n_common = len(common_letters)
+            if n_common < min_common:
+                continue
+            metadata = {
+                "generator": GENERATOR_COMMON_LETTERS,
+                GENERATOR_COMMON_LETTERS: {
+                    METADATA_FIELD_COMMON_LETTERS: common_letters
+                },
+            }
+            yield Match(users={user_a.uid, user_b.uid}, metadata=metadata)
 
     return generator
