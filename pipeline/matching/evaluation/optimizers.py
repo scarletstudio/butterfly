@@ -1,6 +1,6 @@
 from typing import Callable, List
 
-from pipeline.matching.utils import get_recent_match_sets
+from pipeline.matching.utils import get_recently_matched_users_by_user
 from pipeline.types import Match, MatchingFunction, User
 
 
@@ -17,7 +17,7 @@ def best_effort_minimize_repeat_matches(
             users: List[User], recent_matches: List[Match]
         ) -> List[Match]:
             # Get recent match sets to check for repeat matches
-            recent = get_recent_match_sets(recent_matches)
+            recent = get_recently_matched_users_by_user(recent_matches)
 
             # Track the best output so far
             fewest_repeat_matches = len(users)

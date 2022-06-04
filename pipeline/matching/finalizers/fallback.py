@@ -2,7 +2,7 @@ import random
 from typing import List
 
 from pipeline.matching.core.constants import N_MEMBERS_FOR_FINAL_MATCH
-from pipeline.matching.utils import get_recent_match_sets
+from pipeline.matching.utils import get_recently_matched_users_by_user
 from pipeline.types import Match, User
 
 
@@ -32,7 +32,7 @@ def get_fallback_matches(
     # Runs in O(N*R) time complexity, see command below for why it is not O(N^2)
     remaining_users = {u.uid for u in users}
     users_shuffled = random.sample([u.uid for u in users], len(users))
-    all_recents = get_recent_match_sets(recent_matches)
+    all_recents = get_recently_matched_users_by_user(recent_matches)
     no_non_recent_matches = set()
     while remaining_users and len(remaining_users) > N_MEMBERS_FOR_FINAL_MATCH:
         my_uid = users_shuffled.pop()

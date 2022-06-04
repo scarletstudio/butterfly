@@ -6,7 +6,7 @@ from typing import DefaultDict, List, Set
 from pipeline.types import Match, RecentlyMatchedUsers, User, UserId
 
 
-def get_recent_match_sets(
+def get_recently_matched_users_by_user(
     recent_matches: List[Match],
 ) -> DefaultDict[UserId, RecentlyMatchedUsers]:
     """
