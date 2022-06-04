@@ -33,16 +33,14 @@ def test_engine_basic():
     )
 
     # Prepare matching engine
-    fixed_generator_1 = MagicMock(return_value=[make_match_between("A", "C")])
-    fixed_generator_2 = MagicMock(return_value=[make_match_between("A", "D")])
-    fixed_scorer = MagicMock(return_value=1.0)
-    fixed_ranker = MagicMock(side_effect=lambda x, y: [m for m in y])
-    fixed_fallback = MagicMock(return_value=[make_match_between("B", "D", "E")])
+    mock_generator_1 = MagicMock(return_value=[make_match_between("A", "C")])
+    mock_generator_2 = MagicMock(return_value=[make_match_between("A", "D")])
+    mock_ranker = MagicMock(side_effect=lambda x, y: [m for m in y])
+    mock_finalizer = MagicMock(return_value=[make_match_between("B", "D", "E")])
     engine = MatchingEngine(
-        generators=[fixed_generator_1, fixed_generator_2],
-        scorer=fixed_scorer,
-        ranker=fixed_ranker,
-        fallback=fixed_fallback,
+        generators=[mock_generator_1, mock_generator_2],
+        ranker=mock_ranker,
+        finalizer=mock_finalizer,
     )
 
     # Run matching engine and verify expected outputs

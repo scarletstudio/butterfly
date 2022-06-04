@@ -1,4 +1,4 @@
-from typing import Callable, Iterator, List, Set, Tuple
+from typing import Callable, Iterator, List, Set
 
 from pipeline.types.match import Match, MatchingInput, MatchingOutput
 from pipeline.types.user import User, UserId
@@ -6,14 +6,8 @@ from pipeline.types.user import User, UserId
 RecentMatch = Match
 RecentlyMatchedUsers = Set[UserId]
 
-MatchingFunction = Callable[[List[User], List[RecentMatch]], List[Match]]
-
-Score = float
-ScoredMatch = Tuple[Match, Score]
+MatchingFunction = Callable[[List[User], List[RecentMatch]], Iterator[Match]]
 
 MatchGenerator = Callable[[MatchingInput], Iterator[Match]]
-MatchScorer = Callable[[MatchingInput, Match], Score]
-MatchRanker = Callable[
-    [MatchingInput, List[ScoredMatch]], Iterator[ScoredMatch]
-]
-MatchFallback = Callable[[List[User], List[RecentMatch]], Iterator[Match]]
+MatchRanker = Callable[[MatchingInput, List[Match]], Iterator[Match]]
+MatchFinalizer = MatchingFunction
