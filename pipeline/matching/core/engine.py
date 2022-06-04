@@ -1,14 +1,16 @@
 from typing import List, Set
 
-from pipeline.schema.engine import (
+from pipeline.types import (
+    Match,
     MatchFallback,
     MatchGenerator,
+    MatchingInput,
+    MatchingOutput,
     MatchRanker,
     MatchScorer,
     ScoredMatch,
+    UserId,
 )
-from pipeline.schema.match import Match, MatchingInput, MatchingOutput
-from pipeline.schema.user import UserId
 
 
 class MatchingEngine:

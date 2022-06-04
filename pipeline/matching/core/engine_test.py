@@ -1,8 +1,7 @@
 from unittest.mock import MagicMock
 
 from pipeline.matching.core.engine import MatchingEngine
-from pipeline.schema.match import Match, MatchingInput, MatchingOutput
-from pipeline.schema.user import User, UserId
+from pipeline.types import Match, MatchingInput, MatchingOutput, User, UserId
 
 
 def make_test_user(uid: UserId) -> User:

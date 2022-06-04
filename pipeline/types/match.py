@@ -2,8 +2,8 @@ import datetime
 from dataclasses import dataclass
 from typing import List, Optional, Set
 
-from pipeline.schema.types import Community, ReleaseTag
-from pipeline.schema.user import User, UserId
+from pipeline.types.release import Community, ReleaseTag
+from pipeline.types.user import User, UserId
 
 
 @dataclass

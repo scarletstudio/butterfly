@@ -3,9 +3,7 @@ import string
 from collections import defaultdict
 from typing import DefaultDict, List, Set
 
-from pipeline.schema.engine import RecentlyMatchedUsers
-from pipeline.schema.match import Match
-from pipeline.schema.user import User, UserId
+from pipeline.types import Match, RecentlyMatchedUsers, User, UserId
 
 
 def get_recent_match_sets(

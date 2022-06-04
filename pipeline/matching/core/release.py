@@ -1,6 +1,6 @@
 import datetime
 
-from pipeline.schema.types import ReleaseDate, ReleaseTag
+from pipeline.types import ReleaseDate, ReleaseTag
 
 YMD_FORMAT = "%Y-%m-%d"
 
