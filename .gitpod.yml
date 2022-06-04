@@ -48,7 +48,7 @@ ports:
     visibility: public
 tasks:
   - name: Frontend
-    init: ./run.sh install-frontend
+    init: ./run.sh install-frontend-ci
     command: |
       source .bash_aliases
       ./run.sh frontend
