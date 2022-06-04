@@ -7,31 +7,33 @@ from pipeline.extract.matches import extract_recent_matches
 
 def test_extract_recent_matches_converts_user_match_records_to_match_records():
     # Mock database call so that test does not actually query a database
-    default_expected = {"title": None}
+    default_record = {"title": None}
     matches = {
         "1~A": {
-            **default_expected,
+            **default_record,
             "id": "1",
             "participants": ["A", "B"],
             "release_tag": "2022-04-01",
         },
         "1~B": {
-            **default_expected,
+            **default_record,
             "id": "1",
             "participants": ["B", "A"],
             "release_tag": "2022-04-01",
         },
         "2~C": {
-            **default_expected,
+            **default_record,
             "id": "2",
             "participants": ["C", "D"],
             "release_tag": "2022-04-07",
+            "metadata": {"score": 1.25},
         },
         "2~D": {
-            **default_expected,
+            **default_record,
             "id": "2",
             "participants": ["D", "C"],
             "release_tag": "2022-04-07",
+            "metadata": {"score": 1.25},
         },
     }
     mock_get_matches = MagicMock(return_value=matches)
@@ -46,7 +48,7 @@ def test_extract_recent_matches_converts_user_match_records_to_match_records():
     mock_get_matches.assert_called_once_with()
 
     # Verify that only one record per match is returned
-    default_expected = {"title": None, "community": "test"}
+    default_expected = {"title": None, "community": "test", "metadata": {}}
     expected = [
         {
             **default_expected,
@@ -59,6 +61,7 @@ def test_extract_recent_matches_converts_user_match_records_to_match_records():
             "key": "2",
             "users": {"C", "D"},
             "release": pd.Timestamp(2022, 4, 7),
+            "metadata": {"score": 1.25},
         },
     ]
     assert actual == expected

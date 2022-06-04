@@ -1,14 +1,17 @@
 import datetime
-from dataclasses import dataclass
-from typing import List, Optional, Set
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Set
 
 from pipeline.types.release import Community, ReleaseTag
 from pipeline.types.user import User, UserId
+
+MatchMetadata = Dict
 
 
 @dataclass
 class Match:
     users: Set[UserId]
+    metadata: Dict = field(default_factory=dict)
     community: Optional[str] = None
     release: Optional[datetime.datetime] = None
     key: Optional[str] = None

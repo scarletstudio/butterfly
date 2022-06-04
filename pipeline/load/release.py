@@ -103,6 +103,7 @@ def upload_matches(
                 "release_timestamp": release_ts,
                 "title": m.title,
                 "id": match_id,
+                "metadata": m.metadata,
             }
             res[path] = record
     logger.info(f"Generated {len(res)} user-match records.")
