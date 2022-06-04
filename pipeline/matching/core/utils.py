@@ -1,18 +1,27 @@
-import datetime
 import random
 import string
-from typing import List
+from collections import defaultdict
+from typing import DefaultDict, List
+
+from pipeline.matching.core.types import RecentlyMatchedUsers
+from pipeline.schema.match import Match
+from pipeline.schema.user import User, UserId
 
 
-YMD_FORMAT = "%Y-%m-%d"
-
-
-def from_release_tag(s: str) -> datetime.datetime:
-    return datetime.datetime.strptime(s, YMD_FORMAT)
-
-
-def to_release_tag(release: datetime.datetime) -> str:
-    return release.strftime(YMD_FORMAT)
+def get_recent_match_sets(
+    recent_matches: List[Match],
+) -> DefaultDict[UserId, RecentlyMatchedUsers]:
+    """
+    For each user ID, returns the set of other user IDs who were recently
+    matched to that user.
+    """
+    res = defaultdict(set)
+    for m in recent_matches:
+        for uid in m.users:
+            res[uid].update(m.users)
+    for uid in res:
+        res[uid].remove(uid)
+    return res
 
 
 def generate_keys(n: int, k: int = 8) -> List[str]:

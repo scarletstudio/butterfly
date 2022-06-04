@@ -1,10 +1,12 @@
 import datetime
+
 import pandas as pd
 import prefect
 from prefect import task
+
+from pipeline.matching.core.release import from_release_tag, to_release_tag
 from pipeline.schema.match import Match
 from pipeline.utils.constants import MS
-from pipeline.utils.release import from_release_tag, to_release_tag
 
 
 @task
