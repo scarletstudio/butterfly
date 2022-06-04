@@ -3,6 +3,8 @@ import string
 from pipeline.matching.utils import (
     generate_keys,
     get_recently_matched_users_by_user,
+    get_user_group,
+    get_user_groups_from_matches,
 )
 from pipeline.types import Match
 
@@ -22,6 +24,22 @@ def test_get_recently_matched_users_by_user():
         "D": {"A", "C"},
     }
     assert dict(actual) == expected
+
+
+def test_get_user_group():
+    assert get_user_group(Match(users={"C", "A", "B"})) == ("A", "B", "C")
+
+
+def test_get_user_groups_from_matches():
+    matches = [
+        Match(users={"A", "B"}),
+        Match(users={"A", "C"}),
+        Match(users={"B", "A"}),
+        Match(users={"B", "A", "C"}),
+    ]
+    actual = get_user_groups_from_matches(matches)
+    expected = {("A", "B"), ("A", "C"), ("A", "B", "C")}
+    assert actual == expected
 
 
 def test_generate_keys():
