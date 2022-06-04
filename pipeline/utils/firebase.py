@@ -1,5 +1,6 @@
 import json
 import os
+
 import firebase_admin
 from decouple import Config, RepositoryEnv
 from firebase_admin import credentials, db

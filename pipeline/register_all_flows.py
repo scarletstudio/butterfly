@@ -4,7 +4,6 @@ sys.path.append("./")
 
 from matching_pipeline import matching_pipeline
 
-
 PROJECT = "butterfly"
 FLOWS = [matching_pipeline]
 

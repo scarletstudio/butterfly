@@ -1,8 +1,9 @@
 import datetime
-import pandas as pd
 from unittest.mock import MagicMock
-from pipeline.load.release import delete_previous_release, upload_matches
 
+import pandas as pd
+
+from pipeline.load.release import delete_previous_release, upload_matches
 
 MS = 1000
 TS_2022_04_01 = datetime.datetime(2022, 4, 1).timestamp() * MS
