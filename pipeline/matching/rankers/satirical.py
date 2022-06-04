@@ -18,5 +18,9 @@ def get_common_letters(match: Match):
 def common_letter_ranker(
     inp: MatchingInput, proposed: List[Match]
 ) -> Iterator[Match]:
-    """Ranks matches by giving priority to matches from the common letter generator with the most number of unique letters in common, all other generated matches are given lower priority."""
+    """
+    Ranks matches by giving priority to matches from the common letter
+    generator with the most number of unique letters in common, all other
+    generated matches are given lower priority.
+    """
     yield from sorted(proposed, key=get_common_letters, reverse=True)
