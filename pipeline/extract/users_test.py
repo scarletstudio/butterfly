@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock
+
 from pipeline.extract.users import extract_users
 
 

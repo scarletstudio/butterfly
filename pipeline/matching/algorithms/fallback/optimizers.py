@@ -23,7 +23,7 @@ def best_effort_minimize_repeat_matches(
 
             # Track the best output so far
             fewest_repeat_matches = len(users)
-            best_output = None
+            best_output: List[Match] = []
 
             for i in range(1, n_retries + 1):
                 # Run matching function

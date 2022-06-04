@@ -1,7 +1,7 @@
 import random
 import string
 from collections import defaultdict
-from typing import DefaultDict, List
+from typing import DefaultDict, List, Set
 
 from pipeline.matching.core.types import RecentlyMatchedUsers
 from pipeline.schema.match import Match
@@ -35,7 +35,7 @@ def generate_keys(n: int, k: int = 8) -> List[str]:
       List of keys, unique within this batch.
     """
     # Start by maintaining a set to avoid duplicates
-    output = set()
+    output: Set[str] = set()
     # Key can be composed of uppercase or lowercase letters or numbers
     chars = string.ascii_letters + string.digits
     for _ in range(n):
