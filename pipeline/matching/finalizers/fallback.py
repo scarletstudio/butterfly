@@ -14,6 +14,8 @@ def get_fallback_matches(
     were not recently matched. Falls back to any other remaining user. May
     return at most one group of three users.
 
+    The fallback algorithm is designed to be a final step in the matching engine, to ensure that every user gets a match.
+
     Performance:
     - N is the number of users
     - R is the number of recent matches per user, 0 <= R <= N
