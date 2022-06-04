@@ -4,24 +4,15 @@ sys.path.append("./")
 
 import datetime
 
-import firebase_admin
-import pandas as pd
 import prefect
-from firebase_admin import credentials, db
-from prefect import Flow, Parameter, task
+from prefect import Flow, Parameter
 from prefect.tasks.core.constants import Constant
 from prefect.tasks.secrets import PrefectSecret
 
 from pipeline.extract.matches import extract_recent_matches
 from pipeline.extract.users import extract_users
 from pipeline.load.release import delete_previous_release, upload_matches
-from pipeline.matching.algorithms.fallback import (
-    compute_fallback_matches,
-    get_fallback_matches,
-)
-from pipeline.matching.core.release import from_release_tag, to_release_tag
-from pipeline.schema.match import Match
-from pipeline.schema.user import User
+from pipeline.matching.algorithms.fallback import compute_fallback_matches
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
