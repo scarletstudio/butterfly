@@ -50,6 +50,12 @@ elif [ "$1" == "install-frontend" ]; then
   cd frontend
   npm install
 
+elif [ "$1" == "install-frontend-ci" ]; then
+  echo "Installing frontend dependencies for continuous integration runner..."
+  # Install using package-lock.json instead of rebuilding dependency tree
+  cd frontend
+  npm ci
+
 elif [ "$1" == "lint-frontend" ]; then
   cd frontend
   npm run lint "${@:2}"

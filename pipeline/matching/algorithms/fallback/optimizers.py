@@ -26,7 +26,7 @@ def best_effort_minimize_repeat_matches(
             for i in range(1, n_retries + 1):
                 # Run matching function
                 log(f"Running attempt {i}...")
-                matches = do_matching(users, recent_matches)
+                matches = list(do_matching(users, recent_matches))
 
                 # Count repeat matches
                 n_repeat_matches = 0
