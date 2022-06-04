@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from pipeline.matching.core.utils import get_recent_match_sets
+from pipeline.matching.utils import get_recently_matched_users_by_user
 from pipeline.types import Match, User
 
 # Tuple of counts: (total, tier 2 matches, tier 3 matches)
@@ -29,7 +29,7 @@ def validate_matches(
         assert two_or_three_members
 
     # Summarize tiers
-    recent = get_recent_match_sets(recent_matches)
+    recent = get_recently_matched_users_by_user(recent_matches)
     n_tier = {2: 0, 3: 0}
     for m in matches:
         is_tier_three = False

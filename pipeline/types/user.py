@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+from typing import Tuple
 
 UserId = str
+UserGroup = Tuple[UserId, ...]
 
 
 @dataclass

@@ -2,8 +2,8 @@ import pandas as pd
 import prefect
 from prefect import task
 
-from pipeline.matching.core.release import from_release_tag
 from pipeline.types import Match
+from pipeline.utils.release import from_release_tag
 
 
 @task

@@ -3,10 +3,10 @@ import string
 from collections import defaultdict
 from typing import DefaultDict, List, Set
 
-from pipeline.types import Match, RecentlyMatchedUsers, User, UserId
+from pipeline.types import Match, RecentlyMatchedUsers, User, UserGroup, UserId
 
 
-def get_recent_match_sets(
+def get_recently_matched_users_by_user(
     recent_matches: List[Match],
 ) -> DefaultDict[UserId, RecentlyMatchedUsers]:
     """
@@ -20,6 +20,15 @@ def get_recent_match_sets(
     for uid in res:
         res[uid].remove(uid)
     return res
+
+
+def get_user_group(match: Match) -> UserGroup:
+    return tuple(sorted(match.users))
+
+
+def get_user_groups_from_matches(matches: List[Match]) -> Set[UserGroup]:
+    """Returns a set of tuples for all groups of user IDs in the given matches."""
+    return {get_user_group(m) for m in matches}
 
 
 def generate_keys(n: int, k: int = 8) -> List[str]:
