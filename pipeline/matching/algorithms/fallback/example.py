@@ -11,8 +11,7 @@ from typing import List
 
 from pipeline.matching.algorithms.fallback import get_fallback_matches
 from pipeline.matching.evaluation.validation import validate_matches
-from pipeline.schema.match import Match
-from pipeline.schema.user import User
+from pipeline.types import Match, User
 
 if __name__ == "__main__":
     # Prepare fake inputs

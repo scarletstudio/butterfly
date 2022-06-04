@@ -10,9 +10,7 @@ from pipeline.matching.algorithms.fallback import (
 )
 from pipeline.matching.core.utils import generate_keys
 from pipeline.matching.evaluation.validation import validate_matches
-from pipeline.schema.match import Match
-from pipeline.schema.types import Community, ReleaseTag
-from pipeline.schema.user import User
+from pipeline.types import Community, Match, ReleaseTag, User
 
 
 @task

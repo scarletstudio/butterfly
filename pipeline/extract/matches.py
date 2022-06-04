@@ -3,7 +3,7 @@ import prefect
 from prefect import task
 
 from pipeline.matching.core.release import from_release_tag
-from pipeline.schema.match import Match
+from pipeline.types import Match
 
 
 @task

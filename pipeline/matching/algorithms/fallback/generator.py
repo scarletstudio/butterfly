@@ -3,8 +3,7 @@ from typing import List
 
 from pipeline.matching.core.constants import N_MEMBERS_FOR_FINAL_MATCH
 from pipeline.matching.core.utils import get_recent_match_sets
-from pipeline.schema.match import Match
-from pipeline.schema.user import User
+from pipeline.types import Match, User
 
 
 def get_fallback_matches(

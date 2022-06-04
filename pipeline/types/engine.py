@@ -1,7 +1,7 @@
 from typing import Callable, Iterator, List, Set, Tuple
 
-from pipeline.schema.match import Match, MatchingInput, MatchingOutput
-from pipeline.schema.user import User, UserId
+from pipeline.types.match import Match, MatchingInput, MatchingOutput
+from pipeline.types.user import User, UserId
 
 RecentMatch = Match
 RecentlyMatchedUsers = Set[UserId]
