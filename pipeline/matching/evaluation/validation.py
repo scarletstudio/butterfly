@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from pipeline.matching.core.utils import get_recent_match_sets
+from pipeline.matching.utils import get_recent_match_sets
 from pipeline.types import Match, User
 
 # Tuple of counts: (total, tier 2 matches, tier 3 matches)

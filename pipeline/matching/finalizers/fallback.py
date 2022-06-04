@@ -2,7 +2,7 @@ import random
 from typing import List
 
 from pipeline.matching.core.constants import N_MEMBERS_FOR_FINAL_MATCH
-from pipeline.matching.core.utils import get_recent_match_sets
+from pipeline.matching.utils import get_recent_match_sets
 from pipeline.types import Match, User
 
 

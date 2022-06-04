@@ -4,12 +4,12 @@ import pandas as pd
 import prefect
 from prefect import task
 
-from pipeline.matching.core.utils import generate_keys
 from pipeline.matching.evaluation.optimizers import (
     best_effort_minimize_repeat_matches,
 )
 from pipeline.matching.evaluation.validation import validate_matches
 from pipeline.matching.finalizers.fallback import get_fallback_matches
+from pipeline.matching.utils import generate_keys
 from pipeline.types import Community, Match, ReleaseTag, User
 
 
