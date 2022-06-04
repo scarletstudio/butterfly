@@ -4,26 +4,18 @@ from pipeline.matching.core.engine import MatchingEngine
 from pipeline.types import Match, MatchingInput, MatchingOutput, User, UserId
 
 
-def make_test_user(uid: UserId) -> User:
-    return User(uid=uid, displayName=f"User {uid}")
-
-
-def make_match_between(*uids) -> Match:
-    return Match(users=set(uids))
-
-
 def test_engine_basic():
     # Prepare inputs
     users = [
-        make_test_user("A"),
-        make_test_user("B"),
-        make_test_user("C"),
-        make_test_user("D"),
-        make_test_user("E"),
+        User(uid="A", displayName="User A"),
+        User(uid="B", displayName="User B"),
+        User(uid="C", displayName="User C"),
+        User(uid="D", displayName="User D"),
+        User(uid="E", displayName="User E"),
     ]
     recent_matches = [
-        make_match_between("A", "B"),
-        make_match_between("C", "D", "E"),
+        Match(users={"A", "B"}),
+        Match(users={"C", "D", "E"}),
     ]
     inp = MatchingInput(
         community="test",
@@ -33,10 +25,10 @@ def test_engine_basic():
     )
 
     # Prepare matching engine
-    mock_generator_1 = MagicMock(return_value=[make_match_between("A", "C")])
-    mock_generator_2 = MagicMock(return_value=[make_match_between("A", "D")])
+    mock_generator_1 = MagicMock(return_value=[Match(users={"A", "C"})])
+    mock_generator_2 = MagicMock(return_value=[Match(users={"A", "D"})])
     mock_ranker = MagicMock(side_effect=lambda x, y: [m for m in y])
-    mock_finalizer = MagicMock(return_value=[make_match_between("B", "D", "E")])
+    mock_finalizer = MagicMock(return_value=[Match(users={"B", "D", "E"})])
     engine = MatchingEngine(
         generators=[mock_generator_1, mock_generator_2],
         ranker=mock_ranker,
@@ -46,8 +38,8 @@ def test_engine_basic():
     # Run matching engine and verify expected outputs
     actual = engine.run(inp)
     expected_matches = [
-        make_match_between("A", "C"),
-        make_match_between("B", "D", "E"),
+        Match(users={"A", "C"}),
+        Match(users={"B", "D", "E"}),
     ]
     expected = MatchingOutput(
         community="test",

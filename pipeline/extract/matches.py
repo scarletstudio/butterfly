@@ -27,6 +27,7 @@ def extract_recent_matches(db, community: str) -> pd.DataFrame:
             release=from_release_tag(record["release_tag"]),
             key=match_key,
             title=record["title"],
+            metadata=record.get("metadata", {}),
         )
         recent_match_records.append(match)
     logger.info(f"Converted to {len(recent_match_records)} match records.")

@@ -17,7 +17,7 @@ def test_upload_matches_per_user_for_current_release():
     mock_db = MagicMock()
     mock_db.reference("matches").update = mock_update_matches
 
-    default_match = {"title": None, "community": "test"}
+    default_match = {"title": None, "community": "test", "metadata": {}}
     matches = [
         {
             **default_match,
@@ -30,6 +30,13 @@ def test_upload_matches_per_user_for_current_release():
             "key": "2",
             "release": "2022-04-07",
             "users": {"C", "D"},
+        },
+        {
+            **default_match,
+            "key": "3",
+            "release": "2022-04-01",
+            "users": {"C", "D"},
+            "metadata": {"score": 1.25},
         },
     ]
 
@@ -52,6 +59,7 @@ def test_upload_matches_per_user_for_current_release():
             "release_tag": "2022-04-01",
             "release_timestamp": TS_2022_04_01,
             "title": None,
+            "metadata": {},
         },
         "test/2022-04-01~1~B": {
             "id": "2022-04-01~1",
@@ -60,6 +68,25 @@ def test_upload_matches_per_user_for_current_release():
             "release_tag": "2022-04-01",
             "release_timestamp": TS_2022_04_01,
             "title": None,
+            "metadata": {},
+        },
+        "test/2022-04-01~3~C": {
+            "id": "2022-04-01~3",
+            "for": "C",
+            "participants": {"C": True, "D": True},
+            "release_tag": "2022-04-01",
+            "release_timestamp": TS_2022_04_01,
+            "title": None,
+            "metadata": {"score": 1.25},
+        },
+        "test/2022-04-01~3~D": {
+            "id": "2022-04-01~3",
+            "for": "D",
+            "participants": {"C": True, "D": True},
+            "release_tag": "2022-04-01",
+            "release_timestamp": TS_2022_04_01,
+            "title": None,
+            "metadata": {"score": 1.25},
         },
     }
     # Verify that the expected data was sent to the database
