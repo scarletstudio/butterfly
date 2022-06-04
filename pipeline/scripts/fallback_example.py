@@ -9,8 +9,8 @@ sys.path.append("./")
 import datetime
 from typing import List
 
-from pipeline.matching.algorithms.fallback import get_fallback_matches
 from pipeline.matching.evaluation.validation import validate_matches
+from pipeline.matching.finalizers.fallback import get_fallback_matches
 from pipeline.types import Match, User
 
 if __name__ == "__main__":

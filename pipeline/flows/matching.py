@@ -12,7 +12,7 @@ from prefect.tasks.secrets import PrefectSecret
 from pipeline.extract.matches import extract_recent_matches
 from pipeline.extract.users import extract_users
 from pipeline.load.release import delete_previous_release, upload_matches
-from pipeline.matching.algorithms.fallback import compute_fallback_matches
+from pipeline.matching.finalizers.tasks import compute_fallback_matches
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
