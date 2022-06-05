@@ -29,8 +29,9 @@ def filter_recent_matches(
     logger = prefect.context.get("logger")
     logger.info(f"Read {len(matches)} matches.")
     if any([m.release is None for m in matches]):
-        logger.warning("Match release tag missing.")
-        raise MissingReleaseTagException("Match release tag missing.")
+        msg = "Match release tag missing."
+        logger.warning(msg)
+        raise MissingReleaseTagException(msg)
     is_past_release = lambda m: m.release < release  # ignore: type
     recent = list(filter(is_past_release, matches))
     logger.info(f"Filtered to {len(recent)} recent matches.")

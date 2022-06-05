@@ -32,7 +32,7 @@ class MatchingEngine:
                 users_to_match.difference_update(match.users)
         # Finalize matches for users without a match
         remaining_users = [u for u in inp.users if u.uid in users_to_match]
-        for match in self.finalizer(remaining_users, inp.recent_matches):
+        for match in self.finalizer(inp, remaining_users):
             selected_matches.append(match)
         # Return output
         return MatchingOutput(

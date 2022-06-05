@@ -2,13 +2,14 @@ import random
 from typing import List
 
 from pipeline.matching.core.constants import N_MEMBERS_FOR_FINAL_MATCH
+from pipeline.matching.evaluation.optimizers import (
+    best_effort_minimize_repeat_matches,
+)
 from pipeline.matching.utils import get_recently_matched_users_by_user
-from pipeline.types import Match, User
+from pipeline.types import Match, MatchingInput, User
 
 
-def get_fallback_matches(
-    users: List[User], recent_matches: List[Match]
-) -> List[Match]:
+def fallback_finalizer(inp: MatchingInput, users: List[User]) -> List[Match]:
     """
     Generates random matches, giving preference to matches where the users
     were not recently matched. Falls back to any other remaining user. May
@@ -32,7 +33,7 @@ def get_fallback_matches(
     # Runs in O(N*R) time complexity, see command below for why it is not O(N^2)
     remaining_users = {u.uid for u in users}
     users_shuffled = random.sample([u.uid for u in users], len(users))
-    all_recents = get_recently_matched_users_by_user(recent_matches)
+    all_recents = get_recently_matched_users_by_user(inp.recent_matches)
     no_non_recent_matches = set()
     while remaining_users and len(remaining_users) > N_MEMBERS_FOR_FINAL_MATCH:
         my_uid = users_shuffled.pop()
@@ -79,3 +80,8 @@ def get_fallback_matches(
     final_matches.append(match)
 
     return final_matches
+
+
+def fallback_finalizer_with_retries(n: int) -> List[Match]:
+    with_retries = best_effort_minimize_repeat_matches(n_retries=n)
+    return with_retries(fallback_finalizer)

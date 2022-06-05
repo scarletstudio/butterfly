@@ -6,20 +6,19 @@ import sys
 
 sys.path.append("./")
 
-import datetime
 from typing import List
 
 from pipeline.matching.evaluation.validation import validate_matches
-from pipeline.matching.finalizers.fallback import get_fallback_matches
-from pipeline.types import Match, User
+from pipeline.matching.finalizers.fallback import fallback_finalizer
+from pipeline.types import Match, MatchingInput, User
 
 if __name__ == "__main__":
     # Prepare fake inputs
     users = [User(uid=a, displayName=a) for a in "ABCDEFG"]
     weeks = [
-        datetime.datetime(2022, 3, 6),
-        datetime.datetime(2022, 3, 13),
-        datetime.datetime(2022, 3, 20),
+        "2022-03-06",
+        "2022-03-13",
+        "2022-03-20",
     ]
     week_pairings = [
         "AB,CD,EFG",
@@ -46,7 +45,14 @@ if __name__ == "__main__":
 
     # Run matching and validate output
     print("Validate Next Matches:")
-    matches = get_fallback_matches(users, recent_matches)
+    inp = MatchingInput(
+        community="example",
+        release="2022-03-27",
+        users=users,
+        recent_matches=recent_matches,
+        logger=print,
+    )
+    matches = fallback_finalizer(inp, users)
     for m in matches:
         print(f"\t{m}")
     total, t2, t3 = validate_matches(matches, users, recent_matches)
@@ -57,7 +63,14 @@ if __name__ == "__main__":
     print("Validate Next Matches with New User:")
     new_user = User(uid="H", displayName="H")
     new_users = [*users, new_user]
-    matches = get_fallback_matches(new_users, recent_matches)
+    inp = MatchingInput(
+        community="example",
+        release="2022-03-27",
+        users=new_users,
+        recent_matches=recent_matches,
+        logger=print,
+    )
+    matches = fallback_finalizer(inp, new_users)
     for m in matches:
         print(f"\t{m}")
     total, t2, t3 = validate_matches(matches, new_users, recent_matches)

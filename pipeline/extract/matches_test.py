@@ -1,7 +1,5 @@
 from unittest.mock import MagicMock
 
-import pandas as pd
-
 from pipeline.extract.matches import extract_recent_matches
 
 
@@ -54,13 +52,13 @@ def test_extract_recent_matches_converts_user_match_records_to_match_records():
             **default_expected,
             "key": "1",
             "users": {"A", "B"},
-            "release": pd.Timestamp(2022, 4, 1),
+            "release": "2022-04-01",
         },
         {
             **default_expected,
             "key": "2",
             "users": {"C", "D"},
-            "release": pd.Timestamp(2022, 4, 7),
+            "release": "2022-04-07",
             "metadata": {"score": 1.25},
         },
     ]

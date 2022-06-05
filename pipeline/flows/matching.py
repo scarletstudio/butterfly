@@ -14,36 +14,47 @@ from pipeline.extract.matches import extract_recent_matches
 from pipeline.extract.users import extract_users
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
+from pipeline.matching.core.engine import MatchingEngine
+from pipeline.matching.engines import ENGINES
 from pipeline.matching.evaluation.optimizers import (
     best_effort_minimize_repeat_matches,
 )
-from pipeline.matching.finalizers.fallback import get_fallback_matches
-from pipeline.matching.finalizers.tasks import compute_fallback_matches
+from pipeline.matching.finalizers.fallback import fallback_finalizer
 from pipeline.transform.matches import (
     convert_matches_from_df,
     filter_recent_matches,
     transform_matches_for_load,
 )
 from pipeline.transform.users import convert_users_from_df
-from pipeline.types import Match, User
+from pipeline.types import EngineId, Match, MatchingInput, User
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
 @prefect.task
-def compute_matches(
-    users: List[User], recent_matches: List[Match]
-) -> List[Match]:
+def get_matching_input(**kwargs) -> MatchingInput:
     logger = prefect.context.get("logger")
-    with_retries = best_effort_minimize_repeat_matches(
-        n_retries=10, log=logger.info
-    )
-    get_matches_with_retries = with_retries(get_fallback_matches)
-    return get_matches_with_retries(users, recent_matches)
+    return MatchingInput(**kwargs, logger=logger.info)
+
+
+@prefect.task
+def compute_matches(inp: MatchingInput, engine_id: EngineId) -> List[Match]:
+    logger = prefect.context.get("logger")
+    Engine = ENGINES.get(engine_id, None)
+    if not Engine:
+        msg = f"No engine found for ID: `{engine_id}`"
+        logger.warning(msg)
+        raise ValueError(msg)
+    engine: MatchingEngine = Engine()
+    logger.info(f"Running matching engine: `{engine_id}`")
+    output = engine.run(inp)
+    logger.info(f"Done. Output {len(output.matches)} matches.")
+    return output.matches
 
 
 def matching_flow() -> Flow:
     with Flow(name="matching_flow") as flow:
         # Retrieve pipeline parameters
+        param_engine = Parameter(name="engine", required=True)
         param_community = Parameter(name="community", required=True)
         param_release = Parameter(name="release", required=True)
         param_force = Parameter(name="force", required=False)
@@ -66,7 +77,13 @@ def matching_flow() -> Flow:
         recent_matches = filter_recent_matches(matches, param_release)
 
         # Compute and validate matches
-        output_matches = compute_matches(users, recent_matches)
+        inp = get_matching_input(
+            community=param_community,
+            release=param_release,
+            users=users,
+            recent_matches=recent_matches,
+        )
+        output_matches = compute_matches(inp, param_engine)
         passed = validate_and_log_matches(users, recent_matches, output_matches)
 
         # Do not prepare output matches for loading unless validation passed
@@ -94,6 +111,7 @@ if __name__ == "__main__":
     flow = matching_flow()
     flow.run(
         parameters={
+            "engine": "main",
             "community": "demo",
             "release": "2022-04-17",
         }
