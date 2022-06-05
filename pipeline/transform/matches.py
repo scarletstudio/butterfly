@@ -6,11 +6,17 @@ import prefect
 from prefect import task
 
 from pipeline.matching.utils import generate_keys
-from pipeline.types import Community, Match, ReleaseTag
+from pipeline.types import Community, Match, MatchingInput, ReleaseTag
 
 
 class MissingReleaseTagException(Exception):
     pass
+
+
+@task
+def get_matching_input(**kwargs) -> MatchingInput:
+    logger = prefect.context.get("logger")
+    return MatchingInput(**kwargs, logger=logger)
 
 
 @task

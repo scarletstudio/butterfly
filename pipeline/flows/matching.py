@@ -15,7 +15,7 @@ from pipeline.extract.users import extract_users
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
 from pipeline.matching.core.engine import MatchingEngine
-from pipeline.matching.engines import ENGINES
+from pipeline.matching.engines.config import ENGINES
 from pipeline.matching.finalizers.fallbacks import finalize_fallbacks
 from pipeline.matching.finalizers.optimizers import (
     best_effort_minimize_repeat_matches,
@@ -23,6 +23,7 @@ from pipeline.matching.finalizers.optimizers import (
 from pipeline.transform.matches import (
     convert_matches_from_df,
     filter_recent_matches,
+    get_matching_input,
     transform_matches_for_load,
 )
 from pipeline.transform.users import convert_users_from_df
@@ -31,13 +32,8 @@ from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
 @prefect.task
-def get_matching_input(**kwargs) -> MatchingInput:
-    logger = prefect.context.get("logger")
-    return MatchingInput(**kwargs, logger=logger)
-
-
-@prefect.task
 def compute_matches(inp: MatchingInput, engine_id: EngineId) -> List[Match]:
+    """Get a matching engine by ID, then run it on the given inputs."""
     logger = prefect.context.get("logger")
     Engine = ENGINES.get(engine_id, None)
     if not Engine:
