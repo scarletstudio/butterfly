@@ -10,7 +10,7 @@ from typing import List
 
 from pipeline.matching.evaluation.validation import validate_matches
 from pipeline.matching.finalizers.fallbacks import finalize_fallbacks
-from pipeline.types import Match, MatchingInput, User
+from pipeline.types import DefaultLogger, Match, MatchingInput, User
 
 if __name__ == "__main__":
     # Prepare fake inputs
@@ -45,12 +45,13 @@ if __name__ == "__main__":
 
     # Run matching and validate output
     print("Validate Next Matches:")
+    logger = DefaultLogger()
     inp = MatchingInput(
         community="example",
         release="2022-03-27",
         users=users,
         recent_matches=recent_matches,
-        logger=print,
+        logger=logger,
     )
     matches = finalize_fallbacks(inp, users)
     for m in matches:
@@ -68,7 +69,7 @@ if __name__ == "__main__":
         release="2022-03-27",
         users=new_users,
         recent_matches=recent_matches,
-        logger=print,
+        logger=logger,
     )
     matches = finalize_fallbacks(inp, new_users)
     for m in matches:
