@@ -21,7 +21,7 @@ def best_effort_minimize_repeat_matches(n_retries: int):
 
             for i in range(1, n_retries + 1):
                 # Run matching function
-                inp.logger(f"Running attempt {i}...")
+                inp.logger.info(f"Running attempt {i}...")
                 matches = list(finalizer(inp, users))
 
                 # Count repeat matches
@@ -46,7 +46,7 @@ def best_effort_minimize_repeat_matches(n_retries: int):
 
             # Return best output
             msg = f"Best output has {n_repeat_matches} repeat matches after {i} attempts."
-            inp.logger(msg)
+            inp.logger.info(msg)
             return best_output
 
         return inner

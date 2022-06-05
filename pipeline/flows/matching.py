@@ -33,7 +33,7 @@ from pipeline.utils.firebase import initialize_firebase_for_prefect
 @prefect.task
 def get_matching_input(**kwargs) -> MatchingInput:
     logger = prefect.context.get("logger")
-    return MatchingInput(**kwargs, logger=logger.info)
+    return MatchingInput(**kwargs, logger=logger)
 
 
 @prefect.task

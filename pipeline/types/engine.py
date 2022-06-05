@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Callable, Iterator, List, Set
 
+from pipeline.types.logging import DefaultLogger, EngineLogger
 from pipeline.types.match import Match
 from pipeline.types.release import Community, ReleaseTag
 from pipeline.types.user import User, UserId
@@ -17,7 +18,7 @@ class MatchingInput:
     release: ReleaseTag
     users: List[User]
     recent_matches: List[Match]
-    logger: Callable = print
+    logger: EngineLogger = DefaultLogger()
 
 
 MatchGenerator = Callable[[MatchingInput], Iterator[Match]]
