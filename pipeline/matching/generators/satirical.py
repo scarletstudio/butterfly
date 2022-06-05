@@ -8,7 +8,7 @@ METADATA_FIELD_COMMON_LETTERS = "commonLetters"
 
 
 def get_unique_letters_from_name(name: str) -> Set[str]:
-    return set(name.lower())
+    return set(name.lower().replace(" ", ""))
 
 
 def configure_generate_common_letters(min_common: int = 0) -> MatchGenerator:
@@ -32,7 +32,7 @@ def configure_generate_common_letters(min_common: int = 0) -> MatchGenerator:
             metadata = {
                 "generator": GENERATOR_COMMON_LETTERS,
                 GENERATOR_COMMON_LETTERS: {
-                    METADATA_FIELD_COMMON_LETTERS: common_letters
+                    METADATA_FIELD_COMMON_LETTERS: list(sorted(common_letters))
                 },
             }
             yield Match(users={user_a.uid, user_b.uid}, metadata=metadata)

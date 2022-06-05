@@ -9,13 +9,13 @@ def test_rank_common_letters():
     )
     proposed = [
         Match(users={"A", "B"}),
-        Match(users={"C", "D"}, metadata=make_letter_metadata({"c", "a", "r"})),
-        Match(users={"E", "F"}, metadata=make_letter_metadata({"j", "i"})),
+        Match(users={"C", "D"}, metadata=make_letter_metadata(["c", "a", "r"])),
+        Match(users={"E", "F"}, metadata=make_letter_metadata(["j", "i"])),
     ]
     actual = list(rank_common_letters(inp, proposed))
     expected = [
-        Match(users={"C", "D"}, metadata=make_letter_metadata({"c", "a", "r"})),
-        Match(users={"E", "F"}, metadata=make_letter_metadata({"j", "i"})),
+        Match(users={"C", "D"}, metadata=make_letter_metadata(["c", "a", "r"])),
+        Match(users={"E", "F"}, metadata=make_letter_metadata(["j", "i"])),
         Match(users={"A", "B"}),
     ]
     assert actual == expected

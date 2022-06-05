@@ -96,7 +96,7 @@ def matching_flow() -> Flow:
 
         # Do not attempt upload until previous release deletion resolved
         uploaded = upload_matches(
-            db, df_matches, param_community, param_release, param_force
+            db, df_output_matches, param_community, param_release, param_force
         )
         uploaded.set_upstream(deleted)
 
