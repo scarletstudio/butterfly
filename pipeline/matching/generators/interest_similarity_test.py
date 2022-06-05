@@ -19,9 +19,9 @@ def make_metadata(score: float, codes: List[InterestCode]) -> Dict:
 # TODO: Remove @pytest.mark.skip() to run your test
 @pytest.mark.skip()
 def test_example():
-    hiking = (Interest(code="hiking", name="Hiking"),)
-    swimming = (Interest(code="swimming", name="Swimming"),)
-    reading = (Interest(code="reading", name="Reading"),)
+    hiking = Interest(code="hiking", name="Hiking")
+    swimming = Interest(code="swimming", name="Swimming")
+    reading = Interest(code="reading", name="Reading")
 
     inp = MatchingInput(
         community="test",
@@ -40,7 +40,7 @@ def test_example():
     expected = [
         Match(
             users={"1", "2"},
-            metadata=make_metadata(score=1 / 3, codes=["swimming"]),
+            metadata=make_metadata(score=(1 / 3), codes=["swimming"]),
         ),
     ]
     assert actual == expected
