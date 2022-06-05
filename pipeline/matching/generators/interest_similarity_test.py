@@ -16,8 +16,8 @@ def make_metadata(score: float, codes: List[InterestCode]) -> Dict:
     }
 
 
-# TODO: Remove @pytest.skip() to run your test
-@pytest.skip()
+# TODO: Remove @pytest.mark.skip() to run your test
+@pytest.mark.skip()
 def test_example():
     hiking = (Interest(code="hiking", name="Hiking"),)
     swimming = (Interest(code="swimming", name="Swimming"),)
