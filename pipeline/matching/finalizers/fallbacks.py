@@ -78,7 +78,6 @@ def finalize_fallbacks(inp: MatchingInput, users: List[User]) -> List[Match]:
     # Match the remaining two or three members together
     match = Match(users=remaining_users)
     final_matches.append(match)
-
     return final_matches
 
 

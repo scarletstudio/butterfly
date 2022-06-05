@@ -22,7 +22,7 @@ class MatchingInput:
 
 
 MatchGenerator = Callable[[MatchingInput], Iterator[Match]]
-MatchRanker = Callable[[MatchingInput, List[Match]], Iterator[Match]]
+MatchRanker = Callable[[MatchingInput, Iterator[Match]], Iterator[Match]]
 MatchFinalizer = Callable[[MatchingInput, List[User]], Iterator[Match]]
 
 

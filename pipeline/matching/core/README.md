@@ -39,10 +39,11 @@ use that ranker in your engine.
 ## Algorithm
 
 1. Run each generator to propose matches
-2. Rank all proposed matches
-3. Assign proposed matches in priority order until there are none left
+2. Run the ranker to order all proposed matches in priority order
+3. Assign proposed matches in priority order
    - Only assign matches for users who do not yet have a match
-4. Finalize matches for all remaining users
+   - Continue until all users are matched or there are no proposed matches left
+4. If there are still users remaining, run the finalizer to assign them matches
 
 ## Development Notes
 
