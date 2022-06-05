@@ -5,7 +5,7 @@ from pipeline.types import Match, MatchingInput, MatchRanker
 
 
 def configure_rank_recent_repeats(include_repeats=True) -> MatchRanker:
-    def rank(inp: MatchingInput, proposed: List[Match]) -> Iterator[Match]:
+    def rank(inp: MatchingInput, proposed: Iterator[Match]) -> Iterator[Match]:
         """
         Returns proposed matches with matches that do not repeat recent user groupings ranked first.
         Can be configured to either exclude recent repeats or include them but ranked at the end (default).
