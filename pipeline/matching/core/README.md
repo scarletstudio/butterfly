@@ -24,13 +24,27 @@ Three tiers of matches, in descending order of preference:
 - Tier 2: Match to a member who was not a recent match
 - Tier 3: Match to another member in the community
 
+## Components
+
+A matching engine is composed of these components:
+
+- Generators: Propose new matches
+- Rankers: Order matches by priority
+- Finalizers: Ensure that all users get a match
+
+Technically, an engine only supports one ranker and one finalizer. If you want
+to use multiple rankers, you can write a single ranker that calls the others and
+use that ranker in your engine.
+
 ## Algorithm
 
-Three passes through the matching system:
+1. Run each generator to propose matches
+2. Rank all proposed matches
+3. Assign proposed matches in priority order until there are none left
+   - Only assign matches for users who do not yet have a match
+4. Finalize matches for all remaining users
 
-1. Generate, rank, and select Tier 1 matches
-2. Select Tier 2 matches for remaining members
-3. Select Tier 3 matches for remaining members
+## Development Notes
 
-Passes 2 and 3 could be combined by considering any match, but giving
-preference to matches that have not been matched recently.
+- Matching engines follow the same interface, allowing developers to create many
+- Matching engines can run in a regular Python environment, for simple execution
