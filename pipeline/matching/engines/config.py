@@ -1,4 +1,4 @@
 from pipeline.matching.engines.main import MainMatchingEngine
-from pipeline.matching.engines.satirical import SatiricalMatchingEngine
+from pipeline.matching.engines.silly import SillyMatchingEngine
 
-ENGINES = {"main": MainMatchingEngine, "satirical": SatiricalMatchingEngine}
+ENGINES = {"main": MainMatchingEngine, "silly": SillyMatchingEngine}

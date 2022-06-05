@@ -1,5 +1,5 @@
-from pipeline.matching.generators.satirical_test import make_letter_metadata
-from pipeline.matching.rankers.satirical import rank_common_letters
+from pipeline.matching.generators.silly_test import make_letter_metadata
+from pipeline.matching.rankers.silly import rank_common_letters
 from pipeline.types import Match, MatchingInput
 
 

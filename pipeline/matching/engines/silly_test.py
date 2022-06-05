@@ -1,5 +1,5 @@
-from pipeline.matching.engines.satirical import SatiricalMatchingEngine
-from pipeline.matching.generators.satirical_test import make_letter_metadata
+from pipeline.matching.engines.silly import SillyMatchingEngine
+from pipeline.matching.generators.silly_test import make_letter_metadata
 from pipeline.types import Match, MatchingInput, MatchingOutput, User, UserId
 
 
@@ -20,7 +20,7 @@ def test_engine_basic():
     )
 
     # Run matching engine
-    engine = SatiricalMatchingEngine()
+    engine = SillyMatchingEngine()
     actual = engine.run(inp)
     print(actual.matches)
 

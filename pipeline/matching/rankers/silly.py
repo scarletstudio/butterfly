@@ -1,6 +1,6 @@
 from typing import Iterator
 
-from pipeline.matching.generators.satirical import (
+from pipeline.matching.generators.silly import (
     GENERATOR_COMMON_LETTERS,
     METADATA_FIELD_COMMON_LETTERS,
 )
