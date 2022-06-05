@@ -119,3 +119,4 @@ def upload_matches(
         return
     matches_ref = db.reference("matches")
     matches_ref.update(res)
+    logger.info(f"Wrote {len(res)} user-match records to Firebase.")

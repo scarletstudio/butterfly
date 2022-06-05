@@ -1,8 +1,6 @@
 from typing import Dict, List
 
-from pipeline.matching.generators.satirical import (
-    configure_generate_common_letters,
-)
+from pipeline.matching.generators.silly import configure_generate_common_letters
 from pipeline.types import Match, MatchingInput, User
 
 
