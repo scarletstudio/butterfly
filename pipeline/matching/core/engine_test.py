@@ -21,7 +21,7 @@ def test_engine_basic():
         community="test",
         release="2022-04-01",
         users=users,
-        recent_matches=[],
+        recent_matches=recent_matches,
     )
 
     # Prepare matching engine

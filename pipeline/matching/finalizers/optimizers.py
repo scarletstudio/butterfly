@@ -1,23 +1,19 @@
-from typing import Callable, List
+from typing import List
 
 from pipeline.matching.utils import get_recently_matched_users_by_user
-from pipeline.types import Match, MatchingFunction, User
+from pipeline.types import Match, MatchFinalizer, MatchingInput, User
 
 
-def best_effort_minimize_repeat_matches(
-    n_retries: int = 5, log: Callable = print
-):
+def best_effort_minimize_repeat_matches(n_retries: int):
     """
-    Re-runs a matching function up to n times and returns the output with
+    Re-runs a matching finalizer up to n times and returns the output with
     the fewest tier 3 matches. Otherwise, returns the last output.
     """
 
-    def decorate_matching_function(do_matching: MatchingFunction):
-        def inner(
-            users: List[User], recent_matches: List[Match]
-        ) -> List[Match]:
+    def decorate_matching_function(finalizer: MatchFinalizer):
+        def inner(inp: MatchingInput, users: List[User]) -> List[Match]:
             # Get recent match sets to check for repeat matches
-            recent = get_recently_matched_users_by_user(recent_matches)
+            recent = get_recently_matched_users_by_user(inp.recent_matches)
 
             # Track the best output so far
             fewest_repeat_matches = len(users)
@@ -25,8 +21,8 @@ def best_effort_minimize_repeat_matches(
 
             for i in range(1, n_retries + 1):
                 # Run matching function
-                log(f"Running attempt {i}...")
-                matches = list(do_matching(users, recent_matches))
+                inp.logger.info(f"Running attempt {i}...")
+                matches = list(finalizer(inp, users))
 
                 # Count repeat matches
                 n_repeat_matches = 0
@@ -49,12 +45,8 @@ def best_effort_minimize_repeat_matches(
                     best_output = matches
 
             # Return best output
-            log(
-                (
-                    f"Best output has {n_repeat_matches} repeat matches "
-                    f"after {i} attempts."
-                )
-            )
+            msg = f"Best output has {n_repeat_matches} repeat matches after {i} attempts."
+            inp.logger.info(msg)
             return best_output
 
         return inner

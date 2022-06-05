@@ -3,7 +3,7 @@ from typing import Iterator, Set
 
 from pipeline.types import Match, MatchGenerator, MatchingInput
 
-GENERATOR_COMMON_LETTERS = "commonLetterGenerator"
+GENERATOR_COMMON_LETTERS = "generateCommonLetters"
 METADATA_FIELD_COMMON_LETTERS = "commonLetters"
 
 
@@ -11,8 +11,8 @@ def get_unique_letters_from_name(name: str) -> Set[str]:
     return set(name.lower())
 
 
-def configure_common_letter_generator(min_common: int = 0) -> MatchGenerator:
-    def generator(inp: MatchingInput) -> Iterator[Match]:
+def configure_generate_common_letters(min_common: int = 0) -> MatchGenerator:
+    def generate(inp: MatchingInput) -> Iterator[Match]:
         """
         Generates matches between users who have at least `min_common` unique letters in common between their names.
 
@@ -37,4 +37,4 @@ def configure_common_letter_generator(min_common: int = 0) -> MatchGenerator:
             }
             yield Match(users={user_a.uid, user_b.uid}, metadata=metadata)
 
-    return generator
+    return generate

@@ -1,7 +1,7 @@
 from typing import Dict, Set
 
 from pipeline.matching.generators.satirical import (
-    configure_common_letter_generator,
+    configure_generate_common_letters,
 )
 from pipeline.types import Match, MatchingInput, User
 
@@ -9,12 +9,12 @@ from pipeline.types import Match, MatchingInput, User
 def make_letter_metadata(common_letters: Set[str]) -> Dict:
     """Helper to make expected metadata for common letter generator."""
     return {
-        "generator": "commonLetterGenerator",
-        "commonLetterGenerator": {"commonLetters": common_letters},
+        "generator": "generateCommonLetters",
+        "generateCommonLetters": {"commonLetters": common_letters},
     }
 
 
-def test_common_letter_generator_no_minimum():
+def test_generate_common_letters_no_minimum():
     inp = MatchingInput(
         community="test",
         release="2022-04-01",
@@ -25,8 +25,8 @@ def test_common_letter_generator_no_minimum():
         ],
         recent_matches=[],
     )
-    generator = configure_common_letter_generator()
-    actual = list(generator(inp))
+    generate = configure_generate_common_letters()
+    actual = list(generate(inp))
     expected = [
         Match(users={"1", "2"}, metadata=make_letter_metadata({"a", "n"})),
         Match(users={"1", "3"}, metadata=make_letter_metadata({"a", "n"})),
@@ -35,7 +35,7 @@ def test_common_letter_generator_no_minimum():
     assert actual == expected
 
 
-def test_common_letter_generator_min_common():
+def test_generate_common_letters_min_common():
     inp = MatchingInput(
         community="test",
         release="2022-04-01",
@@ -46,8 +46,8 @@ def test_common_letter_generator_min_common():
         ],
         recent_matches=[],
     )
-    generator = configure_common_letter_generator(min_common=3)
-    actual = list(generator(inp))
+    generate = configure_generate_common_letters(min_common=3)
+    actual = list(generate(inp))
     expected = [
         Match(
             users={"1", "2"},

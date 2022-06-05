@@ -1,4 +1,4 @@
-from typing import Iterator, List
+from typing import Iterator
 
 from pipeline.matching.generators.satirical import (
     GENERATOR_COMMON_LETTERS,
@@ -15,8 +15,8 @@ def get_common_letters(match: Match):
     return len(common_letters)
 
 
-def common_letter_ranker(
-    inp: MatchingInput, proposed: List[Match]
+def rank_common_letters(
+    inp: MatchingInput, proposed: Iterator[Match]
 ) -> Iterator[Match]:
     """
     Ranks matches by giving priority to matches from the common letter

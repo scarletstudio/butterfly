@@ -3,7 +3,6 @@ import prefect
 from prefect import task
 
 from pipeline.types import Match
-from pipeline.utils.release import from_release_tag
 
 
 @task
@@ -24,7 +23,7 @@ def extract_recent_matches(db, community: str) -> pd.DataFrame:
         match = Match(
             users={uid for uid in record["participants"]},
             community=community,
-            release=from_release_tag(record["release_tag"]),
+            release=record["release_tag"],
             key=match_key,
             title=record["title"],
             metadata=record.get("metadata", {}),
