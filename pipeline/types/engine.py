@@ -1,6 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Iterator, List, Set
 
+from pipeline.types.intent import Intent
+from pipeline.types.interest import Interest
 from pipeline.types.logging import DefaultLogger, EngineLogger
 from pipeline.types.match import Match
 from pipeline.types.release import Community, ReleaseTag
@@ -19,6 +21,8 @@ class MatchingInput:
     users: List[User]
     recent_matches: List[Match]
     logger: EngineLogger = DefaultLogger()
+    interests: List[Interest] = field(default_factory=list)
+    intents: List[Intent] = field(default_factory=list)
 
 
 MatchGenerator = Callable[[MatchingInput], Iterator[Match]]
