@@ -4,13 +4,14 @@ from enum import Enum
 IntentCode = str
 
 
-class IntentSide(Enum):
+class Side(Enum):
     SEEKING = "Seeking"
     GIVING = "Giving"
+    BLANK = "Blank"
 
 
 @dataclass
 class Intent:
     code: IntentCode
-    side: IntentSide
+    side: Side
     name: str
