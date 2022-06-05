@@ -2,14 +2,14 @@ import random
 from typing import List
 
 from pipeline.matching.core.constants import N_MEMBERS_FOR_FINAL_MATCH
-from pipeline.matching.evaluation.optimizers import (
+from pipeline.matching.finalizers.optimizers import (
     best_effort_minimize_repeat_matches,
 )
 from pipeline.matching.utils import get_recently_matched_users_by_user
 from pipeline.types import Match, MatchingInput, User
 
 
-def fallback_finalizer(inp: MatchingInput, users: List[User]) -> List[Match]:
+def finalize_fallbacks(inp: MatchingInput, users: List[User]) -> List[Match]:
     """
     Generates random matches, giving preference to matches where the users
     were not recently matched. Falls back to any other remaining user. May
@@ -82,6 +82,6 @@ def fallback_finalizer(inp: MatchingInput, users: List[User]) -> List[Match]:
     return final_matches
 
 
-def fallback_finalizer_with_retries(n: int) -> List[Match]:
+def finalize_fallbacks_with_retries(n: int) -> List[Match]:
     with_retries = best_effort_minimize_repeat_matches(n_retries=n)
-    return with_retries(fallback_finalizer)
+    return with_retries(finalize_fallbacks)

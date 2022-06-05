@@ -15,7 +15,7 @@ def get_common_letters(match: Match):
     return len(common_letters)
 
 
-def common_letter_ranker(
+def rank_common_letters(
     inp: MatchingInput, proposed: List[Match]
 ) -> Iterator[Match]:
     """

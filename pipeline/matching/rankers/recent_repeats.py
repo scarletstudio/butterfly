@@ -4,8 +4,8 @@ from pipeline.matching.utils import get_user_group, get_user_groups_from_matches
 from pipeline.types import Match, MatchingInput, MatchRanker
 
 
-def configure_recent_repeat_ranker(include_repeats=True) -> MatchRanker:
-    def ranker(inp: MatchingInput, proposed: List[Match]) -> Iterator[Match]:
+def configure_rank_recent_repeats(include_repeats=True) -> MatchRanker:
+    def rank(inp: MatchingInput, proposed: List[Match]) -> Iterator[Match]:
         """
         Returns proposed matches with matches that do not repeat recent user groupings ranked first.
         Can be configured to either exclude recent repeats or include them but ranked at the end (default).
@@ -21,12 +21,12 @@ def configure_recent_repeat_ranker(include_repeats=True) -> MatchRanker:
         # Return all other proposed matches
         yield from repeat_match_queue
 
-    return ranker
+    return rank
 
 
-def get_avoid_recent_repeat_ranker() -> MatchRanker:
-    return configure_recent_repeat_ranker(include_repeats=True)
+def get_rank_avoid_recent_repeats() -> MatchRanker:
+    return configure_rank_recent_repeats(include_repeats=True)
 
 
-def get_exclude_recent_repeat_ranker() -> MatchRanker:
-    return configure_recent_repeat_ranker(include_repeats=False)
+def get_rank_exclude_recent_repeats() -> MatchRanker:
+    return configure_rank_recent_repeats(include_repeats=False)
