@@ -30,6 +30,7 @@ If you are not able to log in to the Butterfly app on GitPod, run [GitPod Local 
   - ESLint, Prettier (Airbnb style guide)
 - Backend API
   - Python
+  - Dataclasses
   - Django (Coming soon...)
   - SQLite (Coming soon...)
   - Firebase
@@ -38,6 +39,7 @@ If you are not able to log in to the Butterfly app on GitPod, run [GitPod Local 
 - Offline Pipeline
   - Python
   - Prefect
+  - Dataclasses
   - SQLite (Coming soon...)
   - Firebase
   - Pytest
