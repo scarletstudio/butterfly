@@ -1,6 +1,12 @@
 from pipeline.matching.engines.silly import SillyMatchingEngine
-from pipeline.matching.generators.silly_test import make_letter_metadata
-from pipeline.types import Match, MatchingInput, MatchingOutput, User, UserId
+from pipeline.types import (
+    Match,
+    MatchingInput,
+    MatchingOutput,
+    MatchMetadata,
+    User,
+    UserId,
+)
 
 
 def test_engine_basic():
@@ -25,8 +31,11 @@ def test_engine_basic():
     print(actual.matches)
 
     # Verify expected outputs
+    expected_metadata_1 = MatchMetadata(
+        generator="commonLetterGenerator", commonLetters=["a", "y"]
+    )
     expected_matches = [
-        Match(users={"1", "2"}, metadata=make_letter_metadata(["a", "y"])),
+        Match(users={"1", "2"}, metadata=expected_metadata_1),
         Match(users={"3", "4"}),
     ]
     expected = MatchingOutput(

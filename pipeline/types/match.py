@@ -1,16 +1,15 @@
-from dataclasses import dataclass, field
-from typing import Dict, Optional, Set
+from dataclasses import dataclass
+from typing import Optional, Set
 
+from pipeline.types.match_metadata import MatchMetadata
 from pipeline.types.release import Community, ReleaseTag
 from pipeline.types.user import User, UserId
-
-MatchMetadata = Dict
 
 
 @dataclass
 class Match:
     users: Set[UserId]
-    metadata: Dict = field(default_factory=dict)
+    metadata: MatchMetadata = MatchMetadata()
     community: Optional[str] = None
     release: Optional[ReleaseTag] = None
     key: Optional[str] = None
