@@ -1,19 +1,13 @@
-from typing import Dict, List
-
 import pytest
 
-from pipeline.types import Interest, InterestCode, Match, MatchingInput, User
-
-
-def make_metadata(score: float, codes: List[InterestCode]) -> Dict:
-    """Helper to make expected metadata for this generator."""
-    return {
-        "generator": "generateSimilarInterests",
-        "generateSimilarInterests": {
-            "score": score,
-            "commonInterests": codes,
-        },
-    }
+from pipeline.types import (
+    Interest,
+    InterestCode,
+    Match,
+    MatchingInput,
+    MatchMetadata,
+    User,
+)
 
 
 # TODO: Remove @pytest.mark.skip() to run your test
@@ -40,7 +34,7 @@ def test_example():
     expected = [
         Match(
             users={"1", "2"},
-            metadata=make_metadata(score=(1 / 3), codes=["swimming"]),
+            metadata=MatchMetadata(score=(1 / 3), commonInterests=["swimming"]),
         ),
     ]
     assert actual == expected

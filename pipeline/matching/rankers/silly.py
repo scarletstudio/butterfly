@@ -1,18 +1,13 @@
 from typing import Iterator
 
-from pipeline.matching.generators.silly import (
-    GENERATOR_COMMON_LETTERS,
-    METADATA_FIELD_COMMON_LETTERS,
-)
+from pipeline.matching.generators.silly import GENERATOR_COMMON_LETTERS
 from pipeline.types import Match, MatchingInput
 
 
 def get_common_letters(match: Match):
-    if match.metadata.get("generator", "") != GENERATOR_COMMON_LETTERS:
+    if match.metadata.generator != GENERATOR_COMMON_LETTERS:
         return -1
-    metadata_fields = match.metadata.get(GENERATOR_COMMON_LETTERS, {})
-    common_letters = metadata_fields.get(METADATA_FIELD_COMMON_LETTERS, {})
-    return len(common_letters)
+    return len(match.metadata.commonLetters)
 
 
 def rank_common_letters(

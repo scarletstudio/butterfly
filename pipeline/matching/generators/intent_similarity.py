@@ -1,5 +1,3 @@
-GENERATOR_SIMILAR_INTENTS = "generateSimilarIntents"
-METADATA_FIELD_SCORE_SIMILAR_INTENTS = "score"
-METADATA_FIELD_MATCHING_SIMILAR_INTENTS = "matchingIntents"
+GENERATOR_SIMILAR_INTENTS = "similarIntentsGenerator"
 
 # TODO: Implement your generator

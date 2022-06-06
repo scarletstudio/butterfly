@@ -1,19 +1,14 @@
-from typing import Dict, List
-
 import pytest
 
-from pipeline.types import Intent, Match, MatchingInput, Side, User
-
-
-def make_metadata(score: float, intents: List[Dict]) -> Dict:
-    """Helper to make expected metadata for this generator."""
-    return {
-        "generator": "generateSimilarIntents",
-        "generateSimilarInterests": {
-            "score": score,
-            "matchingIntents": intents,
-        },
-    }
+from pipeline.types import (
+    Intent,
+    IntentMatch,
+    Match,
+    MatchingInput,
+    MatchMetadata,
+    Side,
+    User,
+)
 
 
 # TODO: Remove @pytest.mark.skip() to run your test
@@ -37,19 +32,11 @@ def test_example():
     # TODO: Replace with your generate function
     actual = []
 
+    expected_intent = IntentMatch(code="tutoring", giver="2", seeker="1")
     expected = [
         Match(
             users={"1", "2"},
-            metadata=make_metadata(
-                score=1,
-                intents=[
-                    {
-                        "code": "tutoring",
-                        "giving": "2",
-                        "seeking": "1",
-                    }
-                ],
-            ),
+            metadata=MatchMetadata(score=1, matchingIntents=[expected_intent]),
         ),
     ]
     assert actual == expected
