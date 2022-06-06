@@ -3,6 +3,7 @@ from typing import List
 
 from pipeline.types.intent_match import IntentMatch
 from pipeline.types.interest import InterestCode
+from pipeline.types.schedule import Availability
 
 GeneratorId = str
 
@@ -38,3 +39,5 @@ class MatchMetadata:
     commonInterests: List[InterestCode] = field(default_factory=list)
     # Information about the compatible intents between the matched users
     matchingIntents: List[IntentMatch] = field(default_factory=list)
+    # Days/times when matched users are both available
+    matchingAvailability: List[Availability] = field(default_factory=list)
