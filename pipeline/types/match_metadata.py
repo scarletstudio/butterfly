@@ -24,6 +24,8 @@ class MatchMetadata:
       where it is not used.
     - Callers should validate that the field they want to use is correctly
       populated before using it.
+    - This data will be loaded to the database, so only types that can be saved
+      as JSON are allowed. For example, use List instead of Set.
     """
 
     # ID of the generator proposed this match
