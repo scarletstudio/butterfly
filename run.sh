@@ -76,6 +76,10 @@ elif [ "$1" == "storybook" ]; then
   cd frontend
   npm run storybook
 
+elif [ "$1" == "pre-commit" ]; then
+  source .venv/bin/activate
+  pre-commit run
+
 elif [ "$1" == "install-backend" ]; then
   echo "Installing backend and offline dependencies..."
   # Install Python dependencies within virtual environment

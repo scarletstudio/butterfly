@@ -1,6 +1,6 @@
 from typing import Iterator
 
-from pipeline.matching.generators.silly import GENERATOR_COMMON_LETTERS
+from pipeline.matching.generators.common_letters import GENERATOR_COMMON_LETTERS
 from pipeline.types import Match, MatchingInput
 
 

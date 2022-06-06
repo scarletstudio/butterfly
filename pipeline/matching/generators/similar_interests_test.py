@@ -34,7 +34,11 @@ def test_example():
     expected = [
         Match(
             users={"1", "2"},
-            metadata=MatchMetadata(score=(1 / 3), commonInterests=["swimming"]),
+            metadata=MatchMetadata(
+                generator="similarInterestsGenerator",
+                score=(1 / 3),
+                commonInterests=["swimming"],
+            ),
         ),
     ]
     assert actual == expected

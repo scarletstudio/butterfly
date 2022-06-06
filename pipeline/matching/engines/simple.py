@@ -2,11 +2,13 @@ from pipeline.matching.core.engine import MatchingEngine
 from pipeline.matching.finalizers.fallbacks import (
     finalize_fallbacks_with_retries,
 )
-from pipeline.matching.generators.silly import configure_generate_common_letters
-from pipeline.matching.rankers.silly import rank_common_letters
+from pipeline.matching.generators.common_letters import (
+    configure_generate_common_letters,
+)
+from pipeline.matching.rankers.common_letters import rank_common_letters
 
 
-class SillyMatchingEngine(MatchingEngine):
+class SimpleMatchingEngine(MatchingEngine):
     def __init__(self):
         super().__init__(
             generators=[configure_generate_common_letters(min_common=1)],

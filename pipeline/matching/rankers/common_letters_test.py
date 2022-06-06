@@ -1,4 +1,4 @@
-from pipeline.matching.rankers.silly import rank_common_letters
+from pipeline.matching.rankers.common_letters import rank_common_letters
 from pipeline.types import Match, MatchingInput, MatchMetadata
 
 
@@ -7,10 +7,10 @@ def test_rank_common_letters():
         community="test", release="2022-04-01", users=[], recent_matches=[]
     )
     metadata_1 = MatchMetadata(
-        generator="commonLetterGenerator", commonLetters=["c", "a", "r"]
+        generator="commonLettersGenerator", commonLetters=["c", "a", "r"]
     )
     metadata_2 = MatchMetadata(
-        generator="commonLetterGenerator", commonLetters=["j", "i"]
+        generator="commonLettersGenerator", commonLetters=["j", "i"]
     )
     proposed = [
         Match(users={"A", "B"}),

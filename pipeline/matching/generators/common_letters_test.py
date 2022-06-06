@@ -1,4 +1,6 @@
-from pipeline.matching.generators.silly import configure_generate_common_letters
+from pipeline.matching.generators.common_letters import (
+    configure_generate_common_letters,
+)
 from pipeline.types import Match, MatchingInput, MatchMetadata, User
 
 
@@ -19,19 +21,20 @@ def test_generate_common_letters_no_minimum():
         Match(
             users={"1", "2"},
             metadata=MatchMetadata(
-                generator="commonLetterGenerator", commonLetters=["a", "n"]
+                generator="commonLettersGenerator", commonLetters=["a", "n"]
             ),
         ),
         Match(
             users={"1", "3"},
             metadata=MatchMetadata(
-                generator="commonLetterGenerator", commonLetters=["a", "l", "n"]
+                generator="commonLettersGenerator",
+                commonLetters=["a", "l", "n"],
             ),
         ),
         Match(
             users={"2", "3"},
             metadata=MatchMetadata(
-                generator="commonLetterGenerator", commonLetters=["a", "n"]
+                generator="commonLettersGenerator", commonLetters=["a", "n"]
             ),
         ),
     ]
@@ -55,7 +58,8 @@ def test_generate_common_letters_min_common():
         Match(
             users={"1", "2"},
             metadata=MatchMetadata(
-                generator="commonLetterGenerator", commonLetters=["b", "e", "n"]
+                generator="commonLettersGenerator",
+                commonLetters=["b", "e", "n"],
             ),
         )
     ]

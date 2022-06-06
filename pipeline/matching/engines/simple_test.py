@@ -1,4 +1,4 @@
-from pipeline.matching.engines.silly import SillyMatchingEngine
+from pipeline.matching.engines.simple import SimpleMatchingEngine
 from pipeline.types import (
     Match,
     MatchingInput,
@@ -26,13 +26,13 @@ def test_engine_basic():
     )
 
     # Run matching engine
-    engine = SillyMatchingEngine()
+    engine = SimpleMatchingEngine()
     actual = engine.run(inp)
     print(actual.matches)
 
     # Verify expected outputs
     expected_metadata_1 = MatchMetadata(
-        generator="commonLetterGenerator", commonLetters=["a", "y"]
+        generator="commonLettersGenerator", commonLetters=["a", "y"]
     )
     expected_matches = [
         Match(users={"1", "2"}, metadata=expected_metadata_1),
