@@ -14,7 +14,7 @@ from pipeline.types import (
     UserId,
 )
 
-ERROR_USERS_FOR_PRIORITY_MATCH = "Priority matches should only have two users."
+ERROR_USERS_FOR_PRIORITY_MATCH = "Priority matches should have two users."
 ERROR_USER_NOT_MATCHED = "One user left after selecting priority matches."
 
 
