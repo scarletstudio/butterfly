@@ -3,7 +3,7 @@ from typing import Iterator, Set
 
 from pipeline.types import Match, MatchGenerator, MatchingInput, MatchMetadata
 
-GENERATOR_COMMON_LETTERS = "commonLetterGenerator"
+GENERATOR_COMMON_LETTERS = "commonLettersGenerator"
 
 
 def get_unique_letters_from_name(name: str) -> Set[str]:

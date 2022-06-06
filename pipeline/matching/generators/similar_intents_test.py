@@ -36,7 +36,11 @@ def test_example():
     expected = [
         Match(
             users={"1", "2"},
-            metadata=MatchMetadata(score=1, matchingIntents=[expected_intent]),
+            metadata=MatchMetadata(
+                generator="similarIntentsGenerator",
+                score=1,
+                matchingIntents=[expected_intent],
+            ),
         ),
     ]
     assert actual == expected
