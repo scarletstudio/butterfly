@@ -30,6 +30,11 @@ def test_example():
                 schedule=[availability_1, availability_2, availability_3],
             ),
             User(uid="2", displayName="B", interests=[availability_3]),
+            User(
+                uid="2",
+                displayName="C",
+                schedule=[availability_1, availability_2, availability_3],
+            ),
         ],
         recent_matches=[],
     )
@@ -42,8 +47,14 @@ def test_example():
             users={"1", "2"},
             metadata=MatchMetadata(
                 generator="limitedSchedulesGenerator",
-                score=1,
-                matchingAvailability=[availability_2],
+                matchingAvailability=[availability_3],
+            ),
+        ),
+        Match(
+            users={"2", "3"},
+            metadata=MatchMetadata(
+                generator="limitedSchedulesGenerator",
+                matchingAvailability=[availability_3],
             ),
         ),
     ]
