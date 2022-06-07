@@ -1,3 +1,3 @@
-GENERATOR_SIMILAR_SCHEDULES = "limitedSchedulesGenerator"
+GENERATOR_LIMITED_SCHEDULES = "limitedSchedulesGenerator"
 
 # TODO: Implement your generator

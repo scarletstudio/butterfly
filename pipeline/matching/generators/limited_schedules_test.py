@@ -47,14 +47,14 @@ def test_example():
             users={"1", "2"},
             metadata=MatchMetadata(
                 generator="limitedSchedulesGenerator",
-                matchingAvailability=[availability_3],
+                limitedAvailability=[availability_3],
             ),
         ),
         Match(
             users={"2", "3"},
             metadata=MatchMetadata(
                 generator="limitedSchedulesGenerator",
-                matchingAvailability=[availability_3],
+                limitedAvailability=[availability_3],
             ),
         ),
     ]
