@@ -2,12 +2,9 @@ import pytest
 
 from pipeline.types import (
     Availability,
-    Intent,
-    IntentMatch,
     Match,
     MatchingInput,
     MatchMetadata,
-    Side,
     User,
     WeekdayCode,
 )
@@ -18,18 +15,18 @@ from pipeline.types import (
 def test_example():
     availability_1 = Availability(day=WeekdayCode.MON, hour=12)
     availability_2 = Availability(day=WeekdayCode.MON, hour=13)
-
+    users = [
+        User(
+            uid="1",
+            displayName="A",
+            schedule=[availability_1, availability_2],
+        ),
+        User(uid="2", displayName="B", interests=[availability_2]),
+    ]
     inp = MatchingInput(
         community="test",
         release="2022-06-26",
-        users=[
-            User(
-                uid="1",
-                displayName="A",
-                schedule=[availability_1, availability_2],
-            ),
-            User(uid="2", displayName="B", interests=[availability_2]),
-        ],
+        users=users,
         recent_matches=[],
     )
 
