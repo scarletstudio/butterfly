@@ -17,13 +17,21 @@ def test_example():
     tutoring = Intent(code="tutoring", name="Tutoring", side=Side.BLANK)
     seek_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.SEEKING)
     give_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.GIVING)
+    comedy = Intent(code="comedy", name="Comedy", side=Side.BLANK)
+    seek_comedy = Intent(code="comedy", name="Comedy", side=Side.SEEKING)
+    give_comedy = Intent(code="comedy", name="Comedy", side=Side.GIVING)
 
     inp = MatchingInput(
         community="test",
         release="2022-06-26",
         users=[
-            User(uid="1", displayName="A", intents=[seek_tutoring]),
+            User(
+                uid="1", displayName="A", intents=[seek_tutoring, seek_comedy]
+            ),
             User(uid="2", displayName="B", interests=[give_tutoring]),
+            User(
+                uid="3", displayName="C", interests=[give_tutoring, seek_comedy]
+            ),
         ],
         recent_matches=[],
         intents=[tutoring],
@@ -32,14 +40,13 @@ def test_example():
     # TODO: Replace with your generate function
     actual = []
 
-    expected_intent = IntentMatch(code="tutoring", seeker="1", giver="2")
+    expected_intent = IntentMatch(code="comedy", seeker="1", giver="3")
     expected = [
         Match(
-            users={"1", "2"},
+            users={"1", "3"},
             metadata=MatchMetadata(
-                generator="similarIntentsGenerator",
-                score=1,
-                matchingIntents=[expected_intent],
+                generator="rareIntentsGenerator",
+                rareIntents=[expected_intent],
             ),
         ),
     ]

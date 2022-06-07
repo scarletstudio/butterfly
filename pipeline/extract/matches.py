@@ -2,11 +2,11 @@ import pandas as pd
 import prefect
 from prefect import task
 
-from pipeline.types import Match
+from pipeline.types import Community, Match
 
 
 @task
-def extract_recent_matches(db, community: str) -> pd.DataFrame:
+def extract_recent_matches(db, community: Community) -> pd.DataFrame:
     logger = prefect.context.get("logger")
     matches_ref = db.reference(f"matches/{community}")
     user_match_records = matches_ref.get()

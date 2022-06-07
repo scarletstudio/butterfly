@@ -44,9 +44,18 @@ Hour = Literal[
     23,
 ]
 
-# Currently we only allow users to define their availability on general weekdays
-# rather than specific dates, and only at the granularity of hours.
+
 @dataclass
 class Availability:
+    """
+    Schema to define when a user is available to meet with matched users.
+
+    Notes:
+    - Availability should be transformed into UTC before being converted to
+      this schema.
+    - Currently we only allow users to define their availability on general
+      weekdays rather than specific dates, and only at the granularity of hours.
+    """
+
     day: WeekdayCode
     hour: Hour

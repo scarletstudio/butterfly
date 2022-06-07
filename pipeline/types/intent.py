@@ -5,9 +5,9 @@ IntentCode = str
 
 
 class Side(Enum):
-    SEEKING = "Seeking"
-    GIVING = "Giving"
-    BLANK = "Blank"
+    SEEKING = "seeking"
+    GIVING = "giving"
+    BLANK = "blank"
 
 
 @dataclass

@@ -2,9 +2,11 @@ import pandas as pd
 import prefect
 from prefect import task
 
+from pipeline.types import Community
+
 
 @task
-def extract_users(db, community: str) -> pd.DataFrame:
+def extract_users(db, Community: str) -> pd.DataFrame:
     """Downloads all users from the database."""
     logger = prefect.context.get("logger")
     all_users = db.reference("users").get()
