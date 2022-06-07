@@ -1,6 +1,5 @@
 import pytest
 
-from pipeline.matching.rankers.default import rank_pass
 from pipeline.types import Match, MatchingInput, MatchMetadata, MatchStars
 
 
