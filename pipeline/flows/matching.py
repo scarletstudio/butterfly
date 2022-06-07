@@ -11,6 +11,7 @@ from prefect.tasks.core.constants import Constant
 from prefect.tasks.secrets import PrefectSecret
 
 from pipeline.extract.matches import extract_recent_matches
+from pipeline.extract.ratings import extract_intent_upvotes, extract_match_stars
 from pipeline.extract.users import extract_users
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
@@ -66,6 +67,8 @@ def matching_flow() -> Flow:
         # Extract data for pipeline
         df_users = extract_users(db, param_community)
         df_matches = extract_recent_matches(db, param_community)
+        match_stars = extract_match_stars(db, param_community)
+        intent_upvotes = extract_intent_upvotes(db, param_community)
 
         # Transform extracted data to matching inputs
         users = convert_users_from_df(df_users)
@@ -78,6 +81,10 @@ def matching_flow() -> Flow:
             release=param_release,
             users=users,
             recent_matches=recent_matches,
+            interests=[],
+            intents=[],
+            intent_upvotes=intent_upvotes,
+            match_stars=match_stars,
         )
         output_matches = compute_matches(inp, param_engine)
         passed = validate_and_log_matches(users, recent_matches, output_matches)

@@ -7,11 +7,11 @@ from pipeline.types import Community, RawUserIntents, RawUserInterests
 def extract_interests(db, community: Community) -> RawUserInterests:
     ref = db.reference(f"attributes/interests/{community}")
     raw = ref.get()
-    return raw
+    return raw if raw else {}
 
 
 @task
 def extract_intents(db, community: Community) -> RawUserIntents:
     ref = db.reference(f"attributes/intents/{community}")
     raw = ref.get()
-    return raw
+    return raw if raw else {}

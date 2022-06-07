@@ -5,6 +5,7 @@ from pipeline.types.intent import Intent
 from pipeline.types.interest import Interest
 from pipeline.types.logging import DefaultLogger, EngineLogger
 from pipeline.types.match import Match
+from pipeline.types.rating import IntentUpvote, MatchStars
 from pipeline.types.release import Community, ReleaseTag
 from pipeline.types.user import User, UserId
 
@@ -23,6 +24,8 @@ class MatchingInput:
     logger: EngineLogger = DefaultLogger()
     interests: List[Interest] = field(default_factory=list)
     intents: List[Intent] = field(default_factory=list)
+    intent_upvotes: List[IntentUpvote] = field(default_factory=list)
+    match_stars: List[MatchStars] = field(default_factory=list)
 
 
 MatchGenerator = Callable[[MatchingInput], Iterator[Match]]
