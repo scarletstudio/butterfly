@@ -38,7 +38,7 @@ def test_example():
             users={"2", "3"},
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
-                commonInterests=["reading"],
+                rareInterests=["reading"],
             ),
         ),
     ]
