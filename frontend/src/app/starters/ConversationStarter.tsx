@@ -1,8 +1,17 @@
 import { ChatData } from '../types'
 import CommonLettersStarter from './CommonLettersStarter'
+import IntentsStarter from './IntentsStarter'
+import InterestsStarter from './InterestsStarter'
+import SchedulesStarter from './SchedulesStarter'
 
 const CONVERSATION_STARTERS_CONFIG = {
     commonLettersGenerator: CommonLettersStarter,
+    rareIntentsGenerator: IntentsStarter,
+    similarIntentsGenerator: IntentsStarter,
+    rareInterestsGenerator: InterestsStarter,
+    similarInterestsGenerator: InterestsStarter,
+    limitedSchedulesGenerator: SchedulesStarter,
+    similarSchedulesGenerator: SchedulesStarter,
 }
 
 export interface ConversationStarterProps {
