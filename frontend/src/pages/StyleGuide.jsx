@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown, faGhost } from '@fortawesome/free-solid-svg-icons'
 
 import { Message } from '../lib/chat'
-import { Error } from '../common/components/Errors'
-import { UserTile } from '../common/components/User'
+import { Error, UserTile } from '../lib/ui'
 
 const EXAMPLE_PARTICIPANTS = {
     'user-a': { displayName: 'Me' },

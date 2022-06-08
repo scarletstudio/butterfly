@@ -6,10 +6,10 @@ import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentAuthUser, signOutUser } from '../common/utils/auth'
 import { maybeUpdateUserDetails } from '../common/utils/user'
 import { MOCK_USERS, signInMockUser } from '../common/mock/auth'
-import { CurrentLogin } from '../common/components/Auth'
-import { Error } from '../common/components/Errors'
+import { CurrentLogin } from '../lib/login'
+import { Error } from '../lib/ui'
 
-import '../styles/LoginPage.css'
+import '../lib/login/Login.css'
 
 function MockUserLoginSelector({ mockUsers, doLogIn }) {
     const selectorRef = createRef()

@@ -6,10 +6,10 @@ import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { signInUser, signOutUser, useCurrentAuthUser } from '../common/utils/auth'
 import { maybeUpdateUserDetails } from '../common/utils/user'
-import { CurrentLogin } from '../common/components/Auth'
-import { Error } from '../common/components/Errors'
+import { CurrentLogin } from '../lib/login'
+import { Error } from '../lib/ui'
 
-import '../styles/LoginPage.css'
+import '../lib/login/Login.css'
 
 function MockLoginButton() {
     return (

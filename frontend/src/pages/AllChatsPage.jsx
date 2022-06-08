@@ -8,9 +8,9 @@ import { COMMUNITY } from '../common/utils/constants'
 import { formatMatchDate } from '../common/utils/datetime'
 import { useGetMatches } from '../common/utils/match'
 import { useGetManyUserData } from '../common/utils/user'
-import { UserTile } from '../common/components/User'
+import { UserTile } from '../lib/ui'
 
-import '../styles/Matches.css'
+import '../lib/inbox/Matches.css'
 
 function MatchTile({ match, users }) {
     // eslint-disable-next-line camelcase
