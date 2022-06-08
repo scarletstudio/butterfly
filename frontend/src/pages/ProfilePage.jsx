@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useCurrentAuthUser } from '../common/utils/auth'
+import { useCurrentAuthUser } from '../lib/login'
 import { useGetManyUserData } from '../common/utils/user'
 
 export default function ProfilePage() {

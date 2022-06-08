@@ -4,9 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
-import { signInUser, signOutUser, useCurrentAuthUser } from '../common/utils/auth'
+import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../lib/login'
 import { maybeUpdateUserDetails } from '../common/utils/user'
-import { CurrentLogin } from '../lib/login'
 import { Error } from '../lib/ui'
 
 import '../lib/login/Login.css'
