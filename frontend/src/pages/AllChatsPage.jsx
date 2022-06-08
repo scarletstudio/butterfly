@@ -1,38 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComments } from '@fortawesome/free-solid-svg-icons'
 
-import { useCurrentAuthUser } from '../lib/login'
-import { COMMUNITY } from '../lib/constants'
-import { formatMatchDate } from '../lib/utils'
-import { useGetMatches, useGetManyUserData } from '../lib/data'
-import { UserTile } from '../lib/ui'
-
-import '../lib/inbox/Matches.css'
-
-function MatchTile({ match, users }) {
-    // eslint-disable-next-line camelcase
-    const { id, release_timestamp, participants } = match
-
-    const userEls = Object.keys(participants)
-        .filter((uid) => uid !== match.for)
-        .map((uid) => users?.[uid] || { uid })
-        .map((u) => <UserTile key={u.uid} user={u} />)
-
-    return (
-        <div className="MatchTile Card Full">
-            <h3>Week of {formatMatchDate(release_timestamp)}</h3>
-            <div className="UserRow">{userEls}</div>
-            <p>
-                <Link to={`/chats/${id}`} className="Button">
-                    <FontAwesomeIcon icon={faComments} className="IconBefore" />
-                    <span>Open Chat</span>
-                </Link>
-            </p>
-        </div>
-    )
-}
+import { useCurrentAuthUser } from '../app/login'
+import { COMMUNITY } from '../app/constants'
+import { useGetMatches, useGetManyUserData } from '../app/data'
+import { MatchTile } from '../app/inbox'
 
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()

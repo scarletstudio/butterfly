@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import '../lib/styles/HomePage.css'
+import '../app/styles/HomePage.css'
 
 export default function HomePage() {
     return (

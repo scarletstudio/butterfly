@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
-import { useCurrentAuthUser, signOutUser, CurrentLogin } from '../lib/login'
-import { maybeUpdateUserDetails } from '../lib/data'
-import { MOCK_USERS, signInMockUser } from '../lib/mock'
-import { Error } from '../lib/ui'
+import { useCurrentAuthUser, signOutUser, CurrentLogin } from '../app/login'
+import { maybeUpdateUserDetails } from '../app/data'
+import { MOCK_USERS, signInMockUser } from '../app/mock'
+import { Error } from '../app/ui'
 
-import '../lib/login/Login.css'
+import '../app/login/Login.css'
 
 function MockUserLoginSelector({ mockUsers, doLogIn }) {
     const selectorRef = createRef()
