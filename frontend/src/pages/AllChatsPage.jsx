@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser } from '../lib/login'
-import { COMMUNITY } from '../common/utils/constants'
-import { formatMatchDate } from '../common/utils/datetime'
-import { useGetMatches } from '../common/utils/match'
-import { useGetManyUserData } from '../common/utils/user'
+import { COMMUNITY } from '../lib/constants'
+import { formatMatchDate } from '../lib/utils'
+import { useGetMatches, useGetManyUserData } from '../lib/data'
 import { UserTile } from '../lib/ui'
 
 import '../lib/inbox/Matches.css'

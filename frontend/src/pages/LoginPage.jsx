@@ -5,7 +5,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../lib/login'
-import { maybeUpdateUserDetails } from '../common/utils/user'
+import { maybeUpdateUserDetails } from '../lib/data'
 import { Error } from '../lib/ui'
 
 import '../lib/login/Login.css'

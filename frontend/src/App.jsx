@@ -3,7 +3,7 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import React, { useEffect } from 'react'
 
-import { FirebaseAppContext, createFirebaseApp } from './common/utils/firebase'
+import { FirebaseAppContext, createFirebaseApp } from './lib/utils'
 
 import Layout from './pages/Layout'
 import NotFoundPage from './pages/NotFoundPage'

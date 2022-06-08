@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../lib/chat'
-import { COMMUNITY } from '../common/utils/constants'
+import { COMMUNITY } from '../lib/constants'
 
 function BackToChatsButton() {
     return (

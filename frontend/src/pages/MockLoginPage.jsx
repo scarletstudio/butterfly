@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser, signOutUser, CurrentLogin } from '../lib/login'
-import { maybeUpdateUserDetails } from '../common/utils/user'
+import { maybeUpdateUserDetails } from '../lib/data'
 import { MOCK_USERS, signInMockUser } from '../lib/mock'
 import { Error } from '../lib/ui'
 
