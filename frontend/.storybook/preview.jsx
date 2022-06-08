@@ -1,6 +1,6 @@
 import React from 'react'
 
-import '../src/stories/theme.css'
+import '../src/stories/Theme.css'
 
 export const decorators = [
     (Story) => (
