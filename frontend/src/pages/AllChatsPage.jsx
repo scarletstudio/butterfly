@@ -59,7 +59,9 @@ export default function AllChatsPage() {
     return (
         <div className="AllChatsPage">
             <div className="Header">
-                <h1 className="BigTitle">Butterfly Chats</h1>
+                <Link to="/">
+                    <h1 className="BigTitle">Butterfly Chats</h1>
+                </Link>
                 <p>Each week, you will be matched to another person in your community.</p>
                 <p>Check back on Mondays to see who you are matched with!</p>
             </div>

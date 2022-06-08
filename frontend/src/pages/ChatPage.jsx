@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
+import { getConversationStarterForChat } from '../stories/starters'
+
 import { ChatApp, ChatContext, Message } from '../common/components/Chat'
 import { UserTile } from '../common/components/User'
 import { COMMUNITY } from '../common/utils/constants'
@@ -37,10 +39,15 @@ function ChatHeader() {
     )
 }
 
-function ChatConversation({ chatConversationStarter }) {
+function ChatConversation() {
     const { chat, messages, myUserId } = useContext(ChatContext)
 
-    const converstationStarterEl = <div key="conversation_starter"> {chatConversationStarter} </div>
+    const ConversationStarter = getConversationStarterForChat(chat)
+    const converstationStarterEl = ConversationStarter && (
+        <div key="conversation_starter">
+            <ConversationStarter chat={chat} />
+        </div>
+    )
     const loadingEl = <p>Loading chat...</p>
     const defaultConversationStarter = <p>No messages yet, will you start things off?</p>
     const messageEls =
@@ -53,7 +60,7 @@ function ChatConversation({ chatConversationStarter }) {
         return loadingEl
     }
 
-    if (chatConversationStarter) {
+    if (converstationStarterEl) {
         return [converstationStarterEl, ...messageEls]
     }
 
@@ -83,13 +90,6 @@ function ChatComposer() {
     )
 }
 
-// List of possible conversation starters, not a list of children to render
-const conversationStarters = [
-    <p>What is your favorite thing to do on the weekend?</p>, // eslint-disable-line react/jsx-key
-    <p>What is your favorite food?</p>, // eslint-disable-line react/jsx-key
-]
-const shouldShowConversationStarter = false
-
 export default function ChatPage() {
     const { chatId } = useParams()
     const fullChatId = `${COMMUNITY}/${chatId}`
@@ -100,13 +100,7 @@ export default function ChatPage() {
                 <ChatApp
                     chatId={fullChatId}
                     header={<ChatHeader />}
-                    conversation={
-                        <ChatConversation
-                            chatConversationStarter={
-                                shouldShowConversationStarter && conversationStarters[1]
-                            }
-                        />
-                    }
+                    conversation={<ChatConversation />}
                     composer={<ChatComposer />}
                 />
             </div>

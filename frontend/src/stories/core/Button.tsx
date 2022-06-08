@@ -1,5 +1,5 @@
 import React from 'react'
-import './button.css'
+import './Button.css'
 
 interface ButtonProps {
     // Whether or not this is the main action, false if not specified
