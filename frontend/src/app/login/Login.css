@@ -1,0 +1,11 @@
+.LoginPage {
+    text-align: center;
+}
+
+.LoginUserSelector {
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    padding: 0.5em;
+    font-size: 1em;
+}

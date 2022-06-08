@@ -2,8 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown, faGhost } from '@fortawesome/free-solid-svg-icons'
 
-import { Message } from '../lib/chat'
-import { Error, UserTile } from '../lib/ui'
+import { Message } from '../app/chat'
+import { Error, UserTile } from '../app/ui'
 
 const EXAMPLE_PARTICIPANTS = {
     'user-a': { displayName: 'Me' },

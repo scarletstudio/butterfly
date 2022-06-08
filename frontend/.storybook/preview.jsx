@@ -1,9 +1,9 @@
 import React from 'react'
 
-import '../src/lib/styles/Reset.css'
-import '../src/lib/styles/Main.css'
-import '../src/lib/styles/Theme.css'
-import '../src/lib/styles/Layout.css'
+import '../src/app/styles/Reset.css'
+import '../src/app/styles/Main.css'
+import '../src/app/styles/Theme.css'
+import '../src/app/styles/Layout.css'
 
 export const decorators = [
     (Story) => (

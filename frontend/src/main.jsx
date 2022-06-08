@@ -5,9 +5,9 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './lib/styles/Reset.css'
-import './lib/styles/Main.css'
-import './lib/styles/Theme.css'
+import './app/styles/Reset.css'
+import './app/styles/Main.css'
+import './app/styles/Theme.css'
 
 // Register icons in library for use throughout the frontend
 const registeredIcons = [faHeart]

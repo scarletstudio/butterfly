@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
-import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../lib/login'
-import { maybeUpdateUserDetails } from '../lib/data'
-import { Error } from '../lib/ui'
+import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../app/login'
+import { maybeUpdateUserDetails } from '../app/data'
+import { Error } from '../app/ui'
 
-import '../lib/login/Login.css'
+import '../app/login/Login.css'
 
 function MockLoginButton() {
     return (

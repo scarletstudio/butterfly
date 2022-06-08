@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
-import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../lib/chat'
-import { COMMUNITY } from '../lib/constants'
+import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../app/chat'
+import { COMMUNITY } from '../app/constants'
 
 function BackToChatsButton() {
     return (
