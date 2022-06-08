@@ -1,4 +1,4 @@
-export default interface UserData {
+export interface UserData {
     // ID for the user, unique across the app
     uid: string
     // Name of the user to display in the app
