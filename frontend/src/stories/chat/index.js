@@ -1,5 +1,0 @@
-export * from './ChatApp'
-export * from './ChatComposer'
-export * from './ChatConversation'
-export * from './ChatHeader'
-export * from './Decorators'

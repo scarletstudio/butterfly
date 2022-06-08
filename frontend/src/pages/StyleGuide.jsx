@@ -2,7 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCrown, faGhost } from '@fortawesome/free-solid-svg-icons'
 
-import { Message } from '../stories/chat'
+import { Message } from '../lib/chat'
 import { Error } from '../common/components/Errors'
 import { UserTile } from '../common/components/User'
 
