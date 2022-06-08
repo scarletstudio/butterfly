@@ -1,6 +1,6 @@
-import UserData from './UserData'
+import { UserData } from './UserData'
 
-export default interface ChatData {
+export interface ChatData {
     // ID for the match this chat is for, release tag plus match key
     id: string
     // Whether or not a chat with this match ID exists
