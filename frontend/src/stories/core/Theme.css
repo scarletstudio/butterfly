@@ -1,0 +1,165 @@
+/* Colors and Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
+
+.Theme {
+    --color-theme-main: rgb(27, 14, 100);
+    --color-theme-accent: rgb(42, 222, 250);
+    --color-theme-contrast: rgb(255, 255, 255);
+    --color-page-background: rgb(255, 255, 255);
+    --color-main: rgb(42, 222, 250);
+    --color-light: rgb(224, 252, 255);
+    --color-dark: rgb(5, 108, 120);
+    --color-accent: rgb(255, 208, 107);
+    --color-light-0: rgb(255, 237, 199);
+    --color-light-1: rgb(239, 224, 255);
+    --color-light-2: rgb(240, 255, 224);
+    --color-text: rgb(18, 18, 18);
+    --color-contrast: white;
+    --color-danger: rgb(245, 66, 51);
+    --color-danger-light: rgb(255, 205, 201);
+    --font-heading: 'Assistant', sans-serif;
+    --font-body: 'Assistant', sans-serif;
+}
+
+.App {
+    background: var(--color-theme-contrast);
+    color: var(--color-text);
+    font-family: var(--font-body);
+}
+
+.Header {
+    background: var(--color-theme-main);
+    color: var(--color-theme-contrast);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+}
+
+.Header h1,
+.Header h2,
+.Header h3,
+.Header h4,
+.Header h5,
+.Header h6 {
+    color: var(--color-theme-accent);
+}
+
+a {
+    color: var(--color-text);
+}
+
+/* Links */
+
+a:hover {
+    color: var(--color-main);
+}
+
+/* Buttons */
+
+.Button.Primary {
+    background: var(--color-theme-accent);
+    border-color: transparent;
+    color: var(--color-theme-contrast);
+}
+
+.Button.Primary:hover {
+    background: transparent;
+    border-color: var(--color-main);
+    color: var(--color-main);
+}
+
+.Button {
+    background: transparent;
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
+.Button:hover {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-theme-contrast);
+}
+
+/* Forms */
+
+select,
+input {
+    font-family: var(--font-body);
+}
+
+/* Errors */
+
+.Error {
+    border-color: var(--color-danger);
+    background: var(--color-danger-light);
+}
+
+/* Layout */
+
+hr {
+    background: var(--color-theme-accent);
+}
+
+/* Matches */
+
+.AllChatsPage {
+    --all-chats-page-text-color: var(--color-text);
+    color: var(--all-chats-page-text-color);
+}
+
+/* Chat */
+
+.ChatPage {
+    background: var(--color-contrast);
+}
+
+.Message,
+.ChatComposer .Input {
+    font-family: var(--font-body);
+}
+
+.Message.Mine .MessageInner {
+    background: var(--color-light);
+}
+
+.Message.Participant0 .MessageInner {
+    background: var(--color-light-0);
+}
+
+.Message.Participant1 .MessageInner {
+    background: var(--color-light-1);
+}
+
+.Message.Participant2 .MessageInner {
+    background: var(--color-light-2);
+}
+
+.ChatComposer .Input,
+.ChatComposer .Send {
+    border-color: var(--color-theme-main);
+    outline-color: var(--color-theme-main);
+}
+
+.ChatComposer .Send {
+    background: var(--color-theme-main);
+    color: var(--color-theme-contrast);
+}
+
+.ChatComposer .Send:hover {
+    background: var(--color-theme-accent);
+}
+
+.ChatComposer .Input {
+    background: var(--color-light);
+}
+
+.ChatHeader {
+    background: rgba(255, 255, 255, 0.75);
+}

@@ -1,0 +1,194 @@
+/* Headings and Text */
+
+body {
+    font-size: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+    line-height: 1.1em;
+    margin: 0.5em 0;
+}
+
+h1 {
+    font-size: 1.85em;
+}
+
+h2 {
+    font-size: 1.7em;
+}
+
+h3 {
+    font-size: 1.55em;
+}
+
+h4 {
+    font-size: 1.4em;
+}
+
+h5 {
+    font-size: 1.25em;
+}
+
+h6 {
+    font-size: 1.1em;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.1em;
+    margin: 1em 0;
+}
+
+pre {
+    font-family: monospace;
+    font-size: 1em;
+    margin: 1em 0;
+    white-space: pre-wrap;
+}
+
+ul,
+ol {
+    list-style-position: outside;
+}
+
+ul li,
+ol li {
+    margin-left: 1em;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+.BigTitle {
+    font-size: 2.4em;
+    line-height: 1em;
+    margin: 0.25em 0;
+}
+
+.NoDecorate {
+    text-decoration: none;
+}
+
+.Centered {
+    text-align: center;
+}
+
+/* Utilities */
+
+.VerticalCenter {
+    /* Center vertically with flexbox */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.FullHeight {
+    height: 100vh;
+}
+
+/* Icons */
+
+.IconAfter {
+    margin-left: 0.5em;
+}
+
+.IconBefore {
+    margin-right: 0.5em;
+}
+
+/* Buttons */
+
+.Button {
+    box-sizing: border-box;
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.75em 1em;
+    margin: 0.5em 0;
+    border-radius: 0.25em;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.Button:hover {
+    cursor: pointer;
+}
+
+.ButtonRow .Button {
+    display: inline-block;
+    margin: 0.5em;
+}
+
+.ButtonRow .Button:first-child {
+    margin-left: 0;
+}
+
+.ButtonRow .Button:last-child {
+    margin-right: 0;
+}
+
+.Button .IconBefore,
+.Button .IconAfter,
+.Button span {
+    vertical-align: top;
+    margin-top: 0;
+}
+
+/* Errors */
+
+.Error {
+    border-width: 1px;
+    border-style: solid;
+    box-shadow: none;
+}
+
+.Error :first-child {
+    margin-top: 0;
+}
+
+.Error :last-child {
+    margin-bottom: 0;
+}
+
+/* Layout */
+
+hr {
+    border: none;
+    height: 1px;
+}
+
+/*
+ * Hide scrollbar, but allow scrolling
+ * https://blog.hubspot.com/website/hide-scrollbar-css
+ */
+
+.App {
+    height: 100vh;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+}
+
+.App::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+.HideScroll {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+}
+
+.HideScroll::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}

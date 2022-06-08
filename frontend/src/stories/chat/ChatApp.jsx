@@ -1,9 +1,11 @@
-import React, { createContext, useMemo } from 'react'
+import React, { createContext, useMemo, useContext } from 'react'
 
-import { useCurrentAuthUser } from '../utils/auth'
-import { useGetChatData, useGetMessages, sendMessage } from '../utils/chat'
-import { MESSAGE_TYPE, UNKNOWN_USER } from '../utils/constants'
-import { Error } from './Errors'
+import { useCurrentAuthUser } from '../../common/utils/auth'
+import { useGetChatData, useGetMessages, sendMessage } from '../../common/utils/chat'
+import { MESSAGE_TYPE, UNKNOWN_USER } from '../../common/utils/constants'
+import { Error } from '../../common/components/Errors'
+
+import './Chat.css'
 
 function getAuthorClasses(participants, myUserId) {
     return Object.keys(participants)
@@ -58,40 +60,17 @@ function getChatDisplayError(chatId, chat, myUserId) {
 
 export const ChatContext = createContext()
 
-export function ChatApp({ chatId, header, conversation, composer }) {
-    const authUser = useCurrentAuthUser()
-    const myUserId = authUser?.uid
-    const chat = useGetChatData(`${chatId}~${myUserId}`)
-    const messages = useGetMessages(chatId)
-
+export function ChatAppInner({ chatId, header, conversation, composer }) {
+    const { chat, myUserId } = useContext(ChatContext)
     const displayError = getChatDisplayError(chatId, chat, myUserId)
     const isReady = chat.isLoaded && !displayError
-
-    const sendChatMessage = (message) => {
-        if (!myUserId || !message) return
-        sendMessage(chatId, {
-            message,
-            from: myUserId,
-        })
-    }
-
-    const chatMemo = useMemo(() => ({
-        chat,
-        messages,
-        myUserId,
-        sendChatMessage,
-    }))
-
     const chatAppEl = (
-        <ChatContext.Provider value={chatMemo}>
-            <div className="ChatAppInner HideScroll">
-                <div className="ChatHeader">{header}</div>
-                <div className="ChatMessages">{conversation}</div>
-                <div className="ChatComposer">{composer}</div>
-            </div>
-        </ChatContext.Provider>
+        <div className="ChatAppInner HideScroll">
+            <div className="ChatHeader">{header}</div>
+            <div className="ChatMessages">{conversation}</div>
+            <div className="ChatComposer">{composer}</div>
+        </div>
     )
-
     return (
         <div className="ChatApp">
             {!chat.isLoaded && <ChatLoading />}
@@ -101,5 +80,39 @@ export function ChatApp({ chatId, header, conversation, composer }) {
                 <pre>{displayError}</pre>
             </Error>
         </div>
+    )
+}
+
+export function ChatApp({ chatId, header, conversation, composer }) {
+    const authUser = useCurrentAuthUser()
+    const myUserId = authUser?.uid
+    const chat = useGetChatData(`${chatId}~${myUserId}`)
+    const messages = useGetMessages(chatId)
+
+    const sendChatMessage = (message) => {
+        if (!myUserId || !message) return
+        sendMessage(chatId, {
+            message,
+            from: myUserId,
+        })
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const chatMemo = useMemo(() => ({
+        chat,
+        messages,
+        myUserId,
+        sendChatMessage,
+    }))
+
+    return (
+        <ChatContext.Provider value={chatMemo}>
+            <ChatAppInner
+                chatId={chatId}
+                header={header}
+                conversation={conversation}
+                composer={composer}
+            />
+        </ChatContext.Provider>
     )
 }

@@ -1,11 +1,16 @@
 import React from 'react'
 
-import '../src/stories/Theme.css'
+import '../src/stories/core/Reset.css'
+import '../src/stories/core/Main.css'
+import '../src/stories/core/Theme.css'
+import '../src/stories/core/Layout.css'
 
 export const decorators = [
     (Story) => (
-        <div className="Theme">
-            <Story />
+        <div className="App Theme">
+            <div className="Layout">
+                <Story />
+            </div>
         </div>
     ),
 ]
