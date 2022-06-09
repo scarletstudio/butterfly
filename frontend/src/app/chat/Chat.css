@@ -34,6 +34,8 @@
     z-index: 1;
     padding: 1em 0;
     backdrop-filter: blur(5px);
+    height: calc(100vh - 2em);
+    overflow-y: scroll;
 }
 
 .ChatComposer {
@@ -120,4 +122,20 @@
     --input-width: calc(100% - var(--send-width));
     min-width: var(--input-width);
     max-width: var(--input-width);
+}
+
+.MenuOption {
+    font-size: 1.2em;
+    padding: 1em 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.MenuOption:first-of-type {
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+.MenuOption:hover {
+    cursor: pointer;
 }

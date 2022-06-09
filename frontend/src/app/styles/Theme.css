@@ -167,3 +167,12 @@ hr {
 .ChatHeader {
     background: rgba(255, 255, 255, 0.75);
 }
+
+.MenuOption {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.MenuOption:hover {
+    background: rgba(0, 0, 0, 0.01);
+    color: var(--color-main);
+}

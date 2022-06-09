@@ -67,7 +67,7 @@ export function ChatAppInner({ chatId, header, conversation, composer }) {
     const isReady = chat.isLoaded && !displayError
     const chatAppEl = (
         <div className="ChatAppInner HideScroll">
-            <div className="ChatHeader">{header}</div>
+            <div className="ChatHeader HideScroll">{header}</div>
             <div className="ChatMessages">{conversation}</div>
             <div className="ChatComposer">{composer}</div>
         </div>
