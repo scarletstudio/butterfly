@@ -6,11 +6,12 @@ import { ChatComposer } from './ChatComposer'
 import { ChatConversation } from './ChatConversation'
 import { withChatContainer, withChatContext } from './Decorators'
 import { getMockUser } from '../mock'
+import { withRouter } from '../testing'
 
 export default {
     title: 'Chat App/ChatAppInner',
     component: ChatAppInner,
-    decorators: [withChatContainer],
+    decorators: [withRouter, withChatContainer],
     parameters: {
         layout: 'fullscreen',
     },
