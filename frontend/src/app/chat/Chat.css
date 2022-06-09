@@ -34,7 +34,7 @@
     z-index: 1;
     padding: 1em 0;
     backdrop-filter: blur(5px);
-    height: calc(100vh - 2em);
+    max-height: calc(100vh - 2em);
     overflow-y: scroll;
 }
 

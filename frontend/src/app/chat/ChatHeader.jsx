@@ -51,21 +51,79 @@ function ChatHeaderInner({ chat, onMenuClick }) {
     )
 }
 
-export function ChatMenu({ onMenuClick }) {
+export function ChatMenuInner({ menuConfig, onMenuClick, setOption }) {
     return (
         <>
             <ChatAppMenuButton label="Close Menu" onClick={onMenuClick} />
             <div className="ChatMenu">
                 <h2>Chat Menu</h2>
-                <div className="MenuOption">
-                    <span>Search Messages</span>
-                </div>
-                <div className="MenuOption">
-                    <span>Block User</span>
-                </div>
+                {menuConfig?.options?.map((opt) => (
+                    <div
+                        className="MenuOption"
+                        key={opt.id}
+                        tabIndex={0}
+                        role="button"
+                        onClick={() => setOption(opt.id)}
+                        onKeyDown={() => setOption(opt.id)}
+                    >
+                        <span>{opt.name}</span>
+                    </div>
+                ))}
             </div>
         </>
     )
+}
+
+export function SubMenuContainer({ name, onClick, children }) {
+    return (
+        <>
+            <ChatAppMenuButton label="Chat Menu" onClick={onClick} />
+            <div className="ChatMenu">
+                <h2>{name}</h2>
+                {children}
+            </div>
+        </>
+    )
+}
+
+function ComingSoon() {
+    return <p>Coming soon...</p>
+}
+
+export function ChatMenu({ menuConfig, onMenuClick }) {
+    const subMenuMap = menuConfig?.options?.reduce(
+        (agg, opt) => ({
+            ...agg,
+            [opt.id]: opt,
+        }),
+        {}
+    )
+    const [showOption, setShowOption] = useState(null)
+    const closeOption = () => setShowOption(null)
+    const selectedOption = subMenuMap?.[showOption]
+    if (selectedOption) {
+        const SubMenuComponent = selectedOption?.component || ComingSoon
+        return (
+            <SubMenuContainer name={selectedOption?.name} onClick={closeOption}>
+                <SubMenuComponent />
+            </SubMenuContainer>
+        )
+    }
+    return (
+        <ChatMenuInner
+            menuConfig={menuConfig}
+            onMenuClick={onMenuClick}
+            setOption={setShowOption}
+        />
+    )
+}
+
+const MENU_CONFIG = {
+    options: [
+        { id: 'search', name: 'Search Messages' },
+        { id: 'block', name: 'Block Users' },
+        { id: 'rate', name: 'Rate Match' },
+    ],
 }
 
 export function ChatHeader() {
@@ -74,7 +132,7 @@ export function ChatHeader() {
     const closeMenu = () => setShowMenu(false)
     const { chat } = useContext(ChatContext)
     if (showMenu) {
-        return <ChatMenu onMenuClick={closeMenu} />
+        return <ChatMenu menuConfig={MENU_CONFIG} onMenuClick={closeMenu} />
     }
     return <ChatHeaderInner chat={chat} onMenuClick={openMenu} />
 }
