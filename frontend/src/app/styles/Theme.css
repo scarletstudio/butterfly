@@ -28,11 +28,6 @@
     font-family: var(--font-body);
 }
 
-.Header {
-    background: var(--color-theme-main);
-    color: var(--color-theme-contrast);
-}
-
 h1,
 h2,
 h3,
@@ -42,22 +37,43 @@ h6 {
     font-family: var(--font-heading);
 }
 
-.Header h1,
-.Header h2,
-.Header h3,
-.Header h4,
-.Header h5,
-.Header h6 {
-    color: var(--color-theme-accent);
-}
+/* Links */
 
 a {
     color: var(--color-text);
 }
 
-/* Links */
-
 a:hover {
+    color: var(--color-main);
+}
+
+/* Page Header */
+
+.Header {
+    background: var(--color-theme-main);
+    color: var(--color-theme-contrast);
+}
+
+.Header h1,
+.Header h2,
+.Header h3,
+.Header h4,
+.Header h5,
+.Header h6,
+.Header h1 a,
+.Header h2 a,
+.Header h3 a,
+.Header h4 a,
+.Header h5 a,
+.Header h6 a {
+    color: var(--color-theme-accent);
+}
+
+.Header a {
+    color: var(--color-theme-contrast);
+}
+
+.Header a:hover {
     color: var(--color-main);
 }
 

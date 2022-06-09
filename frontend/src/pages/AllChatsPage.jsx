@@ -5,9 +5,11 @@ import { useCurrentAuthUser } from '../app/login'
 import { COMMUNITY } from '../app/constants'
 import { useGetMatches, useGetManyUserData } from '../app/data'
 import { MatchTile } from '../app/inbox'
+import { COMMUNITY_CONFIG } from '../config/communities'
 
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
+    const communityConfig = COMMUNITY_CONFIG?.[COMMUNITY] || {}
     const matches = useGetMatches(COMMUNITY, authUser?.uid)
     const matchedUserIds = matches.reduce(
         (agg, m) => ({
@@ -30,14 +32,21 @@ export default function AllChatsPage() {
     return (
         <div className="AllChatsPage">
             <div className="Header">
-                <Link to="/">
-                    <h1 className="BigTitle">Butterfly Chats</h1>
-                </Link>
+                <h1 className="BigTitle">
+                    <Link to="/">
+                        <span>Butterfly Chats</span>
+                    </Link>
+                </h1>
                 <p>Each week, you will be matched to another person in your community.</p>
-                <p>Check back on Mondays to see who you are matched with!</p>
+                <p>
+                    <span>Check back on Mondays to see who you are matched with! </span>
+                    <span>
+                        Update <Link to="/me">your profile</Link> for better matches.
+                    </span>
+                </p>
             </div>
             <div className="Page">
-                <h2>Demo Community</h2>
+                <h2>{communityConfig?.name || 'Your Matches'}</h2>
                 {matchEls}
             </div>
         </div>
