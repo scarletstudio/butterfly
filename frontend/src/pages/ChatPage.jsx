@@ -2,13 +2,15 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 
 import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../app/chat'
+import { BlockUser, SearchMessages, RateMatch, UpvoteUser } from '../app/chatmenu'
 import { COMMUNITY } from '../app/constants'
 
 const MENU_CONFIG = {
     options: [
-        { id: 'search', name: 'Search Messages' },
-        { id: 'block', name: 'Block Users' },
-        { id: 'rate', name: 'Rate Match' },
+        { id: 'search', name: 'Search Messages', component: SearchMessages },
+        { id: 'block', name: 'Block User', component: BlockUser },
+        { id: 'rate', name: 'Rate Match', component: RateMatch },
+        { id: 'upvote', name: 'Upvote User', component: UpvoteUser },
     ],
 }
 
