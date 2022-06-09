@@ -1,20 +1,17 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
+import { useParams } from 'react-router-dom'
 
 import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../app/chat'
+import { BlockUser, SearchMessages, RateMatch, UpvoteUser } from '../app/chatmenu'
 import { COMMUNITY } from '../app/constants'
 
-function BackToChatsButton() {
-    return (
-        <div className="FloatingButton BackToChatsButton">
-            <Link to="/chats" className="NoDecorate">
-                <FontAwesomeIcon icon={faXmarkCircle} className="IconBefore" />
-                <span className="FloatingButtonTooltip">Back to Chats</span>
-            </Link>
-        </div>
-    )
+const MENU_CONFIG = {
+    options: [
+        { id: 'search', name: 'Search Messages', component: SearchMessages },
+        { id: 'block', name: 'Block User', component: BlockUser },
+        { id: 'rate', name: 'Rate Match', component: RateMatch },
+        { id: 'upvote', name: 'Upvote User', component: UpvoteUser },
+    ],
 }
 
 export default function ChatPage() {
@@ -23,10 +20,9 @@ export default function ChatPage() {
     return (
         <div className="ChatPage">
             <div className="ChatContainer">
-                <BackToChatsButton />
                 <ChatApp
                     chatId={fullChatId}
-                    header={<ChatHeader />}
+                    header={<ChatHeader menuConfig={MENU_CONFIG} />}
                     conversation={<ChatConversation />}
                     composer={<ChatComposer />}
                 />

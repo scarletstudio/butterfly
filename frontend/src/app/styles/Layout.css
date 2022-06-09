@@ -106,14 +106,20 @@
     height: var(--icon-height);
 }
 
+.FloatingButton:hover {
+    cursor: pointer;
+}
+
 .FloatingButton .IconBefore {
     font-size: var(--icon-height);
+    margin: 0;
 }
 
 .FloatingButtonTooltip {
     display: none;
     height: var(--icon-height);
     vertical-align: middle;
+    margin: 0 1em;
 }
 
 .FloatingButton:hover .FloatingButtonTooltip {
@@ -140,4 +146,10 @@
     --icon-height: 36px;
     top: 0;
     left: 0;
+}
+
+.ChatAppMenuButton {
+    --icon-height: 36px;
+    top: 0;
+    right: 0;
 }
