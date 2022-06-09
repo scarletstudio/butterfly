@@ -30,7 +30,7 @@ def test_example():
             ),
             User(uid="2", displayName="B", interests=[give_tutoring]),
             User(
-                uid="3", displayName="C", interests=[give_tutoring, seek_comedy]
+                uid="3", displayName="C", interests=[give_tutoring, give_comedy]
             ),
         ],
         recent_matches=[],
