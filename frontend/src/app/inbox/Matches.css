@@ -1,8 +1,6 @@
 /* Variables */
 
 .AllChatsPage {
-    --max-width: 500px;
-    max-width: var(--max-width);
     margin: 0 auto;
 }
 

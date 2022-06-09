@@ -12,7 +12,7 @@ import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import AllChatsPage from './pages/AllChatsPage'
 import ChatPage from './pages/ChatPage'
-
+import EditProfilePage from './pages/EditProfilePage'
 import MockLoginPage from './pages/MockLoginPage'
 import StyleGuidePage from './pages/StyleGuide'
 
@@ -36,6 +36,7 @@ function AppRouting() {
             <Route index element={<HomePage />} />
             <Route path="/" element={<Layout />}>
                 <Route path="login" element={<LoginPage />} />
+                <Route path="me" element={<EditProfilePage />} />
                 <Route path="profile">
                     <Route path=":uid" element={<ProfilePage />} />
                 </Route>
