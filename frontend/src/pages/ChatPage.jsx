@@ -1,21 +1,8 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
+import { useParams } from 'react-router-dom'
 
 import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../app/chat'
 import { COMMUNITY } from '../app/constants'
-
-function BackToChatsButton() {
-    return (
-        <div className="FloatingButton BackToChatsButton">
-            <Link to="/chats" className="NoDecorate">
-                <FontAwesomeIcon icon={faXmarkCircle} className="IconBefore" />
-                <span className="FloatingButtonTooltip">Back to Chats</span>
-            </Link>
-        </div>
-    )
-}
 
 export default function ChatPage() {
     const { chatId } = useParams()
@@ -23,7 +10,6 @@ export default function ChatPage() {
     return (
         <div className="ChatPage">
             <div className="ChatContainer">
-                <BackToChatsButton />
                 <ChatApp
                     chatId={fullChatId}
                     header={<ChatHeader />}

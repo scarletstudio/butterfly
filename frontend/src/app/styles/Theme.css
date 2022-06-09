@@ -87,6 +87,10 @@ a:hover {
     color: var(--color-theme-contrast);
 }
 
+.FloatingButton:hover {
+    color: var(--color-main);
+}
+
 /* Forms */
 
 select,
