@@ -53,6 +53,7 @@ tasks:
       source .venv/bin/activate
       ./run.sh install-backend
       pre-commit install
+      pre-commit install --install-hooks
     command: |
       cat .bash_aliases >> ~/.bashrc
       source ~/.bashrc
@@ -67,3 +68,7 @@ tasks:
       source .bash_aliases
       source .venv/bin/activate
       echo "Backend coming soon..."
+  - name: Storybook
+    command: |
+      source .bash_aliases
+      ./run.sh storybook
