@@ -48,23 +48,22 @@ ports:
     visibility: public
 tasks:
   - name: Terminal
-    openMode: tab-after
     init: |
       python3 -m venv .venv
+      source .venv/bin/activate
       ./run.sh install-backend
+      pre-commit install
     command: |
       cat .bash_aliases >> ~/.bashrc
       source ~/.bashrc
       source .venv/bin/activate
-      pre-commit install
   - name: Frontend
-    openMode: split-right
     init: ./run.sh install-frontend
     command: |
       source .bash_aliases
       ./run.sh frontend
   - name: Backend
-    openMode: split-left
     command: |
       source .bash_aliases
+      source .venv/bin/activate
       echo "Backend coming soon..."
