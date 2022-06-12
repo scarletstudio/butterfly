@@ -11,14 +11,19 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
-      - name: Setup Python 3.8 🐍
+
+      - name: Install Python 3.8 🐍
         uses: "actions/setup-python@v3"
         with:
           python-version: "3.8"
-      - name: Setup Node.js
+
+      - name: Install Node.js 🔋
         uses: actions/setup-node@v3
         with:
           node-version: 16
+
       - name: Install Frontend Dependencies 🔧
         run: ./run.sh install-frontend-ci
-      - uses: pre-commit/action@v3.0.0
+
+      - name: Run Pre-Commit 🖊️
+        uses: pre-commit/action@v3.0.0
