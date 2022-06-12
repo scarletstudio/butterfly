@@ -47,6 +47,16 @@ ports:
     onOpen: ignore
     visibility: public
 tasks:
+  - name: Terminal
+    init: |
+      python3 -m venv .venv
+      ./run.sh install-backend
+      pre-commit install
+      pre-commit install --install-hooks
+    command: |
+      cat .bash_aliases >> ~/.bashrc
+      source ~/.bashrc
+      source .venv/bin/activate
   - name: Frontend
     init: ./run.sh install-frontend
     command: |
@@ -58,12 +68,3 @@ tasks:
       source .bash_aliases
       echo "Backend coming soon..."
     openMode: split-left
-  - name: Terminal
-    init: |
-      python3 -m venv .venv
-      ./run.sh install-backend
-    command: |
-      cat .bash_aliases >> ~/.bashrc
-      source ~/.bashrc
-      source .venv/bin/activate
-      pre-commit install
