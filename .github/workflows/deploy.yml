@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Install Node.js 🔋
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
-      - name: Install and Build 🔧
+      - name: Build Static Website 💻
         env:
           VITE_firebase_apiKey: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_firebase_authDomain: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
@@ -44,6 +44,7 @@ jobs:
           npm run build
           touch butterfly/.nojekyll
           rm .env
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:

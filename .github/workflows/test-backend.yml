@@ -23,14 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v3
 
-      - name: Setup Python 3.8 🐍
+      - name: Install Python 3.8 🐍
         uses: "actions/setup-python@v3"
         with:
           python-version: "3.8"
 
-      - name: Install Backend Dependencies
+      - name: Install Backend Dependencies 🔧
         run: |
           python3 -m venv .venv
           source .venv/bin/activate
