@@ -44,6 +44,8 @@ function MockUserLoginSelector({ mockUsers, doLogIn }) {
             </p>
             <p>
                 <Link to="/login">Back to Real Login</Link>
+                <span> | </span>
+                <Link to="/status">Status Page</Link>
             </p>
         </div>
     )
