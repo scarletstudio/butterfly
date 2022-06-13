@@ -4,9 +4,15 @@ import { useBackendFetchJson } from '../app/utils'
 
 const DEFAULT_STATUS = 'Contacting backend API...'
 
+function getStatusMessage(res, error) {
+    if (error) return `Error: ${error}`
+    if (res) return JSON.stringify(res, null, 4)
+    return DEFAULT_STATUS
+}
+
 export default function StatusPage() {
-    const status = useBackendFetchJson({ route: '/' })
-    const statusText = status ? JSON.stringify(status, null, 4) : DEFAULT_STATUS
+    const [res, error] = useBackendFetchJson({ route: '/' })
+    const statusText = getStatusMessage(res, error)
     return (
         <div className="Layout Page">
             <div>
