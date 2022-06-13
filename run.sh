@@ -92,6 +92,46 @@ elif [ "$1" == "pytest" ]; then
   source .venv/bin/activate
   pytest "${@:2}"
 
+elif [ "$1" == "backend" ]; then
+  echo "Starting backend..."
+  source .venv/bin/activate
+  cd backend
+  # Set the Django secret key and save as an environment variable
+  if command -v gp &> /dev/null; then
+    gp env SECRET_KEY=$RANDOM
+    eval $(gp env -e)
+  else
+    SECRET_KEY=$RANDOM
+  fi
+  echo "SECRET_KEY=$SECRET_KEY" > .env
+  # Run the backend in development mode
+  python3 manage.py migrate
+  python3 manage.py runserver
+
+elif [ "$1" == "backend-server" ]; then
+  echo "Starting backend in server (non-development) mode..."
+  source .venv/bin/activate
+  cd backend
+  # Set the Django secret key and save as an environment variable
+  if command -v gp &> /dev/null; then
+    gp env SECRET_KEY=$RANDOM
+    eval $(gp env -e)
+  else
+    SECRET_KEY=$RANDOM
+  fi
+  echo "SECRET_KEY=$SECRET_KEY" > .env
+  # Run the backend in development mode
+  python3 manage.py migrate
+  gunicorn server.wsgi --bind 0.0.0.0:$BACKEND_PORT
+
+elif [ "$1" == "api" ]; then
+  # Open the backend in the GitPod preview window
+  if command -v gp &> /dev/null; then
+    gp preview $(gp url "$BACKEND_PORT")
+  else
+    open "http://localhost:$BACKEND_PORT"
+  fi
+
 elif [ "$1" == "flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
