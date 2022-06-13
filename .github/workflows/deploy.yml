@@ -22,6 +22,7 @@ jobs:
 
       - name: Build Static Website 💻
         env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
           VITE_firebase_apiKey: ${{ secrets.VITE_FIREBASE_APIKEY }}
           VITE_firebase_authDomain: ${{ secrets.VITE_FIREBASE_AUTHDOMAIN }}
           VITE_firebase_databaseURL: ${{ secrets.VITE_FIREBASE_DATABASEURL }}
@@ -32,6 +33,7 @@ jobs:
           VITE_firebase_mockUserPassword: ${{ secrets.VITE_FIREBASE_MOCKUSERPASSWORD }}
         run: |
           cd frontend
+          echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" > .env
           echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env
           echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env
           echo "VITE_firebase_databaseURL=$VITE_firebase_databaseURL" >> .env
