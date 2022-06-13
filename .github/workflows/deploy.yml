@@ -33,6 +33,7 @@ jobs:
           VITE_firebase_mockUserPassword: ${{ secrets.VITE_FIREBASE_MOCKUSERPASSWORD }}
         run: |
           cd frontend
+          echo "VITE_BACKEND_API is `$VITE_BACKEND_API`"
           echo "VITE_BACKEND_API=$VITE_BACKEND_API" > .env
           echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" >> .env
           echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env
