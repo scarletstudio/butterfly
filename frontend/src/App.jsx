@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage'
 import AllChatsPage from './pages/AllChatsPage'
 import ChatPage from './pages/ChatPage'
 import EditProfilePage from './pages/EditProfilePage'
+import StatusPage from './pages/StatusPage'
 import MockLoginPage from './pages/MockLoginPage'
 import StyleGuidePage from './pages/StyleGuide'
 
@@ -44,6 +45,7 @@ function AppRouting() {
                     <Route index element={<AllChatsPage />} />
                     <Route path=":chatId" element={<ChatPage />} />
                 </Route>
+                <Route path="status" element={<StatusPage />} />
                 <Route path="mocklogin" element={<MockLoginPage />} />
                 <Route path="resources">
                     <Route path="styleguide" element={<StyleGuidePage />} />
