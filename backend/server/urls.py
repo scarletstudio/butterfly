@@ -6,5 +6,6 @@ urlpatterns = [
     path("", views.hello),
     path("attributes/", include("attributes.urls")),
     path("chat/", include("chat.urls")),
+    path("core/", include("core.urls")),
     path("ratings/", include("ratings.urls")),
 ]
