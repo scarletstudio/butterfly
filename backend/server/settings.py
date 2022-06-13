@@ -36,6 +36,9 @@ APPEND_SLASH = True
 # Application definition
 
 INSTALLED_APPS = [
+    "attributes.apps.AttributesConfig",
+    "chat.apps.ChatConfig",
+    "ratings.apps.RatingsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
