@@ -1,0 +1,15 @@
+.Logo img {
+    width: 100%;
+}
+
+.Logo.Centered {
+    margin: 0 auto;
+}
+
+.Logo.Small {
+    width: 50px;
+}
+
+.Logo.Big {
+    width: 150px;
+}

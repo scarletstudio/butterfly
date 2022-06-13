@@ -6,7 +6,7 @@ import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../app/login'
 import { maybeUpdateUserDetails } from '../app/data'
-import { Error } from '../app/ui'
+import { Error, Logo } from '../app/ui'
 
 import '../app/login/Login.css'
 
@@ -50,6 +50,7 @@ export default function LoginPage() {
     return (
         <div className="Page LoginPage FullHeight VerticalCenter">
             <div>
+                <Logo size="Big" align="Centered" />
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>
                 <p>

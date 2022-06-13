@@ -6,7 +6,7 @@ import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentAuthUser, signOutUser, CurrentLogin } from '../app/login'
 import { maybeUpdateUserDetails } from '../app/data'
 import { MOCK_USERS, signInMockUser } from '../app/mock'
-import { Error } from '../app/ui'
+import { Error, Logo } from '../app/ui'
 
 import '../app/login/Login.css'
 
@@ -75,6 +75,7 @@ export default function MockLoginPage() {
     return (
         <div className="Page LoginPage FullHeight VerticalCenter">
             <div>
+                <Logo size="Big" align="Centered" />
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>
                 <hr />
