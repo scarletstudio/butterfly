@@ -42,7 +42,7 @@ export function useGetManyUserData(userIdMap) {
         // Filter out user IDs that were already fetched
         Object.keys(userIdMap)
             .filter((k) => !(k in userDetails))
-            .map((uid) => fetchUserData(uid))
+            .map(fetchUserData)
             .forEach((promise) => {
                 promise
                     .then((userData) => {
