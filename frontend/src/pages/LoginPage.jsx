@@ -57,10 +57,7 @@ export default function LoginPage() {
                     label="Log in with Google"
                     primary
                     iconBefore={faGoogle}
-                    role="button"
-                    tabIndex={0}
                     onClick={doLogIn}
-                    onKeyDown={doLogIn}
                 />
                 <Error hasError={loginError}>
                     <p>Something went wrong:</p>

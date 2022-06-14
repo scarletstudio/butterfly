@@ -33,10 +33,7 @@ function MockUserLoginSelector({ mockUsers, doLogIn }) {
                 label="Log in as Mock User"
                 primary
                 iconBefore={faUserNinja}
-                role="button"
-                tabIndex={0}
                 onClick={doMockUserLogin}
-                onKeyDown={doMockUserLogin}
             />
             <p>
                 <Link to="/login">Back to Real Login</Link>
