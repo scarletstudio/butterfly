@@ -95,34 +95,44 @@ elif [ "$1" == "pytest" ]; then
 elif [ "$1" == "backend" ]; then
   echo "Starting backend..."
   source .venv/bin/activate
-  cd backend
   # Set the Django secret key and save as an environment variable
   if command -v gp &> /dev/null; then
-    gp env SECRET_KEY=$RANDOM
+    gp env SECRET_KEY="$RANDOM"
+    gp env API_DATABASE_URL="$PREFECT__CONTEXT__SECRETS__database_url"
+    gp env API_ADMIN_CREDENTIALS="$PREFECT__CONTEXT__SECRETS__admin_credentials"
     eval $(gp env -e)
   else
     SECRET_KEY=$RANDOM
+    echo "Firebase keys are not automated for non-GitPod runs."
+    exit 1
   fi
   echo "SECRET_KEY=$SECRET_KEY" > .env
+  echo "API_DATABASE_URL=$API_DATABASE_URL" >> .env
+  echo "API_ADMIN_CREDENTIALS=$API_ADMIN_CREDENTIALS" >> .env
   # Run the backend in development mode
-  python3 manage.py migrate
-  python3 manage.py runserver
+  python3 backend/manage.py migrate
+  python3 backend/manage.py runserver
 
 elif [ "$1" == "backend-server" ]; then
   echo "Starting backend in server (non-development) mode..."
   source .venv/bin/activate
-  cd backend
   # Set the Django secret key and save as an environment variable
   if command -v gp &> /dev/null; then
     gp env SECRET_KEY=$RANDOM
+    gp env API_DATABASE_URL="$PREFECT__CONTEXT__SECRETS__database_url"
+    gp env API_ADMIN_CREDENTIALS="$PREFECT__CONTEXT__SECRETS__admin_credentials"
     eval $(gp env -e)
   else
     SECRET_KEY=$RANDOM
+    echo "Firebase keys are not automated for non-GitPod runs."
+    exit 1
   fi
   echo "SECRET_KEY=$SECRET_KEY" > .env
+  echo "API_DATABASE_URL=$API_DATABASE_URL" >> .env
+  echo "API_ADMIN_CREDENTIALS=$API_ADMIN_CREDENTIALS" >> .env
   # Run the backend in development mode
-  python3 manage.py migrate
-  gunicorn server.wsgi --bind 0.0.0.0:$BACKEND_PORT
+  python3 backend/manage.py migrate
+  gunicorn server.wsgi --bind 0.0.0.0:$BACKEND_PORT --chdir=backend
 
 elif [ "$1" == "api" ]; then
   # Open the backend in the GitPod preview window

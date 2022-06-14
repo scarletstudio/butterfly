@@ -1,6 +1,7 @@
-from core.views import view_user
 from django.urls import path
 
+from . import views
+
 urlpatterns = [
-    path("user", view_user),
+    path("user/<str:uid>", views.user.view_user),
 ]

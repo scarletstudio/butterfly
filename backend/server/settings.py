@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "chat.apps.ChatConfig",
     "core.apps.CoreConfig",
     "ratings.apps.RatingsConfig",
+    "server.apps.ServerConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

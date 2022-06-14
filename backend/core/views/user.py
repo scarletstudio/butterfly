@@ -1,5 +1,10 @@
-from django.http import HttpResponse
+from backend.utils import format_json, with_db
 
 
-def view_user(request):
-    return HttpResponse(status=200)
+@with_db
+def view_user(db, request, uid: str):
+    """Gets a user's profile data by their user ID."""
+    data = db.reference(f"users/{uid}").get()
+    if not data:
+        return format_json(success=False, message=f"No user for ID: {uid}")
+    return format_json(data=data)
