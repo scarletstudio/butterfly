@@ -2,9 +2,20 @@ import { useEffect, useState } from 'react'
 import { getDatabase, onValue, ref, serverTimestamp, update } from 'firebase/database'
 
 import { DB_PATH } from '../constants'
+import { fetchFromBackend } from '../utils'
+
+/*
+ * Async function to get data about a given user.
+ * Retrieves data from the backend API, does not require authentication.
+ */
+export async function fetchUserData(userId) {
+    const res = await fetchFromBackend({ route: `/core/user/${userId}` })
+    return res?.data
+}
 
 /*
  * Returns a Promise to get data about a given user.
+ * Retrieves data directly from Firebase, requires user to be authenticated.
  */
 export function getUserData(userId) {
     const db = getDatabase()
@@ -31,7 +42,7 @@ export function useGetManyUserData(userIdMap) {
         // Filter out user IDs that were already fetched
         Object.keys(userIdMap)
             .filter((k) => !(k in userDetails))
-            .map(getUserData)
+            .map(fetchUserData)
             .forEach((promise) => {
                 promise
                     .then((userData) => {

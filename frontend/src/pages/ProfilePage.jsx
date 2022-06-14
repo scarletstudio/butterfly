@@ -1,13 +1,9 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useCurrentAuthUser } from '../app/login'
 import { useGetManyUserData } from '../app/data'
 
 export default function ProfilePage() {
-    // Remove authUser once the API is setup
-    useCurrentAuthUser()
-
     const { uid } = useParams()
 
     const userProfile = useGetManyUserData({ [uid]: true })?.[uid]
