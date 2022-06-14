@@ -1,1 +1,1 @@
-from core.views.user import *
+from backend.core.views import user
