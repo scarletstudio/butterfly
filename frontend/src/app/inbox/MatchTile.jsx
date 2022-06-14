@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 
 import { formatMatchDate } from '../utils'
-import { UserTile } from '../ui'
+import { Button, UserTile } from '../ui'
 
 import './Matches.css'
 
@@ -22,9 +21,8 @@ export function MatchTile({ match, users }) {
             <h3>Week of {formatMatchDate(release_timestamp)}</h3>
             <div className="UserRow">{userEls}</div>
             <p>
-                <Link to={`/chats/${id}`} className="Button">
-                    <FontAwesomeIcon icon={faComments} className="IconBefore" />
-                    <span>Open Chat</span>
+                <Link to={`/chats/${id}`}>
+                    <Button label="Open Chat" iconBefore={faComments} />
                 </Link>
             </p>
         </div>

@@ -1,12 +1,11 @@
 import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser, signOutUser, CurrentLogin } from '../app/login'
 import { maybeUpdateUserDetails } from '../app/data'
 import { MOCK_USERS, signInMockUser } from '../app/mock'
-import { Error, Logo } from '../app/ui'
+import { Button, Error, Logo } from '../app/ui'
 
 import '../app/login/Login.css'
 
@@ -30,18 +29,15 @@ function MockUserLoginSelector({ mockUsers, doLogIn }) {
                     {mockUserOptions}
                 </select>
             </p>
-            <p>
-                <span
-                    className="Button Primary"
-                    role="button"
-                    tabIndex={0}
-                    onClick={doMockUserLogin}
-                    onKeyDown={doMockUserLogin}
-                >
-                    <FontAwesomeIcon icon={faUserNinja} className="IconBefore" />
-                    <span>Log in as Mock User</span>
-                </span>
-            </p>
+            <Button
+                label="Log in as Mock User"
+                primary
+                iconBefore={faUserNinja}
+                role="button"
+                tabIndex={0}
+                onClick={doMockUserLogin}
+                onKeyDown={doMockUserLogin}
+            />
             <p>
                 <Link to="/login">Back to Real Login</Link>
                 <span> | </span>

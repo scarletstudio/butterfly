@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Logo } from '../app/ui'
+import { Button, Logo } from '../app/ui'
 
 import '../app/styles/HomePage.css'
 
@@ -12,8 +12,8 @@ export default function HomePage() {
                 <Logo size="Big" align="Centered" />
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>
-                <Link to="/login" className="Button Primary">
-                    Login
+                <Link to="/login">
+                    <Button label="Login" primary />
                 </Link>
             </div>
         </div>

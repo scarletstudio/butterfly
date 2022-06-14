@@ -6,7 +6,7 @@ import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../app/login'
 import { maybeUpdateUserDetails } from '../app/data'
-import { Error, Logo } from '../app/ui'
+import { Button, Error, Logo } from '../app/ui'
 
 import '../app/login/Login.css'
 
@@ -53,18 +53,15 @@ export default function LoginPage() {
                 <Logo size="Big" align="Centered" />
                 <h1 className="BigTitle">Butterfly</h1>
                 <p>Meet people in your community.</p>
-                <p>
-                    <span
-                        className="Button Primary"
-                        role="button"
-                        tabIndex={0}
-                        onClick={doLogIn}
-                        onKeyDown={doLogIn}
-                    >
-                        <FontAwesomeIcon icon={faGoogle} className="IconBefore" />
-                        <span>Log in with Google</span>
-                    </span>
-                </p>
+                <Button
+                    label="Log in with Google"
+                    primary
+                    iconBefore={faGoogle}
+                    role="button"
+                    tabIndex={0}
+                    onClick={doLogIn}
+                    onKeyDown={doLogIn}
+                />
                 <Error hasError={loginError}>
                     <p>Something went wrong:</p>
                     <pre>{loginError?.toString()}</pre>
