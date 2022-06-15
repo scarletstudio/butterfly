@@ -5,9 +5,11 @@ export function UserDisc({ user }) {
     const { displayName, photoURL } = user
     const alt = `Profile image for ${displayName}.`
     return (
-        <div className="UserDisc">
-            <img src={photoURL} alt={alt} className="Image" />
-        </div>
+        photoURL && (
+            <div className="UserDisc">
+                <img src={photoURL} alt={alt} className="Image" />
+            </div>
+        )
     )
 }
 
