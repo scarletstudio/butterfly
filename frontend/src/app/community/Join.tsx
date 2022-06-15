@@ -115,7 +115,7 @@ export function JoinCommunity({
     const communityData: CommunityData = communityConfig?.[communityId]
 
     return (
-        <div className="Layout Page Centered">
+        <div className="Centered">
             <h1 className="BigTitle">Join Community</h1>
             <JoinCommunityInner {...{ communityId, communityData, authUser, doJoin, doLogIn }} />
             <MissingCommunity {...{ communityId, communityData }} />

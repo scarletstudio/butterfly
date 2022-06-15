@@ -22,7 +22,7 @@ export default function JoinPage() {
     const { communityId } = useParams()
     const authUser = useCurrentAuthUser()
     return (
-        <div className="Layout Page Centered">
+        <div className="Layout Page">
             <JoinCommunity
                 communityId={communityId}
                 communityConfig={COMMUNITY_CONFIG}
