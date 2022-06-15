@@ -7,6 +7,8 @@
     --color-theme-accent: rgb(42, 222, 250);
     --color-theme-contrast: rgb(255, 255, 255);
     --color-page-background: rgb(255, 255, 255);
+    --color-chat-accent: rgb(156, 255, 250);
+    --color-chat-background: rgb(247, 248, 253);
     --color-main: rgb(42, 222, 250);
     --color-light: rgb(224, 252, 255);
     --color-dark: rgb(5, 108, 120);
@@ -54,6 +56,12 @@ a:hover {
     color: var(--color-theme-contrast);
 }
 
+.Header.Light {
+    background: var(--color-theme-contrast);
+    color: var(--color-text);
+    box-shadow: 0 0 5px 1px var(--color-main);
+}
+
 .Header h1,
 .Header h2,
 .Header h3,
@@ -69,12 +77,39 @@ a:hover {
     color: var(--color-theme-accent);
 }
 
+.Header.Light h1,
+.Header.Light h2,
+.Header.Light h3,
+.Header.Light h4,
+.Header.Light h5,
+.Header.Light h6,
+.Header.Light h1 a,
+.Header.Light h2 a,
+.Header.Light h3 a,
+.Header.Light h4 a,
+.Header.Light h5 a,
+.Header.Light h6 a {
+    color: var(--color-main);
+}
+
 .Header a {
     color: var(--color-theme-contrast);
 }
 
 .Header a:hover {
     color: var(--color-main);
+}
+
+.Header.Light a {
+    color: var(--color-text);
+}
+
+.Header.Light a:hover {
+    color: var(--color-main);
+}
+
+.LightBackground {
+    background: var(--color-chat-background);
 }
 
 /* Buttons */
@@ -146,42 +181,50 @@ hr {
 }
 
 .Message.Mine .MessageInner {
-    background: var(--color-light);
+    background: var(--color-contrast);
 }
 
-.Message.Participant0 .MessageInner {
-    background: var(--color-light-0);
+.Message.Theirs .MessageInner {
+    background: var(--color-chat-accent);
 }
 
-.Message.Participant1 .MessageInner {
-    background: var(--color-light-1);
+.ChatAppInner {
+    background: var(--color-chat-background);
 }
 
-.Message.Participant2 .MessageInner {
-    background: var(--color-light-2);
+.ChatAppInner .FloatingButton path {
+    color: var(--color-chat-accent);
+    opacity: 1;
+}
+
+.ChatAppInner .FloatingButton:hover,
+.ChatAppInner .FloatingButton:hover a,
+.ChatAppInner .FloatingButton:hover path {
+    color: var(--color-text);
+    opacity: 1;
 }
 
 .ChatComposer .Input,
 .ChatComposer .Send {
-    border-color: var(--color-theme-main);
-    outline-color: var(--color-theme-main);
+    border-color: rgba(0, 0, 0, 0);
+    outline-color: rgba(0, 0, 0, 0);
 }
 
 .ChatComposer .Send {
-    background: var(--color-theme-main);
+    background: var(--color-chat-accent);
     color: var(--color-theme-contrast);
 }
 
 .ChatComposer .Send:hover {
-    background: var(--color-theme-accent);
+    background: var(--color-text);
 }
 
 .ChatComposer .Input {
-    background: var(--color-light);
+    background: var(--color-contrast);
 }
 
 .ChatHeader {
-    background: rgba(255, 255, 255, 0.75);
+    background: var(--color-contrast);
 }
 
 .MenuOption {
@@ -191,4 +234,19 @@ hr {
 .MenuOption:hover {
     background: rgba(0, 0, 0, 0.01);
     color: var(--color-main);
+}
+
+/* Inbox */
+
+.Inbox {
+    background: var(--color-contrast);
+}
+
+.ChatPreview {
+    background: transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.ChatPreview:hover {
+    background: var(--color-chat-background);
 }

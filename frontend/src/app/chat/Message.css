@@ -1,0 +1,73 @@
+/* Messages */
+
+.Message {
+    display: block;
+    margin: 20px 0;
+    font-size: 0;
+}
+
+.Message.Mine {
+    text-align: right;
+}
+
+.Message.Theirs {
+    text-align: left;
+}
+
+.Message.Mine .MessageInner {
+    border-bottom-right-radius: 0;
+}
+
+.Message.Theirs .MessageInner {
+    border-top-left-radius: 0;
+}
+
+.MessageInner {
+    display: inline-block;
+    width: calc(100% - 60px);
+    padding: 0.5em;
+    border-radius: 1em;
+    text-align: left;
+    font-size: var(--text-size);
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.MessageInner p {
+    margin: 0;
+}
+
+.Message .Author {
+    font-size: 0.8em;
+    margin-bottom: 0.2em;
+    opacity: 0.75;
+}
+
+.Message .ProfileImage {
+    display: inline-block;
+    width: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.Message.Mine .ProfileImage {
+    vertical-align: bottom;
+    margin-left: 10px;
+}
+
+.Message.Theirs .ProfileImage {
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+.Message .ProfileImage .Image {
+    width: 100%;
+}
+
+.Message:hover .MessageInner {
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.Message:hover .ProfileImage {
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+}

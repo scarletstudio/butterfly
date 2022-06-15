@@ -3,19 +3,24 @@
 .ChatContainer {
     --send-width: 60px;
     --send-height: 4em;
-    --chat-max-width: 500px;
-    --chat-padding-top: 16em;
+    --message-max-width: 500px;
+    --chat-padding-top: 8em;
     --chat-padding-bottom: 8em;
+    --chat-composer-radius: 20px;
+    --chat-composer-margin: 20px;
 }
 
 /* Chat Page */
 
 .ChatContainer {
-    max-width: var(--chat-max-width);
     margin: 0 auto;
 }
 
 /* Chat App */
+
+.ChatApp .MessageInner {
+    max-width: var(--message-max-width);
+}
 
 .ChatAppInner {
     height: 100vh;
@@ -26,14 +31,12 @@
 .ChatComposer {
     position: absolute;
     width: 100%;
-    max-width: var(--chat-max-width);
 }
 
 .ChatHeader {
     top: 0;
     z-index: 1;
     padding: 1em 0;
-    backdrop-filter: blur(5px);
     max-height: calc(100vh - 2em);
     overflow-y: scroll;
 }
@@ -52,50 +55,27 @@
 
 .ChatHeader {
     text-align: center;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
 }
 
-/* Messages */
-
-.Message {
-    display: block;
-    margin: 0.5em 0;
+.ChatHeader h1 {
+    font-size: 1em;
+    margin-bottom: 0;
 }
 
-.Message.Mine {
-    text-align: right;
-}
-
-.Message.Theirs {
-    text-align: left;
-}
-
-.Message.Mine .MessageInner {
-    border-bottom-right-radius: 0;
-}
-
-.Message.Theirs .MessageInner {
-    border-top-left-radius: 0;
-}
-
-.MessageInner {
-    display: inline-block;
-    width: 75%;
-    padding: 0.5em;
-    border-radius: 0.7em;
-    text-align: left;
-}
-
-.MessageInner p {
-    margin: 0;
-}
-
-.Message .Author {
-    font-size: 0.8em;
-    margin-bottom: 0.2em;
-    opacity: 0.75;
+.ChatHeader .UserDisc {
+    margin: 0 5px;
 }
 
 /* Composer */
+
+.ChatComposerInner {
+    margin: 0 auto;
+    margin-bottom: var(--chat-composer-margin);
+    width: calc(100% - calc(2 * var(--chat-composer-margin)));
+    border-radius: var(--chat-composer-radius);
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.11);
+}
 
 .ChatComposer .Input,
 .ChatComposer .Send {
@@ -104,10 +84,9 @@
     vertical-align: top;
     height: var(--send-height);
     min-height: var(--send-height);
+    max-height: var(--send-height);
     margin: 0;
-    padding: 0.5em;
     font-size: 1em;
-    border-radius: 0;
     border-width: 1px;
     border-style: solid;
 }
@@ -115,13 +94,25 @@
 .ChatComposer .Send {
     width: var(--send-width);
     margin-left: var(--send-margin);
+    border-top-right-radius: var(--chat-composer-radius);
+    border-bottom-right-radius: var(--chat-composer-radius);
     text-align: center;
+    padding: 0.5em;
 }
 
 .ChatComposer .Input {
     --input-width: calc(100% - var(--send-width));
     min-width: var(--input-width);
     max-width: var(--input-width);
+    border-top-left-radius: var(--chat-composer-radius);
+    border-bottom-left-radius: var(--chat-composer-radius);
+    padding: 1em;
+}
+
+/* Chat Menu */
+
+.ChatMenu {
+    height: calc(100vh - 2.85em);
 }
 
 .MenuOption {
