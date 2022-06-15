@@ -19,9 +19,9 @@ interface ButtonProps {
     onClick?: () => void
     onKeyDown?: () => void
     // Tells the browser the role of this element
-    role: string
+    role?: string
     // Tells the browser that this element can be focused with the tab key
-    tabIndex: number
+    tabIndex?: number
 }
 
 export const Button = ({
