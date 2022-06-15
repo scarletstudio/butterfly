@@ -1,4 +1,4 @@
 export * from './Button'
 export * from './Error'
-export * from './UserTile'
+export * from './User'
 export { default as Logo } from './Logo'

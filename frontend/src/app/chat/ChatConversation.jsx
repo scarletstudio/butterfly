@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
-import { ChatContext, Message } from './ChatApp'
+import { ChatContext } from './ChatApp'
+import { Message } from './Message'
 import { getConversationStarterForChat } from '../starters'
 
 export function ChatConversation() {

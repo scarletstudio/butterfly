@@ -14,11 +14,11 @@ export function ChatComposer() {
     }
 
     return (
-        <>
-            <textarea ref={textRef} className="Input" />
+        <div className="ChatComposerInner">
+            <textarea ref={textRef} className="Input" placeholder="Type here..." />
             <button type="button" onClick={doSend} className="Button Send">
                 <FontAwesomeIcon icon={faArrowRight} className="IconBefore" />
             </button>
-        </>
+        </div>
     )
 }

@@ -40,3 +40,16 @@
     font-size: var(--text-size);
     padding: 0.5em;
 }
+
+.UserDisc {
+    display: inline-block;
+    width: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    font-size: 0;
+    margin: 5px;
+}
+
+.UserDisc .Image {
+    width: 100%;
+}

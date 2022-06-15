@@ -7,6 +7,7 @@
     --color-theme-accent: rgb(42, 222, 250);
     --color-theme-contrast: rgb(255, 255, 255);
     --color-page-background: rgb(255, 255, 255);
+    --color-chat-accent: rgb(156, 255, 250);
     --color-main: rgb(42, 222, 250);
     --color-light: rgb(224, 252, 255);
     --color-dark: rgb(5, 108, 120);
@@ -146,42 +147,50 @@ hr {
 }
 
 .Message.Mine .MessageInner {
-    background: var(--color-light);
+    background: var(--color-contrast);
 }
 
-.Message.Participant0 .MessageInner {
-    background: var(--color-light-0);
+.Message.Theirs .MessageInner {
+    background: var(--color-chat-accent);
 }
 
-.Message.Participant1 .MessageInner {
-    background: var(--color-light-1);
+.ChatAppInner {
+    background: rgb(247, 248, 253);
 }
 
-.Message.Participant2 .MessageInner {
-    background: var(--color-light-2);
+.ChatAppInner .FloatingButton path {
+    color: var(--color-chat-accent);
+    opacity: 1;
+}
+
+.ChatAppInner .FloatingButton:hover,
+.ChatAppInner .FloatingButton:hover a,
+.ChatAppInner .FloatingButton:hover path {
+    color: var(--color-text);
+    opacity: 1;
 }
 
 .ChatComposer .Input,
 .ChatComposer .Send {
-    border-color: var(--color-theme-main);
-    outline-color: var(--color-theme-main);
+    border: none;
+    outline: none;
 }
 
 .ChatComposer .Send {
-    background: var(--color-theme-main);
+    background: var(--color-chat-accent);
     color: var(--color-theme-contrast);
 }
 
 .ChatComposer .Send:hover {
-    background: var(--color-theme-accent);
+    background: var(--color-text);
 }
 
 .ChatComposer .Input {
-    background: var(--color-light);
+    background: var(--color-contrast);
 }
 
 .ChatHeader {
-    background: rgba(255, 255, 255, 0.75);
+    background: var(--color-contrast);
 }
 
 .MenuOption {

@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretLeft, faCaretUp } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { ChatContext } from './ChatApp'
+
+const ICON_MENU_CLOSE = faXmarkCircle
+const ICON_MENU_BACK = faBars
 
 export function ChatAppMenuButton({ label, icon, onClick }) {
     return (
@@ -22,7 +25,7 @@ export function ChatAppMenuButton({ label, icon, onClick }) {
 function ChatMenuInner({ menuConfig, onMenuClick, setOption }) {
     return (
         <>
-            <ChatAppMenuButton label="Close Menu" icon={faCaretUp} onClick={onMenuClick} />
+            <ChatAppMenuButton label="Close Menu" icon={ICON_MENU_CLOSE} onClick={onMenuClick} />
             <div className="ChatMenu">
                 <h2>Chat Menu</h2>
                 {menuConfig?.options?.map((opt) => (
@@ -45,7 +48,7 @@ function ChatMenuInner({ menuConfig, onMenuClick, setOption }) {
 function SubMenuContainer({ name, onClick, children }) {
     return (
         <>
-            <ChatAppMenuButton label="Chat Menu" icon={faCaretLeft} onClick={onClick} />
+            <ChatAppMenuButton label="Chat Menu" icon={ICON_MENU_BACK} onClick={onClick} />
             <div className="ChatMenu">
                 <h2>{name}</h2>
                 {children}

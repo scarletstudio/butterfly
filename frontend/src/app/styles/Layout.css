@@ -144,12 +144,12 @@
 
 .BackToChatsButton {
     --icon-height: 36px;
-    top: 0;
+    top: 10px;
     left: 0;
 }
 
 .ChatAppMenuButton {
     --icon-height: 36px;
-    top: 0;
+    top: 10px;
     right: 0;
 }
