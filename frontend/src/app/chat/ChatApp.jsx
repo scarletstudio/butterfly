@@ -55,7 +55,8 @@ export function ChatApp({ chatId, header, conversation, composer }) {
     const chat = useGetChatData(`${chatId}~${myUserId}`)
     const messages = useGetMessages(chatId)
 
-    const sendChatMessage = (message) => {
+    const sendChatMessage = (raw) => {
+        const message = raw?.trim()
         if (!myUserId || !message) return
         sendMessage(chatId, {
             message,

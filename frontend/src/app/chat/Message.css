@@ -24,7 +24,7 @@
 
 .MessageInner {
     display: inline-block;
-    width: 75%;
+    width: calc(100% - 60px);
     padding: 0.5em;
     border-radius: 1em;
     text-align: left;

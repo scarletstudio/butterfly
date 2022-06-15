@@ -13,9 +13,23 @@ export function ChatComposer() {
         textRef.current.value = ''
     }
 
+    const sendOnCtrlEnter = (e) => {
+        const hitEnter = e.keyCode === 13
+        const holdingKey = e.ctrlKey || e.shiftKey
+        if (hitEnter && !holdingKey) {
+            e.preventDefault()
+            doSend()
+        }
+    }
+
     return (
         <div className="ChatComposerInner">
-            <textarea ref={textRef} className="Input" placeholder="Type here..." />
+            <textarea
+                ref={textRef}
+                className="Input"
+                placeholder="Type here..."
+                onKeyDown={sendOnCtrlEnter}
+            />
             <button type="button" onClick={doSend} className="Button Send">
                 <FontAwesomeIcon icon={faArrowRight} className="IconBefore" />
             </button>
