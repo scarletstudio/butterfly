@@ -70,6 +70,12 @@ function JoinButton({ authUser, handleJoin }) {
     )
 }
 
+// Paragraph to show message from join response, if any, including errors
+function JoinMessage({ message = null, error = null }) {
+    const output = message || error
+    return output && <p>{output}</p>
+}
+
 // UI to join community, if the community data exists
 function JoinCommunityInner({ communityId, communityData, authUser, doJoin, doLogIn }) {
     const [joinRes, setJoinRes] = useState(null)
@@ -91,7 +97,7 @@ function JoinCommunityInner({ communityId, communityData, authUser, doJoin, doLo
                     You are invited to join <strong>{communityData.name}</strong>.
                 </p>
                 <JoinButton {...{ authUser, handleJoin }} />
-                {joinRes?.message && <p>{joinRes?.message}</p>}
+                <JoinMessage {...joinRes} />
                 <InitialLogIn {...{ authUser, doLogIn }} />
                 <ChangeLogIn {...{ authUser, doLogIn }} />
             </>
