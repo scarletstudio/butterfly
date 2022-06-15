@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage'
 import AllChatsPage from './pages/AllChatsPage'
 import ChatPage from './pages/ChatPage'
 import EditProfilePage from './pages/EditProfilePage'
+import JoinPage from './pages/JoinPage'
 import StatusPage from './pages/StatusPage'
 import MockLoginPage from './pages/MockLoginPage'
 import StyleGuidePage from './pages/StyleGuide'
@@ -38,6 +39,9 @@ function AppRouting() {
             <Route path="/" element={<Layout />}>
                 <Route path="login" element={<LoginPage />} />
                 <Route path="me" element={<EditProfilePage />} />
+                <Route path="join">
+                    <Route path=":communityId" element={<JoinPage />} />
+                </Route>
                 <Route path="profile">
                     <Route path=":uid" element={<ProfilePage />} />
                 </Route>
