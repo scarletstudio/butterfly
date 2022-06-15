@@ -14,7 +14,9 @@ def view_join_community(db, request, community: str, uid: str):
     # If the user has already joined this community, do not update their data.
     communities = user.get("communities", {})
     if community in communities:
-        return format_json(message="Already joined this community.")
+        return format_json(
+            success=False, message="Already joined this community."
+        )
 
     # If user is active in any other communities, start them as inactive in the
     # community they just joined.
@@ -25,4 +27,6 @@ def view_join_community(db, request, community: str, uid: str):
     joined = {"active": not is_already_active, "joined": SERVER_TIMESTAMP}
     db.reference(f"users/{uid}/communities/{community}").set(joined)
 
-    return format_json(message="Successfully joined the community!")
+    return format_json(
+        success=True, message="Successfully joined the community!"
+    )

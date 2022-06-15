@@ -18,7 +18,9 @@ def test_join_community_first_community(mock_db):
     uid = "spriha"
     actual = c.post(f"/core/community/{community}/join/{uid}")
 
-    expected = format_json(message="Successfully joined the community!")
+    expected = format_json(
+        success=True, message="Successfully joined the community!"
+    )
     # User is not in any other communities, set them active here.
     expected_post = {"active": True, "joined": SERVER_TIMESTAMP}
     assert_response_match(actual, expected)
@@ -40,7 +42,9 @@ def test_join_community_already_active_in_other_community(mock_db):
     uid = "spriha"
     actual = c.post(f"/core/community/{community}/join/{uid}")
 
-    expected = format_json(message="Successfully joined the community!")
+    expected = format_json(
+        success=True, message="Successfully joined the community!"
+    )
     # User is already active in another community, set them inactive here.
     expected_post = {"active": False, "joined": SERVER_TIMESTAMP}
     assert_response_match(actual, expected)
@@ -65,7 +69,9 @@ def test_join_community_inactive_in_other_communities(mock_db):
     uid = "spriha"
     actual = c.post(f"/core/community/{community}/join/{uid}")
 
-    expected = format_json(message="Successfully joined the community!")
+    expected = format_json(
+        success=True, message="Successfully joined the community!"
+    )
     # User is in another community, but inactive, set them active here.
     expected_post = {"active": True, "joined": SERVER_TIMESTAMP}
     assert_response_match(actual, expected)
@@ -90,8 +96,29 @@ def test_join_community_already_joined(mock_db):
     uid = "spriha"
     actual = c.post(f"/core/community/{community}/join/{uid}")
 
-    expected = format_json(message="Already joined this community.")
+    expected = format_json(
+        success=False, message="Already joined this community."
+    )
     assert_response_match(actual, expected)
     mock_get.assert_called_once_with()
     # User already joined this community, do not update their data.
+    mock_set.assert_not_called()
+
+
+@with_mock_db
+def test_join_community_user_not_found(mock_db):
+    mock_get = MagicMock(return_value=None)
+    mock_db.reference("users/jha").get = mock_get
+    mock_set = MagicMock()
+    mock_db.reference("users/jha/communities/test").set = mock_set
+
+    c = Client()
+    community = "test"
+    uid = "jha"
+    actual = c.post(f"/core/community/{community}/join/{uid}")
+
+    expected = format_json(status=405, error="No user for ID: jha")
+    assert_response_match(actual, expected)
+    mock_get.assert_called_once_with()
+    # User does not exist, do not update their data.
     mock_set.assert_not_called()
