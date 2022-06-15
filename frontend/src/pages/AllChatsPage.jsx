@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useCurrentAuthUser } from '../app/login'
 import { COMMUNITY } from '../app/constants'
 import { useGetMatches, useGetManyUserData } from '../app/data'
-import { MatchTile } from '../app/inbox'
+import { ChatPreview } from '../app/inbox'
 import { COMMUNITY_CONFIG } from '../config/communities'
 
 export default function AllChatsPage() {
@@ -24,14 +24,23 @@ export default function AllChatsPage() {
         matches.length > 0 ? (
             matches
                 .sort((a, b) => b.release_timestamp - a.release_timestamp)
-                .map((m) => <MatchTile key={m.id} match={m} users={matchedUsers} />)
+                .map((m) => (
+                    <ChatPreview
+                        key={m.id}
+                        match={m}
+                        users={matchedUsers}
+                        community={communityConfig}
+                    />
+                ))
         ) : (
-            <p>No matches yet.</p>
+            <div className="Page">
+                <p>No matches yet.</p>
+            </div>
         )
 
     return (
-        <div className="AllChatsPage">
-            <div className="Header">
+        <div className="AllChatsPage FullHeight LightBackground">
+            <div className="Header Light">
                 <h1 className="BigTitle">
                     <Link to="/">
                         <span>Butterfly Chats</span>
@@ -45,10 +54,7 @@ export default function AllChatsPage() {
                     </span>
                 </p>
             </div>
-            <div className="Page">
-                <h2>{communityConfig?.name || 'Your Matches'}</h2>
-                {matchEls}
-            </div>
+            <div className="Inbox">{matchEls}</div>
         </div>
     )
 }

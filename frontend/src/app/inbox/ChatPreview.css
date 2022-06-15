@@ -1,0 +1,69 @@
+.ChatPreview {
+    --preview-padding: 5px;
+    --user-preview-width: 80px;
+    --release-preview-width: 80px;
+    --extra-preview-width: calc(var(--user-preview-width) + var(--release-preview-width));
+    font-size: 0;
+    padding: 10px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.Inbox {
+    margin-top: 5px;
+}
+
+.ChatPreview .UserPreview,
+.ChatPreview .MessagePreview,
+.ChatPreview .ReleasePreview {
+    vertical-align: top;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    padding: var(--preview-padding);
+}
+
+.ChatPreview .UserPreview {
+    width: var(--user-preview-width);
+}
+
+.ChatPreview .ReleasePreview {
+    width: var(--release-preview-width);
+    opacity: 0.5;
+}
+
+.ChatPreview .MessagePreview {
+    width: calc(100% - var(--extra-preview-width));
+}
+
+.ChatPreview .MessagePreview h3 {
+    font-size: 1em;
+}
+
+.ChatPreview .MessagePreview,
+.ChatPreview .ReleasePreview {
+    font-size: var(--text-size);
+}
+
+.ChatPreview .MessagePreview h3,
+.ChatPreview .MessagePreview p,
+.ChatPreview .ReleasePreview p {
+    margin: var(--preview-padding) 0;
+}
+
+.ChatPreview .UserPreview .UserDisc {
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ChatPreview .UserPreview.Single .UserDisc {
+    width: 60px;
+}
+
+.ChatPreview .UserPreview.Group .UserDisc {
+    width: 45px;
+}
+
+.ChatPreview .UserPreview.Group .UserDisc:nth-child(2) {
+    margin-top: -35px;
+    margin-left: 20px;
+}

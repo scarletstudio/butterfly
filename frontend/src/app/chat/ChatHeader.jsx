@@ -22,16 +22,19 @@ function BackToChatsButton() {
     )
 }
 
-function getChatTitle(otherUsers) {
+function getOtherUsers(chat, myUserId) {
+    return Object.values(chat?.participants || {}).filter((user) => user.uid !== myUserId)
+}
+
+export function getChatTitle(otherUsers) {
     const [a, b] = otherUsers
-    if (a && b) return `${a.displayName} and ${b.displayName}`
-    return a.displayName
+    const [aName, bName] = [a?.displayName, b?.displayName]
+    if (aName && bName) return `${aName} and ${bName}`
+    return aName || ''
 }
 
 function ChatHeaderInner({ chat, myUserId, onMenuClick }) {
-    const otherUsers = Object.values(chat?.participants || {}).filter(
-        (user) => user.uid !== myUserId
-    )
+    const otherUsers = getOtherUsers(chat, myUserId)
     const userEls = otherUsers.map((user) => <UserDisc key={user.uid} user={user} />)
     return (
         <>
