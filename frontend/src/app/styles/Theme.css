@@ -172,8 +172,8 @@ hr {
 
 .ChatComposer .Input,
 .ChatComposer .Send {
-    border: none;
-    outline: none;
+    border-color: rgba(0, 0, 0, 0);
+    outline-color: rgba(0, 0, 0, 0);
 }
 
 .ChatComposer .Send {

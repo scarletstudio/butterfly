@@ -42,6 +42,7 @@
 }
 
 .UserDisc {
+    vertical-align: middle;
     display: inline-block;
     width: 45px;
     border-radius: 50%;
