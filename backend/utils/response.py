@@ -6,7 +6,8 @@ dumps_params = {
 }
 
 
-def format_json(**kwargs) -> JsonResponse:
+def format_json(status: int = 200, **data) -> JsonResponse:
     """Formats a JSON response to return to the client."""
-    body = {"success": True, **kwargs}
-    return JsonResponse(body, json_dumps_params=dumps_params)
+    return JsonResponse(
+        status=status, data=data, json_dumps_params=dumps_params
+    )
