@@ -92,6 +92,17 @@ elif [ "$1" == "pytest" ]; then
   source .venv/bin/activate
   pytest "${@:2}"
 
+elif [ "$1" == "manage" ]; then
+  echo "Running Django management command:"
+  echo "python3 backend/manage.py ${@:2}"
+  source .venv/bin/activate
+  python3 backend/manage.py "${@:2}"
+
+elif [ "$1" == "shell" ]; then
+  echo "Starting Django shell."
+  source .venv/bin/activate
+  python3 backend/manage.py shell
+
 elif [ "$1" == "backend" ]; then
   echo "Starting backend..."
   source .venv/bin/activate

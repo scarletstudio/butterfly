@@ -7,6 +7,9 @@ import firebase_admin
 from environ import Env
 from firebase_admin import credentials, db
 
+# This value will be replaced with the server timestamp when writing to Firebase
+SERVER_TIMESTAMP = {".sv": "timestamp"}
+
 
 def initialize_firebase_for_api():
     # Reads from backend/.env if local API is started from backend/

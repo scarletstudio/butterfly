@@ -1,5 +1,6 @@
 from django.urls import path
-from ratings.views import view_rate_match, view_upvote_user
+
+from backend.ratings.views import view_rate_match, view_upvote_user
 
 urlpatterns = [
     path("rate_match", view_rate_match),

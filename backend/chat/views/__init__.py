@@ -1,1 +1,1 @@
-from chat.views.block_user import *
+from backend.chat.views.block_user import *
