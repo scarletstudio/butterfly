@@ -7,7 +7,7 @@
     "display": "standalone",
     "orientation": "portrait",
     "scope": "/butterfly",
-    "start_url": "/",
+    "start_url": "/butterfly",
     "icons": [
         {
             "src": "/butterfly/assets/maskable_icon_x128.png",
