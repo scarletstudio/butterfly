@@ -1,27 +1,19 @@
 {
     "name": "Butterfly",
     "short_name": "Butterfly",
+    "description": "Meet new people in your community.",
     "theme_color": "#1b0e64",
     "background_color": "#1b0e64",
     "display": "standalone",
     "orientation": "portrait",
+    "scope": "/butterfly",
     "start_url": "/",
     "icons": [
         {
-            "src": "/assets/maskable_icon_x128.png",
+            "src": "/butterfly/assets/maskable_icon_x128.png",
             "type": "image/png",
             "sizes": "128x128",
             "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/maskable_icon_x48.png",
-            "type": "image/png",
-            "sizes": "48x48"
-        },
-        {
-            "src": "/assets/maskable_icon_x512.png",
-            "type": "image/png",
-            "sizes": "512x512"
         }
     ]
 }
