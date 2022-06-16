@@ -5,7 +5,7 @@
     "background_color": "#1b0e64",
     "display": "standalone",
     "orientation": "portrait",
-    "scope": "/",
+    "scope": "/butterfly",
     "start_url": "/",
     "icons": [
         {
