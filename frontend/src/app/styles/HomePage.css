@@ -1,10 +1,10 @@
 .HomePage {
     text-align: center;
-    background: var(--color-theme-main);
+    background: var(--color-theme-dark);
     color: var(--color-theme-accent);
 }
 
 .HomePage .Button.Primary {
     background: var(--color-theme-accent);
-    color: var(--color-theme-main);
+    color: var(--color-theme-dark);
 }

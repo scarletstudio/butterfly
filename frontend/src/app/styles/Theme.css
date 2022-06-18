@@ -3,13 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
 
 .Theme {
-    --color-theme-main: rgb(27, 14, 100);
+    --color-theme-dark: rgb(27, 14, 100);
     --color-theme-accent: rgb(42, 222, 250);
     --color-theme-contrast: rgb(255, 255, 255);
     --color-page-background: rgb(255, 255, 255);
-    --color-chat-accent: rgb(156, 255, 250);
+    --color-chat-accent: rgb(42, 222, 250);
     --color-chat-background: rgb(247, 248, 253);
-    --color-main: rgb(42, 222, 250);
     --color-light: rgb(224, 252, 255);
     --color-dark: rgb(5, 108, 120);
     --color-accent: rgb(255, 208, 107);
@@ -46,20 +45,20 @@ a {
 }
 
 a:hover {
-    color: var(--color-main);
+    color: var(--color-theme-accent);
 }
 
 /* Page Header */
 
 .Header {
-    background: var(--color-theme-main);
+    background: var(--color-theme-dark);
     color: var(--color-theme-contrast);
 }
 
 .Header.Light {
     background: var(--color-theme-contrast);
     color: var(--color-text);
-    box-shadow: 0 0 5px 1px var(--color-main);
+    box-shadow: 0 0 5px 1px var(--color-theme-accent);
 }
 
 .Header h1,
@@ -89,7 +88,7 @@ a:hover {
 .Header.Light h4 a,
 .Header.Light h5 a,
 .Header.Light h6 a {
-    color: var(--color-main);
+    color: var(--color-theme-accent);
 }
 
 .Header a {
@@ -97,7 +96,7 @@ a:hover {
 }
 
 .Header a:hover {
-    color: var(--color-main);
+    color: var(--color-theme-accent);
 }
 
 .Header.Light a {
@@ -105,7 +104,7 @@ a:hover {
 }
 
 .Header.Light a:hover {
-    color: var(--color-main);
+    color: var(--color-theme-accent);
 }
 
 .LightBackground {
@@ -122,8 +121,8 @@ a:hover {
 
 .Button.Primary:hover {
     background: transparent;
-    border-color: var(--color-main);
-    color: var(--color-main);
+    border-color: var(--color-theme-accnt);
+    color: var(--color-theme-accent);
 }
 
 .Button {
@@ -139,7 +138,7 @@ a:hover {
 }
 
 .FloatingButton:hover {
-    color: var(--color-main);
+    color: var(--color-theme-accent);
 }
 
 /* Forms */
@@ -233,7 +232,7 @@ hr {
 
 .MenuOption:hover {
     background: rgba(0, 0, 0, 0.01);
-    color: var(--color-main);
+    color: var(--color-theme-accent);
 }
 
 /* Inbox */
