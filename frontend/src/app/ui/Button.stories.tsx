@@ -1,5 +1,4 @@
 import React from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { faCrown, faGhost } from '@fortawesome/free-solid-svg-icons'
 
 import { Button } from './Button'
@@ -7,9 +6,9 @@ import { Button } from './Button'
 export default {
     title: 'User Interface/Button',
     component: Button,
-} as ComponentMeta<typeof Button>
+}
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+const Template = (args) => <Button {...args} />
 
 export const Primary = Template.bind({})
 Primary.args = {

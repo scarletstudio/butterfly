@@ -90,6 +90,14 @@ strong {
 
 /* Utilities */
 
+.Block {
+    display: block;
+}
+
+.Hidden {
+    display: none;
+}
+
 .VerticalCenter {
     /* Center vertically with flexbox */
     display: flex;

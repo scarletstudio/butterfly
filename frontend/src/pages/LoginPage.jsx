@@ -5,7 +5,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faUserNinja } from '@fortawesome/free-solid-svg-icons'
 
 import { CurrentLogin, signInUser, signOutUser, useCurrentAuthUser } from '../app/login'
-import { maybeUpdateUserDetails } from '../app/data'
+import { ConnectToServer, maybeUpdateUserDetails } from '../app/data'
 import { Button, Error, Logo } from '../app/ui'
 
 import '../app/login/Login.css'
@@ -66,6 +66,7 @@ export default function LoginPage() {
                 <CurrentLogin authUser={authUser} doLogOut={doLogOut} />
             </div>
             <MockLoginButton />
+            <ConnectToServer />
         </div>
     )
 }

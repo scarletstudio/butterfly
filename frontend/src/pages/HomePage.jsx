@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { Button, Logo } from '../app/ui'
+import { ConnectToServer } from '../app/data'
 
 import '../app/styles/HomePage.css'
 
@@ -16,6 +17,7 @@ export default function HomePage() {
                     <Button label="Login" primary />
                 </Link>
             </div>
+            <ConnectToServer />
         </div>
     )
 }
