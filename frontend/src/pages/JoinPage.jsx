@@ -5,7 +5,7 @@ import { useCurrentAuthUser, signInUser } from '../app/login'
 import { fetchFromBackend } from '../app/utils'
 import { COMMUNITY_CONFIG } from '../config/communities'
 import { JoinCommunity } from '../app/community'
-import { maybeUpdateUserDetails } from '../app/data'
+import { ConnectToServer, maybeUpdateUserDetails } from '../app/data'
 
 async function doJoin(communityId, uid) {
     const route = `/core/community/${communityId}/join/${uid}`
@@ -30,6 +30,7 @@ export default function JoinPage() {
                 doJoin={doJoin}
                 doLogIn={doLogIn}
             />
+            <ConnectToServer />
         </div>
     )
 }

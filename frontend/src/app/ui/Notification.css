@@ -1,0 +1,32 @@
+.Notification {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 1em;
+    font-size: var(--text-size);
+}
+
+.Notification .CloseHolder {
+    position: relative;
+}
+
+.Notification .Close {
+    position: absolute;
+    right: 1em;
+}
+
+.Notification .Close:hover {
+    cursor: pointer;
+}
+
+.Notification.Fixed {
+    position: absolute;
+}
+
+.Notification.Bottom {
+    bottom: 0;
+    left: 0;
+}
+
+.Notification.Bottom .Close {
+    top: 1em;
+}
