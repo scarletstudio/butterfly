@@ -16,7 +16,7 @@ def test_example():
         "3": {"climbing": True, "hiking": True},
     }
 
-    actual = augment_users_with_interests(users, raw)
+    actual = augment_users_with_interests.run(users, raw)
 
     # TODO: For now, use code as name also, until we read names from the config
     hiking = Interest(code="hiking", name="hiking")

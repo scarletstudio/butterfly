@@ -11,7 +11,7 @@ def test_example():
         "2": {"tutoring": {"seeking": True, "giving": True}},
     }
 
-    actual = augment_users_with_intents(users, raw)
+    actual = augment_users_with_intents.run(users, raw)
 
     # TODO: For now, use code as name also, until we read names from the config
     seek_tutoring = Intent(code="tutoring", name="tutoring", side=Side.SEEKING)
