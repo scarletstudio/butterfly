@@ -22,8 +22,8 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install Frontend Dependencies 🔧
-        run: ./run.sh install-frontend-ci
+      - name: Install ESLint Dependencies 🔧
+        run: ./run.sh install-eslint
 
       - name: Get File Changes 📁
         uses: trilom/file-changes-action@v1.2.4

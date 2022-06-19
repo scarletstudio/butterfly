@@ -56,6 +56,11 @@ elif [ "$1" == "install-frontend-ci" ]; then
   cd frontend
   npm ci
 
+elif [ "$1" == "install-eslint" ]; then
+  echo "Installing frontend dependencies for ESLint..."
+  cd frontend
+  npm install eslint-config-airbnb
+
 elif [ "$1" == "lint-frontend" ]; then
   cd frontend
   npm run lint "${@:2}"
