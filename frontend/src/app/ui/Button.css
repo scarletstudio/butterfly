@@ -41,8 +41,8 @@
 
 .Button.Primary:hover {
     background: transparent;
-    border-color: var(--color-main);
-    color: var(--color-main);
+    border-color: var(--color-theme-accent);
+    color: var(--color-theme-accent);
 }
 
 .Button {
