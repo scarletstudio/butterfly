@@ -10,10 +10,12 @@ from pipeline.matching.generators import (
     SimilarSchedulesGenerator,
 )
 from pipeline.matching.rankers import (
+    CommonLettersRanker,
     IntentUpvotesRanker,
     MatchStarsRanker,
     MultiRanker,
     QuantityRanker,
+    RecentRepeatsRanker,
     VarietyRanker,
 )
 
@@ -31,10 +33,12 @@ class MainMatchingEngine(MatchingEngine):
                 RareIntentsGenerator(),
                 RareInterestsGenerator(),
                 LimitedSchedulesGenerator(),
-                CommonLettersGenerator(min_common=3),
+                CommonLettersGenerator(min_common=5),
             ],
             ranker=MultiRanker(
                 rankers=[
+                    RecentRepeatsRanker(include_repeats=False),
+                    CommonLettersRanker(),
                     MatchStarsRanker(),
                     IntentUpvotesRanker(),
                     VarietyRanker(),
