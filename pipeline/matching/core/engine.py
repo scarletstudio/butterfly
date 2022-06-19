@@ -11,6 +11,7 @@ from pipeline.types import Match, MatchingInput, MatchingOutput, UserId
 
 ERROR_USERS_FOR_PRIORITY_MATCH = "Priority matches should have two users."
 ERROR_USER_NOT_MATCHED = "One user left after selecting priority matches."
+INFO_NO_FINALIZER = "All users were given priority matches, no finalizer."
 
 
 class UserNotMatchedException(Exception):
@@ -92,4 +93,6 @@ class MatchingEngine:
         if remaining_users:
             for match in self.finalizer.finalize(inp, remaining_users):
                 finalized_matches.append(match)
+        else:
+            inp.logger.info(INFO_NO_FINALIZER)
         return finalized_matches
