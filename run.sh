@@ -238,6 +238,12 @@ elif [ "$1" == "prefect-register" ]; then
   prefect create project butterfly
   python3 pipeline/scripts/register_all_flows.py
 
+elif [ "$1" == "prefect-listen" ]; then
+  # Register latest version of flows with Prefect Server
+  source .venv/bin/activate
+  prefect create project butterfly
+  python3 pipeline/scripts/register_flows_on_change.py
+
 elif [ "$1" == "open-prefect" ]; then
   if command -v gp &> /dev/null; then
     gp preview $(gp url "$PREFECT_DASHBOARD_PORT")

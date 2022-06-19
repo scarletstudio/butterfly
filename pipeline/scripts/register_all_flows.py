@@ -8,7 +8,11 @@ PROJECT = "butterfly"
 FLOWS = [matching_flow]
 
 
-if __name__ == "__main__":
+def register_all_flows():
     for get_flow in FLOWS:
         flow = get_flow()
         flow.register(project_name=PROJECT)
+
+
+if __name__ == "__main__":
+    register_all_flows()
