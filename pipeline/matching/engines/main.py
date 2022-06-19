@@ -17,10 +17,13 @@ from pipeline.matching.rankers import (
     VarietyRanker,
 )
 
+ENGINE_MAIN = "mainEngine"
+
 
 class MainMatchingEngine(MatchingEngine):
     def __init__(self):
         super().__init__(
+            name=ENGINE_MAIN,
             generators=[
                 SimilarIntentsGenerator(),
                 SimilarInterestsGenerator(),

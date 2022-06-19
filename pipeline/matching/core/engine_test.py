@@ -36,6 +36,7 @@ def test_engine_basic():
         return_value=[Match(users={"B", "D", "E"})]
     )
     engine = MatchingEngine(
+        name="testEngine",
         generators=[mock_gen_1, mock_gen_2],
         ranker=mock_ranker,
         finalizer=mock_finalizer,
@@ -85,6 +86,7 @@ def test_engine_all_priority_matches():
     mock_finalizer = MagicMock()
     mock_finalizer.finalize = MagicMock(return_value=[])
     engine = MatchingEngine(
+        name="testEngine",
         generators=[mock_generator],
         ranker=mock_ranker,
         finalizer=mock_finalizer,
