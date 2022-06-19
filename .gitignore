@@ -3,7 +3,6 @@
 data/**
 frontend/butterfly/**
 frontend/.env.firebase
-frontend/.eslintrc.original
 .env.firebase
 .env.prefect
 credentials.json
