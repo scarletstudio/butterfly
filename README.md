@@ -8,7 +8,7 @@ If you are not able to log in to the Butterfly app on GitPod, run [GitPod Local 
 
 [Product and Engineering Design Doc](https://docs.google.com/document/d/1X_RHbXHpLTzLspmzhQ2klwR37ELQBq5CaEYkF4KTLdQ/edit)
 
-<img width="650" alt="Screen Shot 2022-06-05 at 12 03 06 PM" src="https://user-images.githubusercontent.com/11896652/174460143-4ae9a516-a3c5-4cb1-8342-61e7840c55f4.png">
+<img width="650" alt="Screen Shot 2022-06-05 at 12 03 06 PM" src="https://user-images.githubusercontent.com/11896652/174471547-3528edc8-6be2-44c3-8e32-cb1d74b87e4b.png">
 
 ## Codebase Map
 
