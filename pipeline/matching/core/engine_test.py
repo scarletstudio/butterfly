@@ -25,12 +25,18 @@ def test_engine_basic():
     )
 
     # Prepare matching engine
-    mock_generator_1 = MagicMock(return_value=[Match(users={"A", "C"})])
-    mock_generator_2 = MagicMock(return_value=[Match(users={"A", "D"})])
-    mock_ranker = MagicMock(side_effect=lambda x, y: [m for m in y])
-    mock_finalizer = MagicMock(return_value=[Match(users={"B", "D", "E"})])
+    mock_gen_1 = MagicMock()
+    mock_gen_1.generate = MagicMock(return_value=[Match(users={"A", "C"})])
+    mock_gen_2 = MagicMock()
+    mock_gen_2.generate = MagicMock(return_value=[Match(users={"A", "D"})])
+    mock_ranker = MagicMock()
+    mock_ranker.rank = MagicMock(side_effect=lambda x, y: [m for m in y])
+    mock_finalizer = MagicMock()
+    mock_finalizer.finalize = MagicMock(
+        return_value=[Match(users={"B", "D", "E"})]
+    )
     engine = MatchingEngine(
-        generators=[mock_generator_1, mock_generator_2],
+        generators=[mock_gen_1, mock_gen_2],
         ranker=mock_ranker,
         finalizer=mock_finalizer,
     )
@@ -67,14 +73,17 @@ def test_engine_all_priority_matches():
     )
 
     # Prepare matching engine
-    mock_generator = MagicMock(
+    mock_generator = MagicMock()
+    mock_generator.generate = MagicMock(
         return_value=[
             Match(users={"A", "B"}),
             Match(users={"C", "D"}),
         ]
     )
-    mock_ranker = MagicMock(side_effect=lambda x, y: [m for m in y])
-    mock_finalizer = MagicMock(return_value=[])
+    mock_ranker = MagicMock()
+    mock_ranker.rank = MagicMock(side_effect=lambda x, y: [m for m in y])
+    mock_finalizer = MagicMock()
+    mock_finalizer.finalize = MagicMock(return_value=[])
     engine = MatchingEngine(
         generators=[mock_generator],
         ranker=mock_ranker,
@@ -94,4 +103,4 @@ def test_engine_all_priority_matches():
         matches=expected_matches,
     )
     assert actual == expected
-    mock_finalizer.assert_not_called()
+    mock_finalizer.finalize.assert_not_called()

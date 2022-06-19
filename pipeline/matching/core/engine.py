@@ -4,15 +4,10 @@ from pipeline.matching.core.constants import (
     N_MEMBERS_FOR_FINAL_MATCH,
     N_MEMBERS_FOR_PRIORITY_MATCH,
 )
-from pipeline.types import (
-    Match,
-    MatchFinalizer,
-    MatchGenerator,
-    MatchingInput,
-    MatchingOutput,
-    MatchRanker,
-    UserId,
-)
+from pipeline.matching.core.finalizer import MatchFinalizer
+from pipeline.matching.core.generator import MatchGenerator
+from pipeline.matching.core.ranker import MatchRanker
+from pipeline.types import Match, MatchingInput, MatchingOutput, UserId
 
 ERROR_USERS_FOR_PRIORITY_MATCH = "Priority matches should have two users."
 ERROR_USER_NOT_MATCHED = "One user left after selecting priority matches."
@@ -30,34 +25,34 @@ class MatchingEngine:
 
     def run(self, inp: MatchingInput) -> MatchingOutput:
         # Generate matches
-        proposed_matches: Iterator[Match] = self.generate_matches(inp)
+        proposed: Iterator[Match] = self.generate_matches(inp)
         # Rank matches
-        ranked_matches: Iterator[Match] = self.ranker(inp, proposed_matches)
+        ranked: Iterator[Match] = self.ranker.rank(inp, proposed)
         # Select priority matches and get remaining users
-        results = self.select_priority_matches(inp, ranked_matches)
+        results = self.select_priority_matches(inp, ranked)
         selected: List[Match] = results[0]
         users: Set[UserId] = results[1]
         # Finalize remaining matches
-        final_matches: List[Match] = self.finalize_matches(inp, selected, users)
+        finalized: List[Match] = self.finalize_matches(inp, selected, users)
         # Return output
         return MatchingOutput(
             community=inp.community,
             release=inp.release,
             users=inp.users,
-            matches=final_matches,
+            matches=finalized,
         )
 
     def generate_matches(self, inp: MatchingInput) -> Iterator[Match]:
-        for generate_matches in self.generators:
-            for match in generate_matches(inp):
+        for generator in self.generators:
+            for match in generator.generate(inp):
                 yield match
 
     def select_priority_matches(
-        self, inp: MatchingInput, proposed_matches: Iterator[Match]
+        self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Tuple[List[Match], Set[UserId]]:
         selected_matches: List[Match] = []
         users_to_match: Set[UserId] = {u.uid for u in inp.users}
-        for match in proposed_matches:
+        for match in proposed:
             # If all users have been matched, stop considering matches
             if not users_to_match:
                 break
@@ -94,6 +89,6 @@ class MatchingEngine:
         # Finalize matches for users without a match, if any
         remaining_users = [u for u in inp.users if u.uid in users_to_match]
         if remaining_users:
-            for match in self.finalizer(inp, remaining_users):
+            for match in self.finalizer.finalize(inp, remaining_users):
                 finalized_matches.append(match)
         return finalized_matches

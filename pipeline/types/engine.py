@@ -28,9 +28,9 @@ class MatchingInput:
     match_stars: List[MatchStars] = field(default_factory=list)
 
 
-MatchGenerator = Callable[[MatchingInput], Iterator[Match]]
-MatchRanker = Callable[[MatchingInput, Iterator[Match]], Iterator[Match]]
-MatchFinalizer = Callable[[MatchingInput, List[User]], Iterator[Match]]
+MatchGenerateFunction = Callable[[MatchingInput], Iterator[Match]]
+MatchRankFunction = Callable[[MatchingInput, Iterator[Match]], Iterator[Match]]
+MatchFinalizeFunction = Callable[[MatchingInput, List[User]], List[Match]]
 
 
 @dataclass

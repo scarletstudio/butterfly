@@ -28,7 +28,6 @@ def test_engine_basic():
     # Run matching engine
     engine = SimpleMatchingEngine()
     actual = engine.run(inp)
-    print(actual.matches)
 
     # Verify expected outputs
     expected_metadata_1 = MatchMetadata(

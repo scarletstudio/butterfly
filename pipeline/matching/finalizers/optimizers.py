@@ -1,16 +1,24 @@
-from typing import List
+from typing import Callable, List
 
 from pipeline.matching.utils import get_recently_matched_users_by_user
-from pipeline.types import Match, MatchFinalizer, MatchingInput, User
+from pipeline.types import Match, MatchFinalizeFunction, MatchingInput, User
+
+MatchingFinalizeFunctionDecorator = Callable[
+    [MatchFinalizeFunction], MatchFinalizeFunction
+]
 
 
-def best_effort_minimize_repeat_matches(n_retries: int):
+def best_effort_minimize_repeat_matches(
+    n_retries: int,
+) -> MatchingFinalizeFunctionDecorator:
     """
     Re-runs a matching finalizer up to n times and returns the output with
     the fewest tier 3 matches. Otherwise, returns the last output.
     """
 
-    def decorate_matching_function(finalizer: MatchFinalizer):
+    def decorate_matching_function(
+        finalizer: MatchFinalizeFunction,
+    ) -> MatchFinalizeFunction:
         def inner(inp: MatchingInput, users: List[User]) -> List[Match]:
             # Get recent match sets to check for repeat matches
             recent = get_recently_matched_users_by_user(inp.recent_matches)

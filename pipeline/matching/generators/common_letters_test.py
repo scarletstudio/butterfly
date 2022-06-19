@@ -1,6 +1,4 @@
-from pipeline.matching.generators.common_letters import (
-    configure_generate_common_letters,
-)
+from pipeline.matching.generators import CommonLettersGenerator
 from pipeline.types import Match, MatchingInput, MatchMetadata, User
 
 
@@ -15,8 +13,8 @@ def test_generate_common_letters_no_minimum():
         ],
         recent_matches=[],
     )
-    generate = configure_generate_common_letters()
-    actual = list(generate(inp))
+    generator = CommonLettersGenerator()
+    actual = list(generator.generate(inp))
     expected = [
         Match(
             users={"1", "2"},
@@ -52,8 +50,8 @@ def test_generate_common_letters_min_common():
         ],
         recent_matches=[],
     )
-    generate = configure_generate_common_letters(min_common=3)
-    actual = list(generate(inp))
+    generator = CommonLettersGenerator(min_common=3)
+    actual = list(generator.generate(inp))
     expected = [
         Match(
             users={"1", "2"},
