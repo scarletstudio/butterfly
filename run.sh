@@ -215,6 +215,7 @@ elif [ "$1" == "prefect-dashboard" ]; then
     echo "[server]" >> prefect.toml
     echo "  [server.ui]" >> prefect.toml
     echo "  apollo_url = \"$(gp url 4200)/graphql\"" >> prefect.toml
+    mkdir ~/.prefect
     cp prefect.toml ~/.prefect/config.toml
     rm prefect.toml
   fi
