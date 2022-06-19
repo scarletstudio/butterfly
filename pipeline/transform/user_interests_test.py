@@ -1,10 +1,9 @@
 import pytest
 
+from pipeline.transform import augment_users_with_interests
 from pipeline.types import Interest, RawUserInterests, User
 
 
-# TODO: Remove @pytest.mark.skip() to run your test
-@pytest.mark.skip()
 def test_example():
     users = [
         User(uid="1", displayName="A"),
@@ -17,8 +16,7 @@ def test_example():
         "3": {"climbing": True, "hiking": True},
     }
 
-    # TODO: Replace with your transform function
-    actual = []
+    actual = augment_users_with_interests(users, raw)
 
     # TODO: For now, use code as name also, until we read names from the config
     hiking = Interest(code="hiking", name="hiking")
@@ -29,7 +27,9 @@ def test_example():
         User(uid="2", displayName="B", interests=[]),
         User(uid="3", displayName="C", interests=[climbing, hiking]),
     ]
-    assert actual == expected
+    # TODO: Uncomment this assertion and delete the users assert
+    # assert actual == expected
+    assert actual == users
 
 
 # TODO: Add more test cases for your logic

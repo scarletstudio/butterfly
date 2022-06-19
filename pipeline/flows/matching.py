@@ -17,13 +17,13 @@ from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
 from pipeline.matching.core import MatchingEngine
 from pipeline.matching.engines.config import ENGINES
-from pipeline.transform.matches import (
+from pipeline.transform import (
     convert_matches_from_df,
+    convert_users_from_df,
     filter_recent_matches,
     get_matching_input,
     transform_matches_for_load,
 )
-from pipeline.transform.users import convert_users_from_df
 from pipeline.types import EngineId, Match, MatchingInput, User
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
