@@ -29,7 +29,7 @@ class MatchingEngine:
         # Generate matches
         proposed: Iterator[Match] = self.generate_matches(inp)
         # Rank matches
-        ranked: Iterator[Match] = self.ranker.rank(inp, proposed)
+        ranked: Iterator[Match] = self.rank_matches(inp, proposed)
         # Select priority matches and get remaining users
         results = self.select_priority_matches(inp, ranked)
         selected: List[Match] = results[0]
@@ -46,14 +46,24 @@ class MatchingEngine:
 
     def generate_matches(self, inp: MatchingInput) -> Iterator[Match]:
         for generator in self.generators:
+            inp.logger.info(f"Running generator: {generator.name}")
             for match in generator.generate(inp):
+                match.metadata.generator = generator.name
                 yield match
+
+    def rank_matches(
+        self, inp: MatchingInput, proposed: Iterator[Match]
+    ) -> Iterator[Match]:
+        inp.logger.info(f"Using ranker: {self.ranker.name}")
+        ranked = self.ranker.rank(inp, proposed)
+        return ranked
 
     def select_priority_matches(
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Tuple[List[Match], Set[UserId]]:
         selected_matches: List[Match] = []
         users_to_match: Set[UserId] = {u.uid for u in inp.users}
+        inp.logger.info("Selecting priority matches...")
         for match in proposed:
             # If all users have been matched, stop considering matches
             if not users_to_match:
@@ -91,6 +101,7 @@ class MatchingEngine:
         # Finalize matches for users without a match, if any
         remaining_users = [u for u in inp.users if u.uid in users_to_match]
         if remaining_users:
+            inp.logger.info(f"Running finalizer: {self.finalizer.name}")
             for match in self.finalizer.finalize(inp, remaining_users):
                 finalized_matches.append(match)
         else:

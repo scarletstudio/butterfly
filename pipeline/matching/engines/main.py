@@ -10,6 +10,7 @@ from pipeline.matching.generators import (
     SimilarSchedulesGenerator,
 )
 from pipeline.matching.rankers import (
+    CommonLettersRanker,
     IntentUpvotesRanker,
     MatchStarsRanker,
     MultiRanker,
@@ -37,6 +38,7 @@ class MainMatchingEngine(MatchingEngine):
             ranker=MultiRanker(
                 rankers=[
                     RecentRepeatsRanker(include_repeats=False),
+                    CommonLettersRanker(),
                     MatchStarsRanker(),
                     IntentUpvotesRanker(),
                     VarietyRanker(),
