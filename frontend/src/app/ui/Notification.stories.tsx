@@ -12,12 +12,12 @@ const Template = (args) => <Notification {...args} />
 export const Basic = Template.bind({})
 Basic.args = {
     visible: true,
-    children: <p>This is a notification!</p>,
+    children: <p>This is a basic notification!</p>,
 }
 
 export const FixedBottom = Template.bind({})
 FixedBottom.args = {
     visible: true,
     classes: ['Fixed', 'Bottom'],
-    children: <p>This is a notification!</p>,
+    children: <p>This is a fixed bottom notification!</p>,
 }
