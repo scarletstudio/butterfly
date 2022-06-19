@@ -1,7 +1,4 @@
-from pipeline.matching.rankers.recent_repeats import (
-    get_rank_avoid_recent_repeats,
-    get_rank_exclude_recent_repeats,
-)
+from pipeline.matching.rankers import RecentRepeatsRanker
 from pipeline.types import Match, MatchingInput
 
 
@@ -13,8 +10,8 @@ def test_rank_avoid_recent_repeats():
         recent_matches=[Match(users={"D", "C"})],
     )
     proposed = [Match(users={"C", "D"}), Match(users={"A", "B"})]
-    rank = get_rank_avoid_recent_repeats()
-    actual = list(rank(inp, proposed))
+    ranker = RecentRepeatsRanker()
+    actual = list(ranker.rank(inp, proposed))
     expected = [Match(users={"A", "B"}), Match(users={"C", "D"})]
     assert actual == expected
 
@@ -27,7 +24,7 @@ def test_rank_exclude_recent_repeats():
         recent_matches=[Match(users={"D", "C"})],
     )
     proposed = [Match(users={"C", "D"}), Match(users={"A", "B"})]
-    rank = get_rank_exclude_recent_repeats()
-    actual = list(rank(inp, proposed))
+    ranker = RecentRepeatsRanker(include_repeats=False)
+    actual = list(ranker.rank(inp, proposed))
     expected = [Match(users={"A", "B"})]
     assert actual == expected

@@ -9,7 +9,7 @@ sys.path.append("./")
 from typing import List
 
 from pipeline.matching.evaluation.validation import validate_matches
-from pipeline.matching.finalizers.fallbacks import finalize_fallbacks
+from pipeline.matching.finalizers import finalize_fallbacks
 from pipeline.types import DefaultLogger, Match, MatchingInput, User
 
 if __name__ == "__main__":
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     )
     matches = finalize_fallbacks(inp, users)
     for m in matches:
-        print(f"\t{m}")
+        print(f"\t{m.users}")
     total, t2, t3 = validate_matches(matches, users, recent_matches)
     print(f"\tTotal = {total}, T2: {t2}, T3: {t3}")
     print()
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     )
     matches = finalize_fallbacks(inp, new_users)
     for m in matches:
-        print(f"\t{m}")
+        print(f"\t{m.users}")
     total, t2, t3 = validate_matches(matches, new_users, recent_matches)
     print(f"\tTotal = {total}, T2: {t2}, T3: {t3}")
     print()

@@ -1,14 +1,12 @@
-from pipeline.matching.core.engine import MatchingEngine
-from pipeline.matching.finalizers.fallbacks import (
-    finalize_fallbacks_with_retries,
-)
-from pipeline.matching.rankers.default import rank_pass
+from pipeline.matching.core import MatchingEngine
+from pipeline.matching.finalizers import FallbacksFinalizer
+from pipeline.matching.rankers import DefaultRanker
 
 
 class MainMatchingEngine(MatchingEngine):
     def __init__(self):
         super().__init__(
             generators=[],
-            ranker=rank_pass,
-            finalizer=finalize_fallbacks_with_retries(n=5),
+            ranker=DefaultRanker(),
+            finalizer=FallbacksFinalizer(n_retries=5),
         )

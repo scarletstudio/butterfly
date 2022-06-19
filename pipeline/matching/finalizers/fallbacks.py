@@ -1,12 +1,14 @@
 import random
 from typing import List
 
-from pipeline.matching.core.constants import N_MEMBERS_FOR_FINAL_MATCH
+from pipeline.matching.core import N_MEMBERS_FOR_FINAL_MATCH, MatchFinalizer
 from pipeline.matching.finalizers.optimizers import (
     best_effort_minimize_repeat_matches,
 )
 from pipeline.matching.utils import get_recently_matched_users_by_user
-from pipeline.types import Match, MatchingInput, User
+from pipeline.types import Match, MatchFinalizeFunction, MatchingInput, User
+
+FINALIZER_FALLBACKS = "fallbacksFinalizer"
 
 
 def finalize_fallbacks(inp: MatchingInput, users: List[User]) -> List[Match]:
@@ -81,6 +83,16 @@ def finalize_fallbacks(inp: MatchingInput, users: List[User]) -> List[Match]:
     return final_matches
 
 
-def finalize_fallbacks_with_retries(n: int) -> List[Match]:
+def finalize_fallbacks_with_retries(n: int) -> MatchFinalizeFunction:
     with_retries = best_effort_minimize_repeat_matches(n_retries=n)
     return with_retries(finalize_fallbacks)
+
+
+class FallbacksFinalizer(MatchFinalizer):
+    def __init__(self, n_retries: int = 1):
+        self.n_retries = n_retries
+        self.finalizer = finalize_fallbacks_with_retries(self.n_retries)
+        super().__init__(name=FINALIZER_FALLBACKS)
+
+    def finalize(self, inp: MatchingInput, users: List[User]) -> List[Match]:
+        return self.finalizer(inp, users)

@@ -1,4 +1,4 @@
-from pipeline.matching.rankers.common_letters import rank_common_letters
+from pipeline.matching.rankers import CommonLettersRanker
 from pipeline.types import Match, MatchingInput, MatchMetadata
 
 
@@ -17,7 +17,8 @@ def test_rank_common_letters():
         Match(users={"C", "D"}, metadata=metadata_1),
         Match(users={"E", "F"}, metadata=metadata_2),
     ]
-    actual = list(rank_common_letters(inp, proposed))
+    ranker = CommonLettersRanker()
+    actual = list(ranker.rank(inp, proposed))
     expected = [
         Match(users={"C", "D"}, metadata=metadata_1),
         Match(users={"E", "F"}, metadata=metadata_2),

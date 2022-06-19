@@ -15,12 +15,8 @@ from pipeline.extract.ratings import extract_intent_upvotes, extract_match_stars
 from pipeline.extract.users import extract_users
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
-from pipeline.matching.core.engine import MatchingEngine
+from pipeline.matching.core import MatchingEngine
 from pipeline.matching.engines.config import ENGINES
-from pipeline.matching.finalizers.fallbacks import finalize_fallbacks
-from pipeline.matching.finalizers.optimizers import (
-    best_effort_minimize_repeat_matches,
-)
 from pipeline.transform.matches import (
     convert_matches_from_df,
     filter_recent_matches,
