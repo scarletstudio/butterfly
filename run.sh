@@ -7,6 +7,14 @@ FRONTEND_PORT=4000
 BACKEND_PORT=8000
 PREFECT_DASHBOARD_PORT=8080
 
+set_prefect_secrets () {
+    if command -v gp &> /dev/null; then
+    export $(gp env)
+  else
+    export $(cat .env.prefect | xargs)
+  fi
+}
+
 if [ "$1" == "frontend" ]; then
   echo "Starting frontend app..."
   cd frontend
@@ -194,15 +202,22 @@ elif [ "$1" == "flow" ]; then
   source .venv/bin/activate
   FLOW_NAME="$2"
   PATH_TO_FLOW="pipeline/flows/$FLOW_NAME.py"
-  if command -v gp &> /dev/null; then
-    env $(gp env) python3 "$PATH_TO_FLOW"
-  else
-    env $(cat .env.prefect | xargs) python3 "$PATH_TO_FLOW"
-  fi
+  set_prefect_secrets
+  python3 "$PATH_TO_FLOW"
 
 elif [ "$1" == "prefect-dashboard" ]; then
   # Run local Prefect UI to explore and run offline pipelines
   source .venv/bin/activate
+  # Update GitPod machine Prefect config to connect Prefect dashboard to GraphQL
+  if command -v gp &> /dev/null; then
+    echo "Updating ~/.prefect/config.toml ..."
+    touch prefect.toml
+    echo "[server]" >> prefect.toml
+    echo "  [server.ui]" >> prefect.toml
+    echo "  apollo_url = \"$(gp url 4200)/graphql\"" >> prefect.toml
+    cp prefect.toml ~/.prefect/config.toml
+    rm prefect.toml
+  fi
   # Set Prefect backend to local server
   prefect backend server
   # Start Prefect services in the background
@@ -211,21 +226,8 @@ elif [ "$1" == "prefect-dashboard" ]; then
   prefect create project butterfly
   # Register latest version of flows
   python3 pipeline/scripts/register_all_flows.py
-  # Show developer how to connect to local services
-  if command -v gp &> /dev/null; then
-    echo "Copy this URL into the Prefect Server GraphQL endpoint:"
-    echo "$(gp url 4200)/graphql"
-  fi
-
-elif [ "$1" == "prefect-agent" ]; then
-  # Run local Prefect agent to execute offline pipelines
-  source .venv/bin/activate
   # Set Prefect secrets, necessary for executing flows
-  if command -v gp &> /dev/null; then
-    export $(gp env)
-  else
-    export $(cat .env.prefect | xargs)
-  fi
+  set_prefect_secrets
   # Starter local agent, necessary for executing flows
   prefect agent local start
 
