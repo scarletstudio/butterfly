@@ -10,20 +10,27 @@ from prefect import Flow, Parameter
 from prefect.tasks.core.constants import Constant
 from prefect.tasks.secrets import PrefectSecret
 
-from pipeline.extract.matches import extract_recent_matches
-from pipeline.extract.ratings import extract_intent_upvotes, extract_match_stars
-from pipeline.extract.users import extract_users
+from pipeline.extract import (
+    extract_intent_upvotes,
+    extract_intents,
+    extract_interests,
+    extract_match_stars,
+    extract_recent_matches,
+    extract_users,
+)
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
 from pipeline.matching.core import MatchingEngine
 from pipeline.matching.engines.config import ENGINES
-from pipeline.transform.matches import (
+from pipeline.transform import (
+    augment_users_with_intents,
+    augment_users_with_interests,
     convert_matches_from_df,
+    convert_users_from_df,
     filter_recent_matches,
     get_matching_input,
     transform_matches_for_load,
 )
-from pipeline.transform.users import convert_users_from_df
 from pipeline.types import EngineId, Match, MatchingInput, User
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
@@ -63,11 +70,19 @@ def matching_flow() -> Flow:
         # Extract data for pipeline
         df_users = extract_users(db, param_community)
         df_matches = extract_recent_matches(db, param_community)
+        raw_intents = extract_intents(db, param_community)
+        raw_interests = extract_interests(db, param_community)
         match_stars = extract_match_stars(db, param_community)
         intent_upvotes = extract_intent_upvotes(db, param_community)
 
         # Transform extracted data to matching inputs
-        users = convert_users_from_df(df_users)
+        users_w_profile = convert_users_from_df(df_users)
+        users_w_intents = augment_users_with_intents(
+            users_w_profile, raw_intents
+        )
+        users_w_data = augment_users_with_interests(
+            users_w_intents, raw_interests
+        )
         matches = convert_matches_from_df(df_matches)
         recent_matches = filter_recent_matches(matches, param_release)
 
@@ -75,7 +90,7 @@ def matching_flow() -> Flow:
         inp = get_matching_input(
             community=param_community,
             release=param_release,
-            users=users,
+            users=users_w_data,
             recent_matches=recent_matches,
             interests=[],
             intents=[],
@@ -83,7 +98,10 @@ def matching_flow() -> Flow:
             match_stars=match_stars,
         )
         output_matches = compute_matches(inp, param_engine)
-        passed = validate_and_log_matches(users, recent_matches, output_matches)
+        # Validate using users without additional data added
+        passed = validate_and_log_matches(
+            users_w_profile, recent_matches, output_matches
+        )
 
         # Do not prepare output matches for loading unless validation passed
         df_output_matches = transform_matches_for_load(

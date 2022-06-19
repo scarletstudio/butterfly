@@ -18,7 +18,8 @@ class UserNotMatchedException(Exception):
 
 
 class MatchingEngine:
-    def __init__(self, generators, ranker, finalizer):
+    def __init__(self, name, generators, ranker, finalizer):
+        self.name: str = name
         self.generators: List[MatchGenerator] = generators
         self.ranker: MatchRanker = ranker
         self.finalizer: MatchFinalizer = finalizer
