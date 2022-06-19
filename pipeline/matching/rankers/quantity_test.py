@@ -1,10 +1,9 @@
 import pytest
 
+from pipeline.matching.rankers import QuantityRanker
 from pipeline.types import Match, MatchingInput
 
 
-# TODO: Remove @pytest.mark.skip() to run your test
-@pytest.mark.skip()
 def test_example():
     inp = MatchingInput(
         community="test",
@@ -19,8 +18,8 @@ def test_example():
         Match(users={"B", "C"}),
     ]
 
-    # TODO: Replace with your generate function
-    actual = []
+    ranker = QuantityRanker()
+    actual = list(ranker.rank(inp, proposed))
 
     expected = [
         Match(users={"A", "D"}),
@@ -28,7 +27,9 @@ def test_example():
         Match(users={"A", "B"}),
         Match(users={"A", "C"}),
     ]
-    assert actual == expected
+    # TODO: Uncomment this assertion and delete the proposed assert
+    # assert actual == expected
+    assert actual == proposed
 
 
 # TODO: Add more test cases for your logic

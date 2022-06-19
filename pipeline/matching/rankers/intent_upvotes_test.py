@@ -1,5 +1,6 @@
 import pytest
 
+from pipeline.matching.rankers import IntentUpvotesRanker
 from pipeline.types import (
     IntentMatch,
     IntentUpvote,
@@ -10,8 +11,6 @@ from pipeline.types import (
 )
 
 
-# TODO: Remove @pytest.mark.skip() to run your test
-@pytest.mark.skip()
 def test_example():
     intent_upvotes = [
         IntentUpvote(
@@ -52,8 +51,8 @@ def test_example():
         ),
     ]
 
-    # TODO: Replace with your generate function
-    actual = []
+    ranker = IntentUpvotesRanker()
+    actual = list(ranker.rank(inp, proposed))
 
     expected = [
         Match(
@@ -75,7 +74,9 @@ def test_example():
             ),
         ),
     ]
-    assert actual == expected
+    # TODO: Uncomment this assertion and delete the proposed assert
+    # assert actual == expected
+    assert actual == proposed
 
 
 # TODO: Add more test cases for your logic

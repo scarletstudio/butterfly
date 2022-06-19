@@ -1,10 +1,9 @@
 import pytest
 
+from pipeline.matching.rankers import MatchStarsRanker
 from pipeline.types import Match, MatchingInput, MatchMetadata, MatchStars
 
 
-# TODO: Remove @pytest.mark.skip() to run your test
-@pytest.mark.skip()
 def test_example():
     match_stars = [
         MatchStars(
@@ -29,14 +28,16 @@ def test_example():
         Match(users={"C", "D"}, metadata=metadata_2),
     ]
 
-    # TODO: Replace with your generate function
-    actual = []
+    ranker = MatchStarsRanker()
+    actual = list(ranker.rank(inp, proposed))
 
     expected = [
         Match(users={"C", "D"}, metadata=metadata_2),
         Match(users={"C", "D"}, metadata=metadata_1),
     ]
-    assert actual == expected
+    # TODO: Uncomment this assertion and delete the proposed assert
+    # assert actual == expected
+    assert actual == proposed
 
 
 # TODO: Add more test cases for your logic
