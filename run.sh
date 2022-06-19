@@ -57,9 +57,40 @@ elif [ "$1" == "install-frontend-ci" ]; then
   npm ci
 
 elif [ "$1" == "install-eslint" ]; then
-  echo "Installing frontend dependencies for ESLint..."
-  cd frontend
-  npm install eslint-config-airbnb
+  echo "Installing frontend dependencies for ESLint (intended for CI only)..."
+  # Helper function read the package version from our frontend dev dependencies
+  package () {
+    PACKAGE=$1
+    VERSION=$(< frontend/package.json jq -r ".devDependencies.\"$PACKAGE\"")
+    echo "$PACKAGE@$VERSION"
+    echo "$PACKAGE@$VERSION"
+  }
+  # Install only the dev dependencies needed to run the ESLint pre-commit hook
+  npm install --no-package-lock --no-save --quiet \
+    $(package "eslint") \
+    $(package "eslint-config-airbnb") \
+    $(package "eslint-config-prettier") \
+    $(package "eslint-plugin-import") \
+    $(package "eslint-plugin-jsx-a11y") \
+    $(package "eslint-plugin-node") \
+    $(package "eslint-plugin-prettier") \
+    $(package "eslint-plugin-promise") \
+    $(package "eslint-plugin-react") \
+    $(package "eslint-plugin-react-hooks") \
+    $(package "eslint-plugin-standard") \
+    $(package "@typescript-eslint/parser")
+  # Installation must happen outside the frontend directory to avoid installing
+  # all packages, so afterwards, we move dependencies to frontend folder so the
+  # ESLint config can resolve them correctly.
+  mkdir frontend/node_modules
+  mv node_modules/* frontend/node_modules
+  # Add a rule for the CI only that ignores import resolution errors, so that we
+  # do not have to install all the project dependencies, only the ESLint ones.
+  cp frontend/.eslintrc frontend/.eslintrc.original
+  # Turn off Prettier for the new file so that the pre-commit checkes do not
+  # fail due to the reformatting done by jq.
+  echo "frontend/.eslintrc" > .prettierignore
+  jq '.rules += {"import/no-unresolved": "off"}' frontend/.eslintrc.original | jq > frontend/.eslintrc
 
 elif [ "$1" == "lint-frontend" ]; then
   cd frontend
