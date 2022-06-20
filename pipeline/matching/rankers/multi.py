@@ -16,5 +16,6 @@ class MultiRanker(MatchRanker):
     ) -> Iterator[Match]:
         ordering = proposed
         for ranker in self.rankers:
+            inp.logger.info(f"Using ranker: {ranker.name}")
             ordering = ranker.rank(inp, ordering)
         return ordering
