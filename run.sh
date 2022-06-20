@@ -48,6 +48,7 @@ elif [ "$1" == "frontend" ]; then
   if command -v gp &> /dev/null; then
     gp env VITE_BACKEND_URL=$(gp url "$BACKEND_PORT")
     gp env VITE_FRONTEND_URL=$(gp url "$FRONTEND_PORT")
+    gp env VITE_STORYBOOK_URL=$(gp url "$STORYBOOK_PORT")
     eval $(gp env -e)
     touch .env.firebase
     echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env.firebase
@@ -61,10 +62,12 @@ elif [ "$1" == "frontend" ]; then
   else
     VITE_BACKEND_URL="http://localhost:$BACKEND_PORT"
     VITE_FRONTEND_URL="http://localhost:$FRONTEND_PORT"
+    VITE_STORYBOOK_URL="http://localhost:$STORYBOOK_PORT"
     cp ../.env.firebase .env.firebase
   fi
   echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" > .env
   echo "VITE_FRONTEND_URL=$VITE_FRONTEND_URL" >> .env
+  echo "VITE_STORYBOOK_URL=$VITE_STORYBOOK_URL" >> .env
   cat .env.firebase >> .env
   rm .env.firebase
   # Run the frontend in development mode
