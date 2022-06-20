@@ -137,6 +137,12 @@ elif [ "$1" == "format-frontend" ]; then
   npm run format "${@:2}"
 
 elif [ "$1" == "storybook" ]; then
+  if command -v gp &> /dev/null; then
+    gp env VITE_STORYBOOK_URL=$(gp url "$STORYBOOK_PORT")
+    eval $(gp env -e)
+  else
+    VITE_STORYBOOK_URL="http://localhost:$STORYBOOK_PORT"
+  fi
   cd frontend
   npm run storybook
 
