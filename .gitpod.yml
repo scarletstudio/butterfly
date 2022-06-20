@@ -51,31 +51,37 @@ tasks:
     init: ./run.sh install-frontend
     command: |
       source .bash_aliases
+      gp sync-await venv
       source .venv/bin/activate
       ./run.sh frontend
   - name: Backend
     command: |
       source .bash_aliases
+      gp sync-await venv
       source .venv/bin/activate
       ./run.sh backend
   - name: Storybook
     command: |
       source .bash_aliases
+      gp sync-await venv
       source .venv/bin/activate
       ./run.sh storybook
   - name: Prefect
     command: |
       source .bash_aliases
+      gp sync-await venv
       source .venv/bin/activate
       ./run.sh prefect-dashboard
   - name: Terminal
     init: |
       python3 -m venv .venv
       source .venv/bin/activate
+      gp sync-done venv
       ./run.sh install-backend
       pre-commit install
       pre-commit install --install-hooks
     command: |
       cat .bash_aliases >> ~/.bashrc
       source ~/.bashrc
+      gp sync-await venv
       source .venv/bin/activate
