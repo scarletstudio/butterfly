@@ -134,14 +134,3 @@ def matching_flow(defaults: Dict = {}) -> Flow:
         uploaded.set_upstream(deleted)
 
     return flow
-
-
-if __name__ == "__main__":
-    flow = matching_flow()
-    flow.run(
-        parameters={
-            "engine": "main",
-            "community": "demo",
-            "release": "2022-04-17",
-        }
-    )

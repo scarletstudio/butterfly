@@ -201,9 +201,8 @@ elif [ "$1" == "flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
   FLOW_NAME="$2"
-  PATH_TO_FLOW="pipeline/flows/$FLOW_NAME.py"
   set_prefect_secrets
-  python3 "$PATH_TO_FLOW"
+  python3 pipeline/scripts/run_flow.py "$FLOW_NAME"
 
 elif [ "$1" == "prefect" ]; then
   # Run local Prefect UI to explore and run offline pipelines
