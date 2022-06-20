@@ -86,10 +86,6 @@ The pipeline version in Prefect dashboard automatically updates when you save `.
 
 ## Advanced
 
-### Connect to Localhost with GitPod
-
-We use mock logins when running the Butterfly app on GitPod because Firebase login is not authorized on GitPod. If you need to login with a real account, you can run [GitPod Local Companion](https://www.gitpod.io/blog/local-app), which will let you connect to the app being served on GitPod from your own localhost. Your Firebase login should work on localhost.
-
 ### Automatic GitPod Commands
 
 These commands run automatically when starting a new GitPod workspace.
@@ -104,7 +100,7 @@ These commands run automatically when starting a new GitPod workspace.
 | `run backend`               | Start backend API.                |
 | `run prefect`               | Start Prefect dashboard.          |
 
-### All Other Command
+### All Other Commands
 
 | Command                   | Description                                                            |
 | ------------------------- | ---------------------------------------------------------------------- |
@@ -118,3 +114,7 @@ These commands run automatically when starting a new GitPod workspace.
 | `run prefect-listen`      | Listens for changes to pipeline code to update version in Prefect.     |
 | `run manage ...`          | Run a Django management command.                                       |
 | `run shell`               | Start a Django shell.                                                  |
+
+### Connect to Localhost with GitPod
+
+We use mock logins when running the Butterfly app on GitPod because Firebase login is not authorized on GitPod. If you need to login with a real account, you can run [GitPod Local Companion](https://www.gitpod.io/blog/local-app), which will let you connect to the app being served on GitPod from your own localhost. Your Firebase login should work on localhost.
