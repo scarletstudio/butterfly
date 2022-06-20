@@ -67,7 +67,7 @@ tasks:
     command: |
       source .bash_aliases
       source .venv/bin/activate
-      ./run.sh prefect-dashboard
+      ./run.sh prefect
   - name: Terminal
     init: |
       python3 -m venv .venv

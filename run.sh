@@ -201,11 +201,10 @@ elif [ "$1" == "flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
   FLOW_NAME="$2"
-  PATH_TO_FLOW="pipeline/flows/$FLOW_NAME.py"
   set_prefect_secrets
-  python3 "$PATH_TO_FLOW"
+  python3 pipeline/scripts/run_flow.py "$FLOW_NAME"
 
-elif [ "$1" == "prefect-dashboard" ]; then
+elif [ "$1" == "prefect" ]; then
   # Run local Prefect UI to explore and run offline pipelines
   source .venv/bin/activate
   # Update GitPod machine Prefect config to connect Prefect dashboard to GraphQL
@@ -231,14 +230,20 @@ elif [ "$1" == "prefect-dashboard" ]; then
   python3 pipeline/scripts/register_all_flows.py
   # Set Prefect secrets, necessary for executing flows
   set_prefect_secrets
-  # Starter local agent, necessary for executing flows
-  prefect agent local start
+  # Start local agent, necessary for executing flows
+  # In parallel, listen for changes and register new flow versions
+  prefect agent local start & python3 pipeline/scripts/register_listener.py &
 
 elif [ "$1" == "prefect-register" ]; then
   # Register latest version of flows with Prefect Server
   source .venv/bin/activate
   prefect create project butterfly
   python3 pipeline/scripts/register_all_flows.py
+
+elif [ "$1" == "prefect-listen" ]; then
+  # Register latest version of flows with Prefect Server
+  source .venv/bin/activate
+  python3 pipeline/scripts/register_listener.py
 
 elif [ "$1" == "open-prefect" ]; then
   if command -v gp &> /dev/null; then
