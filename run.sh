@@ -245,7 +245,7 @@ elif [ "$1" == "prefect-listen" ]; then
   source .venv/bin/activate
   python3 pipeline/scripts/register_listener.py
 
-elif [ "$1" == "open-prefect" ]; then
+elif [ "$1" == "dashboard" ]; then
   if command -v gp &> /dev/null; then
     gp preview $(gp url "$PREFECT_DASHBOARD_PORT")
   else
