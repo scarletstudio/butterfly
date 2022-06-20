@@ -55,13 +55,19 @@ def matching_flow(defaults: Dict = {}) -> Flow:
     with Flow(name="matching_flow") as flow:
         # Retrieve pipeline parameters
         param_engine = Parameter(
-            name="engine", default=defaults.get("engine"), required=True
+            name="engine",
+            default=defaults.get("engine"),
+            required=True,
         )
         param_community = Parameter(
-            name="community", default=defaults.get("community"), required=True
+            name="community",
+            default=defaults.get("community"),
+            required=True,
         )
         param_release = Parameter(
-            name="release", default=defaults.get("release"), required=True
+            name="release",
+            default=defaults.get("release"),
+            required=True,
         )
         param_force = Parameter(name="force", default=False, required=False)
         const_now = Constant(name="now", value=datetime.datetime.now())
