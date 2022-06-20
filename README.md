@@ -19,10 +19,11 @@ An app to meet new people in your community.
 
 The UI and API automatically update when you make changes to source files.
 
-| Command   | Description                |
-| --------- | -------------------------- |
-| `run ui`  | Open frontend UI in a tab. |
-| `run api` | Open backend API in a tab. |
+| Command    | Description                |
+| ---------- | -------------------------- |
+| `run ui`   | Open frontend UI in a tab. |
+| `run api`  | Open backend API in a tab. |
+| `run book` | Open Storybook in a tab.   |
 
 ### Common Pipeline Commands
 
@@ -32,7 +33,7 @@ The pipeline version in Prefect dashboard automatically updates when you save `.
 | ------------------- | -------------------------------- |
 | `run pytest`        | Run all pytest tests.            |
 | `run flow matching` | Run the matching flow locally.   |
-| `run dashboard`     | Open Prefect dashboard in a tab. |
+| `run dash`          | Open Prefect dashboard in a tab. |
 
 ### Command Development Commands
 
