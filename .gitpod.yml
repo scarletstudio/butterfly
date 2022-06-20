@@ -61,10 +61,12 @@ tasks:
   - name: Storybook
     command: |
       source .bash_aliases
+      source .venv/bin/activate
       ./run.sh storybook
   - name: Prefect
     command: |
       source .bash_aliases
+      source .venv/bin/activate
       ./run.sh prefect-dashboard
   - name: Terminal
     init: |
