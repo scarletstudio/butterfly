@@ -3,7 +3,7 @@ import sys
 sys.path.append("./")
 
 import datetime
-from typing import List
+from typing import Dict, List
 
 import prefect
 from prefect import Flow, Parameter
@@ -51,13 +51,19 @@ def compute_matches(inp: MatchingInput, engine_id: EngineId) -> List[Match]:
     return output.matches
 
 
-def matching_flow() -> Flow:
+def matching_flow(defaults: Dict = {}) -> Flow:
     with Flow(name="matching_flow") as flow:
         # Retrieve pipeline parameters
-        param_engine = Parameter(name="engine", required=True)
-        param_community = Parameter(name="community", required=True)
-        param_release = Parameter(name="release", required=True)
-        param_force = Parameter(name="force", required=False)
+        param_engine = Parameter(
+            name="engine", default=defaults.get("engine"), required=True
+        )
+        param_community = Parameter(
+            name="community", default=defaults.get("community"), required=True
+        )
+        param_release = Parameter(
+            name="release", default=defaults.get("release"), required=True
+        )
+        param_force = Parameter(name="force", default=False, required=False)
         const_now = Constant(name="now", value=datetime.datetime.now())
 
         # Configure database connection
