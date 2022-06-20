@@ -5,6 +5,7 @@ set -e
 
 FRONTEND_PORT=4000
 BACKEND_PORT=8000
+STORYBOOK_PORT=6006
 PREFECT_DASHBOARD_PORT=8080
 
 set_prefect_secrets () {
@@ -15,7 +16,31 @@ set_prefect_secrets () {
   fi
 }
 
-if [ "$1" == "frontend" ]; then
+open_port_in_tab () {
+  if command -v gp &> /dev/null; then
+    gp preview $(gp url "$1")
+  else
+    open "http://localhost:$1"
+  fi
+}
+
+if [ "$1" == "ui" ]; then
+  # Open frontend UI in a tab
+  open_port_in_tab "$FRONTEND_PORT"
+
+elif [ "$1" == "book" ]; then
+  # Open Storybook in a tab
+  open_port_in_tab "$STORYBOOK_PORT"
+
+elif [ "$1" == "api" ]; then
+  # Open backend API in a tab
+  open_port_in_tab "$BACKEND_PORT"
+
+elif [ "$1" == "dash" ]; then
+  # Open Prefect dashboard in a tab
+  open_port_in_tab "$PREFECT_DASHBOARD_PORT"
+
+elif [ "$1" == "frontend" ]; then
   echo "Starting frontend app..."
   cd frontend
   # Get the GitPod URL for the backend, for API requests
@@ -108,14 +133,6 @@ elif [ "$1" == "format-frontend" ]; then
   cd frontend
   npm run format "${@:2}"
 
-elif [ "$1" == "ui" ]; then
-  # Open the frontend in the GitPod preview window
-  if command -v gp &> /dev/null; then
-    gp preview $(gp url "$FRONTEND_PORT")
-  else
-    open "http://localhost:$FRONTEND_PORT"
-  fi
-
 elif [ "$1" == "storybook" ]; then
   cd frontend
   npm run storybook
@@ -189,14 +206,6 @@ elif [ "$1" == "backend-server" ]; then
   python3 backend/manage.py migrate
   gunicorn server.wsgi --bind 0.0.0.0:$BACKEND_PORT --chdir=backend
 
-elif [ "$1" == "api" ]; then
-  # Open the backend in the GitPod preview window
-  if command -v gp &> /dev/null; then
-    gp preview $(gp url "$BACKEND_PORT")
-  else
-    open "http://localhost:$BACKEND_PORT"
-  fi
-
 elif [ "$1" == "flow" ]; then
   # Set Prefect secrets then run a flow
   source .venv/bin/activate
@@ -244,13 +253,6 @@ elif [ "$1" == "prefect-listen" ]; then
   # Register latest version of flows with Prefect Server
   source .venv/bin/activate
   python3 pipeline/scripts/register_listener.py
-
-elif [ "$1" == "open-prefect" ]; then
-  if command -v gp &> /dev/null; then
-    gp preview $(gp url "$PREFECT_DASHBOARD_PORT")
-  else
-    open "http://localhost:$PREFECT_DASHBOARD_PORT"
-  fi
 
 else
   echo "No run shortcut found for: $1"
