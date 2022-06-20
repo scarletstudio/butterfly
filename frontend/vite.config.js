@@ -16,6 +16,6 @@ export default defineConfig({
     },
     plugins: [react()],
     server: {
-        hmr: FRONTEND_URL ? GITPOD_HMR : true,
+        hmr: GITPOD_HMR || true,
     },
 })
