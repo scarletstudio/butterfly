@@ -18,3 +18,8 @@ export const OneCommonLetter = Template.bind({})
 OneCommonLetter.args = {
     chat: { metadata: { commonLetters: ['v'] } },
 }
+
+export const NoCommonLetters = Template.bind({})
+NoCommonLetters.args = {
+    chat: { metadata: { commonLetters: [] } },
+}

@@ -10,17 +10,18 @@ interface CommonLettersStarterProps {
 const CommonLettersStarterInner = ({ commonLetters }: CommonLettersStarterProps) => {
     const nLetters = pluralize(commonLetters.length, 'letter')
     const joinedLetters = commonLetters.join(', ')
+    const anyLetters = `Fun fact, your names have ${nLetters} in common: ${joinedLetters}!`
+    const noLetters = 'Fun fact, your names have no letters in common!'
+    const message = commonLetters.length > 0 ? anyLetters : noLetters
     return (
         <div className="CommonLettersStarter">
-            <p>
-                Fun fact, your names have {nLetters} in common: {joinedLetters}!
-            </p>
+            <p>{message}</p>
         </div>
     )
 }
 
 const CommonLettersStarter = ({ chat }: ConversationStarterProps) => (
-    <CommonLettersStarterInner commonLetters={chat?.metadata?.commonLetters} />
+    <CommonLettersStarterInner commonLetters={chat?.metadata?.commonLetters || []} />
 )
 
 export default CommonLettersStarter
