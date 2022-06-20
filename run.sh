@@ -215,10 +215,12 @@ elif [ "$1" == "prefect-dashboard" ]; then
     echo "[server]" >> prefect.toml
     echo "  [server.ui]" >> prefect.toml
     echo "  apollo_url = \"$(gp url 4200)/graphql\"" >> prefect.toml
-    mkdir ~/.prefect
+    mkdir -p ~/.prefect
     cp prefect.toml ~/.prefect/config.toml
     rm prefect.toml
   fi
+  # Stop Prefect server in case it is already running
+  prefect server stop
   # Set Prefect backend to local server
   prefect backend server
   # Start Prefect services in the background
