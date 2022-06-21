@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import Optional, Set
 
+from pipeline.types.community import Community
 from pipeline.types.match_metadata import MatchMetadata
-from pipeline.types.release import Community, ReleaseTag
+from pipeline.types.release import ReleaseTag
 from pipeline.types.user import User, UserId
 
 # This ID is only unique within a community and release

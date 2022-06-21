@@ -2,16 +2,35 @@ import pandas as pd
 import prefect
 from prefect import task
 
-from pipeline.types import Community
+from pipeline.types import Community, UserCommunityMemberships
+
+
+def is_active_in_community(
+    memberships: UserCommunityMemberships, community: Community
+) -> bool:
+    """Checks for an active membership in the given community."""
+    if not memberships:
+        return False
+    return memberships.get(community, {}).get("active", False)
 
 
 @task
-def extract_users(db, Community: str) -> pd.DataFrame:
+def extract_users(db, community: Community) -> pd.DataFrame:
     """Downloads all users from the database."""
     logger = prefect.context.get("logger")
     all_users = db.reference("users").get()
-    df_users = pd.DataFrame(all_users.values())
+    # Add field for whether user has an active membership in the given community
+    is_active_fn = lambda m: is_active_in_community(m, community)
+    user_dicts = [
+        {**user, "is_active": is_active_fn(user.get("communities", {}))}
+        for user in all_users.values()
+    ]
+    df_users = pd.DataFrame(user_dicts)
     # Filter out users who have not logged in
     df_users = df_users[df_users.latestLogin.notna()]
+    # Filter out users who are not active in the given community
+    df_users = df_users[df_users.is_active]
+    # Drop columns used for internal filtering
+    df_users.drop(columns=["is_active", "communities"], inplace=True)
     logger.info("Returned {} rows, {} cols.".format(*df_users.shape))
     return df_users
