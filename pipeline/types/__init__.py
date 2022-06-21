@@ -1,3 +1,4 @@
+from pipeline.types.community import *
 from pipeline.types.engine import *
 from pipeline.types.intent import *
 from pipeline.types.intent_match import *

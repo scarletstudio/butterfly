@@ -1,12 +1,13 @@
 from dataclasses import dataclass, field
 from typing import Callable, Iterator, List, Set
 
+from pipeline.types.community import Community
 from pipeline.types.intent import Intent
 from pipeline.types.interest import Interest
 from pipeline.types.logging import DefaultLogger, EngineLogger
 from pipeline.types.match import Match
 from pipeline.types.rating import IntentUpvote, MatchStars
-from pipeline.types.release import Community, ReleaseTag
+from pipeline.types.release import ReleaseTag
 from pipeline.types.user import User, UserId
 
 EngineId = str
