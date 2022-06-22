@@ -84,7 +84,9 @@ elif [ "$1" == "install-frontend" ]; then
   echo "Installing frontend dependencies..."
   # Install Node dependencies within frontend directory
   cd frontend
-  npm install
+  # Do not save unintended changes to package-lock.json
+  # https://github.com/npm/npm/issues/17722
+  npm install --no-save
 
 elif [ "$1" == "install-frontend-ci" ]; then
   echo "Installing frontend dependencies for continuous integration runner..."
