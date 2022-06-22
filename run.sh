@@ -250,9 +250,18 @@ elif [ "$1" == "prefect" ]; then
   python3 pipeline/scripts/register_all_flows.py
   # Set Prefect secrets, necessary for executing flows
   set_prefect_secrets
+  # Stop both parallel processes with one exit command
+  # https://unix.stackexchange.com/a/107405
+  trap stop_parallel SIGINT
+  stop_parallel () {
+    echo "Stopping parallel processes..."
+    kill 0
+  }
   # Start local agent, necessary for executing flows
   # In parallel, listen for changes and register new flow versions
-  prefect agent local start & python3 pipeline/scripts/register_listener.py &
+  prefect agent local start &
+  python3 pipeline/scripts/register_listener.py &
+  wait
 
 elif [ "$1" == "prefect-register" ]; then
   # Register latest version of flows with Prefect Server
