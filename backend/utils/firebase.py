@@ -45,3 +45,8 @@ def with_db(func: Callable):
         return func(db, *args, **kwargs)
 
     return wrapper
+
+
+def get_db():
+    """Returns the Firebase database."""
+    return db

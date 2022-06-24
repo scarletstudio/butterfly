@@ -19,11 +19,12 @@ An app to meet new people in your community.
 
 The UI and API automatically update when you make changes to source files.
 
-| Command    | Description                |
-| ---------- | -------------------------- |
-| `run ui`   | Open frontend UI in a tab. |
-| `run api`  | Open backend API in a tab. |
-| `run book` | Open Storybook in a tab.   |
+| Command        | Description                      |
+| -------------- | -------------------------------- |
+| `run ui`       | Open frontend UI in a tab.       |
+| `run api`      | Open backend API in a tab.       |
+| `run api-docs` | Open API documentation in a tab. |
+| `run book`     | Open Storybook in a tab.         |
 
 ### Common Pipeline Commands
 

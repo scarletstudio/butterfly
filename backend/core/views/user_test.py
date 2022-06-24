@@ -13,7 +13,7 @@ def test_get_user_by_id(mock_db):
 
     c = Client()
     uid = "erik"
-    actual = c.post(f"/core/user/{uid}")
+    actual = c.get(f"/core/user/{uid}")
 
     expected = format_json(data={"displayName": "Erik"})
     assert_response_match(actual, expected)
@@ -27,7 +27,7 @@ def test_no_user_found(mock_db):
 
     c = Client()
     uid = "derik"
-    actual = c.post(f"/core/user/{uid}")
+    actual = c.get(f"/core/user/{uid}")
 
     expected = format_json(success=False, message="No user for ID: derik")
     assert_response_match(actual, expected)
