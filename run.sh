@@ -188,15 +188,18 @@ elif [ "$1" == "backend" ]; then
   # Set the Django secret key and save as an environment variable
   if command -v gp &> /dev/null; then
     gp env SECRET_KEY="$RANDOM"
+    gp env ENVIRONMENT="development"
     gp env API_DATABASE_URL="$PREFECT__CONTEXT__SECRETS__database_url"
     gp env API_ADMIN_CREDENTIALS="$PREFECT__CONTEXT__SECRETS__admin_credentials"
     eval $(gp env -e)
   else
     SECRET_KEY=$RANDOM
+    ENVIRONMENT="development"
     echo "Firebase keys are not automated for non-GitPod runs."
     exit 1
   fi
   echo "SECRET_KEY=$SECRET_KEY" > .env
+  echo "ENVIRONMENT=$ENVIRONMENT" >> .env
   echo "API_DATABASE_URL=$API_DATABASE_URL" >> .env
   echo "API_ADMIN_CREDENTIALS=$API_ADMIN_CREDENTIALS" >> .env
   # Run the backend in development mode
@@ -209,15 +212,18 @@ elif [ "$1" == "backend-server" ]; then
   # Set the Django secret key and save as an environment variable
   if command -v gp &> /dev/null; then
     gp env SECRET_KEY=$RANDOM
+    gp env ENVIRONMENT="production"
     gp env API_DATABASE_URL="$PREFECT__CONTEXT__SECRETS__database_url"
     gp env API_ADMIN_CREDENTIALS="$PREFECT__CONTEXT__SECRETS__admin_credentials"
     eval $(gp env -e)
   else
     SECRET_KEY=$RANDOM
+    ENVIRONMENT="production"
     echo "Firebase keys are not automated for non-GitPod runs."
     exit 1
   fi
   echo "SECRET_KEY=$SECRET_KEY" > .env
+  echo "ENVIRONMENT=$ENVIRONMENT" >> .env
   echo "API_DATABASE_URL=$API_DATABASE_URL" >> .env
   echo "API_ADMIN_CREDENTIALS=$API_ADMIN_CREDENTIALS" >> .env
   # Run the backend in development mode
