@@ -1,5 +1,10 @@
-from django.http import HttpResponse
+from ninja import Router
+
+from backend.utils import format_json
+
+router = Router()
 
 
+@router.post("/match_stars")
 def view_rate_match(request):
-    return HttpResponse(status=200)
+    return format_json(message="Not yet implemented.")

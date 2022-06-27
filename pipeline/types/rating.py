@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal, Set
 
+from pipeline.types.community import Community
 from pipeline.types.intent import IntentCode
 from pipeline.types.match import MatchKey
 from pipeline.types.match_metadata import GeneratorId
@@ -18,6 +19,8 @@ class MatchStars:
     from_user: UserId
     # Number of stars given
     value: StarsValue
+    # Community of the match this rating is for
+    community: Community
     # Key of the match this rating is for
     match: MatchKey
     # Users in the match, including the user who gave the rating
@@ -36,6 +39,8 @@ class IntentUpvote:
     value: UpvoteValue
     # Code for the intent the user is being upvoted for
     intent: IntentCode
+    # Community of the match this rating is for
+    community: Community
     # Key of the match this upvote is for
     match: MatchKey
     # Users in the match, including the user who gave the upvote

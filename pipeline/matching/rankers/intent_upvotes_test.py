@@ -18,6 +18,7 @@ def test_example():
             to_user="B",
             value=1,
             intent="tutoring",
+            community="test",
             match="1",
             users={"D", "B"},
             generator="blueGenerator",

@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from ninja import Router
 
 from backend.utils import format_json

@@ -1,5 +1,10 @@
-from django.http import HttpResponse
+from ninja import Router
+
+from backend.utils import format_json
+
+router = Router()
 
 
+@router.post("/intent_upvote")
 def view_upvote_user(request):
-    return HttpResponse(status=200)
+    return format_json(message="Not yet implemented.")
