@@ -2,10 +2,12 @@ from django.urls import include, path
 from ninja import NinjaAPI
 
 from backend.core.urls import router as core_router
+from backend.utils import get_ninja_api_settings
 
 from . import views
 
-api = NinjaAPI()
+ninja_settings = get_ninja_api_settings()
+api = NinjaAPI(**ninja_settings)
 api.add_router("/core", core_router)
 
 urlpatterns = [
