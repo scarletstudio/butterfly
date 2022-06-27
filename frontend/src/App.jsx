@@ -47,7 +47,7 @@ function AppRouting() {
                 </Route>
                 <Route path="chats">
                     <Route index element={<AllChatsPage />} />
-                    <Route path=":chatId" element={<ChatPage />} />
+                    <Route path=":communityId/:chatId" element={<ChatPage />} />
                 </Route>
                 <Route path="status" element={<StatusPage />} />
                 <Route path="mocklogin" element={<MockLoginPage />} />

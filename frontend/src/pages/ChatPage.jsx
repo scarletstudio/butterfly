@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 
 import { ChatApp, ChatHeader, ChatConversation, ChatComposer } from '../app/chat'
 import { BlockUser, SearchMessages, RateMatch, UpvoteUser } from '../app/chatmenu'
-import { COMMUNITY } from '../app/constants'
 
 const MENU_CONFIG = {
     options: [
@@ -15,8 +14,8 @@ const MENU_CONFIG = {
 }
 
 export default function ChatPage() {
-    const { chatId } = useParams()
-    const fullChatId = `${COMMUNITY}/${chatId}`
+    const { communityId, chatId } = useParams()
+    const fullChatId = `${communityId}/${chatId}`
     return (
         <div className="ChatPage">
             <div className="ChatContainer">
