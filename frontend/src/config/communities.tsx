@@ -33,7 +33,7 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
     },
     esi: {
         id: 'esi',
-        name: 'Exelon Summmer Institute',
+        name: 'Exelon Summer Institute',
         intents: [],
         interests: [],
     },
