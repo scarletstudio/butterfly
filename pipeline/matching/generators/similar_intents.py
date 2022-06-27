@@ -15,4 +15,5 @@ class SimilarIntentsGenerator(MatchGenerator):
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
         # TODO: Implement your generator
+        inp.logger.info("Lauren")
         yield from []
