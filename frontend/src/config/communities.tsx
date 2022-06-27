@@ -31,4 +31,10 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
         intents: [],
         interests: [],
     },
+    esi: {
+        id: 'esi',
+        name: 'Exelon Summmer Institute',
+        intents: [],
+        interests: [],
+    },
 }
