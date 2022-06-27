@@ -6,7 +6,7 @@ router = Router()
 
 
 @router.post("/{community}/join/{uid}")
-def view_join_community(request, community: str, uid: str):
+def create_user_joined_community(request, community: str, uid: str):
     """Add a given user to a given community."""
     if request.method != "POST":
         return format_json(status=405, error="Only supported for POST.")

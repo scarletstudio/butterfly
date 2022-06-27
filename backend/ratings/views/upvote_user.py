@@ -6,5 +6,5 @@ router = Router()
 
 
 @router.post("/intent_upvote")
-def view_upvote_user(request):
+def create_rating_intent_upvote(request):
     return format_json(message="Not yet implemented.")

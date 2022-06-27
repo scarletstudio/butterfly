@@ -6,7 +6,7 @@ router = Router()
 
 
 @router.get("/")
-def hello(request):
+def get_backend_status(request):
     """
     Returns a friendly welcome message.
     """

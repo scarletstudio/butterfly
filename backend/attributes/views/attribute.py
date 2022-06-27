@@ -37,7 +37,7 @@ def validate_request(request, attribute: str, method: str) -> CommunityOrError:
 
 
 @router.get("/users/{uid}/{attribute}")
-def view_attribute(request, uid: str, attribute: str):
+def get_user_attribute_data(request, uid: str, attribute: str):
     community, err = validate_request(request, attribute, method="GET")
     if err:
         return err
@@ -53,7 +53,7 @@ def view_attribute(request, uid: str, attribute: str):
 
 
 @router.post("/users/{uid}/{attribute}/{code}")
-def view_update_attribute(request, uid: str, attribute: str, code: str):
+def update_user_attribute_data(request, uid: str, attribute: str, code: str):
     community, err = validate_request(request, attribute, method="POST")
     if err:
         return err
