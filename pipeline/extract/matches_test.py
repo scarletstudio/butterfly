@@ -63,3 +63,16 @@ def test_extract_recent_matches_converts_user_match_records_to_match_records():
         },
     ]
     assert actual == expected
+
+
+def test_extract_recent_matches_no_match_records():
+    mock_get_matches = MagicMock(return_value=None)
+    mock_db = MagicMock()
+    mock_db.reference("matches/test").get = mock_get_matches
+
+    actual_df = extract_recent_matches.run(mock_db, "test")
+    actual = actual_df.to_dict(orient="records")
+
+    mock_get_matches.assert_called_once_with()
+    expected = []
+    assert actual == expected
