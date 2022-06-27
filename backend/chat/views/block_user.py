@@ -1,5 +1,11 @@
 from django.http import HttpResponse
+from ninja import Router
+
+from backend.utils import format_json
+
+router = Router()
 
 
-def view_block_user(request):
-    return HttpResponse(status=200)
+@router.post("/user/{uid_from}/{uid_to}")
+def view_block_user(request, uid_from: str, uid_to: str):
+    return format_json(message="Not yet implemented.")
