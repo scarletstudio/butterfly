@@ -16,6 +16,7 @@ def extract_match_stars(db, community: Community) -> List[MatchStars]:
         rating = MatchStars(
             from_user=v.get("fromUser", ""),
             value=v.get("value", 0),
+            community=community,
             match=v.get("match", ""),
             users=set(v.get("users", [])),
             generator=v.get("generator", ""),
@@ -37,6 +38,7 @@ def extract_intent_upvotes(db, community: Community) -> List[IntentUpvote]:
             to_user=v.get("toUser", ""),
             value=v.get("value", 0),
             intent=v.get("intent", ""),
+            community=community,
             match=v.get("match", ""),
             users=set(v.get("users", [])),
             generator=v.get("generator", ""),

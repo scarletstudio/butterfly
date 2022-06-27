@@ -1,7 +1,7 @@
 from django.urls import path
+from ninja import Router
 
-from backend.chat.views import view_block_user
+from backend.chat.views.block_user import router as block_user_router
 
-urlpatterns = [
-    path("block_user", view_block_user),
-]
+router = Router()
+router.add_router("/block", block_user_router)

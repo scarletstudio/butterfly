@@ -6,7 +6,7 @@ router = Router()
 
 
 @router.get("/{uid}")
-def view_user(request, uid: str):
+def get_user_data(request, uid: str):
     """Gets a user's profile data by their user ID."""
     db = get_db()
     data = db.reference(f"users/{uid}").get()

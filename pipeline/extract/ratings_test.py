@@ -30,6 +30,7 @@ def test_extract_match_stars():
         MatchStars(
             from_user="A",
             value=3,
+            community="test",
             match="aykl0021",
             users={"A", "B"},
             generator="testGenerator",
@@ -68,6 +69,7 @@ def test_extract_intent_upvotes():
             to_user="B",
             value=1,
             intent="tutoring",
+            community="test",
             match="aykl0021",
             users={"A", "B"},
             generator="testGenerator",
