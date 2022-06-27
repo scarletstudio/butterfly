@@ -1,7 +1,12 @@
+from ninja import Router
+
 from backend.utils import format_json
 
+router = Router()
 
-def hello(request):
+
+@router.get("/")
+def get_backend_status(request):
     """
     Returns a friendly welcome message.
     """
