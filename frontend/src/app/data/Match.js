@@ -87,6 +87,7 @@ export function useGetAllUserMatches(uid) {
     // Combine matches from all communities into one array, with community data
     const matches = Object.values(matchesByCommunity)
         .reduce((arr, val) => [...arr, ...val], [])
+        .filter((m) => m.release_timestamp < Date.now())
         .map((m) => ({
             ...m,
             communityConfig: COMMUNITY_CONFIG?.[m?.community] || {},
