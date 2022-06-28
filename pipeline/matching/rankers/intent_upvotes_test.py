@@ -22,6 +22,7 @@ def test_example():
             match="1",
             users={"D", "B"},
             generator="blueGenerator",
+            timestamp=0,
         )
     ]
     inp = MatchingInput(
