@@ -14,5 +14,5 @@ class SimilarInterestsGenerator(MatchGenerator):
         super().__init__(name=GENERATOR_SIMILAR_INTERESTS)
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
-        # TODO: Implement your generator
+        inp.logger.info("Bridget was here!")
         yield from []
