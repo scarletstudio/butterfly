@@ -9,7 +9,7 @@ interface SearchMessagesProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const SearchMessagesInner = ({}: SearchMessagesProps) => {
-    return <div />
+    return <p>Nida Akkiswala was here!</p>
 }
 
 // TODO: Pass your component its props
