@@ -13,6 +13,7 @@ def test_example():
             match="1",
             users={"A", "B"},
             generator="blueGenerator",
+            timestamp=0,
         )
     ]
     inp = MatchingInput(
