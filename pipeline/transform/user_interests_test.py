@@ -18,7 +18,6 @@ def test_add_interests():
 
     actual = augment_users_with_interests.run(users, raw)
 
-    # TODO: For now, use code as name also, until we read names from the config
     hiking = Interest(code="hiking", name="hiking")
     skiing = Interest(code="skiing", name="skiing")
     climbing = Interest(code="climbing", name="climbing")
@@ -27,12 +26,8 @@ def test_add_interests():
         User(uid="2", displayName="B", interests=[]),
         User(uid="3", displayName="C", interests=[climbing, hiking]),
     ]
-    # TODO: Uncomment this assertion and delete the users assert
 
     assert actual == expected
-
-
-# TODO: Add more test cases for your logic
 
 
 def test_more_users_and_interests():
