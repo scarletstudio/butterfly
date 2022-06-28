@@ -8,7 +8,7 @@ interface EditInterestsProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const EditInterests = ({}: EditInterestsProps) => {
-    return <div />
+    return <p>Dinora Saldivar was here!</p>
 }
 
 export default EditInterests
