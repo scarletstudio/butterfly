@@ -4,7 +4,7 @@ from pipeline.transform import augment_users_with_interests
 from pipeline.types import Interest, RawUserInterests, User
 
 
-def test_example_1():
+def test_add_interests():
     users = [
         User(uid="1", displayName="A"),
         User(uid="2", displayName="B"),
@@ -35,7 +35,7 @@ def test_example_1():
 # TODO: Add more test cases for your logic
 
 
-def test_example_2():  # This test sees how the function behaves with a slight increase in users and interest
+def test_more_users_and_interests():
 
     users = [
         User(uid="1", displayName="A"),
@@ -99,8 +99,10 @@ def test_example_2():  # This test sees how the function behaves with a slight i
 
     assert actual == expected
 
+    # This test sees how the function behaves with a slight increase in users and interest
 
-def test_example_3():  # This test sees whether a failed assertion is recognized
+
+def test_user_with_no_interests():
 
     users = [
         User(uid="3", displayName="B"),
@@ -125,3 +127,32 @@ def test_example_3():  # This test sees whether a failed assertion is recognized
     ]
 
     assert actual != expected
+
+    # This test sees how the function behaves w/ a user with no interests
+
+
+def test_no_userID_in_dict():
+
+    users = [
+        User(uid="1", displayName="A"),
+        User(uid="2", displayName="B"),
+        User(uid="3", displayName="C"),
+    ]
+    raw: RawUserInterests = {
+        "2": {"skiing": False},
+        "3": {"climbing": True, "hiking": True},
+    }
+
+    actual = augment_users_with_interests.run(users, raw)
+
+    hiking = Interest(code="hiking", name="hiking")
+    climbing = Interest(code="climbing", name="climbing")
+    expected = [
+        User(uid="1", displayName="A", interests=[]),
+        User(uid="2", displayName="B", interests=[]),
+        User(uid="3", displayName="C", interests=[climbing, hiking]),
+    ]
+
+    assert actual == expected
+
+    # This test sees how the function behaves where a userID is absent from the RawUserInterests dictionary
