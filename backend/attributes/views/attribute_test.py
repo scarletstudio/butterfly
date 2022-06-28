@@ -106,7 +106,7 @@ def test_get_attribute(mock_db, test_key):
     c = Client()
     community = "test"
     uid = "andrew"
-    actual = c.get(f"/attributes/users/{uid}/{attribute}?community={community}")
+    actual = c.get(f"/attributes/community/{community}/users/{uid}/{attribute}")
 
     expected = format_json(attributes=test_data["attributes"])
     assert_response_match(actual, expected)
@@ -118,20 +118,9 @@ def test_get_invalid_attribute(mock_db):
     c = Client()
     community = "test"
     uid = "andrew"
-    actual = c.get(f"/attributes/users/{uid}/hype-factor?community={community}")
+    actual = c.get(f"/attributes/community/{community}/users/{uid}/hype-factor")
 
     expected = format_json(status=405, error="Invalid attribute: hype-factor")
-    assert_response_match(actual, expected)
-    mock_db.assert_not_called()
-
-
-@with_mock_db
-def test_get_missing_community(mock_db):
-    c = Client()
-    uid = "andrew"
-    actual = c.get(f"/attributes/users/{uid}/interests")
-
-    expected = format_json(status=405, error="Missing community.")
     assert_response_match(actual, expected)
     mock_db.assert_not_called()
 
@@ -144,7 +133,7 @@ def test_get_missing_user(mock_db):
     c = Client()
     community = "test"
     uid = "andrew"
-    actual = c.get(f"/attributes/users/{uid}/interests?community={community}")
+    actual = c.get(f"/attributes/community/{community}/users/{uid}/interests")
 
     expected = format_json(attributes=[])
     assert_response_match(actual, expected)
@@ -164,7 +153,7 @@ def test_update_attribute(mock_db, test_key):
     community = "test"
     uid = "andrew"
     code = test_data["code"]
-    url = f"/attributes/users/{uid}/{attribute}/{code}?community={community}"
+    url = f"/attributes/community/{community}/users/{uid}/{attribute}/{code}"
     data = {"update": json.dumps(test_data["update"])}
     actual = c.post(url, data)
 
@@ -181,20 +170,9 @@ def test_update_invalid_attribute(mock_db):
     c = Client()
     community = "test"
     uid = "andrew"
-    actual = c.post(f"/attributes/users/{uid}/hype/123?community={community}")
+    actual = c.post(f"/attributes/community/{community}/users/{uid}/hype/123")
 
     expected = format_json(status=405, error="Invalid attribute: hype")
-    assert_response_match(actual, expected)
-    mock_db.assert_not_called()
-
-
-@with_mock_db
-def test_update_missing_community(mock_db):
-    c = Client()
-    uid = "andrew"
-    actual = c.post(f"/attributes/users/{uid}/interests/hiking")
-
-    expected = format_json(status=405, error="Missing community.")
     assert_response_match(actual, expected)
     mock_db.assert_not_called()
 
@@ -208,7 +186,7 @@ def test_update_missing_user(mock_db):
     c = Client()
     community = "test"
     uid = "andrew"
-    url = f"/attributes/users/{uid}/interests/hiking?community={community}"
+    url = f"/attributes/community/{community}/users/{uid}/interests/hiking"
     data = {"update": json.dumps(True)}
     actual = c.post(url, data)
 
