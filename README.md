@@ -111,7 +111,7 @@ These commands run automatically when starting a new GitPod workspace.
 | `run install-frontend-ci` | Install locked frontend dependencies, for continuous integration only. |
 | `run install-eslint`      | Install ESLint dependencies, for continuous integration only.          |
 | `run lint-frontend`       | Runs linter on frontend code, prefer `pre-commit run`.                 |
-| `run formatter-frontend`  | Runs formatter on frontend code, prefer `pre-commit run`.              |
+| `run format-frontend`     | Runs formatter on frontend code, prefer `pre-commit run`.              |
 | `run prefect-register`    | Update pipeline version in Prefect.                                    |
 | `run prefect-listen`      | Listens for changes to pipeline code to update version in Prefect.     |
 | `run manage ...`          | Run a Django management command.                                       |
