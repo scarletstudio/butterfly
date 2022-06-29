@@ -89,11 +89,12 @@ def matching_flow(defaults: Dict = {}) -> Flow:
 
         # Transform extracted data to matching inputs
         users_w_profile = convert_users_from_df(df_users)
-        users_w_intents = augment_users_with_intents(
-            users_w_profile, raw_intents
-        )
+        # TODO(vinesh, azucena): Add this transform back when it is ready
+        # users_w_intents = augment_users_with_intents(
+        #     users_w_profile, raw_intents
+        # )
         users_w_data = augment_users_with_interests(
-            users_w_intents, raw_interests
+            users_w_profile, raw_interests
         )
         matches = convert_matches_from_df(df_matches)
         recent_matches = filter_recent_matches(matches, param_release)
