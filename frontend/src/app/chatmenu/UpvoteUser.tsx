@@ -11,7 +11,7 @@ interface UpvoteUserProps {
 const UpvoteUserInner = ({}: UpvoteUserProps) => {
     return (
         <div>
-            <p>Luis was here! </p>
+            <p>Luis was here part two! </p>
         </div>
     )
 }
