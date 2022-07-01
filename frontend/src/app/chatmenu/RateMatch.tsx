@@ -9,7 +9,7 @@ interface RateMatchProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const RateMatchInner = ({}: RateMatchProps) => {
-    return <div />
+    return <p>Hello Amir was here!</p>
 }
 
 // TODO: Pass your component its props
