@@ -1,4 +1,7 @@
-import pytest
+# Edit system path to correctly resolve imports if this file runs as a script
+import sys
+
+sys.path.append("./")
 
 from pipeline.matching.rankers import MatchStarsRanker
 from pipeline.types import Match, MatchingInput, MatchMetadata, MatchStars
@@ -43,3 +46,9 @@ def test_example():
 
 
 # TODO: Add more test cases for your logic
+
+# If this file is run as a script, run the tests in this file in verbose mode
+if __name__ == "__main__":
+    import pytest
+
+    pytest.main(["-vv", __file__])
