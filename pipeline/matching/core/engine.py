@@ -11,6 +11,7 @@ from pipeline.matching.core.ranker import MatchRanker
 from pipeline.types import (
     Match,
     MatchingInput,
+    MatchingInternalAnalytics,
     MatchingInternalData,
     MatchingOutput,
     UserId,

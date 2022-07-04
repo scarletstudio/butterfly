@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock
+
 import pytest
 
 from pipeline.matching.core.analytics import CollectInternalAnalytics
