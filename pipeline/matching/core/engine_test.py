@@ -1,5 +1,7 @@
 from unittest.mock import MagicMock
 
+import pytest
+
 from pipeline.matching.core.engine import MatchingEngine
 from pipeline.types import Match, MatchingInput, MatchingOutput, User, UserId
 

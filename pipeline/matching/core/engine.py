@@ -7,7 +7,13 @@ from pipeline.matching.core.constants import (
 from pipeline.matching.core.finalizer import MatchFinalizer
 from pipeline.matching.core.generator import MatchGenerator
 from pipeline.matching.core.ranker import MatchRanker
-from pipeline.types import Match, MatchingInput, MatchingOutput, UserId
+from pipeline.types import (
+    Match,
+    MatchingInput,
+    MatchingInternalAnalytics,
+    MatchingOutput,
+    UserId,
+)
 
 ERROR_USERS_FOR_PRIORITY_MATCH = "Priority matches should have two users."
 ERROR_USER_NOT_MATCHED = "One user left after selecting priority matches."
@@ -19,6 +25,9 @@ class UserNotMatchedException(Exception):
 
 
 class MatchingEngine:
+
+    analytics: MatchingInternalAnalytics  # analytics are saved to this variable w/out affecting the matching engine output
+
     def __init__(self, name, generators, ranker, finalizer):
         self.name: str = name
         self.generators: List[MatchGenerator] = generators

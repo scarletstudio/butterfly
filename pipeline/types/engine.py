@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Callable, Iterator, List, Set
+from typing import Callable, Iterator, List, Set, Tuple
 
 from pipeline.types.community import Community
 from pipeline.types.intent import Intent
@@ -48,3 +48,10 @@ class MatchingOutput:
     release: ReleaseTag
     users: List[User]
     matches: List[Match]
+
+
+@dataclass
+class MatchingInternalAnalytics:  # More metrics will be added in the future
+    n_proposed_matches_per_user: List[
+        Tuple[User, int]
+    ]  # The list will be a tuple containing the user and their number of proposed matches
