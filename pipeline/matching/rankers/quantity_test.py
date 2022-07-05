@@ -27,9 +27,7 @@ def test_example():
         Match(users={"A", "B"}),
         Match(users={"A", "C"}),
     ]
-    # TODO: Uncomment this assertion and delete the proposed assert
-    # assert actual == expected
-    assert actual == proposed
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
