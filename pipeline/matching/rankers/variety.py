@@ -5,6 +5,9 @@ from pipeline.types import Match, MatchingInput
 
 RANKER_VARIETY = "varietyRanker"
 
+Match.users
+Match.metadata.generator
+
 
 class VarietyRanker(MatchRanker):
     def __init__(self):
