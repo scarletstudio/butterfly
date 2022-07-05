@@ -27,8 +27,8 @@ def test_example():
         Match(users={"A", "C"}, metadata=metadata_1),
     ]
     # TODO: Uncomment this assertion and delete the proposed assert
-    # assert actual == expected
-    assert actual == proposed
+    assert actual == expected
+    # assert actual == proposed
 
 
 # TODO: Add more test cases for your logic

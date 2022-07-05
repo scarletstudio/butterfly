@@ -6,6 +6,14 @@ from pipeline.types import Match, MatchingInput
 RANKER_VARIETY = "varietyRanker"
 
 
+def dup_gencheck(recentMatches, match):
+    for recent in recentMatches:
+        if match.metadata.generator == recent.metadata.generator:
+            if match.users.intersection(recent.users):
+                return True
+    return False
+
+
 class VarietyRanker(MatchRanker):
     def __init__(self):
         super().__init__(name=RANKER_VARIETY)
@@ -15,4 +23,6 @@ class VarietyRanker(MatchRanker):
     ) -> Iterator[Match]:
         # TODO: Implement your ranker
         inp.logger.info("David was here!")
-        yield from proposed
+        yield from sorted(
+            proposed, key=lambda match: dup_gencheck(inp.recent_matches, match)
+        )
