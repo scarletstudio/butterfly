@@ -11,6 +11,14 @@ const Template = (args) => <EditInterests {...args} />
 
 // TODO: Set args with the props to test a case of your component
 export const Case1 = Template.bind({})
-Case1.args = {}
+Case1.args = {
+    allInterests: [
+        { code: 'anime', name: 'Anime' },
+        { code: 'coding', name: 'Coding' },
+        { code: 'cooking', name: 'Cooking' },
+        { code: 'traveling', name: 'Traveling' },
+        { code: 'reading', name: 'Reading' },
+    ],
+}
 
 // TODO: Add more cases to test your component

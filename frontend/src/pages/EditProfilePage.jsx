@@ -39,8 +39,9 @@ export default function EditProfilePage() {
                     <h2>Support</h2>
                     <EditIntents allIntents={communityConfig?.intents} />
                     <h2>Interests</h2>
-                    <h2>Schedule</h2>
                     <EditInterests allInterests={communityConfig?.interests} />
+                    <h2>Schedule</h2>
+
                     <p>Coming soon...</p>
                 </div>
             </div>
