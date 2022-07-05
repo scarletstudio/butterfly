@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import './EditIntents.css'
+import { IntentData } from './Intent'
 
 interface EditIntentsProps {
-    // TODO: Fill out the props for your component
+    intents: Array<IntentData>
 }
 
 const Subjects = ({ topic }) => {
@@ -43,19 +44,18 @@ const Giving = () => {
 
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
-const EditIntents = ({}: EditIntentsProps) => {
+const EditIntents = ({ intents = [] }: EditIntentsProps) => {
+    console.log(intents)
     return (
         <div>
             <h2>Intents</h2>
-            <Subjects topic="Learn about Careers in technology" />
-            <Seeking />
-            <Giving />
-            <Subjects topic="Get more involved at Illinois Tech" />
-            <Seeking />
-            <Giving />
-            <Subjects topic="Get show and movie recommendations" />
-            <Seeking />
-            <Giving />
+            {intents.map((intent) => (
+                <div key={intent.code}>
+                    <Subjects topic={intent.name} />
+                    <Seeking />
+                    <Giving />
+                </div>
+            ))}
         </div>
     )
 }

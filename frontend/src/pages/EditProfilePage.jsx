@@ -23,7 +23,7 @@ export default function EditProfilePage() {
                 </div>
                 <div className="Page">
                     <h2>Support</h2>
-                    <EditIntents allIntents={communityConfig?.intents} />
+                    <EditIntents intents={communityConfig?.intents} />
                     <h2>Interests</h2>
                     <h2>Schedule</h2>
                     <EditInterests allInterests={communityConfig?.interests} />
