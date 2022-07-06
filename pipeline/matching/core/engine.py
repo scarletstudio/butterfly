@@ -11,7 +11,6 @@ from pipeline.matching.core.ranker import MatchRanker
 from pipeline.types import (
     Match,
     MatchingInput,
-    MatchingInternalAnalytics,
     MatchingInternalData,
     MatchingOutput,
     UserId,
@@ -34,7 +33,6 @@ class MatchingEngine:
         self.generators: List[MatchGenerator] = generators
         self.ranker: MatchRanker = ranker
         self.finalizer: MatchFinalizer = finalizer
-        self.analytics: MatchingInternalAnalytics = MatchingInternalAnalytics()
         self.return_internal_data = return_internal_data
 
     def run(self, inp: MatchingInput) -> MatchingOutput:
