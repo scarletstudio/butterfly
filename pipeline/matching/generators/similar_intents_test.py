@@ -22,7 +22,7 @@ def test_example():
         release="2022-06-26",
         users=[
             User(uid="1", displayName="A", intents=[seek_tutoring]),
-            User(uid="2", displayName="B", interests=[give_tutoring]),
+            User(uid="2", displayName="B", intents=[give_tutoring]),
         ],
         recent_matches=[],
         intents=[tutoring],
@@ -43,8 +43,8 @@ def test_example():
         ),
     ]
     # TODO: Uncomment this assertion and delete the empty list assert
-    # assert actual == expected
-    assert actual == []
+
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
