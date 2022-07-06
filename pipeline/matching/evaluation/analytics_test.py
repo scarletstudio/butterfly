@@ -1,11 +1,10 @@
 import pytest
 
-from pipeline.matching.core.analytics import CollectInternalAnalytics
 from pipeline.matching.core.engine import MatchingEngine
+from pipeline.matching.evaluation.analytics import CollectInternalAnalytics
 from pipeline.types import Match, MatchingInput, MatchingInternalAnalytics, User
 
 
-@pytest.mark.skip()
 def test_analytics_logic():
 
     users = [
@@ -27,7 +26,6 @@ def test_analytics_logic():
     # This test varifies the behavior of the internal analyzer w/ a simple case
 
 
-@pytest.mark.skip()
 def test_multiple_match_return():
 
     users = [
@@ -54,7 +52,6 @@ def test_multiple_match_return():
     # This test varifies the behavior of the internal analyzer when a ranker returns multiple matches for a user
 
 
-@pytest.mark.skip()
 def test_no_match_return():
 
     users = [
