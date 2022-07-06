@@ -43,8 +43,14 @@ class MatchingEvaluation:
 
 
 @dataclass
+class MatchingInternalData:
+    ranked_matches: List[Match] = field(default_factory=list)
+
+
+@dataclass
 class MatchingOutput:
     community: Community
     release: ReleaseTag
     users: List[User]
     matches: List[Match]
+    internal_data: MatchingInternalData = MatchingInternalData()
