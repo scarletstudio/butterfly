@@ -1,5 +1,6 @@
 from typing import Iterator, List, Set, Tuple
 
+from pipeline.matching.core.analytics import CollectInternalAnalytics
 from pipeline.matching.core.constants import (
     N_MEMBERS_FOR_FINAL_MATCH,
     N_MEMBERS_FOR_PRIORITY_MATCH,
@@ -11,6 +12,7 @@ from pipeline.types import (
     Match,
     MatchingInput,
     MatchingInternalAnalytics,
+    MatchingInternalData,
     MatchingOutput,
     UserId,
 )
@@ -25,32 +27,38 @@ class UserNotMatchedException(Exception):
 
 
 class MatchingEngine:
-
-    analytics: MatchingInternalAnalytics  # analytics are saved to this variable w/out affecting the matching engine output
-
-    def __init__(self, name, generators, ranker, finalizer):
+    def __init__(
+        self, name, generators, ranker, finalizer, return_internal_data=False
+    ):
         self.name: str = name
         self.generators: List[MatchGenerator] = generators
         self.ranker: MatchRanker = ranker
         self.finalizer: MatchFinalizer = finalizer
+        self.analytics: MatchingInternalAnalytics = MatchingInternalAnalytics()
+        self.return_internal_data = return_internal_data
 
     def run(self, inp: MatchingInput) -> MatchingOutput:
         # Generate matches
         proposed: Iterator[Match] = self.generate_matches(inp)
         # Rank matches
         ranked: Iterator[Match] = self.rank_matches(inp, proposed)
+        ranked_copy: List[Match] = list(ranked)
         # Select priority matches and get remaining users
-        results = self.select_priority_matches(inp, ranked)
+        results = self.select_priority_matches(inp, iter(ranked_copy))
         selected: List[Match] = results[0]
         users: Set[UserId] = results[1]
         # Finalize remaining matches
         finalized: List[Match] = self.finalize_matches(inp, selected, users)
         # Return output
+        internal_data = MatchingInternalData()
+        if self.return_internal_data:
+            internal_data = MatchingInternalData(ranked_matches=ranked_copy)
         return MatchingOutput(
             community=inp.community,
             release=inp.release,
             users=inp.users,
             matches=finalized,
+            internal_data=internal_data,
         )
 
     def generate_matches(self, inp: MatchingInput) -> Iterator[Match]:

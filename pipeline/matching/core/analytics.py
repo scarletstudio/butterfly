@@ -1,27 +1,29 @@
-from pipeline.matching.core import MatchingEngine
-from pipeline.types import MatchingInput, MatchingInternalAnalytics
+import itertools
+from collections import Counter
+from typing import Iterator, List
+
+from pipeline.types import Match, MatchingInput, MatchingInternalAnalytics, User
 
 
 class CollectInternalAnalytics:
-    def __init__(self, name, matching_engine):
-        self.name: str = name
-        self.matching_engine: MatchingEngine = matching_engine
+    def __init__(self):
+        pass
 
     def n_proposed_matches_per_user(
-        self, inp: MatchingInput
+        self, users: List[User], ranked_matches: Iterator[Match]
     ) -> MatchingInternalAnalytics:
 
-        n_proposed_matches_per_user = []
-        for user in inp.users:
-            match_count = 0
-            for generator in self.matching_engine.generators:
-                gen_matches = generator.generate(inp)
-                for rank_match in self.matching_engine.ranker.rank(
-                    inp, gen_matches
-                ):
-                    if user.uid in rank_match.users:
-                        match_count += 1
-            n_proposed_matches_per_user.append((user, match_count))
+        all_users_in_matches = []
+        for match in ranked_matches:
+            all_users_in_matches.append(match.users)
+        all_users_in_matches = list(itertools.chain((all_users_in_matches)))
+        n_proposed_matches_per_user = dict(Counter(all_users_in_matches))
+        # for user in [
+        #     user
+        #     for user in users
+        #     if user.uid not in n_proposed_matches_per_user.keys()
+        # ]:
+        #     n_proposed_matches_per_user[user.uid] = 0
         return MatchingInternalAnalytics(
             n_proposed_matches_per_user=n_proposed_matches_per_user
         )
