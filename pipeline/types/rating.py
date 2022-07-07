@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal, Set
 
+from pipeline.types.basic import Timestamp
 from pipeline.types.community import Community
 from pipeline.types.intent import IntentCode
 from pipeline.types.match import MatchKey
@@ -27,6 +28,8 @@ class MatchStars:
     users: Set[UserId]
     # ID of the generator that proposed the match
     generator: GeneratorId
+    # Timestamp of when rating was created
+    timestamp: Timestamp
 
 
 @dataclass
@@ -47,3 +50,5 @@ class IntentUpvote:
     users: Set[UserId]
     # ID of the generator that proposed the match
     generator: GeneratorId
+    # Timestamp of when rating was created
+    timestamp: Timestamp

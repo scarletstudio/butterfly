@@ -8,7 +8,7 @@ interface EditIntentsProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const EditIntents = ({}: EditIntentsProps) => {
-    return <div />
+    return <p> Marilyn Elaine Flowers was here! </p>
 }
 
 export default EditIntents

@@ -1,3 +1,4 @@
+from pipeline.types.basic import *
 from pipeline.types.community import *
 from pipeline.types.engine import *
 from pipeline.types.intent import *

@@ -35,14 +35,22 @@ export function getUserData(userId) {
     })
 }
 
-export function useGetManyUserData(userIdMap) {
+/*
+ * Hook to get data for many users.
+ * @param userIdMap: map of user IDs to get.
+ * @param doFetch: async or promise function to get a user by user ID.
+ * @returns map of user IDs to user data.
+ */
+export function useGetManyUserData(userIdMap, doFetch = fetchUserData) {
     const [userDetails, setUserDetails] = useState({})
     // Try to fetch new users whenever the input updates
     useEffect(() => {
         // Filter out user IDs that were already fetched
         Object.keys(userIdMap)
-            .filter((k) => !(k in userDetails))
-            .map(fetchUserData)
+            // Annoyingly, undefined values get turned into a string when used
+            // as a dynamic map key, so we have to add this check:
+            .filter((k) => k !== 'undefined' && !(k in userDetails))
+            .map(doFetch)
             .forEach((promise) => {
                 promise
                     .then((userData) => {

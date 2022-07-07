@@ -20,9 +20,7 @@ def test_example():
         User(uid="1", displayName="A", intents=[seek_tutoring]),
         User(uid="2", displayName="B", intents=[seek_tutoring, give_tutoring]),
     ]
-    # TODO: Uncomment this assertion and delete the users assert
-    # assert actual == expected
-    assert actual == users
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
