@@ -1,6 +1,6 @@
 import pytest
 
-from pipeline.matching.rankers import VarietyRanker
+from pipeline.matching.rankers import VarietyRanker, variety
 from pipeline.types import Match, MatchingInput, MatchMetadata
 
 
@@ -32,3 +32,21 @@ def test_example():
 
 
 # TODO: Add more test cases for your logic
+def test_1():
+    metadata_1 = MatchMetadata(generator="blueGenerator")
+    metadata_2 = MatchMetadata(generator="greenGenerator")
+    past_match = Match(users={"A", "B"}, metadata=metadata_1)
+    inp = MatchingInput(
+        community="test",
+        release="2022-04-01",
+        users=[],
+        recent_matches=[past_match],
+    )
+    # raises error if proposed is a list
+    proposed = Match(users={"A", "B"}, metadata=metadata_1)
+
+    # checker = variety
+    actual = variety.dup_gencheck(inp.recent_matches, proposed)
+    expected = False  # no duplicates is to be expected
+
+    assert actual == expected  # verifying there is no duplicates
