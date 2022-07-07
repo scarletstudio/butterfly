@@ -9,7 +9,7 @@ interface IntentsStarterProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const IntentsStarterInner = ({}: IntentsStarterProps) => {
-    return <div />
+    return <p> Sara Fryzlewicz was here!</p>
 }
 
 // TODO: Pass your component its props
