@@ -7,7 +7,6 @@ from pipeline.matching.core.constants import (
 from pipeline.matching.core.finalizer import MatchFinalizer
 from pipeline.matching.core.generator import MatchGenerator
 from pipeline.matching.core.ranker import MatchRanker
-from pipeline.matching.evaluation.analytics import CollectInternalAnalytics
 from pipeline.types import (
     Match,
     MatchingInput,

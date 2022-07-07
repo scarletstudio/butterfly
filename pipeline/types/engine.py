@@ -57,7 +57,7 @@ class MatchingOutput:
 
 
 @dataclass
-class MatchingInternalAnalytics:  # More metrics will be added in the future
-    n_proposed_matches_per_user: Dict = field(
-        default_factory=dict
-    )  # A dictionary where keys -> users and values -> metrics
+class MatchingMetrics:
+    # A dictionary where keys -> users and values -> integers
+    n_proposed_matches_per_user: Dict = field(default_factory=dict)
+    # More metrics will be added in the future
