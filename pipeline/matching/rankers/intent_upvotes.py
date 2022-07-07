@@ -14,5 +14,13 @@ class IntentUpvotesRanker(MatchRanker):
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Iterator[Match]:
         # TODO: Implement your ranker
-        inp.logger.info("Verica Karanakokva was here!")
+        prev = next(proposed)
+        seek = prev.metadata.matchingIntents[0].seeker
+        cod = prev.metadata.matchingIntents[0].code
+        give = prev.metadata.matchingIntents[0].giver
+        for i in proposed:
+            nex = next(proposed)
+            # if nex.metadata.matchingIntents[0].seeker == seek and nex.metadata.matchingIntents[0].code == cod:
+
+        # inp.logger.info("Verica Karanakokva was here!")
         yield from proposed
