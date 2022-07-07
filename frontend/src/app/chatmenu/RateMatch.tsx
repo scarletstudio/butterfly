@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import './RateMatch.css'
 import { ChatMenuPageProps } from './ChatMenuPage'
+
 
 interface RateMatchProps {
     // TODO: Fill out the props for your component
@@ -34,35 +37,35 @@ const RateMatchInner = (props: RateMatchProps) => {
                     style={{ color: rating >= 1 ? 'red' : 'blue', fontSize: 50 }}
                     id="star1"
                 >
-                    *
+                    <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
                     onClick={() => (rating === 2 ? setRating(0) : setRating(2))}
                     style={{ color: rating >= 2 ? 'red' : 'blue', fontSize: 50 }}
                     id="star2"
                 >
-                    *
+                    <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
                     onClick={() => (rating === 3 ? setRating(0) : setRating(3))}
                     style={{ color: rating >= 3 ? 'red' : 'blue', fontSize: 50 }}
                     id="star3"
                 >
-                    *
+                    <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
                     onClick={() => (rating === 4 ? setRating(0) : setRating(4))}
                     style={{ color: rating >= 4 ? 'red' : 'blue', fontSize: 50 }}
                     id="star4"
                 >
-                    *
+                    <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
                     onClick={() => (rating === 5 ? setRating(0) : setRating(5))}
                     style={{ color: rating >= 5 ? 'red' : 'blue', fontSize: 50 }}
                     id="star5"
                 >
-                    *
+                    <FontAwesomeIcon icon={faStar} />
                 </span>
             </div>
             <button>SUBMIT</button>
