@@ -10,7 +10,7 @@ def get_number_matches(matches):
     num_matches = {}
     for match in matches:
         for user in match.users:
-            if num_matches[user] is None:
+            if num_matches.get(user) is None:
                 num_matches[user] = 1
             else:
                 num_matches[user] += 1
@@ -24,9 +24,12 @@ class QuantityRanker(MatchRanker):
     def rank(
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Iterator[Match]:
+        """The function 'rank' returns a sorted iterator based on the total number of matches for each user.
+        The less matches a user has the higher they are prioritized."""
         num_matches = get_number_matches(proposed)
         yield from sorted(
             proposed,
-            key=lambda match: sum([num_matches[user] for user in match.users]),
-            reverse=True,
+            key=lambda match: sum(
+                [num_matches.get(user) for user in match.users]
+            ),
         )
