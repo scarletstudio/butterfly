@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Iterator, List
 
 from pipeline.matching.core import MatchRanker
 from pipeline.types import Match, MatchingInput
@@ -6,7 +6,7 @@ from pipeline.types import Match, MatchingInput
 RANKER_VARIETY = "varietyRanker"
 
 
-def dup_gencheck(recentMatches, match):
+def dup_gencheck(recentMatches: List[Match], match: Match) -> bool:
     for recent in recentMatches:
         if match.metadata.generator == recent.metadata.generator:
             if match.users.intersection(recent.users):
