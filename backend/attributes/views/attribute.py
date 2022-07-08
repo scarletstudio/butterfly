@@ -1,11 +1,15 @@
 import json
 from json import JSONDecodeError
-from typing import Optional, Tuple
+from typing import Optional
 
 from django.http import JsonResponse
+from ninja import Router
 
 from backend.attributes import is_intent_map
-from backend.utils import format_json, with_db
+from backend.utils import format_json, get_db
+
+router = Router()
+
 
 # Map of attribute ID to a function that checks whether the given data is a
 # valid value for that attribute.
@@ -14,30 +18,24 @@ VALIDATED_ATTRIBUTES = {
     "intents": is_intent_map,
 }
 
-CommunityOrError = Tuple[Optional[str], Optional[JsonResponse]]
+OptionalError = Optional[JsonResponse]
 
 
-def validate_request(request, attribute: str, method: str) -> CommunityOrError:
+def validate_request(request, attribute: str, method: str) -> OptionalError:
     if request.method != method:
-        err = format_json(status=405, error=f"Only supported for {method}.")
-        return None, err
-    # Query parameter will come from request.GET even on a POST
-    community = getattr(request, "GET", {}).get("community")
+        return format_json(status=405, error=f"Only supported for {method}.")
     if attribute not in VALIDATED_ATTRIBUTES:
-        err = format_json(status=400, error=f"Invalid attribute: {attribute}")
-        return None, err
-    if not community:
-        err = format_json(status=400, error="Missing community.")
-        return None, err
-    return community, None
+        return format_json(status=400, error=f"Invalid attribute: {attribute}")
+    return None
 
 
-@with_db
-def view_attribute(db, request, uid: str, attribute: str):
-    community, err = validate_request(request, attribute, method="GET")
+@router.get("/community/{community}/users/{uid}/{attribute}")
+def get_user_attribute_data(request, community: str, uid: str, attribute: str):
+    err = validate_request(request, attribute, method="GET")
     if err:
         return err
 
+    db = get_db()
     ref = db.reference(f"attributes/{attribute}/{community}/{uid}")
     raw = ref.get()
 
@@ -47,9 +45,11 @@ def view_attribute(db, request, uid: str, attribute: str):
     return format_json(attributes=values)
 
 
-@with_db
-def view_update_attribute(db, request, uid: str, attribute: str, code: str):
-    community, err = validate_request(request, attribute, method="POST")
+@router.post("/community/{community}/users/{uid}/{attribute}/{code}")
+def update_user_attribute_data(
+    request, community: str, uid: str, attribute: str, code: str
+):
+    err = validate_request(request, attribute, method="POST")
     if err:
         return err
 
@@ -66,6 +66,7 @@ def view_update_attribute(db, request, uid: str, attribute: str, code: str):
     if not is_valid(update):
         return format_json(status=400, error=f"Invalid data for {attribute}.")
 
+    db = get_db()
     ref = db.reference(f"attributes/{attribute}/{community}/{uid}/{code}")
     ref.update(update)
     return format_json(success=True)

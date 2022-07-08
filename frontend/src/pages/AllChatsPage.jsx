@@ -2,15 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { useCurrentAuthUser } from '../app/login'
-import { COMMUNITY } from '../app/constants'
-import { useGetMatches, useGetManyUserData } from '../app/data'
+import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
 import { ChatPreview } from '../app/inbox'
-import { COMMUNITY_CONFIG } from '../config/communities'
 
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
-    const communityConfig = COMMUNITY_CONFIG?.[COMMUNITY] || {}
-    const matches = useGetMatches(COMMUNITY, authUser?.uid)
+    const matches = useGetAllUserMatches(authUser?.uid)
     const matchedUserIds = matches.reduce(
         (agg, m) => ({
             ...agg,
@@ -18,7 +15,7 @@ export default function AllChatsPage() {
         }),
         {}
     )
-    const matchedUsers = useGetManyUserData(matchedUserIds)
+    const matchedUsers = useGetManyUserData(matchedUserIds, getUserData)
 
     const matchEls =
         matches.length > 0 ? (
@@ -29,7 +26,7 @@ export default function AllChatsPage() {
                         key={m.id}
                         match={m}
                         users={matchedUsers}
-                        community={communityConfig}
+                        community={m.communityConfig}
                     />
                 ))
         ) : (

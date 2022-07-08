@@ -17,10 +17,13 @@ set_prefect_secrets () {
 }
 
 open_port_in_tab () {
+  PORT=$1
+  RELATIVE_URL=$2
   if command -v gp &> /dev/null; then
-    gp preview $(gp url "$1")
+    BASE_URL=$(gp url "$PORT")
+    gp preview "$BASE_URL$RELATIVE_URL"
   else
-    open "http://localhost:$1"
+    open "http://localhost:$PORT"
   fi
 }
 
@@ -35,6 +38,10 @@ elif [ "$1" == "book" ]; then
 elif [ "$1" == "api" ]; then
   # Open backend API in a tab
   open_port_in_tab "$BACKEND_PORT"
+
+elif [ "$1" == "api-docs" ]; then
+  # Open backend API in a tab
+  open_port_in_tab "$BACKEND_PORT" "/docs"
 
 elif [ "$1" == "dash" ]; then
   # Open Prefect dashboard in a tab
@@ -116,6 +123,7 @@ elif [ "$1" == "install-eslint" ]; then
     $(package "eslint-plugin-react") \
     $(package "eslint-plugin-react-hooks") \
     $(package "eslint-plugin-standard") \
+    $(package "@typescript-eslint/eslint-plugin") \
     $(package "@typescript-eslint/parser")
   # Installation must happen outside the frontend directory to avoid installing
   # all packages, so afterwards, we move dependencies to frontend folder so the
@@ -181,15 +189,18 @@ elif [ "$1" == "backend" ]; then
   # Set the Django secret key and save as an environment variable
   if command -v gp &> /dev/null; then
     gp env SECRET_KEY="$RANDOM"
+    gp env ENVIRONMENT="development"
     gp env API_DATABASE_URL="$PREFECT__CONTEXT__SECRETS__database_url"
     gp env API_ADMIN_CREDENTIALS="$PREFECT__CONTEXT__SECRETS__admin_credentials"
     eval $(gp env -e)
   else
     SECRET_KEY=$RANDOM
+    ENVIRONMENT="development"
     echo "Firebase keys are not automated for non-GitPod runs."
     exit 1
   fi
   echo "SECRET_KEY=$SECRET_KEY" > .env
+  echo "ENVIRONMENT=$ENVIRONMENT" >> .env
   echo "API_DATABASE_URL=$API_DATABASE_URL" >> .env
   echo "API_ADMIN_CREDENTIALS=$API_ADMIN_CREDENTIALS" >> .env
   # Run the backend in development mode
@@ -202,15 +213,18 @@ elif [ "$1" == "backend-server" ]; then
   # Set the Django secret key and save as an environment variable
   if command -v gp &> /dev/null; then
     gp env SECRET_KEY=$RANDOM
+    gp env ENVIRONMENT="production"
     gp env API_DATABASE_URL="$PREFECT__CONTEXT__SECRETS__database_url"
     gp env API_ADMIN_CREDENTIALS="$PREFECT__CONTEXT__SECRETS__admin_credentials"
     eval $(gp env -e)
   else
     SECRET_KEY=$RANDOM
+    ENVIRONMENT="production"
     echo "Firebase keys are not automated for non-GitPod runs."
     exit 1
   fi
   echo "SECRET_KEY=$SECRET_KEY" > .env
+  echo "ENVIRONMENT=$ENVIRONMENT" >> .env
   echo "API_DATABASE_URL=$API_DATABASE_URL" >> .env
   echo "API_ADMIN_CREDENTIALS=$API_ADMIN_CREDENTIALS" >> .env
   # Run the backend in development mode

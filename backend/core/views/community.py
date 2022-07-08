@@ -1,12 +1,17 @@
-from backend.utils import SERVER_TIMESTAMP, format_json, with_db
+from ninja import Router
+
+from backend.utils import SERVER_TIMESTAMP, format_json, get_db
+
+router = Router()
 
 
-@with_db
-def view_join_community(db, request, community: str, uid: str):
+@router.post("/{community}/join/{uid}")
+def create_user_joined_community(request, community: str, uid: str):
     """Add a given user to a given community."""
     if request.method != "POST":
         return format_json(status=405, error="Only supported for POST.")
 
+    db = get_db()
     user = db.reference(f"users/{uid}").get()
     if not user:
         return format_json(status=404, error=f"No user for ID: {uid}")

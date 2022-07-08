@@ -1,8 +1,9 @@
 from django.urls import path
+from ninja import Router
 
-from backend.core.views import view_join_community, view_user
+from backend.core.views.community import router as community_router
+from backend.core.views.user import router as user_router
 
-urlpatterns = [
-    path("user/<str:uid>", view_user),
-    path("community/<str:community>/join/<str:uid>", view_join_community),
-]
+router = Router()
+router.add_router("/community", community_router)
+router.add_router("/user", user_router)

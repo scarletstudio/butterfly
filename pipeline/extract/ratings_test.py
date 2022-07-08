@@ -8,11 +8,12 @@ def test_extract_match_stars():
     # Mock database call so that test does not actually query a database
     raw_ratings = {
         "1": {
-            "fromUser": "A",
+            "from_user": "A",
             "value": 3,
             "match": "aykl0021",
             "users": ["A", "B"],
             "generator": "testGenerator",
+            "timestamp": 1,
         }
     }
     mock_get_ratings = MagicMock(return_value=raw_ratings)
@@ -30,9 +31,11 @@ def test_extract_match_stars():
         MatchStars(
             from_user="A",
             value=3,
+            community="test",
             match="aykl0021",
             users={"A", "B"},
             generator="testGenerator",
+            timestamp=1,
         )
     ]
     assert actual == expected
@@ -42,13 +45,14 @@ def test_extract_intent_upvotes():
     # Mock database call so that test does not actually query a database
     raw_ratings = {
         "1": {
-            "fromUser": "A",
-            "toUser": "B",
+            "from_user": "A",
+            "to_user": "B",
             "value": 1,
             "intent": "tutoring",
             "match": "aykl0021",
             "users": ["A", "B"],
             "generator": "testGenerator",
+            "timestamp": 1,
         }
     }
     mock_get_ratings = MagicMock(return_value=raw_ratings)
@@ -68,9 +72,11 @@ def test_extract_intent_upvotes():
             to_user="B",
             value=1,
             intent="tutoring",
+            community="test",
             match="aykl0021",
             users={"A", "B"},
             generator="testGenerator",
+            timestamp=1,
         )
     ]
     assert actual == expected

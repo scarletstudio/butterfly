@@ -23,6 +23,20 @@ async function submitIntent(community, uid, code, side, value) {
     console.log(res?.success) // true
 }
 
+// TODO:(DINORA) Move communities selectors into separate file
+function CommunitySelector({ communities }) {
+    return (
+        communities.length > 0 && (
+            <select>
+                {communities.map((community) => (
+                    <option value={community.id} key={community.id}>
+                        {community.name}
+                    </option>
+                ))}
+            </select>
+        )
+    )
+}
 export default function EditProfilePage() {
     const authUser = useCurrentAuthUser()
     const communityConfig = COMMUNITY_CONFIG?.[COMMUNITY] || {}
@@ -50,6 +64,7 @@ export default function EditProfilePage() {
                     </Link>
                 </div>
                 <div className="Page">
+                    <CommunitySelector communities={[]} />
                     <h2>Support</h2>
                     <EditIntents
                         intents={communityConfig?.intents}

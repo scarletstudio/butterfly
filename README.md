@@ -19,11 +19,12 @@ An app to meet new people in your community.
 
 The UI and API automatically update when you make changes to source files.
 
-| Command    | Description                |
-| ---------- | -------------------------- |
-| `run ui`   | Open frontend UI in a tab. |
-| `run api`  | Open backend API in a tab. |
-| `run book` | Open Storybook in a tab.   |
+| Command        | Description                      |
+| -------------- | -------------------------------- |
+| `run ui`       | Open frontend UI in a tab.       |
+| `run api`      | Open backend API in a tab.       |
+| `run api-docs` | Open API documentation in a tab. |
+| `run book`     | Open Storybook in a tab.         |
 
 ### Common Pipeline Commands
 
@@ -52,6 +53,8 @@ The pipeline version in Prefect dashboard automatically updates when you save `.
 | `git log`                     | View list of commits on current branch.                                                          |
 | `git merge branch_name`       | Merge changes from another branch into the current branch.                                       |
 | `git rebase -i branch_name`   | Interactively rebase the current branch so its commits come after the commits on another branch. |
+| `git stash save`              | Save changes that you are not ready to commit to a stash you can restore later.                  |
+| `git stash apply`             | Restore changes that you stashed. Uses most recent stash, but you can also save/apply by name.   |
 
 ## Tools Used
 
@@ -110,7 +113,7 @@ These commands run automatically when starting a new GitPod workspace.
 | `run install-frontend-ci` | Install locked frontend dependencies, for continuous integration only. |
 | `run install-eslint`      | Install ESLint dependencies, for continuous integration only.          |
 | `run lint-frontend`       | Runs linter on frontend code, prefer `pre-commit run`.                 |
-| `run formatter-frontend`  | Runs formatter on frontend code, prefer `pre-commit run`.              |
+| `run format-frontend`     | Runs formatter on frontend code, prefer `pre-commit run`.              |
 | `run prefect-register`    | Update pipeline version in Prefect.                                    |
 | `run prefect-listen`      | Listens for changes to pipeline code to update version in Prefect.     |
 | `run manage ...`          | Run a Django management command.                                       |

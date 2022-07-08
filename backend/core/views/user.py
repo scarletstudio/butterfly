@@ -1,9 +1,14 @@
-from backend.utils import format_json, with_db
+from ninja import Router
+
+from backend.utils import format_json, get_db
+
+router = Router()
 
 
-@with_db
-def view_user(db, request, uid: str):
+@router.get("/{uid}")
+def get_user_data(request, uid: str):
     """Gets a user's profile data by their user ID."""
+    db = get_db()
     data = db.reference(f"users/{uid}").get()
     if not data:
         return format_json(success=False, message=f"No user for ID: {uid}")

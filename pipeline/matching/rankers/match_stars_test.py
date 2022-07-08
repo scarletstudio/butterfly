@@ -9,9 +9,11 @@ def test_example():
         MatchStars(
             from_user="A",
             value=5,
+            community="test",
             match="1",
             users={"A", "B"},
             generator="blueGenerator",
+            timestamp=0,
         )
     ]
     inp = MatchingInput(

@@ -19,7 +19,7 @@ export function ChatPreview({ match, users, community }) {
     const userClass = matchedUsers.length === 1 ? 'Single' : 'Group'
 
     return (
-        <Link to={`/chats/${id}`} className="NoDecorate">
+        <Link to={`/chats/${community?.id}/${id}`} className="NoDecorate">
             <div className="ChatPreview">
                 <div className={`UserPreview ${userClass}`}>{userDiscs}</div>
                 <div className="MessagePreview">

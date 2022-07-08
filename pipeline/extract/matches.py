@@ -10,7 +10,10 @@ def extract_recent_matches(db, community: Community) -> pd.DataFrame:
     logger = prefect.context.get("logger")
     matches_ref = db.reference(f"matches/{community}")
     user_match_records = matches_ref.get()
-    logger.info(f"Extract {len(user_match_records)} user-match records.")
+    if not user_match_records:
+        logger.info(f"No user-match records for commmnity: {community}")
+        return pd.DataFrame()
+    logger.info(f"Extracted {len(user_match_records)} user-match records.")
 
     # Convert user-match records to match records
     seen_match_ids = set()
