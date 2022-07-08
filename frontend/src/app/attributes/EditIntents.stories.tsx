@@ -7,6 +7,9 @@ export default {
     component: EditIntents,
 }
 
+// eslint-disable-next-line no-console
+const fakeUpdateIntent = (code, side, value) => console.log('Updated:', code, side, value)
+
 const Template = (args) => <EditIntents {...args} />
 
 // TODO: Set args with the props to test a case of your component
@@ -16,6 +19,11 @@ Case1.args = {
         { code: 'tutoring', name: 'Tutoring' },
         { code: 'tv-movie-recs', name: 'TV/Movie Recommendations' },
     ],
+    userIntentMap: {
+        tutoring: { seeking: true },
+        'tv-movie-recs': { giving: false, seeking: true },
+    },
+    updateIntent: fakeUpdateIntent,
 }
 
 // TODO: Add more cases to test your component

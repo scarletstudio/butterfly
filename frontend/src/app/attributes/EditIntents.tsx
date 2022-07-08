@@ -1,59 +1,75 @@
+/* eslint-disable */
 import React, { useState } from 'react'
 import './EditIntents.css'
 import { IntentData } from './Intent'
 
 interface EditIntentsProps {
     intents: Array<IntentData>
+    userIntentMap: { [code: string]: { [side: string]: boolean } }
+    updateIntent(code: string, side: string, value: boolean): void
 }
 
 const Subjects = ({ topic }) => {
     return <h6>{topic}</h6>
 }
 
-const Seeking = () => {
-    const [isChecked, setIsChecked] = useState(false)
+const Seeking = ({ code, value, updateIntent }) => {
+    const [checked, setIsChecked] = useState(value)
     const checkHandler = () => {
-        setIsChecked(!isChecked)
+        updateIntent(code, 'seeking', !checked)
+        setIsChecked(!checked)
     }
 
     return (
         <div>
-            <input type="checkbox" checked={isChecked} onChange={checkHandler} />
+            <input type="checkbox" checked={checked} onChange={checkHandler} />
             <span>I want help on this.</span>
             <br />
-            <p>The Seeking checkbox is {isChecked ? 'checked' : 'unchecked'}.</p>
+            <p>The Seeking checkbox is {checked ? 'seeking' : 'blank'}.</p>
         </div>
     )
 }
 
-const Giving = () => {
-    const [isChecked, setIsChecked] = useState(false)
+const Giving = ({ value, updateIntent }) => {
+    const [checked, setIsChecked] = useState(value)
     const checkHandler = () => {
-        setIsChecked(!isChecked)
+        setIsChecked(!checked)
     }
 
     return (
         <div>
-            <input type="checkbox" checked={isChecked} onChange={checkHandler} />
+            <input type="checkbox" checked={checked} onChange={checkHandler} />
             <span>I can help others with this.</span>
             <br />
-            <p>The Giving checkbox is {isChecked ? 'checked' : 'unchecked'}.</p>
+            <p>The Giving checkbox is {checked ? 'giving' : 'blank'}.</p>
         </div>
     )
+}
+
+function transformUserIntents(intent, userIntentMap) {
+    const { code, name } = intent
+    const isSeeking = userIntentMap?.[code]?.['seeking'] || false
+    const isGiving = userIntentMap?.[code]?.['giving'] || false
+    // Get seeking and giving from attributesMap
+    return { code, name, isSeeking, isGiving }
 }
 
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
-const EditIntents = ({ intents = [] }: EditIntentsProps) => {
-    console.log(intents)
+const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditIntentsProps) => {
+    const userIntents = intents.map((intent) => transformUserIntents(intent, userIntentMap))
     return (
         <div>
             <h2>Intents</h2>
-            {intents.map((intent) => (
+            {userIntents.map((intent) => (
                 <div key={intent.code}>
                     <Subjects topic={intent.name} />
-                    <Seeking />
-                    <Giving />
+                    <Seeking
+                        value={intent.isSeeking}
+                        updateIntent={updateIntent}
+                        code={intent.code}
+                    />
+                    <Giving value={intent.isGiving} updateIntent={updateIntent} />
                 </div>
             ))}
         </div>
