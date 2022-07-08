@@ -1,0 +1,13 @@
+.paragraph {
+    font-size: 18px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode',
+        Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 5%;
+}
+
+.profile {
+    border-radius: 100%;
+    height: 10%;
+    width: 10%;
+}
