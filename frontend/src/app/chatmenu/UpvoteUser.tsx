@@ -10,7 +10,8 @@ interface UpvoteUserProps {
 
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
-const UpvoteUserInner = (props: UpvoteUserProps) => {
+export const UpvoteUserInner = (props: UpvoteUserProps) => {
+    console.log(props)
     const { participants } = props
     return (
         <div>
