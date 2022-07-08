@@ -43,6 +43,7 @@ export default function EditProfilePage() {
     const uid = authUser?.uid || null
     const [res, err] = useBackendFetchJson({
         route: `/attributes/community/${COMMUNITY}/users/${uid}/intents`,
+        deps: [uid],
     })
     console.log(res?.attributes)
     const userIntents = res?.attributes || []

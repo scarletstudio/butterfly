@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './EditIntents.css'
 import { IntentData } from './Intent'
 
@@ -19,6 +19,9 @@ const Seeking = ({ code, value, updateIntent }) => {
         updateIntent(code, 'seeking', !checked)
         setIsChecked(!checked)
     }
+    useEffect(() => {
+        setIsChecked(value)
+    }, [value])
 
     return (
         <div>
@@ -58,6 +61,7 @@ function transformUserIntents(intent, userIntentMap) {
 // eslint-disable-next-line no-empty-pattern
 const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditIntentsProps) => {
     const userIntents = intents.map((intent) => transformUserIntents(intent, userIntentMap))
+    console.log(userIntents)
     return (
         <div>
             <h2>Intents</h2>

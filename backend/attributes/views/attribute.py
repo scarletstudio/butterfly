@@ -53,12 +53,13 @@ def update_user_attribute_data(
     if err:
         return err
 
-    raw_update = request.POST.get("update")
+    # raw_update = request.POST.get("update")
+    raw_update = request.body
     if not raw_update:
         return format_json(status=400, error="No update value for attribute.")
 
     try:
-        update = json.loads(raw_update)
+        update = json.loads(raw_update).get("update")
     except JSONDecodeError:
         return format_json(status=400, error="Update is not valid JSON.")
 
