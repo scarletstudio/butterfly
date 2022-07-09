@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import './EditIntents.css'
 import { IntentData } from './Intent'
@@ -51,8 +50,8 @@ const Giving = ({ value, updateIntent }) => {
 
 function transformUserIntents(intent, userIntentMap) {
     const { code, name } = intent
-    const isSeeking = userIntentMap?.[code]?.['seeking'] || false
-    const isGiving = userIntentMap?.[code]?.['giving'] || false
+    const isSeeking = userIntentMap?.[code]?.seeking || false
+    const isGiving = userIntentMap?.[code]?.giving || false
     // Get seeking and giving from attributesMap
     return { code, name, isSeeking, isGiving }
 }
