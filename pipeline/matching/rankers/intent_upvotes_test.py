@@ -54,7 +54,7 @@ def test_example():
     ]
 
     ranker = IntentUpvotesRanker()
-    actual = list(ranker.rank(inp, proposed))
+    actual = list(ranker.rank(inp, iter(proposed)))
 
     expected = [
         Match(
@@ -77,8 +77,8 @@ def test_example():
         ),
     ]
     # TODO: Uncomment this assertion and delete the proposed assert
-    # assert actual == expected
-    assert actual == proposed
+    assert actual == expected
+    # assert actual == proposed
 
 
 # TODO: Add more test cases for your logic
