@@ -26,15 +26,21 @@ class IntentUpvotesRanker(MatchRanker):
 
         while prev:
             for i in ups:
-                if i.to_user == give:
+                if i.to_user == prev.metadata.matchingIntents[0].giver:
                     flag = True
                     pLst.append(prev)
-                    prev = next(proposed)
+                    try:
+                        prev = next(proposed)
+                    except:
+                        prev = None
                     break
 
             if flag == False:
                 lst.append(prev)
-                prev = next(proposed)
+                try:
+                    prev = next(proposed)
+                except:
+                    prev = None
 
             flag = False
 
