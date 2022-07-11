@@ -34,9 +34,12 @@ const Seeking = ({ code, value, updateIntent }) => {
 const Giving = ({ code, value, updateIntent }) => {
     const [checked, setIsChecked] = useState(value)
     const checkHandler = () => {
-        updateIntent(code, 'seeking', checked)
+        updateIntent(code, 'giving', checked)
         setIsChecked(!checked)
     }
+    useEffect(() => {
+        setIsChecked(value)
+    }, [value])
 
     return (
         <div>
@@ -72,7 +75,7 @@ const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditInt
                     />
 
                     <Giving
-                        value={intent.isSeeking}
+                        value={intent.isGiving}
                         updateIntent={updateIntent}
                         code={intent.code}
                     />
