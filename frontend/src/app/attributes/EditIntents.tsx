@@ -12,10 +12,11 @@ const Subjects = ({ topic }) => {
     return <h6>{topic}</h6>
 }
 
-const Seeking = ({ code, value, updateIntent }) => {
+const Checkboxes = ({ code, value, updateIntent }) => {
     const [checked, setIsChecked] = useState(value)
     const checkHandler = () => {
-        updateIntent(code, 'seeking', !checked)
+        updateIntent(code, 'seeking', checked)
+        updateIntent(code, 'giving', !checked)
         setIsChecked(!checked)
     }
     useEffect(() => {
@@ -27,23 +28,8 @@ const Seeking = ({ code, value, updateIntent }) => {
             <input type="checkbox" checked={checked} onChange={checkHandler} />
             <span>I want help on this.</span>
             <br />
-            <p>The Seeking checkbox is {checked ? 'seeking' : 'blank'}.</p>
-        </div>
-    )
-}
-
-const Giving = ({ value, updateIntent }) => {
-    const [checked, setIsChecked] = useState(value)
-    const checkHandler = () => {
-        setIsChecked(!checked)
-    }
-
-    return (
-        <div>
-            <input type="checkbox" checked={checked} onChange={checkHandler} />
-            <span>I can help others with this.</span>
-            <br />
-            <p>The Giving checkbox is {checked ? 'giving' : 'blank'}.</p>
+            <input type="checkbox" checked={!checked} onChange={checkHandler} />
+            <span>I can help with this.</span>
         </div>
     )
 }
@@ -67,12 +53,11 @@ const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditInt
             {userIntents.map((intent) => (
                 <div key={intent.code}>
                     <Subjects topic={intent.name} />
-                    <Seeking
+                    <Checkboxes
                         value={intent.isSeeking}
                         updateIntent={updateIntent}
                         code={intent.code}
                     />
-                    <Giving value={intent.isGiving} updateIntent={updateIntent} />
                 </div>
             ))}
         </div>

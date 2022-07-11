@@ -20,6 +20,19 @@ Case1.args = {
         { code: 'tv-movie-recs', name: 'TV/Movie Recommendations' },
     ],
     userIntentMap: {
+        tutoring: { seeking: true, giving: false },
+        'tv-movie-recs': { seeking: false, giving: true },
+    },
+    updateIntent: fakeUpdateIntent,
+}
+
+export const Case2 = Template.bind({})
+Case2.args = {
+    intents: [
+        { code: 'tutoring', name: 'School Organizations' },
+        { code: 'tv-movie-recs', name: 'Hobbies' },
+    ],
+    userIntentMap: {
         tutoring: { seeking: true },
         'tv-movie-recs': { giving: false, seeking: true },
     },
