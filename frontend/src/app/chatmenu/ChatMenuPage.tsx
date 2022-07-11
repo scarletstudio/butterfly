@@ -12,6 +12,7 @@ export interface ChatMenuConfig {
 }
 
 export interface MessagesData {
+    key: string
     type: string
     timestamp: number
     message: string
