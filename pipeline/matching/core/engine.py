@@ -26,7 +26,7 @@ class UserNotMatchedException(Exception):
 
 class MatchingEngine:
     def __init__(
-        self, name, generators, ranker, finalizer, return_internal_data=False
+        self, name, generators, ranker, finalizer, return_internal_data=True
     ):
         self.name: str = name
         self.generators: List[MatchGenerator] = generators
