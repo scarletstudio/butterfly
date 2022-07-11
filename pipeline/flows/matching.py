@@ -18,6 +18,7 @@ from pipeline.extract import (
     extract_recent_matches,
     extract_users,
 )
+from pipeline.load.display_metrics import display_internal_matching_metrics
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
 from pipeline.matching.core import MatchingEngine
@@ -114,6 +115,8 @@ def matching_flow(defaults: Dict = {}) -> Flow:
         passed = validate_and_log_matches(
             users_w_profile, recent_matches, output_matches
         )
+
+        display_internal_matching_metrics.run(users_w_data, recent_matches)
 
         # Do not prepare output matches for loading unless validation passed
         df_output_matches = transform_matches_for_load(
