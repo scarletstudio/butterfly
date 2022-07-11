@@ -1,61 +1,94 @@
-import React from 'react'
+/* global HTMLTextAreaElement */
+import React, { useState } from 'react'
 import './SearchMessages.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { ChatMenuPageProps, MessagesData } from './ChatMenuPage'
+import { Message } from '../chat/Message'
+import { ChatData } from '../types'
 
 interface SearchMessagesProps {
-    // TODO: Fill out the props for your component
-    messages: MessagesData[]
+    chat?: ChatData
+    messages?: MessagesData[]
 }
-/*
-const searchbar = document.getElementById("searchbar");
-//const namesFromDOM = document.getElementsBy("useGetMessages");
-searchbar.addEventListener("keyup", (event) => {
-    const {value} = event.target;
 
-    const searchQuery = value.toLowerCase();
+const MessagesInner = ({ chat, filteredMessages }) => {
+    return filteredMessages?.map((message: { key: React.Key | null | undefined }) => (
+        <Message
+            key={message.key}
+            data={message}
+            myUserId={chat?.for}
+            participants={chat?.participants}
+        />
+    ))
+}
 
-    for(const nameElement of useGetMessages()) {
-        let name = nameElement.textContent.toLowerCase();
+const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
+    const [value, setValue] = useState<string>()
+    const [filteredMessages, setfilteredMessages] = useState<MessagesData[] | undefined>()
 
-        if(name.includes(searchQuery)) {
-            nameElement.display = "block";
-        }
-        else {
-            nameElement.display = "none";
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setValue(event.target.value)
+    }
+
+    const doSearch = () => {
+        setfilteredMessages(
+            messages?.filter((text) => {
+                const searchString: string = value ?? ''
+
+                return (
+                    text.message.toLowerCase().includes(searchString.toLowerCase()) &&
+                    searchString !== '' &&
+                    searchString.trim()
+                )
+            })
+        )
+        setValue('')
+    }
+
+    const searchOnCtrlEnter = (e: {
+        keyCode: number
+        ctrlKey: any
+        shiftKey: any
+        preventDefault: () => void
+    }) => {
+        const hitEnter = e.keyCode === 13
+        const holdingKey = e.ctrlKey || e.shiftKey
+        if (hitEnter && !holdingKey) {
+            e.preventDefault()
+            doSearch()
         }
     }
-});
-*/
 
-// TODO: Implement your component
-// eslint-disable-next-line no-empty-pattern
-const SearchMessagesInner = ({ messages }: SearchMessagesProps) => {
     return (
         <div className="Search">
             <div>
-                {/* TODO: Use these messages to filter based on search string  */}
-                {messages.map((text) => text.message)}
+                <MessagesInner chat={chat} filteredMessages={filteredMessages} />
             </div>
-            <form action="/" method="get">
-                <div className="SearchBox">
-                    <input type="search" placeholder="Search Messages" id="searchbar" />
-                </div>
-                <div className="ButtonSearch">
-                    <button type="button">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </button>
-                </div>
-            </form>
+            <textarea
+                className="Input"
+                placeholder="Type here..."
+                value={value}
+                onChange={handleChange}
+                onKeyDown={searchOnCtrlEnter}
+            />
+            <button type="button" onClick={doSearch} className="ButtonSearch">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
         </div>
     )
 }
 
-// TODO: Pass your component its props
-// eslint-disable-next-line no-unused-vars
-const SearchMessages = ({ chat, config, messages }: ChatMenuPageProps) => (
-    <SearchMessagesInner messages={messages} />
+const SearchMessages = ({ chat, messages }: ChatMenuPageProps) => (
+    <SearchMessagesInner chat={chat} messages={messages} />
 )
 
 export default SearchMessages
+
+// TODO:
+// 1. Add a No results UI with 0 results
+// 2. Add a result counter for example: Showing 4 results out of Total number
+// 3. Fix the CSS for the Search Bar
+// 4. Move the Search Bar to the top of the page
+// 5. Add storybook examples
+// 6. Add comments for better documentation
