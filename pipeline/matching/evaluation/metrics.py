@@ -20,3 +20,8 @@ class MatchingMetricsCollector:
             if user.uid not in metrics:
                 metrics[user.uid] = 0
         return dict(metrics)
+
+    def count_selection_rate_per_generator(
+        self, proposed_matches: List[Match], selected_matches: List[Match]
+    ) -> Dict:
+        return {}
