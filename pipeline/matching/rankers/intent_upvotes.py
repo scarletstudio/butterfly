@@ -1,7 +1,14 @@
 from typing import Iterator
 
 from pipeline.matching.core import MatchRanker
-from pipeline.types import Match, MatchingInput
+from pipeline.types import (
+    IntentMatch,
+    IntentUpvote,
+    Match,
+    MatchingInput,
+    MatchMetadata,
+    Side,
+)
 
 RANKER_INTENT_UPVOTES = "intentUpvotesRanker"
 
@@ -15,38 +22,44 @@ class IntentUpvotesRanker(MatchRanker):
     ) -> Iterator[Match]:
         # TODO: Implement your ranker
         flag = False
-        pLst = []
+        upvotedLst = []
         lst = []
 
-        prev = next(proposed)
-        cod = prev.metadata.matchingIntents[0].code
-        seek = prev.metadata.matchingIntents[0].seeker
-        give = prev.metadata.matchingIntents[0].giver
+        currMatch = next(proposed)
         ups = inp.intent_upvotes
+        failMatch = Match(
+            users={"fail", "fail"},
+            metadata=MatchMetadata(
+                generator="fail",
+                matchingIntents=[
+                    IntentMatch(code="failing", seeker="fail", giver="fail")
+                ],
+            ),
+        )
 
-        while prev:
+        while currMatch != failMatch:
             for i in ups:
-                if i.to_user == prev.metadata.matchingIntents[0].giver:
+                if i.to_user == currMatch.metadata.matchingIntents[0].giver:
                     flag = True
-                    pLst.append(prev)
+                    upvotedLst.append(currMatch)
                     try:
-                        prev = next(proposed)
+                        currMatch = next(proposed)
                     except:
-                        prev = None
+                        currMatch = failMatch
                     break
 
             if flag == False:
-                lst.append(prev)
+                lst.append(currMatch)
                 try:
-                    prev = next(proposed)
+                    currMatch = next(proposed)
                 except:
-                    prev = None
+                    currMatch = failMatch
 
             flag = False
 
-        pLst += lst
+        upvotedLst += lst
 
-        for l in pLst:
+        for l in upvotedLst:
             yield l
 
         # inp.logger.info("Verica Karanakokva was here!")
