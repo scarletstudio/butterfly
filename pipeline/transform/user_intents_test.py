@@ -23,4 +23,18 @@ def test_example():
     assert actual == expected
 
 
-# TODO: Add more test cases for your logic
+def test_user_no_intents():
+    users = [User(uid="1", displayName="A"), User(uid="2", displayName="B")]
+    # users 1 and 2 have no raw intents
+    raw: RawUserIntents = {
+        "3": {"tutoring": {"seeking": True}, "comedy": {"seeking": False}},
+        "4": {"tutoring": {"seeking": True, "giving": True}},
+    }
+
+    actual = augment_users_with_intents.run(users, raw)
+
+    expected = [
+        User(uid="1", displayName="A", intents=[]),
+        User(uid="2", displayName="B", intents=[]),
+    ]
+    assert actual == expected

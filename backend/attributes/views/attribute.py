@@ -53,7 +53,16 @@ def update_user_attribute_data(
     if err:
         return err
 
+    # TODO(vinesh): This hack is needed because the Django test client uses
+    # request.POST but actual app fetches use request.body. Will clean up later.
+    # The request.POST QueryDict holds an array of values for each key, so we
+    # have to extract the update value, then create a new JSON string.
     raw_update = request.body
+    post_data = request.POST
+    if post_data:
+        val = json.loads(post_data.get("update"))
+        raw_update = json.dumps(dict(update=val))
+
     if not raw_update:
         return format_json(status=400, error="No update value for attribute.")
 
