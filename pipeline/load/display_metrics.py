@@ -9,6 +9,12 @@ from pipeline.types import Match, MatchingMetrics, MatchingOutput, User
 def display_internal_matching_metrics(metric: MatchingMetrics):
     logger = prefect.context.get("logger")
     logger.info("Displaying number of proposed matches per user")
-    print(f"Matches Proposed per User:\n")
-    for uid, count in metric.n_proposed_matches_per_user.items():
-        print(f"{count} - User {uid}\n")
+    logger.info(
+        "Matches Proposed per User:\n"
+        + "\n".join(
+            [
+                f"{count} - User {uid}"
+                for uid, count in metric.n_proposed_matches_per_user.items()
+            ]
+        )
+    )
