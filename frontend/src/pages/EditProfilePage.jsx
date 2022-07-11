@@ -65,15 +65,15 @@ export default function EditProfilePage() {
                 </div>
                 <div className="Page">
                     <CommunitySelector communities={[]} />
-                    <h2>Support</h2>
+                    <h2>Intents</h2>
                     <EditIntents
                         intents={communityConfig?.intents}
                         updateIntent={updateIntent}
                         userIntentMap={userIntentMap}
                     />
                     <h2>Interests</h2>
-                    <h2>Schedule</h2>
                     <EditInterests allInterests={communityConfig?.interests} />
+                    <h2>Schedule</h2>
                     <p>Coming soon...</p>
                 </div>
             </div>

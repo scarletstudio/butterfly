@@ -12,11 +12,10 @@ const Subjects = ({ topic }) => {
     return <h6>{topic}</h6>
 }
 
-const Checkboxes = ({ code, value, updateIntent }) => {
+const Seeking = ({ code, value, updateIntent }) => {
     const [checked, setIsChecked] = useState(value)
     const checkHandler = () => {
-        updateIntent(code, 'seeking', checked)
-        updateIntent(code, 'giving', !checked)
+        updateIntent(code, 'seeking', !checked)
         setIsChecked(!checked)
     }
     useEffect(() => {
@@ -28,8 +27,22 @@ const Checkboxes = ({ code, value, updateIntent }) => {
             <input type="checkbox" checked={checked} onChange={checkHandler} />
             <span>I want help on this.</span>
             <br />
-            <input type="checkbox" checked={!checked} onChange={checkHandler} />
-            <span>I can help with this.</span>
+        </div>
+    )
+}
+
+const Giving = ({ code, value, updateIntent }) => {
+    const [checked, setIsChecked] = useState(value)
+    const checkHandler = () => {
+        updateIntent(code, 'seeking', checked)
+        setIsChecked(!checked)
+    }
+
+    return (
+        <div>
+            <input type="checkbox" checked={checked} onChange={checkHandler} />
+            <span>I can help others with this.</span>
+            <br />
         </div>
     )
 }
@@ -49,11 +62,16 @@ const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditInt
     console.log(userIntents)
     return (
         <div>
-            <h2>Intents</h2>
             {userIntents.map((intent) => (
                 <div key={intent.code}>
                     <Subjects topic={intent.name} />
-                    <Checkboxes
+                    <Seeking
+                        value={intent.isSeeking}
+                        updateIntent={updateIntent}
+                        code={intent.code}
+                    />
+
+                    <Giving
                         value={intent.isSeeking}
                         updateIntent={updateIntent}
                         code={intent.code}

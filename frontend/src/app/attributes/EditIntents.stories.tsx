@@ -12,31 +12,25 @@ const fakeUpdateIntent = (code, side, value) => console.log('Updated:', code, si
 
 const Template = (args) => <EditIntents {...args} />
 
-// TODO: Set args with the props to test a case of your component
-export const Case1 = Template.bind({})
-Case1.args = {
+export const NoIntentsSelected = Template.bind({})
+NoIntentsSelected.args = {
+    intents: [
+        { code: 'tutoring', name: 'Tutoring' },
+        { code: 'tv-movie-recs', name: 'TV/Movie Recommendations' },
+    ],
+    userIntentMap: {},
+    updateIntent: fakeUpdateIntent,
+}
+
+export const SomeIntentsSelected = Template.bind({})
+SomeIntentsSelected.args = {
     intents: [
         { code: 'tutoring', name: 'Tutoring' },
         { code: 'tv-movie-recs', name: 'TV/Movie Recommendations' },
     ],
     userIntentMap: {
         tutoring: { seeking: true, giving: false },
-        'tv-movie-recs': { seeking: false, giving: true },
+        'tv-movie-recs': { seeking: true, giving: true },
     },
     updateIntent: fakeUpdateIntent,
 }
-
-export const Case2 = Template.bind({})
-Case2.args = {
-    intents: [
-        { code: 'tutoring', name: 'School Organizations' },
-        { code: 'tv-movie-recs', name: 'Hobbies' },
-    ],
-    userIntentMap: {
-        tutoring: { seeking: true },
-        'tv-movie-recs': { giving: false, seeking: true },
-    },
-    updateIntent: fakeUpdateIntent,
-}
-
-// TODO: Add more cases to test your component
