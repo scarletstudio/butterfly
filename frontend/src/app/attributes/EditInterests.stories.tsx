@@ -6,7 +6,10 @@ export default {
     title: 'Edit Attributes/EditInterests',
     component: EditInterests,
 }
-
+const fakeUpdateInterest = (code, value) => {
+    // eslint-disable-next-line no-console
+    console.log('Updated your interest!', code, value)
+}
 const Template = (args) => <EditInterests {...args} />
 
 // TODO: Set args with the props to test a case of your component
@@ -19,6 +22,8 @@ Case1.args = {
         { code: 'traveling', name: 'Traveling' },
         { code: 'reading', name: 'Reading' },
     ],
+    userInterestsMap: {},
+    updateInterest: fakeUpdateInterest,
 }
 
 // TODO: Add more cases to test your component
