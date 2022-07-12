@@ -68,6 +68,10 @@ tasks:
       source .bash_aliases
       source .venv/bin/activate
       ./run.sh prefect
+  - name: Precommit
+    command: |
+      pre-commit install
+      pre-commit install --install-hooks
   - name: Terminal
     init: |
       python3 -m venv .venv
