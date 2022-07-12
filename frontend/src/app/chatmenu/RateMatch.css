@@ -1,0 +1,9 @@
+.selected{
+    color: blue;
+    font-size: 50px;
+}
+
+.unselected{
+    color: red;
+    font-size: 50px;
+}
