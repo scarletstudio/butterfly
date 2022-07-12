@@ -11,7 +11,6 @@ interface UpvoteUserProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 export const UpvoteUserInner = (props: UpvoteUserProps) => {
-    console.log(props)
     const { participants } = props
     return (
         <div>
@@ -24,8 +23,16 @@ export const UpvoteUserInner = (props: UpvoteUserProps) => {
             <div>
                 {Object.values(participants).map((user: UserData) => (
                     <div key={user.uid}>
-                        <img src={user.photoURL} alt="" className="profile" />
-                        <p className="username">{user.displayName}</p>
+                        <div className="container">
+                            <img src={user.photoURL} alt="" className="profile" />
+                            <p className="username">{user.displayName}</p>
+                        </div>
+                        <div className="container">
+                            <button className="btn" type="button">
+                                Thumb
+                            </button>
+                            <p className="rec">Get TV recommendations</p>
+                        </div>
                     </div>
                 ))}
             </div>
