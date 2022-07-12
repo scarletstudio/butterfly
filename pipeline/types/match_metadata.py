@@ -13,6 +13,8 @@ class MatchMetadata:
     """
     Schema to hold additional information about a match.
 
+    Keep this in sync with: frontend/src/app/types/ChatData.tsx
+
     Use cases:
     - Additional information from the generator that proposed the match
     - Information needed to rank a proposed match
