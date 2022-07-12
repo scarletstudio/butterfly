@@ -44,7 +44,7 @@ def compute_matches(inp: MatchingInput, engine_id: EngineId) -> List[Match]:
         msg = f"No engine found for ID: `{engine_id}`"
         logger.warning(msg)
         raise ValueError(msg)
-    engine: MatchingEngine = Engine()
+    engine: MatchingEngine = Engine(return_internal_data=True)
     logger.info(f"Running matching engine: `{engine_id}`")
     output = engine.run(inp)
     logger.info(f"Done. Output {len(output.matches)} matches.")
