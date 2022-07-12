@@ -70,6 +70,7 @@ tasks:
       ./run.sh prefect
   - name: Precommit
     command: |
+      source .venv/bin/activate
       pre-commit install
       pre-commit install --install-hooks
   - name: Terminal
