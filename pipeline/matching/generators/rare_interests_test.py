@@ -37,13 +37,12 @@ def test_example():
             users={"2", "3"},
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
-                rareInterests=["reading"],
+                score=0.4,
+                rareInterests=["Reading"],
             ),
         ),
     ]
-    # TODO: Uncomment this assertion and delete the empty list assert
-    # assert actual == expected
-    assert actual == []
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
