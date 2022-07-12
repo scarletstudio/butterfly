@@ -15,7 +15,7 @@ interface BlockUserProps {
     participants: UserData[]
     // userUid: string
 }
-
+// create user tile to display participants
 const UserTile = ({ user }) => {
     const { uid, displayName, photoURL } = user
     const alt = `Profile image for ${displayName}.`
@@ -27,6 +27,7 @@ const UserTile = ({ user }) => {
 
     const doUnblock = () => {
         // TODO: Implement unblocking the user method
+        console.log('User is unblocked', uid)
     }
 
     return (
@@ -49,6 +50,7 @@ const UserTile = ({ user }) => {
     )
 }
 
+// show the users within the chat except the logged in user
 const BlockUserInner = ({ participants }: BlockUserProps) => {
     console.log(participants)
     return (
@@ -60,6 +62,7 @@ const BlockUserInner = ({ participants }: BlockUserProps) => {
     )
 }
 
+// display participants to the chat menu
 const BlockUser = ({ chat }: ChatMenuPageProps) => (
     <BlockUserInner
         participants={Object.values(chat?.participants).filter((user) => user?.uid !== chat?.for)}
