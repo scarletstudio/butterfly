@@ -23,7 +23,7 @@ ENGINE_MAIN = "mainEngine"
 
 
 class MainMatchingEngine(MatchingEngine):
-    def __init__(self):
+    def __init__(self, **kwargs):
         super().__init__(
             name=ENGINE_MAIN,
             generators=[
@@ -46,4 +46,5 @@ class MainMatchingEngine(MatchingEngine):
                 ]
             ),
             finalizer=FallbacksFinalizer(n_retries=10),
+            **kwargs
         )
