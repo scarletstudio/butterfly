@@ -1,28 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { COMMUNITY_CONFIG } from '../config/communities'
 import { EditIntents, EditInterests } from '../app/attributes'
-import { COMMUNITY } from '../app/constants'
+import { CommunitySelector } from '../app/community'
+import { getUserData, useGetManyUserData } from '../app/data'
 import { useCurrentAuthUser } from '../app/login'
 import { UserTile } from '../app/ui'
-// TODO:(DINORA) Move communities selectors into separate file
-function CommunitySelector({ communities }) {
-    return (
-        communities.length > 0 && (
-            <select>
-                {communities.map((community) => (
-                    <option value={community.id} key={community.id}>
-                        {community.name}
-                    </option>
-                ))}
-            </select>
-        )
-    )
-}
+
 export default function EditProfilePage() {
+    const [communityId, setCommunityId] = useState()
+    const communityConfig = COMMUNITY_CONFIG?.[communityId] || {}
+
     const authUser = useCurrentAuthUser()
-    const communityConfig = COMMUNITY_CONFIG?.[COMMUNITY] || {}
+    const uid = authUser?.uid
+    const user = useGetManyUserData({ [uid]: true }, getUserData)?.[uid]
+    const communities = Object.keys(user?.communities || {}).map((k) => ({
+        ...COMMUNITY_CONFIG?.[k],
+        ...user?.communities?.[k],
+    }))
+    const firstActiveCommunity = communities.filter((c) => c.active)?.[0]?.id
+    useEffect(() => {
+        setCommunityId(firstActiveCommunity)
+    }, [firstActiveCommunity])
+
     return (
         authUser && (
             <div className="EditProfilePage">
@@ -35,12 +36,16 @@ export default function EditProfilePage() {
                     </Link>
                 </div>
                 <div className="Page">
-                    <CommunitySelector communities={[]} />
+                    <CommunitySelector
+                        communities={communities}
+                        selected={communityId}
+                        setCommunityId={setCommunityId}
+                    />
                     <h2>Support</h2>
                     <EditIntents allIntents={communityConfig?.intents} />
                     <h2>Interests</h2>
-                    <h2>Schedule</h2>
                     <EditInterests allInterests={communityConfig?.interests} />
+                    <h2>Schedule</h2>
                     <p>Coming soon...</p>
                 </div>
             </div>
