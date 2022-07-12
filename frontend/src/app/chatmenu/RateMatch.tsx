@@ -3,19 +3,58 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import './RateMatch.css'
 import { ChatMenuPageProps } from './ChatMenuPage'
+import { fetchFromBackend } from '../utils'
 
 
 interface RateMatchProps {
     // TODO: Fill out the props for your component
     names: string[]
+    users: string[]
+
 }
 
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
-
 const RateMatchInner = (props: RateMatchProps) => {
-    const [color1, setColor1] = useState<string>('blue')
     const [rating, setRating] = useState<number>(0)
+    // Suppose we have some callback for when you click the submit button:
+    
+    async function submitRating() {
+    const communities = await fetchFromBackend(
+        {
+            route: `/core/user/${props.users[0]}`,
+            options: 
+                {
+                    method: 'GET',
+                }
+        }
+    )
+    // Figure out where to get the rating data from
+    const ratingData = {
+      for_user: "", //ask about
+      value: rating,
+      community: "string", //ask about 
+      match: "string", //ask about
+      users: [
+        props.users
+      ],
+      generator: "string",
+      // Fill in the other fields according to the API documentation
+    }
+    const res = await fetchFromBackend(
+        {
+            route: `/ratings/match_stars`,
+            options: 
+                {
+                    method: 'POST',
+                    body: JSON.stringify(ratingData),
+                }
+        }
+    )
+    console.log(res?.message)
+    // "Rating successfully submitted."
+  }
+  console.log(props.users)
     return (
         <div>
             <p>
@@ -68,15 +107,18 @@ const RateMatchInner = (props: RateMatchProps) => {
                     <FontAwesomeIcon icon={faStar} />
                 </span>
             </div>
-            <button>SUBMIT</button>
+            <button onClick={submitRating}>SUBMIT</button>
         </div>
     )
 }
 
+
+
 // TODO: Pass your component its props
 // eslint-disable-next-line no-unused-vars
 const RateMatch = ({ chat, config }: ChatMenuPageProps) => (
-    <RateMatchInner names={Object.values(chat.participants).map((user) => user.displayName)} />
+    <RateMatchInner names={Object.values(chat.participants).map((user) => user.displayName) } users = {Object.values(chat.participants).map((user) => user.uid)} />
+    
 )
 
 export default RateMatch
