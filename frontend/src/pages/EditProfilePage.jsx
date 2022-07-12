@@ -1,28 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { COMMUNITY_CONFIG } from '../config/communities'
 import { EditIntents, EditInterests } from '../app/attributes'
 import { CommunitySelector } from '../app/community'
-import { getUserData, useGetManyUserData } from '../app/data'
+import { useUserCommunities } from '../app/data'
 import { useCurrentAuthUser } from '../app/login'
 import { UserTile } from '../app/ui'
 
 export default function EditProfilePage() {
-    const [communityId, setCommunityId] = useState()
-    const communityConfig = COMMUNITY_CONFIG?.[communityId] || {}
-
     const authUser = useCurrentAuthUser()
     const uid = authUser?.uid
-    const user = useGetManyUserData({ [uid]: true }, getUserData)?.[uid]
-    const communities = Object.keys(user?.communities || {}).map((k) => ({
-        ...COMMUNITY_CONFIG?.[k],
-        ...user?.communities?.[k],
-    }))
-    const firstActiveCommunity = communities.filter((c) => c.active)?.[0]?.id
-    useEffect(() => {
-        setCommunityId(firstActiveCommunity)
-    }, [firstActiveCommunity])
+    const [communityId, setCommunityId, communities] = useUserCommunities(uid)
+    const communityConfig = COMMUNITY_CONFIG?.[communityId] || {}
 
     return (
         authUser && (
