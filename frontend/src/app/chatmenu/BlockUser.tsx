@@ -22,11 +22,15 @@ const UserTile = ({ user }) => {
 
     const doBlock = () => {
         // TODO: Implement blocking the user method
+        // route: `/chat/block/user/${uid}/${blockUser}/true`,
+        // method: 'POST',
         console.log('User to be blocked', uid)
     }
 
     const doUnblock = () => {
         // TODO: Implement unblocking the user method
+        // route: `/chat/block/user/${uid}/${blockUser}/false`,
+        // method: 'POST',
         console.log('User is unblocked', uid)
     }
 
@@ -50,7 +54,7 @@ const UserTile = ({ user }) => {
     )
 }
 
-// show the users within the chat except the logged in user
+// show the users within the chat
 const BlockUserInner = ({ participants }: BlockUserProps) => {
     console.log(participants)
     return (
@@ -62,7 +66,7 @@ const BlockUserInner = ({ participants }: BlockUserProps) => {
     )
 }
 
-// display participants to the chat menu
+// display participants to the chat menu except the logged in user
 const BlockUser = ({ chat }: ChatMenuPageProps) => (
     <BlockUserInner
         participants={Object.values(chat?.participants).filter((user) => user?.uid !== chat?.for)}
