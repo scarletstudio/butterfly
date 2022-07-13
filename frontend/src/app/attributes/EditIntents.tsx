@@ -15,8 +15,9 @@ const Subjects = ({ topic }) => {
 const IntentCheckbox = ({ side, value, updateIntent, code }) => {
     const [checked, setIsChecked] = useState(value)
     const checkHandler = () => {
-        updateIntent(code, side, checked)
-        setIsChecked(!checked)
+        const newValue = !checked
+        updateIntent(code, side, newValue)
+        setIsChecked(newValue)
     }
     useEffect(() => {
         setIsChecked(value)
@@ -43,7 +44,6 @@ function transformUserIntents(intent, userIntentMap) {
 // eslint-disable-next-line no-empty-pattern
 const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditIntentsProps) => {
     const userIntents = intents.map((intent) => transformUserIntents(intent, userIntentMap))
-    console.log(userIntents)
     return (
         <div>
             {userIntents.map((intent) => (
