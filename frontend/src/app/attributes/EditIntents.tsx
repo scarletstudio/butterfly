@@ -40,8 +40,6 @@ function transformUserIntents(intent, userIntentMap) {
     return { code, name, isSeeking, isGiving }
 }
 
-// TODO: Implement your component
-// eslint-disable-next-line no-empty-pattern
 const EditIntents = ({ intents = [], userIntentMap = {}, updateIntent }: EditIntentsProps) => {
     const userIntents = intents.map((intent) => transformUserIntents(intent, userIntentMap))
     return (
