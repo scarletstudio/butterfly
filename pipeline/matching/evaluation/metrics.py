@@ -1,7 +1,13 @@
 from collections import defaultdict
-from typing import Dict, Iterator, List
+from typing import Dict, Iterator, List, Tuple
 
-from pipeline.types import Match, MatchingInput, MatchingMetrics, User
+from pipeline.types import (
+    GeneratorId,
+    Match,
+    MatchingInput,
+    MatchingMetrics,
+    User,
+)
 
 
 class MatchingMetricsCollector:
@@ -21,7 +27,25 @@ class MatchingMetricsCollector:
                 metrics[user.uid] = 0
         return dict(metrics)
 
+    def count_matches_per_generator(
+        self, matches: List[Match]
+    ) -> Dict[GeneratorId, int]:
+        count_per_generator: Dict[GeneratorId, int] = {}
+        for match in matches:
+            generator = match.metadata.generator
+            if generator in count_per_generator:
+                count_per_generator[generator] += 1
+            else:
+                count_per_generator[generator] = 1
+        return count_per_generator
+
     def count_selection_rate_per_generator(
         self, proposed_matches: List[Match], selected_matches: List[Match]
-    ) -> Dict:
+    ) -> Dict[GeneratorId, Tuple[int, int]]:
+
+        proposed_count = self.count_matches_per_generator(proposed_matches)
+        print(proposed_count)
+
+        selected_count = self.count_matches_per_generator(selected_matches)
+        print(selected_count)
         return {}
