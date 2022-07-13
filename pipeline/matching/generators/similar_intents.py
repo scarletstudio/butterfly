@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Dict, Iterator
 
 import pytest
 
@@ -15,75 +15,78 @@ from pipeline.types import (
 
 GENERATOR_SIMILAR_INTENTS = "similarIntentsGenerator"
 
+# this function makes sure that any two users always have the same key (prevent duplicates)
+def get_lookup(u1, u2):
+    return f"{u1},{u2}" if u1 < u2 else f"{u2},{u1}"
+
 
 class SimilarIntentsGenerator(MatchGenerator):
-    def __init__(self, min_common: int = 0):
+    def __init__(self, min_common: int = 1):
         # Minimum number of compatible intents users must have in common to be
         # eligible for a similar intents match.
         self.min_common = min_common
         super().__init__(name=GENERATOR_SIMILAR_INTENTS)
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
-        # TODO: Implement your generator
-        # inp.logger.info("Lauren")
-
         users = inp.users
-        # print(users)
-        match = False
 
-        match_list = []
+        all_matches: Dict[str, Match] = {}
 
         # iterate over the arr of users
         for idx, u in enumerate(users):
-            # take Intent info from the current user
+            # create Intent info from the current user
             intents = u.intents
-            intent = intents[0]
-            code = intent.code
-            side = intent.side
-            name = intent.name
 
-            # o therSide would be the other side of the intent that they have
-            if side == Side.GIVING:
-                otherSide = Side.SEEKING
-            elif side == Side.SEEKING:
-                otherSide = Side.GIVING
-            else:
-                otherSide = Side.BLANK
+            # users can have more than one intent, this loops through each one
+            for intent in intents:
+                code = intent.code
+                side = intent.side
+                name = intent.name
 
-            # create an Intent object to search for in the other users
-            otherIntent = Intent(code, otherSide, name)
+                # otherSide would be the other side of the intent that they have
+                other_side = (
+                    Side.GIVING if side == Side.SEEKING else Side.SEEKING
+                )
 
-            for oth in users:
-                if otherIntent in oth.intents:
-                    # create the intent match after finding a user that matches
-                    intent_match = IntentMatch(
-                        code,
-                        seeker=oth.uid
-                        if otherIntent.side == Side.SEEKING
-                        else u.uid,
-                        giver=oth.uid
-                        if otherIntent.side == Side.GIVING
-                        else u.uid,
-                    )
+                # create an Intent object to search for in the other users
+                otherIntent = Intent(code, other_side, name)
 
-                    # create a Match
-                    new_match = Match(
-                        users={u.uid, oth.uid},
-                        metadata=MatchMetadata(
-                            generator=GENERATOR_SIMILAR_INTENTS,
-                            score=1,
-                            matchingIntents=[intent_match],
-                        ),
-                    )
+                for oth in users:
+                    if otherIntent in oth.intents:
 
-                    # check if the match already exists before appending it
-                    if new_match in match_list:
-                        continue
-                    else:
-                        match_list.append(new_match)
+                        # create the intent match after finding a user that matches
+                        intent_match = IntentMatch(
+                            code,
+                            seeker=oth.uid
+                            if otherIntent.side == Side.SEEKING
+                            else u.uid,
+                            giver=oth.uid
+                            if otherIntent.side == Side.GIVING
+                            else u.uid,
+                        )
 
-            # check that a match was found
-            # if so, create a Match and place the two users in the Match
-            # if not, use another intent from the first user and search again
+                        # key contains the user ids that have matched
+                        key = get_lookup(u.uid, oth.uid)
+                        # checks if the users have been matched, prevents duplicates
+                        if key in all_matches:
+                            # additional check if the users have NOT matched on this intent and appends it to the matchingIntents
+                            if (
+                                intent_match
+                                not in all_matches[key].metadata.matchingIntents
+                            ):
+                                all_matches[
+                                    key
+                                ].metadata.matchingIntents.append(intent_match)
+                        else:
+                            new_match = Match(
+                                users={u.uid, oth.uid},
+                                metadata=MatchMetadata(
+                                    generator=GENERATOR_SIMILAR_INTENTS,
+                                    score=1,
+                                    matchingIntents=[intent_match],
+                                ),
+                            )
+                            all_matches[key] = new_match
 
-        yield from match_list
+        # all matches are stored in the dictionary as values
+        yield from all_matches.values()
