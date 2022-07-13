@@ -121,7 +121,7 @@ def matching_flow(defaults: Dict = {}) -> Flow:
 
         computed_metrics = compute_internal_matching_metrics(matching_output)
 
-        display_internal_matching_metrics(computed_metrics)
+        display_internal_matching_metrics(matching_output, computed_metrics)
 
         # Do not prepare output matches for loading unless validation passed
         df_output_matches = transform_matches_for_load(
