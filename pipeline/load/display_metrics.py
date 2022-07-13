@@ -1,8 +1,7 @@
 import prefect
 from prefect import task
 
-from pipeline.transform import compute_internal_matching_metrics
-from pipeline.types import Match, MatchingMetrics, MatchingOutput, User
+from pipeline.types import MatchingMetrics
 
 
 @task
@@ -13,8 +12,8 @@ def display_internal_matching_metrics(metric: MatchingMetrics):
         "Matches Proposed per User:\n"
         + "\n".join(
             [
-                f"{count} - User {uid}"
-                for uid, count in metric.n_proposed_matches_per_user.items()
+                f"{count} - {user}"
+                for user, count in metric.n_proposed_matches_per_user.items()
             ]
         )
     )
