@@ -71,6 +71,7 @@ tasks:
   - name: Precommit
     command: |
       source .venv/bin/activate
+      EXPORT PRE_COMMIT_HOME='workspace/.cache/pre-commit'
       pre-commit install
       pre-commit install --install-hooks
   - name: Terminal
@@ -78,6 +79,9 @@ tasks:
       python3 -m venv .venv
       source .venv/bin/activate
       ./run.sh install-backend
+      EXPORT PRE_COMMIT_HOME='workspace/.cache/pre-commit'
+      pre-commit install
+      pre-commit install --install-hooks
     command: |
       cat .bash_aliases >> ~/.bashrc
       source ~/.bashrc
