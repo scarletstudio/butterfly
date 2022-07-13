@@ -76,10 +76,8 @@ const BlockUser = ({ chat }: ChatMenuPageProps) => (
 
 export default BlockUser
 
-// TODO: (Before Wednesday)
-// 1. Move css to BlockUser.css from User.css for the UserTile
-// 2. Add comments to the different const functionalities for better understanding
-// 3. Implement the onClick methods for block/unblock
-
-// TODO: (After Wednesday)
-// 1. Get blocked users for a user to enable/disable block/unblock buttons
+// TODO:
+// 1. Implement the onClick methods for block/unblock
+// 2. Get blocked users for a user to display user status (Need to use state)
+// 3. Updating the button to enabled/disabled based on the user status
+// 4. Add storybook stories to test out our case scenarios
