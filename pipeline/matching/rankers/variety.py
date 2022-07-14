@@ -26,6 +26,8 @@ class VarietyRanker(MatchRanker):
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Iterator[Match]:
         inp.logger.info("David was here!")
+        proposed_list = list(proposed)
         yield from sorted(
-            proposed, key=lambda match: dup_gencheck(inp.recent_matches, match)
+            proposed_list,
+            key=lambda match: dup_gencheck(inp.recent_matches, match),
         )
