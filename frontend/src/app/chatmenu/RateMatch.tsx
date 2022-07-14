@@ -8,37 +8,42 @@ import { fetchFromBackend } from '../utils'
 
 interface RateMatchProps {
     // TODO: Fill out the props for your component
+    user: string
     names: string[]
     users: string[]
-
+    generator: string
+    community: string
+    match: string
 }
 
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const RateMatchInner = (props: RateMatchProps) => {
     const [rating, setRating] = useState<number>(0)
-    // Suppose we have some callback for when you click the submit button:
-    
-    async function submitRating() {
-    const communities = await fetchFromBackend(
-        {
-            route: `/core/user/${props.users[0]}`,
-            options: 
-                {
-                    method: 'GET',
-                }
+    const [style, setStyle] = useState<string>("unselected")
+    function changeRating(num : number){
+        if (rating === num){
+            setRating(0),
+            setStyle("unselected")
         }
-    )
+        else{
+            setRating(num),
+            setStyle("selected")
+        }
+      }
+    // Suppose we have some callback for when you click the submit button:
+    async function submitRating() {
+    
     // Figure out where to get the rating data from
     const ratingData = {
-      for_user: "", //ask about
+      from_user: props.user, //ask about
       value: rating,
-      community: "string", //ask about 
-      match: "string", //ask about
+      community: props.community, //ask about 
+      match: props.match, //ask about
       users: [
         props.users
       ],
-      generator: "string",
+      generator: props.generator,
       // Fill in the other fields according to the API documentation
     }
     const res = await fetchFromBackend(
@@ -54,6 +59,7 @@ const RateMatchInner = (props: RateMatchProps) => {
     console.log(res?.message)
     // "Rating successfully submitted."
   }
+  
   console.log(props.users)
     return (
         <div>
@@ -72,37 +78,32 @@ const RateMatchInner = (props: RateMatchProps) => {
             <p>Submit a rating so we can give you better matches in the future!</p>
             <div>
                 <span
-                    onClick={() => (rating === 1 ? setRating(0) : setRating(1))}
-                    style={{ color: rating >= 1 ? 'red' : 'blue', fontSize: 50 }}
-                    id="star1"
+                    onClick={() => changeRating(1)}
+                    className={style}
                 >
                     <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
-                    onClick={() => (rating === 2 ? setRating(0) : setRating(2))}
-                    style={{ color: rating >= 2 ? 'red' : 'blue', fontSize: 50 }}
-                    id="star2"
+                    onClick={() => changeRating(2)}
+                    className={style}
                 >
                     <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
-                    onClick={() => (rating === 3 ? setRating(0) : setRating(3))}
-                    style={{ color: rating >= 3 ? 'red' : 'blue', fontSize: 50 }}
-                    id="star3"
+                    onClick={() => changeRating(3)}
+                    className={style}
                 >
                     <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
-                    onClick={() => (rating === 4 ? setRating(0) : setRating(4))}
-                    style={{ color: rating >= 4 ? 'red' : 'blue', fontSize: 50 }}
-                    id="star4"
+                    onClick={() => changeRating(4)}
+                    className={style}
                 >
                     <FontAwesomeIcon icon={faStar} />
                 </span>
                 <span
-                    onClick={() => (rating === 5 ? setRating(0) : setRating(5))}
-                    style={{ color: rating >= 5 ? 'red' : 'blue', fontSize: 50 }}
-                    id="star5"
+                    onClick={() => changeRating(5)}
+                    className={style}
                 >
                     <FontAwesomeIcon icon={faStar} />
                 </span>
@@ -117,7 +118,7 @@ const RateMatchInner = (props: RateMatchProps) => {
 // TODO: Pass your component its props
 // eslint-disable-next-line no-unused-vars
 const RateMatch = ({ chat, config }: ChatMenuPageProps) => (
-    <RateMatchInner names={Object.values(chat.participants).map((user) => user.displayName) } users = {Object.values(chat.participants).map((user) => user.uid)} />
+    <RateMatchInner user="demo" names={Object.values(chat.participants).map((user) => user.displayName) } users = {Object.values(chat.participants).map((user) => user.uid)} generator = {chat.metadata.generator?.length > 1 ? chat.metadata.generator : ""} community = "demo" match = {chat.id}/>
     
 )
 
