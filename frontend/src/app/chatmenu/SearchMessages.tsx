@@ -62,12 +62,9 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
 
     return (
         <div className="Search">
-            <div>
-                <MessagesInner chat={chat} filteredMessages={filteredMessages} />
-            </div>
             <textarea
                 className="Input"
-                placeholder="Type here..."
+                placeholder="Search Messages"
                 value={value}
                 onChange={handleChange}
                 onKeyDown={searchOnCtrlEnter}
@@ -75,6 +72,9 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
             <button type="button" onClick={doSearch} className="ButtonSearch">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
+            <div>
+                <MessagesInner chat={chat} filteredMessages={filteredMessages} />
+            </div>
         </div>
     )
 }
@@ -88,7 +88,5 @@ export default SearchMessages
 // TODO:
 // 1. Add a No results UI with 0 results
 // 2. Add a result counter for example: Showing 4 results out of Total number
-// 3. Fix the CSS for the Search Bar
-// 4. Move the Search Bar to the top of the page
 // 5. Add storybook examples
 // 6. Add comments for better documentation
