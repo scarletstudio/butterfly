@@ -1,7 +1,7 @@
 # used to count occurences in a list
 import itertools as it
 from collections import Counter
-from typing import Iterator
+from typing import Iterator, List
 
 from pipeline.matching.core import MatchGenerator
 from pipeline.types import Match, MatchingInput, MatchMetadata
@@ -18,15 +18,23 @@ class RareInterestsGenerator(MatchGenerator):
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
         # check for null inputs
+        rareInterests_ = []  # type: List[str]
+        rarestInterest = " "
+        rarityScore = 0.0
+        matchNames = set("None")
         m = []
-        if inp.interests == None or inp.users == None:
+        if (not inp.interests) or (not inp.users):
+            rareInterests_ = []
+            rarityScore = -1.0
+            matchNames = {"-1", "-2"}
+
             m = [
                 Match(
-                    users=set("-1"),
+                    users=matchNames,
                     metadata=MatchMetadata(
                         generator="rareInterestsGenerator",
-                        score=0,
-                        rareInterests=["NULL inputs"],
+                        score=round(rarityScore, 2),
+                        rareInterests=rareInterests_,
                     ),
                 )
             ]
@@ -38,7 +46,6 @@ class RareInterestsGenerator(MatchGenerator):
         # count the # interests and filter for 2 or more occurences
         tmpIntrestLst = []
         sum_ = 0
-
         for user in usrList:
             tmpIntrestLst += [x.name for x in user.interests]
 
@@ -54,18 +61,13 @@ class RareInterestsGenerator(MatchGenerator):
         for interest, value in trueCountDict.items():
             rarityScoreDict[interest] = value / sum_
 
-        # comparing the intrests of every possible pair of users
+        # find rarest interest in community and its rarityScore
         matches = list(it.combinations(usrList, 2))
-        rareInterests_ = list()
-        rarestInterest = " "
-        rarityScore = 0.0
-        matchNames = set("None")
         for userMatch in matches:
             commonInterestList = list(
                 set([x.name for x in userMatch[0].interests])
                 & set([x.name for x in userMatch[1].interests])
             )
-
             for commonInterest in commonInterestList:
                 rarestInterest = min(
                     rarityScoreDict.items(), key=lambda x: x[1]
@@ -75,27 +77,9 @@ class RareInterestsGenerator(MatchGenerator):
                     rareInterests_.append(rarestInterest)
                 rarityScore = float(rarityScoreDict[rarestInterest])
 
-                # iterate through usrs to find those with rarest interest.
-                # rarest interest is found above
-        tmp = list()
-        for interest, rarity in rarityScoreDict.items():
-            if rarity == rarityScoreDict[rarestInterest]:
-                tmp.append(interest)
-
-        rareInterests_ = []
-        for usrMatch in matches:
-            for x in tmp:
-                commonInterestList = list(
-                    set([x.name for x in usrMatch[0].interests])
-                    & set([x.name for x in usrMatch[1].interests])
-                )
-                if x in commonInterestList:
-                    matchNames = {usrMatch[0].uid, usrMatch[1].uid}
-                    rareInterests_.append(x)
-                # if (x in [x.name for x in usrMatch[0].interests]) and (x in [x.name for x in usrMatch[1].interests]):
-                #     rareInterests_.append(x)
-                #     matchNames = {usrMatch[0].uid, usrMatch[1].uid}
-                #     print(matchNames)
+        # convert to set and cback to list to remove duplicates
+        #     rareInterests_ = set(rareInterests_)
+        #    rareInterests_ = list(rareInterests_)
 
         m = [
             Match(

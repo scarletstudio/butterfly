@@ -45,7 +45,42 @@ def test_single_rare_interest():
     assert actual == expected
 
 
-def test_multi_rare_intrest():
+def test_multiple_rare_interests():
+    hiking = Interest(code="hiking", name="Hiking")
+    swimming = Interest(code="swimming", name="Swimming")
+    reading = Interest(code="reading", name="Reading")
+    cooking = Interest(code="cooking", name="Cooking")
+
+    inp = MatchingInput(
+        community="test",
+        release="2022-06-26",
+        users=[
+            User(uid="1", displayName="A", interests=[hiking, swimming]),
+            User(uid="2", displayName="B", interests=[swimming, reading]),
+            User(uid="3", displayName="C", interests=[reading, cooking]),
+            User(uid="4", displayName="D", interests=[swimming, cooking]),
+        ],
+        recent_matches=[],
+        interests=[hiking, swimming, reading],
+    )
+
+    generator = RareInterestsGenerator(max_frequency=1.0)
+    actual = list(generator.generate(inp))
+
+    expected = [
+        Match(
+            users={"2", "3"},
+            metadata=MatchMetadata(
+                generator="rareInterestsGenerator",
+                score=0.29,
+                rareInterests=["Reading"],
+            ),
+        ),
+    ]
+    assert actual == expected
+
+
+def test_equal_rare_intrests():
     hiking = Interest(code="hiking", name="Hiking")
     swimming = Interest(code="swimming", name="Swimming")
     reading = Interest(code="reading", name="Reading")
@@ -55,8 +90,8 @@ def test_multi_rare_intrest():
         community="test2",
         release="2022-07-12",
         users=[
-            User(uid="1", displayName="A", interests=[hiking, swimming]),
-            User(uid="2", displayName="B", interests=[swimming, reading]),
+            User(uid="1", displayName="A", interests=[hiking, reading]),
+            User(uid="2", displayName="B", interests=[swimming, hiking]),
             User(uid="3", displayName="C", interests=[reading, cooking]),
             User(uid="4", displayName="D", interests=[swimming, cooking]),
         ],
@@ -69,23 +104,40 @@ def test_multi_rare_intrest():
 
     expected = [
         Match(
-            users={"3", "4"},
+            users={"1", "2"},
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
-                score=0.29,
-                rareInterests=["Cooking"],
+                score=0.25,
+                rareInterests=["Hiking"],
             ),
         ),
     ]
     assert actual == expected
 
 
-def test_odd_users():
-    pass
-
-
 def test_null_inputs():
-    pass
+    inp = MatchingInput(
+        community="test2",
+        release="2022-07-14",
+        users=[],
+        recent_matches=[],
+        interests=[],
+    )
+
+    generator = RareInterestsGenerator(max_frequency=1.0)
+    actual = list(generator.generate(inp))
+
+    expected = [
+        Match(
+            users={"-1", "-2"},
+            metadata=MatchMetadata(
+                generator="rareInterestsGenerator",
+                score=float(-1),
+                rareInterests=[],
+            ),
+        )
+    ]
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
