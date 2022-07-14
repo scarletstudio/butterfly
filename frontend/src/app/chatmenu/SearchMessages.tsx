@@ -12,6 +12,7 @@ interface SearchMessagesProps {
     messages?: MessagesData[]
 }
 
+// Extracts the messages in the chat to be filtered through
 const MessagesInner = ({ chat, filteredMessages }) => {
     return filteredMessages?.map((message: { key: React.Key | null | undefined }) => (
         <Message
@@ -31,14 +32,15 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
         setValue(event.target.value)
     }
 
+    // Conducts the Search in the messages
     const doSearch = () => {
         setfilteredMessages(
             messages?.filter((text) => {
                 const searchString: string = value ?? ''
 
                 return (
-                    text.message.toLowerCase().includes(searchString.toLowerCase()) &&
-                    searchString !== '' &&
+                    text.message.toLowerCase().includes(searchString.toLowerCase()) && // Changes the message to lowercase
+                    searchString !== '' && // Checks for whitespaces
                     searchString.trim()
                 )
             })
@@ -52,22 +54,21 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
         shiftKey: any
         preventDefault: () => void
     }) => {
-        const hitEnter = e.keyCode === 13
+        const hitEnter = e.keyCode === 13 // Assigns hitEnter to the Enter key
         const holdingKey = e.ctrlKey || e.shiftKey
         if (hitEnter && !holdingKey) {
+            // Search upon hitting the enter key
             e.preventDefault()
             doSearch()
         }
     }
 
+    // Creates the Seach bar and Button
     return (
         <div className="Search">
-            <div>
-                <MessagesInner chat={chat} filteredMessages={filteredMessages} />
-            </div>
             <textarea
                 className="Input"
-                placeholder="Type here..."
+                placeholder="Search Messages"
                 value={value}
                 onChange={handleChange}
                 onKeyDown={searchOnCtrlEnter}
@@ -75,6 +76,9 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
             <button type="button" onClick={doSearch} className="ButtonSearch">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
+            <div>
+                <MessagesInner chat={chat} filteredMessages={filteredMessages} />
+            </div>
         </div>
     )
 }
@@ -88,7 +92,5 @@ export default SearchMessages
 // TODO:
 // 1. Add a No results UI with 0 results
 // 2. Add a result counter for example: Showing 4 results out of Total number
-// 3. Fix the CSS for the Search Bar
-// 4. Move the Search Bar to the top of the page
 // 5. Add storybook examples
 // 6. Add comments for better documentation
