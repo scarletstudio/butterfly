@@ -77,6 +77,7 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
             <div>
+                <p>Showing Results ... from Total</p>
                 <MessagesInner chat={chat} filteredMessages={filteredMessages} />
             </div>
         </div>
