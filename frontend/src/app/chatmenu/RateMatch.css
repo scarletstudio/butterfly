@@ -1,9 +1,9 @@
 .selected{
-    color: blue;
+    color: red;
     font-size: 50px;
 }
 
 .unselected{
-    color: red;
+    color: blue;
     font-size: 50px;
 }
