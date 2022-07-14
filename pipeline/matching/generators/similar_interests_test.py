@@ -41,8 +41,8 @@ def test_example():
         ),
     ]
     # TODO: Uncomment this assertion and delete the empty list assert
-    # assert actual == expected
-    assert actual == []
+    assert actual == expected
+    # assert actual == []
 
 
 # TODO: Add more test cases for your logic
