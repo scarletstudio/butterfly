@@ -4,9 +4,7 @@ import { InterestData } from './Interest'
 
 interface EditInterestsProps {
     allInterests: Array<InterestData>
-    // eslint-disable-next-line no-unused-vars
     updateInterest(code: string, value: boolean): void
-    // eslint-disable-next-line react/no-unused-prop-types
     userInterestsMap: { [code: string]: boolean }
 }
 
