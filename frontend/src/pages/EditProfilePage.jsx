@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 
 import { COMMUNITY_CONFIG } from '../config/communities'
 import { EditIntents, EditInterests } from '../app/attributes'
-import { COMMUNITY } from '../app/constants'
+import { CommunitySelector } from '../app/community'
+import { useUserCommunities } from '../app/data'
 import { useCurrentAuthUser } from '../app/login'
 import { UserTile } from '../app/ui'
 import { fetchFromBackend, useBackendFetchJson } from '../app/utils'
@@ -20,28 +21,41 @@ async function submitInterest(community, uid, code, value) {
     })
 }
 
-// TODO:(DINORA) Move communities selectors into separate file
-function CommunitySelector({ communities }) {
-    return (
-        communities.length > 0 && (
-            <select>
-                {communities.map((community) => (
-                    <option value={community.id} key={community.id}>
-                        {community.name}
-                    </option>
-                ))}
-            </select>
-        )
-    )
+// Call function to update user intent
+async function submitIntent(community, uid, code, side, value) {
+    // New value for the attribute
+    const attributeUpdate = { update: { [side]: value } }
+    await fetchFromBackend({
+        route: `/attributes/community/${community}/users/${uid}/intents/${code}`,
+        options: {
+            method: 'POST',
+            body: JSON.stringify(attributeUpdate),
+        },
+    })
 }
+
 export default function EditProfilePage() {
     const authUser = useCurrentAuthUser()
-    const communityConfig = COMMUNITY_CONFIG?.[COMMUNITY] || {}
-    const uid = authUser?.uid || null
-    // eslint-disable-next-line no-unused-vars
-    const [interestRes, interestErr] = useBackendFetchJson({
-        route: `/attributes/community/${COMMUNITY}/users/${uid}/interests`,
-        deps: [uid],
+    const uid = authUser?.uid
+    const [communityId, setCommunityId, communities] = useUserCommunities(uid)
+    const communityConfig = COMMUNITY_CONFIG?.[communityId] || {}
+
+    const [res] = useBackendFetchJson({
+        route: `/attributes/community/${communityId}/users/${uid}/intents`,
+        deps: [communityId, uid],
+        isValid: communityId && uid,
+    })
+    const userIntents = res?.attributes || []
+    const userIntentMap = userIntents.reduce(
+        (dict, intent) => ({ ...dict, [intent.code]: intent?.data }),
+        {}
+    )
+    const updateIntent = (code, side, value) => submitIntent(communityId, uid, code, side, value)
+
+    const [interestRes] = useBackendFetchJson({
+        route: `/attributes/community/${communityId}/users/${uid}/interests`,
+        deps: [communityId, uid],
+        isValid: communityId && uid,
     })
     const userInterests = interestRes?.attributes || []
 
@@ -49,7 +63,8 @@ export default function EditProfilePage() {
         (dict, interest) => ({ ...dict, [interest.code]: interest?.data }),
         {}
     )
-    const updateInterest = (code, value) => submitInterest(COMMUNITY, uid, code, value)
+    const updateInterest = (code, value) => submitInterest(communityId, uid, code, value)
+
     return (
         authUser && (
             <div className="EditProfilePage">
@@ -62,9 +77,17 @@ export default function EditProfilePage() {
                     </Link>
                 </div>
                 <div className="Page">
-                    <CommunitySelector communities={[]} />
-                    <h2>Support</h2>
-                    <EditIntents allIntents={communityConfig?.intents} />
+                    <CommunitySelector
+                        communities={communities}
+                        selected={communityId}
+                        setCommunityId={setCommunityId}
+                    />
+                    <h2>Intents</h2>
+                    <EditIntents
+                        intents={communityConfig?.intents}
+                        updateIntent={updateIntent}
+                        userIntentMap={userIntentMap}
+                    />
                     <h2>Interests</h2>
                     <EditInterests
                         allInterests={communityConfig?.interests}
@@ -72,7 +95,6 @@ export default function EditProfilePage() {
                         userInterestsMap={userInterestsMap}
                     />
                     <h2>Schedule</h2>
-
                     <p>Coming soon...</p>
                 </div>
             </div>
