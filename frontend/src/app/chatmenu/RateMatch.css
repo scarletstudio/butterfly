@@ -1,9 +1,15 @@
-.selected{
+.selected {
+    background-color: white;
+    border-color: white;
+    border-style: none;
     color: red;
     font-size: 50px;
 }
 
-.unselected{
+.unselected {
+    background-color: white;
+    border-color: white;
+    border-style: none;
     color: blue;
     font-size: 50px;
 }
