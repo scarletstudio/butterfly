@@ -7,13 +7,25 @@ import { CommunitySelector } from '../app/community'
 import { useUserCommunities } from '../app/data'
 import { useCurrentAuthUser } from '../app/login'
 import { UserTile } from '../app/ui'
-import { useBackendFetchJson, fetchFromBackend } from '../app/utils'
+import { fetchFromBackend, useBackendFetchJson } from '../app/utils'
+
+// Function to update user interests when checkbox value changes
+async function submitInterest(community, uid, code, value) {
+    const attributeUpdate = { update: value }
+    await fetchFromBackend({
+        route: `/attributes/community/${community}/users/${uid}/interests/${code}`,
+        options: {
+            method: 'POST',
+            body: JSON.stringify(attributeUpdate),
+        },
+    })
+}
 
 // Call function to update user intent
 async function submitIntent(community, uid, code, side, value) {
     // New value for the attribute
     const attributeUpdate = { update: { [side]: value } }
-    const res = await fetchFromBackend({
+    await fetchFromBackend({
         route: `/attributes/community/${community}/users/${uid}/intents/${code}`,
         options: {
             method: 'POST',
@@ -28,7 +40,7 @@ export default function EditProfilePage() {
     const [communityId, setCommunityId, communities] = useUserCommunities(uid)
     const communityConfig = COMMUNITY_CONFIG?.[communityId] || {}
 
-    const [res, err] = useBackendFetchJson({
+    const [res] = useBackendFetchJson({
         route: `/attributes/community/${communityId}/users/${uid}/intents`,
         deps: [communityId, uid],
         isValid: communityId && uid,
@@ -39,6 +51,19 @@ export default function EditProfilePage() {
         {}
     )
     const updateIntent = (code, side, value) => submitIntent(communityId, uid, code, side, value)
+
+    const [interestRes] = useBackendFetchJson({
+        route: `/attributes/community/${communityId}/users/${uid}/interests`,
+        deps: [communityId, uid],
+        isValid: communityId && uid,
+    })
+    const userInterests = interestRes?.attributes || []
+
+    const userInterestsMap = userInterests.reduce(
+        (dict, interest) => ({ ...dict, [interest.code]: interest?.data }),
+        {}
+    )
+    const updateInterest = (code, value) => submitInterest(communityId, uid, code, value)
 
     return (
         authUser && (
@@ -64,7 +89,11 @@ export default function EditProfilePage() {
                         userIntentMap={userIntentMap}
                     />
                     <h2>Interests</h2>
-                    <EditInterests allInterests={communityConfig?.interests} />
+                    <EditInterests
+                        allInterests={communityConfig?.interests}
+                        updateInterest={updateInterest}
+                        userInterestsMap={userInterestsMap}
+                    />
                     <h2>Schedule</h2>
                     <p>Coming soon...</p>
                 </div>
