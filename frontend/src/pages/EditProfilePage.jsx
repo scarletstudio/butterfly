@@ -3,26 +3,43 @@ import { Link } from 'react-router-dom'
 
 import { COMMUNITY_CONFIG } from '../config/communities'
 import { EditIntents, EditInterests } from '../app/attributes'
-import { COMMUNITY } from '../app/constants'
+import { CommunitySelector } from '../app/community'
+import { useUserCommunities } from '../app/data'
 import { useCurrentAuthUser } from '../app/login'
 import { UserTile } from '../app/ui'
-// TODO:(DINORA) Move communities selectors into separate file
-function CommunitySelector({ communities }) {
-    return (
-        communities.length > 0 && (
-            <select>
-                {communities.map((community) => (
-                    <option value={community.id} key={community.id}>
-                        {community.name}
-                    </option>
-                ))}
-            </select>
-        )
-    )
+import { useBackendFetchJson, fetchFromBackend } from '../app/utils'
+
+// Call function to update user intent
+async function submitIntent(community, uid, code, side, value) {
+    // New value for the attribute
+    const attributeUpdate = { update: { [side]: value } }
+    const res = await fetchFromBackend({
+        route: `/attributes/community/${community}/users/${uid}/intents/${code}`,
+        options: {
+            method: 'POST',
+            body: JSON.stringify(attributeUpdate),
+        },
+    })
 }
+
 export default function EditProfilePage() {
     const authUser = useCurrentAuthUser()
-    const communityConfig = COMMUNITY_CONFIG?.[COMMUNITY] || {}
+    const uid = authUser?.uid
+    const [communityId, setCommunityId, communities] = useUserCommunities(uid)
+    const communityConfig = COMMUNITY_CONFIG?.[communityId] || {}
+
+    const [res, err] = useBackendFetchJson({
+        route: `/attributes/community/${communityId}/users/${uid}/intents`,
+        deps: [communityId, uid],
+        isValid: communityId && uid,
+    })
+    const userIntents = res?.attributes || []
+    const userIntentMap = userIntents.reduce(
+        (dict, intent) => ({ ...dict, [intent.code]: intent?.data }),
+        {}
+    )
+    const updateIntent = (code, side, value) => submitIntent(communityId, uid, code, side, value)
+
     return (
         authUser && (
             <div className="EditProfilePage">
@@ -35,12 +52,20 @@ export default function EditProfilePage() {
                     </Link>
                 </div>
                 <div className="Page">
-                    <CommunitySelector communities={[]} />
-                    <h2>Support</h2>
-                    <EditIntents allIntents={communityConfig?.intents} />
+                    <CommunitySelector
+                        communities={communities}
+                        selected={communityId}
+                        setCommunityId={setCommunityId}
+                    />
+                    <h2>Intents</h2>
+                    <EditIntents
+                        intents={communityConfig?.intents}
+                        updateIntent={updateIntent}
+                        userIntentMap={userIntentMap}
+                    />
                     <h2>Interests</h2>
-                    <h2>Schedule</h2>
                     <EditInterests allInterests={communityConfig?.interests} />
+                    <h2>Schedule</h2>
                     <p>Coming soon...</p>
                 </div>
             </div>

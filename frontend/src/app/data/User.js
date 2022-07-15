@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getDatabase, onValue, ref, serverTimestamp, update } from 'firebase/database'
 
 import { DB_PATH } from '../constants'
+import { COMMUNITY_CONFIG } from '../../config/communities'
 import { fetchFromBackend } from '../utils'
 
 /*
@@ -103,4 +104,23 @@ export async function maybeUpdateUserDetails(details) {
         console.error(err)
         return err
     }
+}
+
+export function useUserCommunities(uid) {
+    const [communityId, setCommunityId] = useState()
+
+    // Fetch the user data to get the communities they are part of
+    const user = useGetManyUserData({ [uid]: true }, getUserData)?.[uid]
+    const communities = Object.keys(user?.communities || {}).map((k) => ({
+        ...COMMUNITY_CONFIG?.[k],
+        ...user?.communities?.[k],
+    }))
+
+    // Select the first active community
+    const firstActiveCommunity = communities.filter((c) => c.active)?.[0]?.id
+    useEffect(() => {
+        setCommunityId(firstActiveCommunity)
+    }, [firstActiveCommunity])
+
+    return [communityId, setCommunityId, communities]
 }
