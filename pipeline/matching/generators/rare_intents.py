@@ -22,10 +22,10 @@ class RareIntentsGenerator(MatchGenerator):
     def rareness(self, inp: MatchingInput) -> DefaultDict[str, float]:
         codeFrequencyDict: DefaultDict[str, float] = defaultdict(float)
 
-        for x in inp.users:
-            for y in x.intents:
-                if y.side == Side.GIVING:
-                    codeFrequencyDict[y.code] += 1
+        for user in inp.users:
+            for intent in user.intents:
+                if intent.side == Side.GIVING:
+                    codeFrequencyDict[intent.code] += 1
 
         return codeFrequencyDict
 
@@ -34,8 +34,8 @@ class RareIntentsGenerator(MatchGenerator):
         totalUsers = 0
         totalUsers = len(inp.users)
         percentDict: DefaultDict[str, float] = self.rareness(inp)
-        for key in percentDict:
-            percentDict[key] /= totalUsers
+        for perecnt in percentDict:
+            percentDict[perecnt] /= totalUsers
 
         return percentDict
 
@@ -48,22 +48,24 @@ class RareIntentsGenerator(MatchGenerator):
         rareDict = {}
 
         # check if giving side is rare by comparing it to the community threshold
-        for key in percentDict:
-            if percentDict[key] < self.max_frequency:
-                rareDict[key] = percentDict.get(key)
+        for perecnt in percentDict:
+            if percentDict[perecnt] < self.max_frequency:
+                rareDict[perecnt] = percentDict.get(perecnt)
 
         match: List[Match] = []
 
         # key is giving name and value is list of users
         rareUsers = defaultdict(list)
 
-        for y in inp.users:
-            for z in y.intents:
-                if z.code in rareDict and (z.side == Side.GIVING):
-                    rareUsers[z.code].append(y)
+        for user in inp.users:
+            for intent in user.intents:
+                if intent.code in rareDict and (intent.side == Side.GIVING):
+                    rareUsers[intent.code].append(user)
 
         # holds matches made
-        matches = []
+        matches = {}
+        # append matches to a dictionary
+        # before doing so sort the id and place it as the key so it could be cleaned out
 
         # check if rare giving has a seeker, then make match
         for intent_code, giver_user_list in rareUsers.items():
@@ -73,7 +75,7 @@ class RareIntentsGenerator(MatchGenerator):
                         intents_in_community.side == Side.SEEKING
                     ):
                         for giver_user in giver_user_list:
-                            m = Match(
+                            temp = Match(
                                 users={
                                     users_in_community.uid,
                                     giver_user.uid,
@@ -89,50 +91,98 @@ class RareIntentsGenerator(MatchGenerator):
                                     ],
                                 ),
                             )
-                            matches.append(m)
-                        # else:
-                        #     m = Match(
-                        #         users={
-                        #             users_in_community.uid,
-                        #             value.uid,
-                        #         },
-                        #         metadata=MatchMetadata(
-                        #             generator="rareIntentsGenerator",
-                        #             rareIntents=[
-                        #                 IntentMatch(
-                        #                     code=intents_in_community.code,
-                        #                     seeker=users_in_community.uid,
-                        #                     giver=value.uid,
-                        #                 )
-                        #             ],
-                        #         ),
-                        #     )
-                        #     matches.append(m)
+
+                            if int(users_in_community.uid) > int(
+                                giver_user.uid
+                            ):
+                                matches[
+                                    giver_user.uid
+                                    + "_"
+                                    + users_in_community.uid
+                                ] = temp
+                            else:
+                                matches[
+                                    users_in_community.uid
+                                    + "_"
+                                    + giver_user.uid
+                                ] = temp
 
         # getting rid of duplicates
         matchesNoDuplicates = []
-        for i in matches:
-            for (
-                j
-            ) in matches:  # checking if users share the same id, then remove it
-                i_users_A = list(i.users)
-                iA = i_users_A[0]
 
-                i_users_B = list(i.users)
-                iB = i_users_B[1]
-
-                j_users_A = list(j.users)
-                jA = j_users_A[0]
-
-                j_users_B = list(j.users)
-                jB = j_users_B[1]
-
-                if (iA == jA and iB == jB) or (iA == jB and iB == jA):
-                    if i not in matchesNoDuplicates:
-                        matchesNoDuplicates.append(i)
-                        matches.remove(j)
-                else:
-                    if i not in matchesNoDuplicates:
-                        matchesNoDuplicates.append(i)
+        for single_match in matches:
+            matchesNoDuplicates.append(matches[single_match])
 
         yield from matchesNoDuplicates
+
+        # Alternate solution to removing duplicates
+
+        # # holds matches made
+        # matches = []
+        # #append matches to a dictionary
+        # #before doing so sort the id and place it as the key so it could be cleaned out
+
+        # # check if rare giving has a seeker, then make match
+        # for intent_code, giver_user_list in rareUsers.items():
+        #     for users_in_community in inp.users:
+        #         for intents_in_community in users_in_community.intents:
+        #             if intents_in_community.code == intent_code and (
+        #                 intents_in_community.side == Side.SEEKING
+        #             ):
+        #                 for giver_user in giver_user_list:
+        #                     m = Match(
+        #                         users={
+        #                             users_in_community.uid,
+        #                             giver_user.uid,
+        #                         },
+        #                         metadata=MatchMetadata(
+        #                             generator="rareIntentsGenerator",
+        #                             rareIntents=[
+        #                                 IntentMatch(
+        #                                     code=intents_in_community.code,
+        #                                     seeker=users_in_community.uid,
+        #                                     giver=giver_user.uid,
+        #                                 )
+        #                             ],
+        #                         ),
+        #                     )
+        #                     matches.append(m)
+        #                 # else:
+        #                 #     m = Match(
+        #                 #         users={
+        #                 #             users_in_community.uid,
+        #                 #             value.uid,
+        #                 #         },
+        #                 #         metadata=MatchMetadata(
+        #                 #             generator="rareIntentsGenerator",
+        #                 #             rareIntents=[
+        #                 #                 IntentMatch(
+        #                 #                     code=intents_in_community.code,
+        #                 #                     seeker=users_in_community.uid,
+        #                 #                     giver=value.uid,
+        #                 #                 )
+        #                 #             ],
+        #                 #         ),
+        #                 #     )
+        #                 #     matches.append(m)
+
+        # # getting rid of duplicates
+        # matchesNoDuplicates = []
+
+        # for i in matches:
+        #     user_A_uid = list(i.users)[0]
+        #     user_B_uid = list(i.users)[1]
+
+        #     for (j) in matches:  # checking if users share the same id, then remove it
+        #         user_C_uid = list(j.users)[0]
+        #         user_D_uid = list(j.users)[1]
+
+        #         if i.users.union(j.users) == i.users:#(user_A_uid == user_C_uid and user_B_uid == user_D_uid) or (user_A_uid == user_D_uid and user_B_uid == user_C_uid):
+        #             if i not in matchesNoDuplicates:
+        #                 matchesNoDuplicates.append(i)
+        #                 matches.remove(j)
+        #         else:
+        #             if i not in matchesNoDuplicates:
+        #                 matchesNoDuplicates.append(i)
+
+        # yield from matchesNoDuplicates
