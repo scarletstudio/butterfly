@@ -52,7 +52,8 @@ export function ChatAppInner({ chatId, header, conversation, composer }) {
 export function ChatApp({ chatId, header, conversation, composer }) {
     const authUser = useCurrentAuthUser()
     const myUserId = authUser?.uid
-    const chat = useGetChatData(`${chatId}~${myUserId}`)
+    const fullChatId = chatId && myUserId && `${chatId}~${myUserId}`
+    const chat = useGetChatData(fullChatId)
     const messages = useGetMessages(chatId)
 
     const sendChatMessage = (raw) => {

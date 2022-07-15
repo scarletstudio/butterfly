@@ -8,6 +8,8 @@ export interface ChatData {
     exists: boolean
     // Whether or not the chat has loaded
     isLoaded: boolean
+    // ID of the community this match is part of
+    communityId: string
     // ID of the user who this chat was created for, included in participants
     for: string
     // Map of the IDs of users in this chat (and match) to their user data
