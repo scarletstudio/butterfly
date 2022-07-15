@@ -17,11 +17,12 @@ def test_render_counts_per_user():
 
     actual = render_counts_per_user(users, counts)
 
-    expected = [
-        "6 - Erik (E)",
-        "5 - Bridget (B)",
-        "4 - Dinora (D)",
-        "2 - Chris (C)",
-        "1 - Ayman (A)",
-    ]
+    # Output is a multi-line string, this is a way to write it without indents
+    expected = (
+        "6 - Erik (E)\n"
+        "5 - Bridget (B)\n"
+        "4 - Dinora (D)\n"
+        "2 - Chris (C)\n"
+        "1 - Ayman (A)"
+    )
     assert actual == expected
