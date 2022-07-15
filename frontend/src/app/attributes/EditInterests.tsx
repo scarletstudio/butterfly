@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './EditInterests.css'
 import { InterestData } from './Interest'
 
@@ -10,28 +10,35 @@ interface EditInterestsProps {
     userInterestsMap: { [code: string]: boolean }
 }
 
-const Checkbox = ({ code, updateInterest, newValue }) => {
-    const [checked, setChecked] = useState(newValue)
+const InterestCheckbox = ({ code, updateInterest, value }) => {
+    const [checked, setChecked] = useState(value)
     const checkHandler = () => {
-        updateInterest(code, checked)
-
+        const newValue = !checked
+        updateInterest(code, newValue)
         setChecked(newValue)
     }
-    return (
-        <div>
-            <input type="checkbox" checked={checked} onChange={checkHandler} />
-        </div>
-    )
+    useEffect(() => {
+        setChecked(value)
+    }, [value])
+    return <input type="checkbox" checked={checked} onChange={checkHandler} />
 }
 
-const EditInterests = ({ allInterests = [], updateInterest }: EditInterestsProps) => {
+const EditInterests = ({
+    allInterests = [],
+    userInterestsMap = {},
+    updateInterest,
+}: EditInterestsProps) => {
     return (
         <div>
             <p>Choose the topics that you like.</p>
             {allInterests.map((interest) => (
                 <div key={interest.code}>
+                    <InterestCheckbox
+                        code={interest.code}
+                        updateInterest={updateInterest}
+                        value={userInterestsMap?.[interest.code] || false}
+                    />
                     <span> {interest.name} </span>
-                    <Checkbox code={interest.code} updateInterest={updateInterest} newValue="" />
                 </div>
             ))}
         </div>
