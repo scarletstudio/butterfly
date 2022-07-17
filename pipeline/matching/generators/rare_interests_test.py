@@ -115,6 +115,41 @@ def test_equal_rare_intrests():
     assert actual == expected
 
 
+def test_no_rare_intrests():
+    hiking = Interest(code="hiking", name="Hiking")
+    swimming = Interest(code="swimming", name="Swimming")
+    reading = Interest(code="reading", name="Reading")
+    cooking = Interest(code="cooking", name="Cooking")
+
+    inp = MatchingInput(
+        community="test2",
+        release="2022-07-12",
+        users=[
+            User(uid="1", displayName="A", interests=[hiking]),
+            User(uid="2", displayName="B", interests=[swimming]),
+            User(uid="3", displayName="C", interests=[reading]),
+            User(uid="4", displayName="D", interests=[cooking]),
+        ],
+        recent_matches=[],
+        interests=[hiking, swimming, reading, cooking],
+    )
+
+    generator = RareInterestsGenerator(max_frequency=1.0)
+    actual = list(generator.generate(inp))
+
+    expected = [
+        Match(
+            users={"0"},
+            metadata=MatchMetadata(
+                generator="rareInterestsGenerator",
+                score=0.0,
+                rareInterests=[],
+            ),
+        ),
+    ]
+    assert actual == expected
+
+
 def test_null_inputs():
     inp = MatchingInput(
         community="test2",

@@ -21,7 +21,7 @@ class RareInterestsGenerator(MatchGenerator):
         rareInterests_ = []  # type: List[str]
         rarestInterest = " "
         rarityScore = 0.0
-        matchNames = set("None")
+        matchNames = {"0", "0"}
         resultingMatch = []
         # check for null inputs
         if (not given.interests) or (not given.users):
