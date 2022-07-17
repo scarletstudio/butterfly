@@ -137,6 +137,7 @@ def test_null_inputs():
             ),
         )
     ]
+    assert len(actual) == 1
     assert actual == expected
 
 

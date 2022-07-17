@@ -16,19 +16,20 @@ class RareInterestsGenerator(MatchGenerator):
         self.max_frequency = max_frequency
         super().__init__(name=GENERATOR_RARE_INTERESTS)
 
-    def generate(self, inp: MatchingInput) -> Iterator[Match]:
-        # check for null inputs
+    def generate(self, given: MatchingInput) -> Iterator[Match]:
+
         rareInterests_ = []  # type: List[str]
         rarestInterest = " "
         rarityScore = 0.0
         matchNames = set("None")
-        m = []
-        if (not inp.interests) or (not inp.users):
+        resultingMatch = []
+        # check for null inputs
+        if (not given.interests) or (not given.users):
             rareInterests_ = []
             rarityScore = -1.0
             matchNames = {"-1", "-2"}
 
-            m = [
+            resultingMatch = [
                 Match(
                     users=matchNames,
                     metadata=MatchMetadata(
@@ -38,10 +39,11 @@ class RareInterestsGenerator(MatchGenerator):
                     ),
                 )
             ]
-            yield from m
+            yield from resultingMatch
+            return
 
-        usrList = inp.users
-        interestsList = inp.interests
+        usrList = given.users
+        interestsList = given.interests
 
         # count the # interests and filter for 2 or more occurences
         tmpIntrestLst = []
@@ -56,12 +58,11 @@ class RareInterestsGenerator(MatchGenerator):
                 trueCountDict[interest] = count
                 sum_ += count
 
-        # find percentage of users who have each interest
         rarityScoreDict = {}
         for interest, value in trueCountDict.items():
             rarityScoreDict[interest] = value / sum_
 
-        # find rarest interest in community and its rarityScore
+        # generates matches and finds rarest interests and thier score
         matches = list(it.combinations(usrList, 2))
         for userMatch in matches:
             commonInterestList = list(
@@ -77,11 +78,11 @@ class RareInterestsGenerator(MatchGenerator):
                     rareInterests_.append(rarestInterest)
                 rarityScore = float(rarityScoreDict[rarestInterest])
 
-        # convert to set and cback to list to remove duplicates
-        #     rareInterests_ = set(rareInterests_)
+        # convert to set and back to list to remove duplicates
+        #    rareInterests_ = set(rareInterests_)
         #    rareInterests_ = list(rareInterests_)
 
-        m = [
+        resultingMatch = [
             Match(
                 users=matchNames,
                 metadata=MatchMetadata(
@@ -91,4 +92,4 @@ class RareInterestsGenerator(MatchGenerator):
                 ),
             )
         ]
-        yield from m
+        yield from resultingMatch
