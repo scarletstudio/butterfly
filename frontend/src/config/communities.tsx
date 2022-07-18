@@ -33,7 +33,13 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
             { code: 'involve-iit', name: 'Get more involved at Illinois Tech' },
             { code: 'watch-recs', name: 'Get show and movie recommendations' },
         ],
-        interests: [],
+        interests: [
+            { code: 'chess', name: 'Chess' },
+            { code: 'art', name: 'Art' },
+            { code: 'movies', name: 'Movies' },
+            { code: 'fashion', name: 'Fashion' },
+            { code: 'sports', name: 'Sports' },
+        ],
     },
     esi: {
         id: 'esi',

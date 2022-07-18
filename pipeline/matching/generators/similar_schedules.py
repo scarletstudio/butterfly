@@ -15,4 +15,5 @@ class SimilarSchedulesGenerator(MatchGenerator):
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
         # TODO: Implement your generator
+        inp.logger.info("Emma Diamon was here!")
         yield from []
