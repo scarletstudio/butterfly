@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Dict, Iterator, List, Tuple
 
 from pipeline.matching.core import MatchRanker
 from pipeline.types import (
@@ -21,10 +21,14 @@ class IntentUpvotesRanker(MatchRanker):
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Iterator[Match]:
         # TODO: Implement your ranker
+        # rank halping variables
         flag = False
-        upvotedLst = []
-        lst = []
+        idx = 0
+        upvotedDict: Dict[Tuple[int, str], int] = {}
+        upvotedLst: List[Match] = []
+        lst: List[Match] = []
 
+        # match specific variables
         currMatch = next(proposed)
         ups = inp.intent_upvotes
         failMatch = Match(
@@ -38,29 +42,79 @@ class IntentUpvotesRanker(MatchRanker):
         )
 
         while currMatch != failMatch:
+            currMatchGiver = currMatch.metadata.matchingIntents[0].giver
+            currMatchIntent = currMatch.metadata.matchingIntents[0].code
             for i in ups:
-                if i.to_user == currMatch.metadata.matchingIntents[0].giver:
+                if i.to_user == currMatchGiver and i.intent == currMatchIntent:
                     flag = True
-                    upvotedLst.append(currMatch)
-                    try:
-                        currMatch = next(proposed)
-                    except:
-                        currMatch = failMatch
-                    break
+                    if upvotedLst.__contains__(currMatch):
+                        upvotedDict[
+                            (upvotedLst.index(currMatch), currMatchIntent)
+                        ] += i.value
+                    else:
+                        upvotedLst.append(currMatch)
+                        upvotedDict[
+                            (len(upvotedLst) - 1, currMatchIntent)
+                        ] = i.value
 
             if flag == False:
                 lst.append(currMatch)
-                try:
-                    currMatch = next(proposed)
-                except:
-                    currMatch = failMatch
+            try:
+                currMatch = next(proposed)
+            except:
+                currMatch = failMatch
 
-            flag = False
+        flag = False
 
-        upvotedLst += lst
+        while upvotedDict != {}:
+            maxKey = max(upvotedDict, key=lambda k: upvotedDict[k])
+            lst.insert(idx, upvotedLst[maxKey[0]])
+            idx += 1
+            del upvotedDict[maxKey]
 
-        for l in upvotedLst:
+        for l in lst:
             yield l
+
+        # flag = False
+        # upvotedLst = []
+        # lst = []
+
+        # currMatch = next(proposed)
+        # ups = inp.intent_upvotes
+        # failMatch = Match(
+        #     users={"fail", "fail"},
+        #     metadata=MatchMetadata(
+        #         generator="fail",
+        #         matchingIntents=[
+        #             IntentMatch(code="failing", seeker="fail", giver="fail")
+        #             ],
+        #         ),
+        #     )
+
+        # while currMatch != failMatch:
+        #     for i in ups:
+        #         if i.to_user == currMatch.metadata.matchingIntents[0].giver:
+        #             flag = True
+        #             upvotedLst.append(currMatch)
+        #             try:
+        #                 currMatch = next(proposed)
+        #             except:
+        #                 currMatch = failMatch
+        #             break
+
+        #     if flag == False:
+        #         lst.append(currMatch)
+        #         try:
+        #             currMatch = next(proposed)
+        #         except:
+        #             currMatch = failMatch
+
+        #     flag = False
+
+        # upvotedLst += lst
+
+        # for l in upvotedLst:
+        #     yield l
 
         # inp.logger.info("Verica Karanakokva was here!")
         # yield from proposed
