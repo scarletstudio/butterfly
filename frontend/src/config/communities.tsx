@@ -18,6 +18,9 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
         intents: [
             { code: 'tutoring-math', name: 'Get tutoring in math' },
             { code: 'watch-recs', name: 'Get show and movie recommendations' },
+            { code: 'student-org', name: 'Get information on student organizations' },
+            { code: 'commons-food', name: 'Learn more about the commons food' },
+            { code: 'hobbies', name: 'Learn more about different hobbies' },
         ],
         interests: [
             { code: 'running', name: 'Running' },
