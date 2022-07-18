@@ -17,9 +17,6 @@ NoIntentsSelected.args = {
     intents: [
         { code: 'tutoring', name: 'Tutoring' },
         { code: 'tv-movie-recs', name: 'TV/Movie Recommendations' },
-        { code: 'student-org', name: 'Get information on student organizations' },
-        { code: 'commons-food', name: 'Learn more about the commons food' },
-        { code: 'hobbies', name: 'Learn more about different hobbies' },
     ],
     userIntentMap: {},
     updateIntent: fakeUpdateIntent,
