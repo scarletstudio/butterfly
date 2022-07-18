@@ -25,6 +25,10 @@
     margin-left: 5%;
 }
 
+.intent {
+    font-size: 18px;
+    text-align: left;
+    margin-left: 10px;
+}
 .btn {
-    margin-right: 10px;
 }
