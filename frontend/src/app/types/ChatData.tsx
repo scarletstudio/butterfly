@@ -1,5 +1,6 @@
 import { UserData } from './UserData'
 
+// Keep this in sync with: pipeline/types/match_metadata.py
 export interface ChatData {
     // ID for the match this chat is for, release tag plus match key
     id: string
@@ -7,6 +8,8 @@ export interface ChatData {
     exists: boolean
     // Whether or not the chat has loaded
     isLoaded: boolean
+    // ID of the community this match is part of
+    communityId: string
     // ID of the user who this chat was created for, included in participants
     for: string
     // Map of the IDs of users in this chat (and match) to their user data
@@ -22,5 +25,15 @@ export interface ChatData {
         generator?: string
         score?: number
         commonLetters?: Array<string>
+        interests?: Array<string>
+        intents?: Array<{
+            code: string
+            giver: string
+            seeker: string
+        }>
+        availability?: Array<{
+            day: string
+            hour: number
+        }>
     }
 }

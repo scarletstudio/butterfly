@@ -14,4 +14,5 @@ class MatchStarsRanker(MatchRanker):
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Iterator[Match]:
         # TODO: Implement your ranker
+        inp.logger.info("Alhassan Elkossei was here!")
         yield from proposed

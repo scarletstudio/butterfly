@@ -1,8 +1,7 @@
 from django.urls import path
+from ninja import Router
 
-from backend.ratings.views import view_rate_match, view_upvote_user
+from backend.ratings.views.ratings import router as ratings_router
 
-urlpatterns = [
-    path("rate_match", view_rate_match),
-    path("upvote_user", view_upvote_user),
-]
+router = Router()
+router.add_router("", ratings_router)

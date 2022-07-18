@@ -6,7 +6,7 @@ from backend.utils import format_json
 
 def test_hello():
     c = Client()
-    actual = c.post("/")
+    actual = c.get("/")
 
     expected = format_json(message="Hello! The backend is up and running.")
     assert_response_match(actual, expected)
