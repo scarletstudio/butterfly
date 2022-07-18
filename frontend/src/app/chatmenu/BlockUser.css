@@ -1,8 +1,11 @@
 .UserTile {
-    --image-size: 35px;
+    --image-size: 45px;
     --margin-size: 5px;
     font-size: 0;
-    display: inline-block;
+    display: block;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: center;
 }
 
 .UserRow .UserTile {
@@ -53,4 +56,17 @@
 
 .UserDisc .Image {
     width: 100%;
+}
+
+.IconBeforeBlock {
+    color: red;
+}
+
+.IconAfterBlock {
+    color: black;
+    opacity: 50%;
+}
+
+.IconBeforeUnblock {
+    color: green;
 }
