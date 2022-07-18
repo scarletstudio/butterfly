@@ -13,8 +13,8 @@ def get_number_matches(matches):
 
     num_matches = defaultdict(def_val)
     for match in matches:
-        for user in match.users:
-            num_matches[user.uid] += 1
+        for userid in match.users:
+            num_matches[userid] += 1
     return num_matches
 
 
@@ -32,7 +32,7 @@ class QuantityRanker(MatchRanker):
         yield from sorted(
             proposed_list,
             key=lambda match: (
-                float(sum([num_matches.get(user) for user in match.users]))
+                float(sum([num_matches.get(userid) for userid in match.users]))
             )
             / len(match.users),
         )

@@ -12,20 +12,20 @@ def test_example():
         recent_matches=[],
     )
     proposed = [
-        Match(users={User(uid="A"), User(uid="B")}),
-        Match(users={User(uid="A"), User(uid="C")}),
-        Match(users={User(uid="A"), User(uid="D")}),
-        Match(users={User(uid="B"), User(uid="C")}),
+        Match(users={"A", "B"}),
+        Match(users={"A", "C"}),
+        Match(users={"A", "D"}),
+        Match(users={"B", "C"}),
     ]
 
     ranker = QuantityRanker()
-    actual = list(ranker.rank(inp, proposed))
+    actual = list(ranker.rank(inp, iter(proposed)))
 
     expected = [
-        Match(users={User(uid="A"), User(uid="D")}),
-        Match(users={User(uid="B"), User(uid="C")}),
-        Match(users={User(uid="A"), User(uid="B")}),
-        Match(users={User(uid="A"), User(uid="C")}),
+        Match(users={"A", "D"}),
+        Match(users={"B", "C"}),
+        Match(users={"A", "B"}),
+        Match(users={"A", "C"}),
     ]
     assert actual == expected
 
@@ -38,28 +38,20 @@ def test_example2():
         recent_matches=[],
     )
     proposed = [
-        Match(
-            users={User(uid="A"), User(uid="B"), User(uid="C")}
-        ),  # total num of matches is 5
-        Match(
-            users={User(uid="A"), User(uid="C"), User(uid="E")}
-        ),  # total is 6
-        Match(
-            users={User(uid="E"), User(uid="D"), User(uid="F")}
-        ),  # total is 4
-        Match(
-            users={User(uid="X"), User(uid="Y"), User(uid="Z")}
-        ),  # total is 3
+        Match(users={"A", "B", "C"}),  # total num of matches is 5
+        Match(users={"A", "C", "E"}),  # total is 6
+        Match(users={"E", "D", "F"}),  # total is 4
+        Match(users={"X", "Y", "Z"}),  # total is 3
     ]
     # A:2 C:2 E:2 BDFXYZ:1
     ranker = QuantityRanker()
-    actual = list(ranker.rank(inp, proposed))
+    actual = list(ranker.rank(inp, iter(proposed)))
 
     expected = [
-        Match(users={User(uid="X"), User(uid="Y"), User(uid="Z")}),
-        Match(users={User(uid="E"), User(uid="D"), User(uid="F")}),
-        Match(users={User(uid="A"), User(uid="B"), User(uid="C")}),
-        Match(users={User(uid="A"), User(uid="C"), User(uid="E")}),
+        Match(users={"X", "Y", "Z"}),
+        Match(users={"E", "D", "F"}),
+        Match(users={"A", "B", "C"}),
+        Match(users={"A", "C", "E"}),
     ]
     assert actual == expected
 
@@ -72,22 +64,22 @@ def test_example3():
         recent_matches=[],
     )
     proposed = [
-        Match(users={User(uid="X"), User(uid="B")}),  # 2.5
-        Match(users={User(uid="Z"), User(uid="B")}),  # 2.5
-        Match(users={User(uid="E"), User(uid="C")}),  # 2
-        Match(users={User(uid="A"), User(uid="B"), User(uid="C")}),  # 2.33
-        Match(users={User(uid="E"), User(uid="B")}),  # 3
+        Match(users={"X", "B"}),  # 2.5
+        Match(users={"Z", "B"}),  # 2.5
+        Match(users={"E", "C"}),  # 2
+        Match(users={"A", "B", "C"}),  # 2.33
+        Match(users={"E", "B"}),  # 3
     ]
 
     ranker = QuantityRanker()
-    actual = list(ranker.rank(inp, proposed))
+    actual = list(ranker.rank(inp, iter(proposed)))
 
     expected = [
-        Match(users={User(uid="E"), User(uid="C")}),
-        Match(users={User(uid="A"), User(uid="B"), User(uid="C")}),
-        Match(users={User(uid="X"), User(uid="B")}),
-        Match(users={User(uid="Z"), User(uid="B")}),
-        Match(users={User(uid="E"), User(uid="B")}),
+        Match(users={"E", "C"}),
+        Match(users={"A", "B", "C"}),
+        Match(users={"X", "B"}),
+        Match(users={"Z", "B"}),
+        Match(users={"E", "B"}),
     ]
 
     """expected = [
