@@ -115,3 +115,23 @@ def test_selection_rate_no_selected():
 
     expected = {"bluegenerator": (0, 3)}
     assert actual == expected
+
+
+def test_selection_rate_multiple():
+    match_blue = Match(
+        users={}, metadata=MatchMetadata(generator="bluegenerator")
+    )
+    match_green = Match(
+        users={}, metadata=MatchMetadata(generator="greengenerator")
+    )
+
+    proposed_matches = [match_blue, match_blue, match_blue, match_green]
+    selected_matches = [match_blue, match_green]
+
+    collector = MatchingMetricsCollector()
+    actual = collector.count_selection_rate_per_generator(
+        proposed_matches, selected_matches
+    )
+
+    expected = {"bluegenerator": (1, 3), "greengenerator": (1, 1)}
+    assert actual == expected
