@@ -99,3 +99,19 @@ def test_selection_rate_basic():
 
     expected = {"bluegenerator": (1, 3)}
     assert actual == expected
+
+
+def test_selection_rate_no_selected():
+    match_blue = Match(
+        users={}, metadata=MatchMetadata(generator="bluegenerator")
+    )
+    proposed_matches = [match_blue, match_blue, match_blue]
+    selected_matches = []
+
+    collector = MatchingMetricsCollector()
+    actual = collector.count_selection_rate_per_generator(
+        proposed_matches, selected_matches
+    )
+
+    expected = {"bluegenerator": (0, 3)}
+    assert actual == expected
