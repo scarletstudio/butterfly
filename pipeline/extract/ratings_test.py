@@ -14,7 +14,16 @@ def test_extract_match_stars():
             "users": ["A", "B"],
             "generator": "testGenerator",
             "timestamp": 1,
-        }
+        },
+        # Skip this invalid record, it has a list of a list for `users`
+        "2": {
+            "from_user": "A",
+            "value": 3,
+            "match": "aykl0021",
+            "users": [["A", "B"]],
+            "generator": "testGenerator",
+            "timestamp": 1,
+        },
     }
     mock_get_ratings = MagicMock(return_value=raw_ratings)
     mock_db = MagicMock()

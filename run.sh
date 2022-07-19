@@ -123,6 +123,7 @@ elif [ "$1" == "install-eslint" ]; then
     $(package "eslint-plugin-react") \
     $(package "eslint-plugin-react-hooks") \
     $(package "eslint-plugin-standard") \
+    $(package "@typescript-eslint/eslint-plugin") \
     $(package "@typescript-eslint/parser")
   # Installation must happen outside the frontend directory to avoid installing
   # all packages, so afterwards, we move dependencies to frontend folder so the
