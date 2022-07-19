@@ -42,17 +42,12 @@ class MatchingMetricsCollector:
     def count_selection_rate_per_generator(
         self, proposed_matches: List[Match], selected_matches: List[Match]
     ) -> Dict[GeneratorId, Tuple[int, int]]:
-
         proposed_count = self.count_matches_per_generator(proposed_matches)
-        print(proposed_count)
-
         selected_count = self.count_matches_per_generator(selected_matches)
-        print(selected_count)
 
         generator_selection_rate = {}
         for key, proposed in proposed_count.items():
             selected = selected_count.get(key, 0)
             t = (selected, proposed)
             generator_selection_rate[key] = t
-
         return generator_selection_rate
