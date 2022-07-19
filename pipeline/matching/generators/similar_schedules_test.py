@@ -20,7 +20,7 @@ def test_example():
             displayName="A",
             schedule=[availability_1, availability_2],
         ),
-        User(uid="2", displayName="B", interests=[availability_2]),
+        User(uid="2", displayName="B", schedule=[availability_2]),
     ]
     inp = MatchingInput(
         community="test",
@@ -42,9 +42,8 @@ def test_example():
             ),
         ),
     ]
-    # TODO: Uncomment this assertion and delete the empty list assert
-    # assert actual == expected
-    assert actual == []
+
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
