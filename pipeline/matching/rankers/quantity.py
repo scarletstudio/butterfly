@@ -13,5 +13,5 @@ class QuantityRanker(MatchRanker):
     def rank(
         self, inp: MatchingInput, proposed: Iterator[Match]
     ) -> Iterator[Match]:
-        # TODO: Implement your ranker
+        inp.logger.info("Nelida was here!")
         yield from proposed

@@ -15,4 +15,5 @@ class RareIntentsGenerator(MatchGenerator):
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
         # TODO: Implement your generator
+        inp.logger.info("Neveen was here!")
         yield from []

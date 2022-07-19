@@ -37,28 +37,28 @@ UPDATE_ATTRIBUTE_TESTS = {
         "code": "hiking",
         "update": True,
         "expected": {"success": True},
-        "did_update": True,
+        "operation": "set",
     },
     "remove_interest": {
         "attribute": "interests",
         "code": "biking",
         "update": False,
         "expected": {"success": True},
-        "did_update": True,
+        "operation": "set",
     },
     "invalid_interest_not_bool": {
         "attribute": "interests",
         "code": "biking",
         "update": 12,  # Not a boolean
         "expected": {"status": 400, "error": "Invalid data for interests."},
-        "did_update": False,
+        "operation": None,
     },
     "add_intent": {
         "attribute": "intents",
         "code": "tutoring",
         "update": {"seeking": True},
         "expected": {"success": True},
-        "did_update": True,
+        "operation": "update",
     },
     "remove_intent": {
         "attribute": "intents",
@@ -69,28 +69,28 @@ UPDATE_ATTRIBUTE_TESTS = {
         # {"seeking": False} without deleting or modifiying the giving key
         "update": {"seeking": False},
         "expected": {"success": True},
-        "did_update": True,
+        "operation": "update",
     },
     "invalid_intent_not_dict": {
         "attribute": "intents",
         "code": "tutoring",
         "update": True,  # Not a dictionary
         "expected": {"status": 400, "error": "Invalid data for intents."},
-        "did_update": False,
+        "operation": None,
     },
     "invalid_intent_not_dict_of_bool": {
         "attribute": "intents",
         "code": "tutoring",
         "update": {"seeking": 12},  # Not a dictionary of booleans
         "expected": {"status": 400, "error": "Invalid data for intents."},
-        "did_update": False,
+        "operation": None,
     },
     "invalid_intent_invalid_side": {
         "attribute": "intents",
         "code": "tutoring",
         "update": {"providing": True},  # Not a dictionary of side keys
         "expected": {"status": 400, "error": "Invalid data for intents."},
-        "did_update": False,
+        "operation": None,
     },
 }
 
@@ -145,9 +145,11 @@ def test_get_missing_user(mock_db):
 def test_update_attribute(mock_db, test_key):
     test_data = UPDATE_ATTRIBUTE_TESTS[test_key]
     attribute = test_data["attribute"]
-    mock_update = MagicMock()
     ref = f"attributes/{attribute}/test/andrew"
+    mock_update = MagicMock()
     mock_db.reference(ref).update = mock_update
+    mock_set = MagicMock()
+    mock_db.reference(ref).set = mock_set
 
     c = Client()
     community = "test"
@@ -159,10 +161,14 @@ def test_update_attribute(mock_db, test_key):
 
     expected = format_json(**test_data["expected"])
     assert_response_match(actual, expected)
-    if test_data["did_update"]:
+    operation = test_data.get("operation", None)
+    if operation == "update":
         mock_update.assert_called_once_with(test_data["update"])
+    elif operation == "set":
+        mock_set.assert_called_once_with(test_data["update"])
     else:
         mock_update.assert_not_called()
+        mock_set.assert_not_called()
 
 
 @with_mock_db
@@ -179,9 +185,9 @@ def test_update_invalid_attribute(mock_db):
 
 @with_mock_db
 def test_update_missing_user(mock_db):
-    mock_update = MagicMock()
+    mock_set = MagicMock()
     ref = f"attributes/interests/test/andrew/hiking"
-    mock_db.reference(ref).update = mock_update
+    mock_db.reference(ref).set = mock_set
 
     c = Client()
     community = "test"
@@ -193,4 +199,4 @@ def test_update_missing_user(mock_db):
     # There is no check for missing users, so the update will be created anyway
     expected = format_json(success=True)
     assert_response_match(actual, expected)
-    mock_update.assert_called_once_with(True)
+    mock_set.assert_called_once_with(True)

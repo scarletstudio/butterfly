@@ -11,8 +11,7 @@ export interface JoinCommunityProps {
     communityId: string
     communityConfig: CommunityConfig
     authUser: UserData
-    // eslint-disable-next-line no-unused-vars
-    doJoin(...args: [communityId: string, uid: string]): Promise<{ message: string }>
+    doJoin(communityId: string, uid: string): Promise<{ message: string }>
     doLogIn(): Promise<void>
 }
 
