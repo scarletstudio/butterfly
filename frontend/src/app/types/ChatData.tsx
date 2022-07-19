@@ -1,6 +1,6 @@
 import { UserData } from './UserData'
 
-// Keep this in sync with: pipeline/types/match_metadata.py
+// Keep this in sync with: pipeline/types/chat.py
 export interface ChatData {
     // ID for the match this chat is for, release tag plus match key
     id: string
