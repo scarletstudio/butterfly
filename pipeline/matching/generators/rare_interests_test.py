@@ -58,10 +58,10 @@ def test_multiple_rare_interests():
             User(uid="1", displayName="A", interests=[hiking, swimming]),
             User(uid="2", displayName="B", interests=[swimming, reading]),
             User(uid="3", displayName="C", interests=[reading, cooking]),
-            User(uid="4", displayName="D", interests=[swimming, cooking]),
+            User(uid="4", displayName="D", interests=[swimming]),
         ],
         recent_matches=[],
-        interests=[hiking, swimming, reading],
+        interests=[hiking, swimming, reading, cooking],
     )
 
     generator = RareInterestsGenerator(max_frequency=1.0)
@@ -72,7 +72,7 @@ def test_multiple_rare_interests():
             users={"2", "3"},
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
-                score=0.29,
+                score=0.4,
                 rareInterests=["Reading"],
             ),
         ),
