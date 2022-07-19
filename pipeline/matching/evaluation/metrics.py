@@ -48,4 +48,11 @@ class MatchingMetricsCollector:
 
         selected_count = self.count_matches_per_generator(selected_matches)
         print(selected_count)
-        return {}
+
+        generator_selection_rate = {}
+        for key, proposed in proposed_count.items():
+            selected = selected_count.get(key, 0)
+            t = (selected, proposed)
+            generator_selection_rate[key] = t
+
+        return generator_selection_rate
