@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { getDatabase, onValue, ref, serverTimestamp, update } from 'firebase/database'
 
+import { getAnalytics } from 'firebase/analytics'
+
 import { DB_PATH } from '../constants'
 import { COMMUNITY_CONFIG } from '../../config/communities'
 import { fetchFromBackend } from '../utils'
@@ -19,6 +21,7 @@ export async function fetchUserData(userId) {
  * Retrieves data directly from Firebase, requires user to be authenticated.
  */
 export function getUserData(userId) {
+    getAnalytics()
     const db = getDatabase()
     const userPath = `${DB_PATH.USERS}/${userId}`
     const userRef = ref(db, userPath)
