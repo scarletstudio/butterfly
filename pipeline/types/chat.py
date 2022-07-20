@@ -1,3 +1,4 @@
+import datetime
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List
@@ -19,14 +20,21 @@ class MessageType(Enum):
 
 @dataclass
 class Message:
+    # ID of user who sent the message
     from_user: UserId
-    timestamp: int = 0
+    # Timestamp of when message was sent
+    timestamp: datetime.datetime
+    # Type of message
     message_type: MessageType = MessageType.MESSAGE
+    # Content of message
     message: str = ""
 
 
 @dataclass
 class ChatData:
+    # Timestamp representing when this chat and match go live, in milliseconds
+    release_timestamp: datetime.datetime
+    # ID for the match this chat is for
     chat_match_id: ChatMatchId = ""
     # ID of the community this match is part of
     community_id: Community = ""
@@ -34,8 +42,6 @@ class ChatData:
     participants: Dict[UserId, User] = field(default_factory=dict)
     # Release tag that this chat and match are part of
     release_tag: ReleaseTag = ""
-    # Timestamp representing when this chat and match go live, in milliseconds
-    release_timestamp: int = 0
     # Title for this chat and match, if any
     title: str = ""
     # Custom metadata for the match this chat is for
