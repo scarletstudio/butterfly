@@ -13,15 +13,30 @@ interface SearchMessagesProps {
 }
 
 // Extracts the messages in the chat to be filtered through
-const MessagesInner = ({ chat, filteredMessages }) => {
-    return filteredMessages?.map((message: { key: React.Key | null | undefined }) => (
-        <Message
-            key={message.key}
-            data={message}
-            myUserId={chat?.for}
-            participants={chat?.participants}
-        />
-    ))
+const MessagesInner = ({ chat, filteredMessages, totalMessages }) => {
+    let results
+
+    if (filteredMessages?.length === 0) {
+        results = `There were ${filteredMessages?.length} messages with that search. Please try again!`
+    } else if (filteredMessages?.length >= 1) {
+        results = `Showing ${filteredMessages?.length} message(s) from ${totalMessages?.length} messages`
+    }
+
+    return (
+        <>
+            <p>{results}</p>
+            <div>
+                {filteredMessages?.map((message: { key: React.Key | null | undefined }) => (
+                    <Message
+                        key={message.key}
+                        data={message}
+                        myUserId={chat?.for}
+                        participants={chat?.participants}
+                    />
+                ))}
+            </div>
+        </>
+    )
 }
 
 const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
@@ -77,8 +92,11 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
             <div>
-                <p>Showing Results ... from Total</p>
-                <MessagesInner chat={chat} filteredMessages={filteredMessages} />
+                <MessagesInner
+                    chat={chat}
+                    filteredMessages={filteredMessages}
+                    totalMessages={messages}
+                />
             </div>
         </div>
     )
@@ -94,4 +112,3 @@ export default SearchMessages
 // 1. Add a No results UI with 0 results
 // 2. Add a result counter for example: Showing 4 results out of Total number
 // 5. Add storybook examples
-// 6. Add comments for better documentation
