@@ -2,7 +2,7 @@ import pandas as pd
 import prefect
 from prefect import task
 
-from pipeline.types import Community, UserCommunityMemberships
+from pipeline.types import Community, RawUserCommunityMemberships
 
 USER_COLUMN_RENAMES = {
     "latestLogin": "latest_login",
@@ -11,7 +11,7 @@ USER_COLUMN_RENAMES = {
 
 
 def is_active_in_community(
-    memberships: UserCommunityMemberships, community: Community
+    memberships: RawUserCommunityMemberships, community: Community
 ) -> bool:
     """Checks for an active membership in the given community."""
     if not memberships:
