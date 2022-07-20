@@ -21,9 +21,8 @@ def test_check_msg_notifer():
         participants=test_participants,
         messages=[a_msg],
     )
-    notification = Notification(match=match, chatdata=test_chatdata)
     check_notifier = Notifier()
-    actual = check_notifier.check_msg_notifier(notification)
+    actual = check_notifier.get_users_to_notify(test_chatdata)
     assert actual == [User(uid="B", displayName="Brian")]
 
 
@@ -46,11 +45,31 @@ def test_more_users_in_match():
         participants=test_participants,
         messages=[b_msg, c_msg],
     )
-    notification = Notification(match=match, chatdata=test_chatdata)
     check_notifier = Notifier()
-    actual = check_notifier.check_msg_notifier(notification)
+    actual = check_notifier.get_users_to_notify(test_chatdata)
     assert actual == [
         User(uid="A", displayName="Ayman"),
         User(uid="D", displayName="Dinora"),
         User(uid="E", displayName="Erik"),
     ]
+
+
+def test_no_notification():
+
+    # This test verifies the behavior of the check message notifier when there should be no users to notify
+
+    match = Match(users={"A", "B"})
+    a_msg = Message(from_user="A", timestamp=datetime(2022, 7, 16))
+    b_msg = Message(from_user="B", timestamp=datetime(2022, 7, 17))
+    test_participants = {
+        "A": User(uid="A", displayName="Ayman"),
+        "B": User(uid="B", displayName="Brian"),
+    }
+    test_chatdata = ChatData(
+        release_timestamp=datetime.now(),
+        participants=test_participants,
+        messages=[a_msg, b_msg],
+    )
+    check_notifier = Notifier()
+    actual = check_notifier.get_users_to_notify(test_chatdata)
+    assert actual == []

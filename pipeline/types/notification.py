@@ -6,7 +6,15 @@ from pipeline.types.match import Match
 
 @dataclass
 class Notification:
-    # a single match of n-users (where n >= 2)
-    match: Match
     # relevant chat data between the users in the given match
     chatdata: ChatData
+
+
+@dataclass
+class NotificationInfo:
+    # name of the notification sendee
+    name: str = ""
+    # email of the notification sendee
+    email: str = ""
+    # content of the notification
+    content: str = ""
