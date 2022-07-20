@@ -4,6 +4,11 @@ from prefect import task
 
 from pipeline.types import Community, UserCommunityMemberships
 
+USER_COLUMN_RENAMES = {
+    "latestLogin": "latest_login",
+    "photoURL": "photo_url",
+}
+
 
 def is_active_in_community(
     memberships: UserCommunityMemberships, community: Community
@@ -30,7 +35,9 @@ def extract_users(db, community: Community) -> pd.DataFrame:
     df_users = df_users[df_users.latestLogin.notna()]
     # Filter out users who are not active in the given community
     df_users = df_users[df_users.is_active]
-    # Drop columns used for internal filtering
-    df_users.drop(columns=["is_active", "communities"], inplace=True)
+    # Rename columns to snake case
+    df_users.rename(columns=USER_COLUMN_RENAMES, inplace=True)
+    # Cast latest login to integer
+    df_users.latest_login = df_users.latest_login.astype(int)
     logger.info("Returned {} rows, {} cols.".format(*df_users.shape))
     return df_users
