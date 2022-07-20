@@ -1,30 +1,25 @@
+from typing import List
+
 import prefect
 from prefect import task
 
-from pipeline.types import Notification
+from pipeline.types import Notification, User
 
 
-class CheckMessageNotifier:
+class Notifier:
     def __init__(self):
         pass
 
-    def verify_notification(self, notif: Notification) -> bool:
+    def check_msg_notifier(self, notif: Notification) -> List[User]:
 
-        # A notification is valid if last messaged time is at least 1 day (24 hours)
-
-        if notif.last_msg_time.days >= 1:
-            return True
-        else:
-            return False
-
-    @task
-    def valid_notification(self, notif: Notification):
-
-        logger = prefect.context.get("logger")
-        notif_is_valid = self.verify_notification(notif)
-        if notif_is_valid:
-            logger.info("Notification is valid")
-        else:
-            logger.warning(
-                "Invalid notification: last messaged time was less than 24 hours"
-            )
+        # check if all users in match have a message
+        # if there are users who don't have a message, return a list of them for notification
+        users_with_msg = []
+        users_to_notify = []
+        for msg in notif.chatdata.messages:
+            if msg.from_user in notif.match.users:
+                users_with_msg.append(msg.from_user)
+        for uid, user in notif.chatdata.participants.items():
+            if uid not in users_with_msg:
+                users_to_notify.append(user)
+        return users_to_notify
