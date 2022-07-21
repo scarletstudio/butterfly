@@ -1,4 +1,4 @@
-from typing import Iterator, List
+from typing import List
 
 import prefect
 from prefect import task
@@ -6,7 +6,7 @@ from prefect import task
 from pipeline.types import ChatData, NotificationInfo, User
 
 
-class Notifier:
+class NewMessageNotifier:
     def __init__(self):
         pass
 
@@ -23,18 +23,3 @@ class Notifier:
             if uid not in users_with_msg:
                 users_to_notify.append(user)
         return users_to_notify
-
-    def get_notification_info(
-        self, chatdata: ChatData
-    ) -> Iterator[NotificationInfo]:
-        names_of_msgers = []
-        users_to_notify = self.get_users_to_notify(chatdata)
-        for msg in chatdata.messages:
-            messager = chatdata.participants[msg.from_user]
-            names_of_msgers.append(messager.displayName)
-        joined = ", ".join(names_of_msgers)
-        for user in users_to_notify:
-            content = f"Hi {user.displayName}. You have new a message(s) from {joined}"
-            yield NotificationInfo(
-                name=user.displayName, email=user.email, content=content
-            )

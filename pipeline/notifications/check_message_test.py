@@ -2,8 +2,8 @@ from datetime import datetime
 
 import pytest
 
-from pipeline.notifications import Notifier
-from pipeline.types import ChatData, Match, Message, Notification, User
+from pipeline.notifications import NewMessageNotifier
+from pipeline.types import ChatData, Match, Message, User
 
 
 def test_check_msg_notifer():
@@ -21,7 +21,7 @@ def test_check_msg_notifer():
         participants=test_participants,
         messages=[a_msg],
     )
-    check_notifier = Notifier()
+    check_notifier = NewMessageNotifier()
     actual = check_notifier.get_users_to_notify(test_chatdata)
     assert actual == [User(uid="B", displayName="Brian")]
 
@@ -45,7 +45,7 @@ def test_more_users_in_match():
         participants=test_participants,
         messages=[b_msg, c_msg],
     )
-    check_notifier = Notifier()
+    check_notifier = NewMessageNotifier()
     actual = check_notifier.get_users_to_notify(test_chatdata)
     assert actual == [
         User(uid="A", displayName="Ayman"),
@@ -70,6 +70,6 @@ def test_no_notification():
         participants=test_participants,
         messages=[a_msg, b_msg],
     )
-    check_notifier = Notifier()
+    check_notifier = NewMessageNotifier()
     actual = check_notifier.get_users_to_notify(test_chatdata)
     assert actual == []
