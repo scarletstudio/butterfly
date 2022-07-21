@@ -66,7 +66,7 @@ export default function EditProfilePage() {
                     <h2>Interests</h2>
                     <EditInterests allInterests={communityConfig?.interests} />
                     <h2>Schedule</h2>
-                    <p>Coming soon...</p>
+                    <p>Choose the days/times that you are available to chat with other people.</p>
                 </div>
             </div>
         )
