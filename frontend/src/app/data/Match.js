@@ -3,7 +3,7 @@ import { equalTo, getDatabase, onValue, orderByChild, query, ref } from 'firebas
 
 import { DB_PATH } from '../constants'
 import { COMMUNITY_CONFIG } from '../../config/communities'
-import { useGetManyUserData } from './User'
+import { getUserData, useGetManyUserData } from './User'
 
 /*
  * Hook to get community matches for a user.
@@ -53,6 +53,7 @@ export function useGetManyMatchData(userId, communityIdMap) {
     const [communityMatches, setCommunityMatches] = useState({})
     // Try to fetch new matches whenever the input updates
     useEffect(() => {
+        if (!userId) return
         // Filter out community IDs that were already fetched
         Object.keys(communityIdMap)
             .filter((k) => !(k in communityMatches))
@@ -79,11 +80,12 @@ export function useGetManyMatchData(userId, communityIdMap) {
 
 /*
  * Hook to get all of a user's matches across al of their communities.
+ * Fetches from Firebase to avoid dependency on API, so user must be logged in.
  */
 export function useGetAllUserMatches(uid) {
-    const myUser = useGetManyUserData({ [uid]: true })?.[uid]
-    const myCommunities = myUser?.communities || {}
-    const matchesByCommunity = useGetManyMatchData(uid, myCommunities)
+    const user = useGetManyUserData({ [uid]: true }, getUserData)?.[uid]
+    const communities = user?.communities || {}
+    const matchesByCommunity = useGetManyMatchData(uid, communities)
     // Combine matches from all communities into one array, with community data
     const matches = Object.values(matchesByCommunity)
         .reduce((arr, val) => [...arr, ...val], [])
