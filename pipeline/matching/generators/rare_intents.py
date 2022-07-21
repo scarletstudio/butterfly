@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import DefaultDict, Iterator, List
+from typing import DefaultDict, Dict, Iterator, List
 
 from pipeline.matching.core import MatchGenerator
 from pipeline.types import (
@@ -63,7 +63,7 @@ class RareIntentsGenerator(MatchGenerator):
                     rareUsers[intent.code].append(user)
 
         # holds matches made
-        matches = {}
+        matches: Dict[str, Match] = {}
         # append matches to a dictionary
         # before doing so sort the id and place it as the key so it could be cleaned out
 
@@ -75,7 +75,7 @@ class RareIntentsGenerator(MatchGenerator):
                         intents_in_community.side == Side.SEEKING
                     ):
                         for giver_user in giver_user_list:
-                            temp = Match(
+                            rare_match = Match(
                                 users={
                                     users_in_community.uid,
                                     giver_user.uid,
@@ -91,29 +91,40 @@ class RareIntentsGenerator(MatchGenerator):
                                     ],
                                 ),
                             )
+                            user_one_in_match = users_in_community.uid
+                            user_two_in_match = giver_user.uid
 
-                            if int(users_in_community.uid) > int(
-                                giver_user.uid
+                            checking_same_user = False
+
+                            if int(user_one_in_match) > int(user_two_in_match):
+                                key = (
+                                    user_two_in_match + "_" + user_one_in_match
+                                )
+                            elif int(user_one_in_match) == int(
+                                user_two_in_match
                             ):
-                                matches[
-                                    giver_user.uid
-                                    + "_"
-                                    + users_in_community.uid
-                                ] = temp
+                                checking_same_user = True
                             else:
-                                matches[
-                                    users_in_community.uid
-                                    + "_"
-                                    + giver_user.uid
-                                ] = temp
+                                key = (
+                                    user_one_in_match + "_" + user_two_in_match
+                                )
 
-        # getting rid of duplicates
-        matchesNoDuplicates = []
+                            if (
+                                checking_same_user == False
+                            ):  # this is to make sure that we are not making a match between one user
+                                if key in matches:
+                                    matches[key].metadata.rareIntents.append(
+                                        IntentMatch(
+                                            code=intents_in_community.code,
+                                            seeker=users_in_community.uid,
+                                            giver=giver_user.uid,
+                                        )
+                                    )
 
-        for single_match in matches:
-            matchesNoDuplicates.append(matches[single_match])
+                                else:
+                                    matches[key] = rare_match
 
-        yield from matchesNoDuplicates
+        yield from matches.values()
 
         # Alternate solution to removing duplicates
 
