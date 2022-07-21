@@ -6,7 +6,13 @@ import prefect
 from prefect import task
 
 from pipeline.matching.utils import generate_keys
-from pipeline.types import Community, Match, MatchingInput, ReleaseTag
+from pipeline.types import (
+    Community,
+    Match,
+    MatchingInput,
+    MatchMetadata,
+    ReleaseTag,
+)
 
 
 class MissingReleaseTagException(Exception):
@@ -24,7 +30,10 @@ def convert_matches_from_df(df: pd.DataFrame) -> List[Match]:
     cols = set(df.columns)
     field_names = [f.name for f in dataclasses.fields(Match) if f.name in cols]
     user_dicts = df[field_names].to_dict(orient="records")
-    return [Match(**u) for u in user_dicts]
+    matches = [Match(**u) for u in user_dicts]
+    for match in matches:
+        match.metadata = MatchMetadata(str(match.metadata))
+    return matches
 
 
 @task
