@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getDatabase, onValue, ref, serverTimestamp, update } from 'firebase/database'
 
 import { DB_PATH } from '../constants'
+import { COMMUNITY_CONFIG } from '../../config/communities'
 import { fetchFromBackend } from '../utils'
 
 /*
@@ -35,14 +36,22 @@ export function getUserData(userId) {
     })
 }
 
-export function useGetManyUserData(userIdMap) {
+/*
+ * Hook to get data for many users.
+ * @param userIdMap: map of user IDs to get.
+ * @param doFetch: async or promise function to get a user by user ID.
+ * @returns map of user IDs to user data.
+ */
+export function useGetManyUserData(userIdMap, doFetch = fetchUserData) {
     const [userDetails, setUserDetails] = useState({})
     // Try to fetch new users whenever the input updates
     useEffect(() => {
         // Filter out user IDs that were already fetched
         Object.keys(userIdMap)
-            .filter((k) => !(k in userDetails))
-            .map(fetchUserData)
+            // Annoyingly, undefined values get turned into a string when used
+            // as a dynamic map key, so we have to add this check:
+            .filter((k) => k !== 'undefined' && !(k in userDetails))
+            .map(doFetch)
             .forEach((promise) => {
                 promise
                     .then((userData) => {
@@ -95,4 +104,23 @@ export async function maybeUpdateUserDetails(details) {
         console.error(err)
         return err
     }
+}
+
+export function useUserCommunities(uid) {
+    const [communityId, setCommunityId] = useState()
+
+    // Fetch the user data to get the communities they are part of
+    const user = useGetManyUserData({ [uid]: true }, getUserData)?.[uid]
+    const communities = Object.keys(user?.communities || {}).map((k) => ({
+        ...COMMUNITY_CONFIG?.[k],
+        ...user?.communities?.[k],
+    }))
+
+    // Select the first active community
+    const firstActiveCommunity = communities.filter((c) => c.active)?.[0]?.id
+    useEffect(() => {
+        setCommunityId(firstActiveCommunity)
+    }, [firstActiveCommunity])
+
+    return [communityId, setCommunityId, communities]
 }

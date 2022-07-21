@@ -53,6 +53,8 @@ The pipeline version in Prefect dashboard automatically updates when you save `.
 | `git log`                     | View list of commits on current branch.                                                          |
 | `git merge branch_name`       | Merge changes from another branch into the current branch.                                       |
 | `git rebase -i branch_name`   | Interactively rebase the current branch so its commits come after the commits on another branch. |
+| `git stash save`              | Save changes that you are not ready to commit to a stash you can restore later.                  |
+| `git stash apply`             | Restore changes that you stashed. Uses most recent stash, but you can also save/apply by name.   |
 
 ## Tools Used
 

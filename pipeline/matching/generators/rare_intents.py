@@ -40,7 +40,7 @@ class RareIntentsGenerator(MatchGenerator):
         return percentDict
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
-
+    
         # getting a percentage of rareness for every given
         percentDict = self.percentage(inp)
         # add all rare givers to this dictionary to later match them
