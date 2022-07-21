@@ -107,8 +107,3 @@ const SearchMessages = ({ chat, messages }: ChatMenuPageProps) => (
 )
 
 export default SearchMessages
-
-// TODO:
-// 1. Add a No results UI with 0 results
-// 2. Add a result counter for example: Showing 4 results out of Total number
-// 5. Add storybook examples
