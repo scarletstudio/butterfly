@@ -28,9 +28,9 @@ def test_example():
                 displayName="A",
                 schedule=[availability_1, availability_2, availability_3],
             ),
-            User(uid="2", displayName="B", interests=[availability_3]),
+            User(uid="2", displayName="B", schedule=[availability_3]),
             User(
-                uid="2",
+                uid="3",
                 displayName="C",
                 schedule=[availability_1, availability_2, availability_3],
             ),
@@ -59,7 +59,7 @@ def test_example():
     ]
     # TODO: Uncomment this assertion and delete the empty list assert
     # assert actual == expected
-    assert actual == []
+    assert actual == expected
 
 
 # TODO: Add more test cases for your logic
