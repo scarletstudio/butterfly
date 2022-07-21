@@ -9,7 +9,7 @@ interface BlockUserProps {
 // TODO: Implement your component
 // eslint-disable-next-line no-empty-pattern
 const BlockUserInner = ({}: BlockUserProps) => {
-    return <div />
+    return <p>Grace was here!</p>
 }
 
 // TODO: Pass your component its props

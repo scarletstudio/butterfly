@@ -8,6 +8,10 @@ frontend/.env.firebase
 credentials.json
 prefect-credentials.json
 
+# Ignore these files in the root folder, only valid in the /frontend folder
+package.json
+package-lock.json
+
 # Node
 # Source: https://github.com/github/gitignore/blob/main/Node.gitignore
 

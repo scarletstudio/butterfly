@@ -2,12 +2,14 @@ import React from 'react'
 import './CommonLettersStarter.css'
 import { ConversationStarterProps } from './ConversationStarter'
 import { pluralize } from '../utils'
+import { CommunityData } from '../../config/communities'
 
 interface CommonLettersStarterProps {
     commonLetters: Array<string>
+    community: CommunityData
 }
 
-const CommonLettersStarterInner = ({ commonLetters }: CommonLettersStarterProps) => {
+const CommonLettersStarterInner = ({ commonLetters, community }: CommonLettersStarterProps) => {
     const nLetters = pluralize(commonLetters.length, 'letter')
     const joinedLetters = commonLetters.join(', ')
     const anyLetters = `Fun fact, your names have ${nLetters} in common: ${joinedLetters}!`
@@ -16,12 +18,16 @@ const CommonLettersStarterInner = ({ commonLetters }: CommonLettersStarterProps)
     return (
         <div className="CommonLettersStarter">
             <p>{message}</p>
+            {/* <p>{community.name}</p> */}
         </div>
     )
 }
 
-const CommonLettersStarter = ({ chat }: ConversationStarterProps) => (
-    <CommonLettersStarterInner commonLetters={chat?.metadata?.commonLetters || []} />
+const CommonLettersStarter = ({ chat, community }: ConversationStarterProps) => (
+    <CommonLettersStarterInner
+        commonLetters={chat?.metadata?.commonLetters || []}
+        community={community}
+    />
 )
 
 export default CommonLettersStarter
