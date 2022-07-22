@@ -3,6 +3,7 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import React, { useEffect } from 'react'
 
+import { getAnalytics } from 'firebase/analytics'
 import { FirebaseAppContext, createFirebaseApp } from './app/utils'
 
 import Layout from './pages/Layout'
@@ -62,6 +63,7 @@ function AppRouting() {
 
 export default function App() {
     const firebaseApp = createFirebaseApp()
+    getAnalytics()
     return (
         <div className="App Theme">
             <FirebaseAppContext.Provider value={firebaseApp}>
