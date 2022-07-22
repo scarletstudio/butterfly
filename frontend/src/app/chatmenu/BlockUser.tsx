@@ -44,10 +44,20 @@ const UserTile = ({ user }) => {
             </div>
             <div>
                 <button type="button">
-                    <FontAwesomeIcon onClick={doBlock} icon={faUserLock} className="IconBefore" />
+                    <FontAwesomeIcon
+                        onClick={doBlock}
+                        icon={faUserLock}
+                        className="IconBeforeBlock"
+                    />
+                    Block
                 </button>
                 <button type="button">
-                    <FontAwesomeIcon onClick={doUnblock} icon={faUnlock} className="IconBefore" />
+                    <FontAwesomeIcon
+                        onClick={doUnblock}
+                        icon={faUnlock}
+                        className="IconBeforeUnblock"
+                    />
+                    Unblock
                 </button>
             </div>
         </div>
