@@ -37,7 +37,7 @@ def test_example():
             users={"1", "2"},
             metadata=MatchMetadata(
                 generator="similarSchedulesGenerator",
-                matchingAvailability=[availability_2],
+                availability=[availability_2],
             ),
         ),
     ]
