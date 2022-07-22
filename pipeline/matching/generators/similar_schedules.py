@@ -26,25 +26,25 @@ class SimilarSchedulesGenerator(MatchGenerator):
                 for availability2 in user_2.schedule:
                     if availability1 == availability2:
                         # if we have already saved this match, update the metadata
-                        if (user_1.uid, user_2.uid) in potential_matches:
-                            match = potential_matches[(user_1.uid, user_2.uid)]
+                        user_pair = (user_1.uid, user_2.uid)
+                        if user_pair in potential_matches:
+                            match = potential_matches[user_pair]
                             match.metadata.matchingAvailability.append(
                                 availability1
                             )
                             match.metadata.score += 1
-                            potential_matches[
-                                (user_1.uid, user_2.uid)
-                            ] = match  # updated
+                            potential_matches[user_pair] = match  # updated
                         # if this is a new match, create match class
                         else:
-                            potential_matches[(user_1.uid, user_2.uid)] = Match(
-                                users={user_1.uid, user_2.uid},
+                            potential_matches[user_pair] = Match(
+                                users=set(user_pair),
                                 metadata=MatchMetadata(
                                     generator="similarSchedulesGenerator",
                                     score=1,
                                     matchingAvailability=[availability1],
                                 ),
                             )
+            # loop over all the users and their matching availabilities.
             if user_2_i == len(inp.users):
                 user_1_i += 1
                 user_2_i = user_1_i + 1

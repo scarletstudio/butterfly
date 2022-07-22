@@ -47,3 +47,38 @@ def test_example():
 
 
 # TODO: Add more test cases for your logic
+
+# Test where user do not have similar schdedules
+def test_no_similar_schedules():
+    availability_1 = Availability(day=WeekdayCode.MON, hour=12)
+    availability_2 = Availability(day=WeekdayCode.MON, hour=13)
+    users = [
+        User(
+            uid="1",
+            displayName="A",
+            schedule=[availability_1, availability_2],
+        ),
+        User(uid="2", displayName="B", schedule=[availability_2]),
+    ]
+    inp = MatchingInput(
+        community="test",
+        release="2022-06-26",
+        users=users,
+        recent_matches=[],
+    )
+
+    generator = SimilarSchedulesGenerator(min_common=1)
+    actual = list(generator.generate(inp))
+
+    expected = [
+        Match(
+            users={"1", "2"},
+            metadata=MatchMetadata(
+                generator="similarSchedulesGenerator",
+                score=0,
+                matchingAvailability=[],
+            ),
+        ),
+    ]
+
+    assert actual == expected
