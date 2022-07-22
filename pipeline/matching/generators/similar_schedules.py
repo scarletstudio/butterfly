@@ -32,7 +32,6 @@ class SimilarSchedulesGenerator(MatchGenerator):
                             match.metadata.matchingAvailability.append(
                                 availability1
                             )
-                            match.metadata.score += 1
                             potential_matches[user_pair] = match  # updated
                         # if this is a new match, create match class
                         else:
@@ -40,7 +39,6 @@ class SimilarSchedulesGenerator(MatchGenerator):
                                 users=set(user_pair),
                                 metadata=MatchMetadata(
                                     generator="similarSchedulesGenerator",
-                                    score=1,
                                     matchingAvailability=[availability1],
                                 ),
                             )
@@ -56,6 +54,6 @@ class SimilarSchedulesGenerator(MatchGenerator):
         for match in potential_matches.values():
             if len(match.metadata.matchingAvailability) >= self.min_common:
                 matches.append(match)
-            inp.logger.info(match.metadata.matchingAvailability)
+            print(match.metadata.matchingAvailability)
 
         yield from matches
