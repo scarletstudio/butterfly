@@ -1,4 +1,5 @@
 import { ChatData } from '../types'
+import { CommunityData } from '../../config/communities'
 import CommonLettersStarter from './CommonLettersStarter'
 import IntentsStarter from './IntentsStarter'
 import InterestsStarter from './InterestsStarter'
@@ -16,6 +17,7 @@ const CONVERSATION_STARTERS_CONFIG = {
 
 export interface ConversationStarterProps {
     chat: ChatData
+    community: CommunityData
 }
 
 export function getConversationStarterForChat(chat: ChatData) {

@@ -16,6 +16,36 @@ set_prefect_secrets () {
   fi
 }
 
+set_frontend_secrets () {
+  cd frontend
+  if command -v gp &> /dev/null; then
+    gp env VITE_BACKEND_URL=$(gp url "$BACKEND_PORT")
+    gp env VITE_FRONTEND_URL=$(gp url "$FRONTEND_PORT")
+    gp env VITE_STORYBOOK_URL=$(gp url "$STORYBOOK_PORT")
+    eval $(gp env -e)
+    touch .env.firebase
+    echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env.firebase
+    echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env.firebase
+    echo "VITE_firebase_databaseURL=$VITE_firebase_databaseURL" >> .env.firebase
+    echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env.firebase
+    echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env.firebase
+    echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env.firebase
+    echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env.firebase
+    echo "VITE_firebase_mockUserPassword=$VITE_firebase_mockUserPassword" >> .env.firebase
+  else
+    VITE_BACKEND_URL="http://localhost:$BACKEND_PORT"
+    VITE_FRONTEND_URL="http://localhost:$FRONTEND_PORT"
+    VITE_STORYBOOK_URL="http://localhost:$STORYBOOK_PORT"
+    cp ../.env.firebase .env.firebase
+  fi
+  echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" > .env
+  echo "VITE_FRONTEND_URL=$VITE_FRONTEND_URL" >> .env
+  echo "VITE_STORYBOOK_URL=$VITE_STORYBOOK_URL" >> .env
+  cat .env.firebase >> .env
+  rm .env.firebase
+  cd ..
+}
+
 open_port_in_tab () {
   PORT=$1
   RELATIVE_URL=$2
@@ -48,41 +78,14 @@ elif [ "$1" == "dash" ]; then
   open_port_in_tab "$PREFECT_DASHBOARD_PORT"
 
 elif [ "$1" == "frontend" ]; then
-  echo "Starting frontend app..."
+  echo "Starting frontend app in development mode..."
+  set_frontend_secrets
   cd frontend
-  # Get the GitPod URL for the backend, for API requests
-  # Get the GitPod URL for the frontend, for hot module reloading
-  if command -v gp &> /dev/null; then
-    gp env VITE_BACKEND_URL=$(gp url "$BACKEND_PORT")
-    gp env VITE_FRONTEND_URL=$(gp url "$FRONTEND_PORT")
-    gp env VITE_STORYBOOK_URL=$(gp url "$STORYBOOK_PORT")
-    eval $(gp env -e)
-    touch .env.firebase
-    echo "VITE_firebase_apiKey=$VITE_firebase_apiKey" > .env.firebase
-    echo "VITE_firebase_authDomain=$VITE_firebase_authDomain" >> .env.firebase
-    echo "VITE_firebase_databaseURL=$VITE_firebase_databaseURL" >> .env.firebase
-    echo "VITE_firebase_projectId=$VITE_firebase_projectId" >> .env.firebase
-    echo "VITE_firebase_storageBucket=$VITE_firebase_storageBucket" >> .env.firebase
-    echo "VITE_firebase_messagingSenderId=$VITE_firebase_messagingSenderId" >> .env.firebase
-    echo "VITE_firebase_appId=$VITE_firebase_appId" >> .env.firebase
-    echo "VITE_firebase_mockUserPassword=$VITE_firebase_mockUserPassword" >> .env.firebase
-  else
-    VITE_BACKEND_URL="http://localhost:$BACKEND_PORT"
-    VITE_FRONTEND_URL="http://localhost:$FRONTEND_PORT"
-    VITE_STORYBOOK_URL="http://localhost:$STORYBOOK_PORT"
-    cp ../.env.firebase .env.firebase
-  fi
-  echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" > .env
-  echo "VITE_FRONTEND_URL=$VITE_FRONTEND_URL" >> .env
-  echo "VITE_STORYBOOK_URL=$VITE_STORYBOOK_URL" >> .env
-  cat .env.firebase >> .env
-  rm .env.firebase
-  # Run the frontend in development mode
   npm run dev
 
 elif [ "$1" == "frontend-static" ]; then
   echo "Building static frontend site..."
-  echo "Remember to use `./run.sh frontend` first, so that frontend/.env is created before building."
+  set_frontend_secrets
   cd frontend
   npm run build
   python3 -m http.server "$FRONTEND_PORT"
