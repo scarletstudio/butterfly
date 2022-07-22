@@ -1,7 +1,7 @@
-from typing import Iterator
+from typing import Dict, Iterator, List
 
 from pipeline.matching.core import MatchGenerator
-from pipeline.types import Match, MatchingInput
+from pipeline.types import Match, MatchingInput, MatchMetadata
 
 GENERATOR_LIMITED_SCHEDULES = "limitedSchedulesGenerator"
 
@@ -13,18 +13,18 @@ class LimitedSchedulesGenerator(MatchGenerator):
         self.max_available = max_available
         super().__init__(name=GENERATOR_LIMITED_SCHEDULES)
 
-    def generate(self, inp: MatchingInput) -> Iterator[Match]:
-        # TODO: Implement your generator
+    def create_matches(self, users_availability: Dict) -> List[Match]:
+        # Matched_users = []
+        for key, val in users_availability.items():
+            pass
+        return []
 
+    def generate(self, inp: MatchingInput) -> Iterator[Match]:
         # get limited availability users
         limited_availability = []
-        for user in inp.users:  # for users in the list users
-            if (
-                len(user.schedule) <= self.max_available
-            ):  # if the number of the user schedule is less than or equal to the max available which is one
-                limited_availability.append(
-                    user
-                )  # then consider that a user a limited schedule user and add to the list
+        for user in inp.users:
+            if len(user.schedule) <= self.max_available:
+                limited_availability.append(user)
         inp.logger.info(limited_availability)
 
         matches = {}
@@ -39,7 +39,7 @@ class LimitedSchedulesGenerator(MatchGenerator):
                         for availability in user.schedule:
                             if (
                                 l_availability == availability
-                            ):  # if the availabilities in limited user schedule and other user schedule are the same, then we have a match!
+                            ):  # if the availabilities in limited user schedule and other user schedule are the same, then we have a match
                                 if (
                                     limited_user.uid,
                                     user.uid,
@@ -47,14 +47,15 @@ class LimitedSchedulesGenerator(MatchGenerator):
                                     pass
                                 else:
                                     # add first match of this set of users to dictionary
-                                    # TODO: add the availability to this first match
                                     matches[
                                         {limited_user.uid, user.uid}
                                     ] = Match(
                                         users={limited_user.uid, user.uid}
                                     )
-
         inp.logger.info(matches)
+
+        # def intersection(limited_user.schedule, user.schedule)
+        # common_availability = [avail for avail in limited_user.schedule if avail in user.schedule]
 
         # #creating another list so you wont have to minus one when comparing the two(the limited user wont be in the users list)
         # not_limited_availability = []
