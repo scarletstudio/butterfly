@@ -4,7 +4,7 @@ from pipeline.types import Match
 from pipeline.utils.helpers import find_match_of_3
 
 
-def test_3_match():
+def test_returns_match_of_three():
     matches = [
         Match(users={"A", "B", "C"}),
         Match(users={"D", "C"}),
@@ -17,7 +17,7 @@ def test_3_match():
     assert actual == expected
 
 
-def test_middle_match():
+def test_returns_middle_match():
     matches = [
         Match(users={"A", "B"}),
         Match(users={"D", "C"}),
@@ -30,7 +30,7 @@ def test_middle_match():
     assert actual == expected
 
 
-def test_0_match():
+def test_of_no_match_of_three():
     matches = [
         Match(users={"A", "B"}),
         Match(users={"D", "C"}),
