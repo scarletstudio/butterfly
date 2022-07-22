@@ -8,13 +8,10 @@ import { faUnlock, faUserLock } from '@fortawesome/free-solid-svg-icons'
 import { ChatMenuPageProps } from './ChatMenuPage'
 import { UserData } from '../types/UserData'
 
-// import { useBackendFetchJson } from '../utils'
-
 interface BlockUserProps {
-    // TODO: Fill out the props for your component
     participants: UserData[]
-    // userUid: string
 }
+
 // create user tile to display participants
 const UserTile = ({ user }) => {
     const { uid, displayName, photoURL } = user
@@ -22,16 +19,10 @@ const UserTile = ({ user }) => {
 
     const doBlock = () => {
         // TODO: Implement blocking the user method
-        // route: `/chat/block/user/${uid}/${blockUser}/true`,
-        // method: 'POST',
-        console.log('User to be blocked', uid)
     }
 
     const doUnblock = () => {
         // TODO: Implement unblocking the user method
-        // route: `/chat/block/user/${uid}/${blockUser}/false`,
-        // method: 'POST',
-        console.log('User is unblocked', uid)
     }
 
     return (
@@ -66,7 +57,6 @@ const UserTile = ({ user }) => {
 
 // show the users within the chat
 const BlockUserInner = ({ participants }: BlockUserProps) => {
-    console.log(participants)
     return (
         <div className="UserRow">
             {participants.map((user) => (
@@ -80,14 +70,7 @@ const BlockUserInner = ({ participants }: BlockUserProps) => {
 const BlockUser = ({ chat }: ChatMenuPageProps) => (
     <BlockUserInner
         participants={Object.values(chat?.participants).filter((user) => user?.uid !== chat?.for)}
-        // userUid={chat?.for}
     />
 )
 
 export default BlockUser
-
-// TODO:
-// 1. Implement the onClick methods for block/unblock
-// 2. Get blocked users for a user to display user status (Need to use state)
-// 3. Updating the button to enabled/disabled based on the user status
-// 4. Add storybook stories to test out our case scenarios
