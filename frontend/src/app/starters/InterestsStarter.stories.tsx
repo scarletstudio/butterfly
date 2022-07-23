@@ -12,7 +12,7 @@ const Template = (args) => <InterestsStarter {...args} />
 export const ManyOfBothInterests = Template.bind({})
 ManyOfBothInterests.args = {
     chat: { metadata: { interests: ['a', 'b', 'c'] } },
-    communityData: {
+    community: {
         interests: [
             { code: 'chess', name: 'Chess' },
             { code: 'apple', name: 'Apple' },

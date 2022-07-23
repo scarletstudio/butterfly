@@ -21,19 +21,17 @@ const InterestsStarterInner = ({ chatInterests, communityData }: InterestsStarte
     //     </div>
     // )
     const communityInterests = communityData.interests
-
+    const communityStringInterests: Array<string> = []
+    communityInterests.forEach((x) => {
+        communityStringInterests.push(x.name)
+    })
+    const combinedInterests = chatInterests.concat(communityStringInterests)
     return (
         <div className="Interests-Starter">
-            <p>Chat Interests</p>
+            <p>Common Interests</p>
             <div className="Chat-Interests">
-                {chatInterests.map((interest) => {
+                {combinedInterests.map((interest) => {
                     return <p key={interest}>{interest}</p>
-                })}
-            </div>
-            <p>Community Interests</p>
-            <div className="Community-Interests">
-                {communityInterests.map((interest) => {
-                    return <p key={interest.code}>{interest.name}</p>
                 })}
             </div>
         </div>
