@@ -60,8 +60,13 @@ export function ChatApp({ chatId, header, conversation, composer }) {
         const message = raw?.trim()
         if (!myUserId || !message) return
         sendMessage(chatId, {
+            // Data actually needed to send the message
             message,
             from: myUserId,
+            // Additional data forlogging analytics
+            community: chat?.communityId,
+            release: chat?.release_tag,
+            chat: chatId,
         })
     }
 
