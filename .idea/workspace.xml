@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="63d6b6cd-76ef-42a6-ae46-20c61dbd1fb6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pipeline/matching/generators/limited_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline/matching/generators/limited_schedules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +62,8 @@
       <workItem from="1658411625613" duration="599000" />
       <workItem from="1658447613060" duration="597000" />
       <workItem from="1658454083013" duration="599000" />
+      <workItem from="1658496909586" duration="599000" />
+      <workItem from="1658525167609" duration="599000" />
     </task>
     <servers />
   </component>

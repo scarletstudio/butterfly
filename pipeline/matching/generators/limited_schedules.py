@@ -14,10 +14,15 @@ class LimitedSchedulesGenerator(MatchGenerator):
         super().__init__(name=GENERATOR_LIMITED_SCHEDULES)
 
     def create_matches(self, users_availability: Dict) -> List[Match]:
-        # Matched_users = []
-        for key, val in users_availability.items():
-            pass
-        return []
+        matched_users = []
+        for userid_tuple, avail in users_availability.items():
+            metadata = MatchMetadata(
+                generator=GENERATOR_LIMITED_SCHEDULES, availability=avail
+            )
+            users = set(userid_tuple)
+            match = Match(users=users, metadata=metadata)
+            matched_users.append(match)
+        return matched_users
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
         # get limited availability users
