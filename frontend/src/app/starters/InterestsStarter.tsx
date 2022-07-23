@@ -33,7 +33,7 @@ const InterestsStarterInner = ({ chatInterests, communityData }: InterestsStarte
             <p>Community Interests</p>
             <div className="Community-Interests">
                 {communityInterests.map((interest) => {
-                    return <p key={interest}>{interest.name}</p>
+                    return <p key={interest.code}>{interest.name}</p>
                 })}
             </div>
         </div>
