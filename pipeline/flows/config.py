@@ -7,7 +7,7 @@ FLOWS = {
         "defaults": {
             "engine": "main",
             "community": "demo",
-            "release": "2022-07-18",
+            "release": "2022-07-25",
         },
     }
 }

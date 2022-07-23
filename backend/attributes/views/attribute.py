@@ -77,5 +77,9 @@ def update_user_attribute_data(
 
     db = get_db()
     ref = db.reference(f"attributes/{attribute}/{community}/{uid}/{code}")
-    ref.update(update)
+    # Only dictionaries can be saved to Firebase with ref.update()
+    if isinstance(update, dict):
+        ref.update(update)
+    else:
+        ref.set(update)
     return format_json(success=True)
