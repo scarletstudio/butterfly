@@ -11,22 +11,25 @@ const Template = (args) => <InterestsStarter {...args} />
 
 export const ManyOfBothInterests = Template.bind({})
 ManyOfBothInterests.args = {
-    chat: { metadata: { interests: ['a', 'b', 'c'] } },
+    chat: { metadata: { interests: ['Chess', 'Art', 'Movies', 'Fashion', 'Sports'] } },
     community: {
         interests: [
-            { code: 'chess', name: 'Chess' },
-            { code: 'apple', name: 'Apple' },
+            { code: 'running', name: 'Running' },
+            { code: 'biking', name: 'Biking' },
+            { code: 'swimming', name: 'Swimming' },
         ],
     },
 }
 
 export const ManyChatInterests = Template.bind({})
 ManyChatInterests.args = {
-    chat: { metadata: { interests: ['a', 'b', 'c'] } },
+    chat: { metadata: { interests: ['Chess', 'Art', 'Movies', 'Fashion', 'Sports'] } },
 }
 
 export const OneChatInterest = Template.bind({})
-OneChatInterest.args = {}
+OneChatInterest.args = {
+    chat: { metadata: { interests: ['Art'] } },
+}
 
 export const ManyCommunityInterests = Template.bind({})
 ManyCommunityInterests.args = {
@@ -39,7 +42,11 @@ ManyCommunityInterests.args = {
 }
 
 export const OneCommunityInterest = Template.bind({})
-OneCommunityInterest.args = {}
+OneCommunityInterest.args = {
+    communityData: {
+        interests: [{ code: 'apple', name: 'Apple' }],
+    },
+}
 
-export const NoCommonLetters = Template.bind({})
-NoCommonLetters.args = {}
+export const NoCommonInterests = Template.bind({})
+NoCommonInterests.args = {}
