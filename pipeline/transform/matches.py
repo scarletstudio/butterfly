@@ -29,10 +29,15 @@ def get_matching_input(**kwargs) -> MatchingInput:
 def convert_matches_from_df(df: pd.DataFrame) -> List[Match]:
     cols = set(df.columns)
     field_names = [f.name for f in dataclasses.fields(Match) if f.name in cols]
-    user_dicts = df[field_names].to_dict(orient="records")
-    matches = [Match(**u) for u in user_dicts]
-    for match in matches:
-        match.metadata = MatchMetadata(str(match.metadata))
+    match_dicts = df[field_names].to_dict(orient="records")
+    # matches = [Match(**u) for u in match_dicts]
+    matches = []
+    for record in match_dicts:
+        raw_metadata = record.get("metadata", {})
+        parsed_metadata = MatchMetadata(**raw_metadata)
+        record.pop("metadata", None)
+        match = Match(**record, metadata=parsed_metadata)
+        matches.append(match)
     return matches
 
 
