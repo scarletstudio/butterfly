@@ -46,20 +46,18 @@ def test_example():
             users={"1", "2"},
             metadata=MatchMetadata(
                 generator="limitedSchedulesGenerator",
-                limitedAvailability=[availability_3],
+                availability=[availability_3],
             ),
         ),
         Match(
             users={"2", "3"},
             metadata=MatchMetadata(
                 generator="limitedSchedulesGenerator",
-                limitedAvailability=[availability_3],
+                availability=[availability_3],
             ),
         ),
     ]
 
-    # TODO: Uncomment this assertion and delete the empty list assert
-    # assert actual == expected
     assert actual == expected
 
 
