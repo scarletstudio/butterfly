@@ -47,7 +47,7 @@ def equal_lists(actual: List, expected: List) -> bool:
 
     explanation = ""
     diff = ""
-    footnote = "See above for diff between first mismatched item in each list."
+    footnote = ""
 
     a_len = len(actual)
     e_len = len(expected)
