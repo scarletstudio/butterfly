@@ -52,14 +52,17 @@ def equal_lists(actual: List, expected: List) -> bool:
     a_len = len(actual)
     e_len = len(expected)
     if a_len != e_len:
+        # Case 2: Lists have different sizes
         explanation = f"`actual` differs in size: {a_len}, should be {e_len}."
         diff = get_assertion_message(actual, expected) + "\n"
         footnote = "Above: diff between lists."
     elif sorted(actual) == sorted(expected):
+        # Case 3: Lists have the same size and same items, but different orders
         explanation = "`actual` has the same items, but in a different order."
         diff = get_assertion_message_first_mismatch(actual, expected)
         footnote = "Above: diff between first pair of mismatched items."
     else:
+        # Case 4: Lists have the same size, but different items
         explanation = "`actual` has the correct length, but different items."
         diff = get_assertion_message_first_mismatch(actual, expected)
         footnote = "Above: diff between first pair of mismatched items."
