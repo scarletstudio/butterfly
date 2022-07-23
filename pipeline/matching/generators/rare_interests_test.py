@@ -38,7 +38,7 @@ def test_single_rare_interest():
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
                 score=0.4,
-                rareInterests=["Reading"],
+                rareInterests=["reading"],
             ),
         ),
     ]
@@ -73,7 +73,7 @@ def test_multiple_rare_interests():
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
                 score=0.4,
-                rareInterests=["Reading"],
+                rareInterests=["reading"],
             ),
         ),
     ]
@@ -108,7 +108,7 @@ def test_equal_rare_intrests():
             metadata=MatchMetadata(
                 generator="rareInterestsGenerator",
                 score=0.25,
-                rareInterests=["Hiking"],
+                rareInterests=["hiking"],
             ),
         ),
     ]

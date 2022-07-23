@@ -49,7 +49,7 @@ class RareInterestsGenerator(MatchGenerator):
         tmpIntrestLst = []
         sum_ = 0
         for user in usrList:
-            tmpIntrestLst += [x.name for x in user.interests]
+            tmpIntrestLst += [x.code for x in user.interests]
 
         countDict = Counter(tmpIntrestLst)
         trueCountDict = dict()
@@ -66,8 +66,8 @@ class RareInterestsGenerator(MatchGenerator):
         matches = list(it.combinations(usrList, 2))
         for userMatch in matches:
             commonInterestList = list(
-                set([x.name for x in userMatch[0].interests])
-                & set([x.name for x in userMatch[1].interests])
+                set([x.code for x in userMatch[0].interests])
+                & set([x.code for x in userMatch[1].interests])
             )
             for commonInterest in commonInterestList:
                 rarestInterest = min(
