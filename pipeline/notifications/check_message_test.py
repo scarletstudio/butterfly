@@ -9,6 +9,7 @@ from pipeline.types import (
     Message,
     NotificationInfo,
     NotificationInput,
+    NotificationType,
     User,
 )
 
@@ -29,11 +30,18 @@ def test_check_msg_notifer():
         messages=[a_msg],
     )
     test_notif_inp = NotificationInput(
-        chatdata=test_chatdata, run_datetime=datetime.now()
+        chatdata=test_chatdata,
+        notification_type=NotificationType.CHECK_MSG,
+        run_datetime=datetime.now(),
     )
     check_notifier = NewMessageNotifier()
-    actual = check_notifier.get_users_to_notify(test_notif_inp)
-    assert actual == [NotificationInfo(name="Brian", email="brian@iit.edu")]
+    actual = check_notifier.get_notifications(test_notif_inp)
+    assert actual == [
+        NotificationInfo(
+            recipient=User(uid="B", displayName="Brian", email="brian@iit.edu"),
+            messagers=["Ayman"],
+        )
+    ]
 
 
 def test_more_users_in_match():
@@ -56,14 +64,27 @@ def test_more_users_in_match():
         messages=[b_msg, c_msg],
     )
     test_notif_inp = NotificationInput(
-        chatdata=test_chatdata, run_datetime=datetime.now()
+        chatdata=test_chatdata,
+        notification_type=NotificationType.CHECK_MSG,
+        run_datetime=datetime.now(),
     )
     check_notifier = NewMessageNotifier()
-    actual = check_notifier.get_users_to_notify(test_notif_inp)
+    actual = check_notifier.get_notifications(test_notif_inp)
     assert actual == [
-        NotificationInfo(name="Ayman", email="ayman@iit.edu"),
-        NotificationInfo(name="Dinora", email="dinora@iit.edu"),
-        NotificationInfo(name="Erik", email="erik@iit.edu"),
+        NotificationInfo(
+            recipient=User(uid="A", displayName="Ayman", email="ayman@iit.edu"),
+            messagers=["Brian", "Chris"],
+        ),
+        NotificationInfo(
+            recipient=User(
+                uid="D", displayName="Dinora", email="dinora@iit.edu"
+            ),
+            messagers=["Brian", "Chris"],
+        ),
+        NotificationInfo(
+            recipient=User(uid="E", displayName="Erik", email="erik@iit.edu"),
+            messagers=["Brian", "Chris"],
+        ),
     ]
 
 
@@ -84,8 +105,10 @@ def test_no_notification():
         messages=[a_msg, b_msg],
     )
     test_notif_inp = NotificationInput(
-        chatdata=test_chatdata, run_datetime=datetime.now()
+        chatdata=test_chatdata,
+        notification_type=NotificationType.CHECK_MSG,
+        run_datetime=datetime.now(),
     )
     check_notifier = NewMessageNotifier()
-    actual = check_notifier.get_users_to_notify(test_notif_inp)
+    actual = check_notifier.get_notifications(test_notif_inp)
     assert actual == []
