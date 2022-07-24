@@ -24,7 +24,7 @@ class NewMessageNotifier(Notifier):
             if msg.from_user in inp.chatdata.participants:
                 users_with_msg.add(msg.from_user)
         for uid in users_with_msg:
-            user_display_name = (inp.chatdata.participants[uid]).displayName
+            user_display_name = inp.chatdata.participants[uid].displayName
             names_of_users_with_msg.add(user_display_name)
         for uid, user in inp.chatdata.participants.items():
             if uid not in users_with_msg:
