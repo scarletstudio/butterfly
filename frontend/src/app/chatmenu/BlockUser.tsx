@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './BlockUser.css'
 
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -6,16 +6,28 @@ import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { ChatMenuPageProps } from './ChatMenuPage'
 import { UserData } from '../types/UserData'
 import { Button, UserTile } from '../ui'
-import { fetchFromBackend } from '../utils'
+import { fetchFromBackend, useBackendFetchJson } from '../utils'
 
 interface BlockUserProps {
     participants: UserData[]
     myUid: string
 }
 
+function FetchBlockedUsers(myUid: string, blockUid: string) {
+    const [res] = useBackendFetchJson({
+        route: `/chat/block/user/${myUid}`,
+        deps: [myUid],
+        isValid: myUid,
+    })
+    const blockedUsers = res?.blocks || []
+
+    return blockedUsers.find((user: { uid: string }) => user?.uid === blockUid)?.blocked || false
+}
+
 // create user tile to display participants
 const CreateUserTile = ({ user, myUid }) => {
     const blockUid = user?.uid
+    const [isActive, setActive] = useState(FetchBlockedUsers(myUid, blockUid))
 
     const doBlock = async () => {
         await fetchFromBackend({
@@ -32,11 +44,27 @@ const CreateUserTile = ({ user, myUid }) => {
     }
 
     return (
-        <>
+        <div className={isActive ? 'BlockedUser' : ''}>
             <UserTile user={user} />
-            <Button label="Block" iconBefore={faLock} primary onClick={doBlock} />
-            <Button label="Unblock" iconBefore={faLockOpen} primary={false} onClick={doUnblock} />
-        </>
+            <Button
+                label="Block"
+                iconBefore={faLock}
+                primary
+                onClick={() => {
+                    doBlock()
+                    setActive(true)
+                }}
+            />
+            <Button
+                label="Unblock"
+                iconBefore={faLockOpen}
+                primary={false}
+                onClick={() => {
+                    doUnblock()
+                    setActive(false)
+                }}
+            />
+        </div>
     )
 }
 
