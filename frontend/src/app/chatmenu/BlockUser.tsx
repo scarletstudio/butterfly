@@ -1,22 +1,18 @@
 import React from 'react'
 import './BlockUser.css'
-import '../ui/User.css'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUnlock, faUserLock } from '@fortawesome/free-solid-svg-icons'
+import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 
 import { ChatMenuPageProps } from './ChatMenuPage'
 import { UserData } from '../types/UserData'
+import { Button, UserTile } from '../ui'
 
 interface BlockUserProps {
     participants: UserData[]
 }
 
 // create user tile to display participants
-const UserTile = ({ user }) => {
-    const { uid, displayName, photoURL } = user
-    const alt = `Profile image for ${displayName}.`
-
+const CreateUserTile = ({ user }) => {
     const doBlock = () => {
         // TODO: Implement blocking the user method
     }
@@ -26,32 +22,11 @@ const UserTile = ({ user }) => {
     }
 
     return (
-        <div className="UserTile">
-            <div className="ProfileImage">
-                <img src={photoURL} alt={alt} className="Image" />
-            </div>
-            <div className="DisplayName">
-                <span>{displayName}</span>
-            </div>
-            <div>
-                <button type="button">
-                    <FontAwesomeIcon
-                        onClick={doBlock}
-                        icon={faUserLock}
-                        className="IconBeforeBlock"
-                    />
-                    Block
-                </button>
-                <button type="button">
-                    <FontAwesomeIcon
-                        onClick={doUnblock}
-                        icon={faUnlock}
-                        className="IconBeforeUnblock"
-                    />
-                    Unblock
-                </button>
-            </div>
-        </div>
+        <>
+            <UserTile user={user} />
+            <Button label="Block" iconBefore={faLock} primary onClick={doBlock} />
+            <Button label="Unblock" iconBefore={faLockOpen} primary={false} onClick={doUnblock} />
+        </>
     )
 }
 
@@ -60,7 +35,7 @@ const BlockUserInner = ({ participants }: BlockUserProps) => {
     return (
         <div className="UserRow">
             {participants.map((user) => (
-                <UserTile key={user?.uid} user={user} />
+                <CreateUserTile key={user?.uid} user={user} />
             ))}
         </div>
     )
