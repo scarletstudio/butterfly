@@ -31,7 +31,6 @@ def test_check_msg_notifer():
     )
     test_notif_inp = NotificationInput(
         chatdata=test_chatdata,
-        notification_type=NotificationType.CHECK_MSG,
         run_datetime=datetime.now(),
     )
     check_notifier = NewMessageNotifier()
@@ -39,7 +38,8 @@ def test_check_msg_notifer():
     assert actual == [
         NotificationInfo(
             recipient=User(uid="B", displayName="Brian", email="brian@iit.edu"),
-            messagers=["Ayman"],
+            notification_type=NotificationType.CHECK_MESSAGE,
+            messagers={"Ayman"},
         )
     ]
 
@@ -65,7 +65,6 @@ def test_more_users_in_match():
     )
     test_notif_inp = NotificationInput(
         chatdata=test_chatdata,
-        notification_type=NotificationType.CHECK_MSG,
         run_datetime=datetime.now(),
     )
     check_notifier = NewMessageNotifier()
@@ -73,17 +72,20 @@ def test_more_users_in_match():
     assert actual == [
         NotificationInfo(
             recipient=User(uid="A", displayName="Ayman", email="ayman@iit.edu"),
-            messagers=["Brian", "Chris"],
+            notification_type=NotificationType.CHECK_MESSAGE,
+            messagers={"Brian", "Chris"},
         ),
         NotificationInfo(
             recipient=User(
                 uid="D", displayName="Dinora", email="dinora@iit.edu"
             ),
-            messagers=["Brian", "Chris"],
+            notification_type=NotificationType.CHECK_MESSAGE,
+            messagers={"Brian", "Chris"},
         ),
         NotificationInfo(
             recipient=User(uid="E", displayName="Erik", email="erik@iit.edu"),
-            messagers=["Brian", "Chris"],
+            notification_type=NotificationType.CHECK_MESSAGE,
+            messagers={"Brian", "Chris"},
         ),
     ]
 
@@ -106,7 +108,6 @@ def test_no_notification():
     )
     test_notif_inp = NotificationInput(
         chatdata=test_chatdata,
-        notification_type=NotificationType.CHECK_MSG,
         run_datetime=datetime.now(),
     )
     check_notifier = NewMessageNotifier()
