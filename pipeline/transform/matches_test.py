@@ -16,14 +16,11 @@ def test_convert_matches_from_df():  # no metadata is passed
     assert actual == expected
 
 
-def test_convert_matches_from_df_2():  # metadata is passed using the blue generator
-    df = pd.DataFrame([{"users": {"A", "B"}, "extraData": "ignore"}])
-    actual = convert_matches_from_df.run(df)
-    actual[
-        0
-    ].metadata.generator = (
-        "blueGenerator"  # used to change the generator from 'blank'
+def test_convert_matches_from_df_using_metadata():  # metadata is passed using the blue generator
+    df = pd.DataFrame(
+        [{"users": {"A", "B"}, "metadata": {"generator": "blueGenerator"}}]
     )
+    actual = convert_matches_from_df.run(df)
     expected = [
         Match(
             users={"A", "B"}, metadata=MatchMetadata(generator="blueGenerator")
