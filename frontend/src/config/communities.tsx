@@ -16,8 +16,11 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
         id: 'demo',
         name: 'Demo Community',
         intents: [
-            { code: 'tutoring', name: 'Tutoring' },
-            { code: 'tv-movie-recs', name: 'TV/Movie Recommendations' },
+            { code: 'tutoring-math', name: 'Get tutoring in math' },
+            { code: 'watch-recs', name: 'Get show and movie recommendations' },
+            { code: 'student-org', name: 'Get information on student organizations' },
+            { code: 'commons-food', name: 'Learn more about the commons food' },
+            { code: 'hobbies', name: 'Learn more about different hobbies' },
         ],
         interests: [
             { code: 'running', name: 'Running' },
@@ -28,8 +31,18 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
     sds: {
         id: 'sds',
         name: 'Scarlet Data Studio',
-        intents: [],
-        interests: [],
+        intents: [
+            { code: 'tech-careers', name: 'Learn about careers in technology' },
+            { code: 'involve-iit', name: 'Get more involved at Illinois Tech' },
+            { code: 'watch-recs', name: 'Get show and movie recommendations' },
+        ],
+        interests: [
+            { code: 'chess', name: 'Chess' },
+            { code: 'art', name: 'Art' },
+            { code: 'movies', name: 'Movies' },
+            { code: 'fashion', name: 'Fashion' },
+            { code: 'sports', name: 'Sports' },
+        ],
     },
     esi: {
         id: 'esi',

@@ -14,8 +14,12 @@ export async function fetchFromBackend({ route, options = {} }) {
 
 /*
  * React hook to fetch JSON response from a given URL.
+ * url: URL to fetch
+ * options: settings for request
+ * deps: React state variables for hook to depend on
+ * isValid: if true, send the request, otherwise, skip it
  */
-export function useRawFetchJson({ url, options = {}, deps = [] }) {
+export function useRawFetchJson({ url, options = {}, deps = [], isValid = true }) {
     const [response, setResponse] = useState(null)
     const [error, setError] = useState(null)
     useEffect(() => {
@@ -28,7 +32,7 @@ export function useRawFetchJson({ url, options = {}, deps = [] }) {
                 setError(err)
             }
         }
-        getData()
+        if (isValid) getData()
     }, deps)
     return [response, error]
 }

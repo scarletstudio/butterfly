@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { useCurrentAuthUser } from '../app/login'
-import { useGetManyUserData, useGetAllUserMatches } from '../app/data'
+import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
 import { ChatPreview } from '../app/inbox'
 
 export default function AllChatsPage() {
@@ -15,7 +15,7 @@ export default function AllChatsPage() {
         }),
         {}
     )
-    const matchedUsers = useGetManyUserData(matchedUserIds)
+    const matchedUsers = useGetManyUserData(matchedUserIds, getUserData)
 
     const matchEls =
         matches.length > 0 ? (

@@ -1,8 +1,7 @@
 from django.urls import path
+from ninja import Router
 
-from backend.attributes.views import view_attribute, view_update_attribute
+from backend.attributes.views.attribute import router as attribute_router
 
-urlpatterns = [
-    path("users/<str:uid>/<str:attribute>", view_attribute),
-    path("users/<str:uid>/<str:attribute>/<str:code>", view_update_attribute),
-]
+router = Router()
+router.add_router("", attribute_router)
