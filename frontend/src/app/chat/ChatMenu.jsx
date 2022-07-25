@@ -72,12 +72,12 @@ export function ChatMenu({ menuConfig, onMenuClick }) {
     const [showOption, setShowOption] = useState(null)
     const closeOption = () => setShowOption(null)
     const selectedOption = subMenuMap?.[showOption]
-    const { chat } = useContext(ChatContext)
+    const { chat, messages } = useContext(ChatContext)
     if (selectedOption) {
         const SubMenuComponent = selectedOption?.component || ComingSoon
         return (
             <SubMenuContainer name={selectedOption?.name} onClick={closeOption}>
-                <SubMenuComponent chat={chat} config={selectedOption} />
+                <SubMenuComponent chat={chat} config={selectedOption} messages={messages} />
             </SubMenuContainer>
         )
     }
