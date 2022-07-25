@@ -69,21 +69,21 @@ class SimilarIntentsGenerator(MatchGenerator):
                         key = get_lookup(u.uid, oth.uid)
                         # checks if the users have been matched, prevents duplicates
                         if key in all_matches:
-                            # additional check if the users have NOT matched on this intent and appends it to the matchingIntents
+                            # additional check if the users have NOT matched on this intent and appends it to the intents
                             if (
                                 intent_match
-                                not in all_matches[key].metadata.matchingIntents
+                                not in all_matches[key].metadata.intents
                             ):
-                                all_matches[
-                                    key
-                                ].metadata.matchingIntents.append(intent_match)
+                                all_matches[key].metadata.intents.append(
+                                    intent_match
+                                )
                         else:
                             new_match = Match(
                                 users={u.uid, oth.uid},
                                 metadata=MatchMetadata(
                                     generator=GENERATOR_SIMILAR_INTENTS,
                                     score=1,
-                                    matchingIntents=[intent_match],
+                                    intents=[intent_match],
                                 ),
                             )
                             all_matches[key] = new_match

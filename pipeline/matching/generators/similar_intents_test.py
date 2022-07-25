@@ -38,7 +38,7 @@ def test_example():
             metadata=MatchMetadata(
                 generator="similarIntentsGenerator",
                 score=1,
-                matchingIntents=[expected_intent],
+                intents=[expected_intent],
             ),
         ),
     ]
@@ -81,7 +81,7 @@ def test_mult_intents_user():
             metadata=MatchMetadata(
                 generator="similarIntentsGenerator",
                 score=1,
-                matchingIntents=[expected_intent2],
+                intents=[expected_intent2],
             ),
         ),
     ]
@@ -158,7 +158,7 @@ def test_mult_match_intent():
             metadata=MatchMetadata(
                 generator="similarIntentsGenerator",
                 score=1,
-                matchingIntents=[expected_intent4, expected_intent5],
+                intents=[expected_intent4, expected_intent5],
             ),
         ),
         Match(
@@ -166,7 +166,7 @@ def test_mult_match_intent():
             metadata=MatchMetadata(
                 generator="similarIntentsGenerator",
                 score=1,
-                matchingIntents=[expected_intent7, expected_intent6],
+                intents=[expected_intent7, expected_intent6],
             ),
         ),
     ]
