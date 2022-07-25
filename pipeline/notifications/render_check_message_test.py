@@ -21,7 +21,7 @@ def test_check_msg_render():
 
 def test_check_more_msgs():
 
-    # This test verifies the behavior of the check message render w/ more messages in the NotificationInfo obj
+    # This test verifies the behavior of the check message render w/ more messagers in the NotificationInfo obj
 
     test_notif_info = NotificationInfo(
         recipient=User(uid="A", displayName="Ayman", email="ayman@iit.edu"),
