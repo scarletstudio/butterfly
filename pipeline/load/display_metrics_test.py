@@ -1,6 +1,9 @@
 import pytest
 
-from pipeline.load.display_metrics import render_counts_per_user
+from pipeline.load.display_metrics import (
+    render_counts_per_user,
+    render_user_emails,
+)
 from pipeline.types import User
 
 
@@ -25,4 +28,17 @@ def test_render_counts_per_user():
         "2 - Chris (C)\n"
         "1 - Ayman (A)"
     )
+    assert actual == expected
+
+
+def test_render_user_emails():
+    users = [
+        User(uid="A", email="ayman@iit.edu"),
+        User(uid="B", email="bridget@iit.edu"),
+        User(uid="C", email="chunter@iit.edu"),
+    ]
+
+    actual = render_user_emails(users)
+
+    expected = "ayman@iit.edu\n" "bridget@iit.edu\n" "chunter@iit.edu"
     assert actual == expected
