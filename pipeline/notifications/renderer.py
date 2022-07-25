@@ -1,7 +1,7 @@
 from pipeline.types import NotificationInfo
 
 
-class Renderer:
+class RenderNotification:
 
     """
     * The Renderer parent class defines methods, inputs, and outputs of
@@ -14,10 +14,10 @@ class Renderer:
     def __init__(self, name: str):
         self.name = name
 
-    def render_notification(self, inp: NotificationInfo) -> str:
+    def render(self, inp: NotificationInfo) -> str:
 
         """
-        * render_notification takes a NotificationInfo obj in and returns a
+        * render takes a NotificationInfo obj in and returns a
           unique string based on the information w/in the Notification obj
         """
         pass
