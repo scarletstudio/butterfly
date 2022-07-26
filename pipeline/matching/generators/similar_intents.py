@@ -33,9 +33,9 @@ class SimilarIntentsGenerator(MatchGenerator):
         all_matches: Dict[str, Match] = {}
 
         # iterate over the arr of users
-        for idx, u in enumerate(users):
+        for anchor_user in users:
             # create Intent info from the current user
-            intents = u.intents
+            intents = anchor_user.intents
 
             # users can have more than one intent, this loops through each one
             for intent in intents:
@@ -51,22 +51,22 @@ class SimilarIntentsGenerator(MatchGenerator):
                 # create an Intent object to search for in the other users
                 otherIntent = Intent(code, other_side, name)
 
-                for oth in users:
-                    if otherIntent in oth.intents:
+                for inner_user in users:
+                    if otherIntent in inner_user.intents:
 
                         # create the intent match after finding a user that matches
                         intent_match = IntentMatch(
                             code,
-                            seeker=oth.uid
+                            seeker=inner_user.uid
                             if otherIntent.side == Side.SEEKING
-                            else u.uid,
-                            giver=oth.uid
+                            else anchor_user.uid,
+                            giver=inner_user.uid
                             if otherIntent.side == Side.GIVING
-                            else u.uid,
+                            else anchor_user.uid,
                         )
 
                         # key contains the user ids that have matched
-                        key = get_lookup(u.uid, oth.uid)
+                        key = get_lookup(anchor_user.uid, inner_user.uid)
                         # checks if the users have been matched, prevents duplicates
                         if key in all_matches:
                             # additional check if the users have NOT matched on this intent and appends it to the matchingIntents
@@ -79,10 +79,9 @@ class SimilarIntentsGenerator(MatchGenerator):
                                 ].metadata.matchingIntents.append(intent_match)
                         else:
                             new_match = Match(
-                                users={u.uid, oth.uid},
+                                users={anchor_user.uid, inner_user.uid},
                                 metadata=MatchMetadata(
                                     generator=GENERATOR_SIMILAR_INTENTS,
-                                    score=1,
                                     matchingIntents=[intent_match],
                                 ),
                             )
