@@ -35,7 +35,7 @@ class SimilarInterestsGenerator(MatchGenerator):
                 else 0.0
             )
             if len(common_interest) < self.min_common:
-                return iter([])
+                continue
             metadata = MatchMetadata(
                 generator=GENERATOR_SIMILAR_INTERESTS,
                 score=calculate_score,
