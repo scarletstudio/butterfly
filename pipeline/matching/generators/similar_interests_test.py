@@ -64,16 +64,7 @@ def test_no_similar_interest():
     generator = SimilarInterestsGenerator(min_common=1)
     actual = list(generator.generate(inp))
 
-    expected = [
-        Match(
-            users={"1", "2"},
-            metadata=MatchMetadata(
-                generator="similarInterestsGenerator",
-                score=(0.0),
-                commonInterests=[],
-            ),
-        ),
-    ]
+    expected = []
     assert actual == expected
 
 
@@ -128,16 +119,7 @@ def test_with_no_attributes():
     generator = SimilarInterestsGenerator(min_common=1)
     actual = list(generator.generate(inp))
 
-    expected = [
-        Match(
-            users={"Empty", "Empty"},
-            metadata=MatchMetadata(
-                generator="similarInterestsGenerator",
-                score=(0.0),
-                commonInterests=[],
-            ),
-        ),
-    ]
+    expected = []
     assert actual == expected
 
 
@@ -159,16 +141,7 @@ def test_one_user_no_interest():
     generator = SimilarInterestsGenerator(min_common=1)
     actual = list(generator.generate(inp))
 
-    expected = [
-        Match(
-            users={"1", "2"},
-            metadata=MatchMetadata(
-                generator="similarInterestsGenerator",
-                score=(0.0),
-                commonInterests=[],
-            ),
-        ),
-    ]
+    expected = []
     assert actual == expected
 
 
@@ -190,14 +163,5 @@ def test_two_users_no_interest():
     generator = SimilarInterestsGenerator(min_common=1)
     actual = list(generator.generate(inp))
 
-    expected = [
-        Match(
-            users={"1", "2"},
-            metadata=MatchMetadata(
-                generator="similarInterestsGenerator",
-                score=(0.0),
-                commonInterests=[],
-            ),
-        ),
-    ]
+    expected = []
     assert actual == expected

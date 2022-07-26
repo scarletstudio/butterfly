@@ -15,21 +15,15 @@ class SimilarInterestsGenerator(MatchGenerator):
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
         listUsers = inp.users
         if listUsers == []:
-            matchUsers = {"Empty", "Empty"}
-            metadata = MatchMetadata(
-                generator=GENERATOR_SIMILAR_INTERESTS,
-                score=0.0,
-                commonInterests=[],
-            )
-            yield Match(users=matchUsers, metadata=metadata)
+            return iter([])
         for user_one, user_two in itertools.combinations(listUsers, r=2):
             firstInt = user_one.interests
             secondInt = user_two.interests
             list_of_interest_user_one = [
-                indivInterest.name.lower() for indivInterest in firstInt
+                indivInterest.code for indivInterest in firstInt
             ]
             list_of_interest_user_two = [
-                indivInterest.name.lower() for indivInterest in secondInt
+                indivInterest.code for indivInterest in secondInt
             ]
             interest_one = set(list_of_interest_user_one)
             interest_two = set(list_of_interest_user_two)
@@ -41,7 +35,7 @@ class SimilarInterestsGenerator(MatchGenerator):
                 else 0.0
             )
             if len(common_interest) < self.min_common:
-                calculate_score = 0.0
+                return iter([])
             metadata = MatchMetadata(
                 generator=GENERATOR_SIMILAR_INTERESTS,
                 score=calculate_score,
