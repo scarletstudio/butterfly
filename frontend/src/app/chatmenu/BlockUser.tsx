@@ -13,6 +13,7 @@ interface BlockUserProps {
     myUid: string
 }
 
+// find the blocked accounts of the user
 function FetchBlockedUsers(myUid: string, blockUid: string) {
     const [res] = useBackendFetchJson({
         route: `/chat/block/user/${myUid}`,
@@ -27,15 +28,16 @@ function FetchBlockedUsers(myUid: string, blockUid: string) {
 // create user tile to display participants
 const CreateUserTile = ({ user, myUid }) => {
     const blockUid = user?.uid
+    // create a useState for updating blocked status
     const [isActive, setActive] = useState(FetchBlockedUsers(myUid, blockUid))
-
+    // method for blocking
     const doBlock = async () => {
         await fetchFromBackend({
             route: `/chat/block/user/${myUid}/${blockUid}/true`,
             options: { method: 'POST' },
         })
     }
-
+    // method for unblocking
     const doUnblock = async () => {
         await fetchFromBackend({
             route: `/chat/block/user/${myUid}/${blockUid}/false`,
