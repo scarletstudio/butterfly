@@ -14,10 +14,14 @@ class RenderNotification:
     def __init__(self, name: str):
         self.name = name
 
-    def render(self, inp: NotificationInfo) -> str:
+    def render(self, info: NotificationInfo) -> str:
 
         """
         * render takes a NotificationInfo obj in and returns a
           unique string based on the information w/in the Notification obj
         """
         pass
+
+
+class InvalidNotificationTypeException(Exception):
+    pass
