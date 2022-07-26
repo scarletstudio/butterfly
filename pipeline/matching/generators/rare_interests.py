@@ -70,6 +70,7 @@ class RareInterestsGenerator(MatchGenerator):
                 & set([x.code for x in userMatch[1].interests])
             )
             for commonInterest in commonInterestList:
+                # rarestInterest will return the key whose value is the lowest in the dict
                 rarestInterest = min(
                     rarityScoreDict.items(), key=lambda x: x[1]
                 )[0]
@@ -77,10 +78,6 @@ class RareInterestsGenerator(MatchGenerator):
                     matchNames = {userMatch[0].uid, userMatch[1].uid}
                     rareInterests_.append(rarestInterest)
                 rarityScore = float(rarityScoreDict[rarestInterest])
-
-        # convert to set and back to list to remove duplicates
-        #    rareInterests_ = set(rareInterests_)
-        #    rareInterests_ = list(rareInterests_)
 
         resultingMatch = [
             Match(
