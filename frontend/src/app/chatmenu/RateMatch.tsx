@@ -139,7 +139,7 @@ const RateMatch = ({ chat }: ChatMenuPageProps) => {
             names={Object.values(chat.participants).map((user) => user.displayName)}
             users={Object.values(chat.participants).map((user) => user.uid)}
             generator={chat?.metadata?.generator}
-            community="demo"
+            community={chat.communityId}
             match={chat.id}
         />
     )
