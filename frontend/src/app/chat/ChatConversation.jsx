@@ -3,14 +3,16 @@ import React, { useContext } from 'react'
 import { ChatContext } from './ChatApp'
 import { Message } from './Message'
 import { getConversationStarterForChat } from '../starters'
+import { COMMUNITY_CONFIG } from '../../config/communities'
 
 export function ChatConversation() {
     const { chat, messages, myUserId } = useContext(ChatContext)
 
     const ConversationStarter = getConversationStarterForChat(chat)
+    const community = COMMUNITY_CONFIG[chat.communityId]
     const converstationStarterEl = ConversationStarter && (
         <div key="conversation_starter">
-            <ConversationStarter chat={chat} />
+            <ConversationStarter chat={chat} community={community} />
         </div>
     )
     const loadingEl = <p>Loading chat...</p>

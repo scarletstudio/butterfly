@@ -1,10 +1,14 @@
+import datetime
+from dataclasses import dataclass
 from typing import Dict
 
 Community = str
 
-# Dict with keys:
-# - active (boolean)
-# - joined (timestamp in ms)
-CommunityMembership = Dict
+
+@dataclass
+class CommunityMembership:
+    active: bool
+    joined: datetime.datetime
+
 
 UserCommunityMemberships = Dict[Community, CommunityMembership]

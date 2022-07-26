@@ -2,7 +2,13 @@ import pytest
 
 from pipeline.matching.core.engine import MatchingEngine
 from pipeline.matching.evaluation.metrics import MatchingMetricsCollector
-from pipeline.types import Match, MatchingInput, MatchingMetrics, User
+from pipeline.types import (
+    Match,
+    MatchingInput,
+    MatchingMetrics,
+    MatchMetadata,
+    User,
+)
 
 
 def test_analytics_logic():
@@ -77,3 +83,55 @@ def test_no_match_return():
     )
 
     assert actual == expected.n_proposed_matches_per_user
+
+
+def test_selection_rate_basic():
+    match_blue = Match(
+        users={}, metadata=MatchMetadata(generator="bluegenerator")
+    )
+    proposed_matches = [match_blue, match_blue, match_blue]
+    selected_matches = [match_blue]
+
+    collector = MatchingMetricsCollector()
+    actual = collector.count_selection_rate_per_generator(
+        proposed_matches, selected_matches
+    )
+
+    expected = {"bluegenerator": (1, 3)}
+    assert actual == expected
+
+
+def test_selection_rate_no_selected():
+    match_blue = Match(
+        users={}, metadata=MatchMetadata(generator="bluegenerator")
+    )
+    proposed_matches = [match_blue, match_blue, match_blue]
+    selected_matches = []
+
+    collector = MatchingMetricsCollector()
+    actual = collector.count_selection_rate_per_generator(
+        proposed_matches, selected_matches
+    )
+
+    expected = {"bluegenerator": (0, 3)}
+    assert actual == expected
+
+
+def test_selection_rate_multiple():
+    match_blue = Match(
+        users={}, metadata=MatchMetadata(generator="bluegenerator")
+    )
+    match_green = Match(
+        users={}, metadata=MatchMetadata(generator="greengenerator")
+    )
+
+    proposed_matches = [match_blue, match_blue, match_blue, match_green]
+    selected_matches = [match_blue, match_green]
+
+    collector = MatchingMetricsCollector()
+    actual = collector.count_selection_rate_per_generator(
+        proposed_matches, selected_matches
+    )
+
+    expected = {"bluegenerator": (1, 3), "greengenerator": (1, 1)}
+    assert actual == expected
