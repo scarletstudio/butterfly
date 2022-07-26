@@ -47,25 +47,29 @@ const CreateUserTile = ({ user, myUid }) => {
 
     return (
         <div className={isActive ? 'BlockedUser' : ''}>
-            <UserTile user={user} />
-            <Button
-                label="Block"
-                iconBefore={faLock}
-                primary
-                onClick={() => {
-                    doBlock()
-                    setActive(true)
-                }}
-            />
-            <Button
-                label="Unblock"
-                iconBefore={faLockOpen}
-                primary={false}
-                onClick={() => {
-                    doUnblock()
-                    setActive(false)
-                }}
-            />
+            <div className="Tile">
+                <UserTile user={user} />
+                <div className="Buttons">
+                    <Button
+                        label="Block"
+                        iconBefore={faLock}
+                        primary
+                        onClick={() => {
+                            doBlock()
+                            setActive(true)
+                        }}
+                    />
+                    <Button
+                        label="Unblock"
+                        iconBefore={faLockOpen}
+                        primary={false}
+                        onClick={() => {
+                            doUnblock()
+                            setActive(false)
+                        }}
+                    />
+                </div>
+            </div>
         </div>
     )
 }
