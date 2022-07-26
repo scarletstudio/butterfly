@@ -32,7 +32,6 @@ const RateMatchInner = ({ generator = 'blank', ...props }: RateMatchProps) => {
         if (rating === 0) {
             alert('Rating can not be 0')
         } else {
-            // Figure out where to get the rating data from
             const ratingData = {
                 from_user: props.user,
                 value: rating,
@@ -40,7 +39,6 @@ const RateMatchInner = ({ generator = 'blank', ...props }: RateMatchProps) => {
                 match: props.match,
                 users: props.users,
                 generator,
-                // Fill in the other fields according to the API documentation
             }
             await fetchFromBackend({
                 route: `/ratings/match_stars`,
