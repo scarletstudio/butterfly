@@ -5,6 +5,23 @@ import { useCurrentAuthUser } from '../app/login'
 import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
 import { ChatInbox } from '../app/inbox'
 
+const ChatInboxHeader = () => (
+    <div className="Header Light">
+        <h1 className="BigTitle">
+            <Link to="/">
+                <span>Butterfly Chats</span>
+            </Link>
+        </h1>
+        <p>Each week, you will be matched to another person in your community.</p>
+        <p>
+            <span>Check back on Mondays to see who you are matched with! </span>
+            <span>
+                Update <Link to="/me">your profile</Link> for better matches.
+            </span>
+        </p>
+    </div>
+)
+
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
     const matches = useGetAllUserMatches(authUser?.uid)
@@ -19,20 +36,7 @@ export default function AllChatsPage() {
 
     return (
         <div className="AllChatsPage FullHeight LightBackground">
-            <div className="Header Light">
-                <h1 className="BigTitle">
-                    <Link to="/">
-                        <span>Butterfly Chats</span>
-                    </Link>
-                </h1>
-                <p>Each week, you will be matched to another person in your community.</p>
-                <p>
-                    <span>Check back on Mondays to see who you are matched with! </span>
-                    <span>
-                        Update <Link to="/me">your profile</Link> for better matches.
-                    </span>
-                </p>
-            </div>
+            <ChatInboxHeader />
             <ChatInbox chats={matches} users={matchedUsers} />
         </div>
     )

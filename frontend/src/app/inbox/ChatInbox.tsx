@@ -9,8 +9,10 @@ interface ChatInboxProps {
 }
 
 const ChatInbox = ({ chats, users }: ChatInboxProps) => {
-    const sortedChats = chats.sort((a, b) => b.release_timestamp - a.release_timestamp)
-    const noChatsEl = sortedChats.length === 0 && (
+    const mostRecentFirst = (a, b) => b.release_timestamp - a.release_timestamp
+    const sortedChats = chats.sort(mostRecentFirst)
+
+    const noChatsEl = chats.length === 0 && (
         <div className="Page">
             <p>No matches yet.</p>
         </div>
