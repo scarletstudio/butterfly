@@ -4,7 +4,7 @@ import ChatPreview from './ChatPreview'
 import { ChatData, UserData } from '../types'
 
 interface ChatInboxProps {
-    chats: Array<ChatData>
+    chats: ChatData[]
     users: { [uid: string]: UserData }
 }
 
@@ -17,13 +17,17 @@ const ChatInbox = ({ chats, users }: ChatInboxProps) => {
             <p>No matches yet.</p>
         </div>
     )
+    const chatEls =
+        sortedChats.length > 0 &&
+        sortedChats.map((c) => {
+            const com = c?.communityConfig || {}
+            return <ChatPreview key={c.id} match={c} users={users} community={com} />
+        })
 
     return (
         <div className="Inbox">
             {noChatsEl}
-            {sortedChats.map((c) => (
-                <ChatPreview key={c.id} match={c} users={users} community={c.communityConfig} />
-            ))}
+            {chatEls}
         </div>
     )
 }

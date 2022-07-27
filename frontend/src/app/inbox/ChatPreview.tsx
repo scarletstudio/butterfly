@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom'
 
 import { formatShortDate } from '../utils'
 import { UserDisc } from '../ui'
-import { getChatTitle } from '../chat/ChatHeader'
 
 import './ChatPreview.css'
 
-function ChatPreview({ match, users, community }) {
+// TODO(vinesh): Having some problem (in Storybook only) trying to import this
+// function from chat/ChatHeader.jsx, so just copied it here for now.
+export function getChatTitle(otherUsers) {
+    const [a, b] = otherUsers
+    const [aName, bName] = [a?.displayName, b?.displayName]
+    if (aName && bName) return `${aName} and ${bName}`
+    return aName || ''
+}
+
+export default function ChatPreview({ match, users, community }) {
     // eslint-disable-next-line camelcase
     const { id, release_timestamp, participants } = match
 
@@ -33,5 +41,3 @@ function ChatPreview({ match, users, community }) {
         </Link>
     )
 }
-
-export default ChatPreview
