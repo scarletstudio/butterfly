@@ -25,7 +25,7 @@ const ChatInbox = ({ chats, users }: ChatInboxProps) => {
         })
 
     return (
-        <div className="Inbox">
+        <div className="ChatInbox">
             {noChatsEl}
             {chatEls}
         </div>
