@@ -143,7 +143,7 @@ const UpvoteUser = ({ chat, config }: ChatMenuPageProps) => {
             intents={chat.metadata?.intents ?? []}
             community={chat.communityId}
             match={chat.id}
-            generator={chat.metadata.generator ?? ''}
+            generator={chat.metadata?.generator ?? ''}
             currentUserID={currentUserID}
         />
     )
