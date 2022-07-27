@@ -1,3 +1,4 @@
+import { CommunityData } from '../../config/communities'
 import { UserData } from './UserData'
 
 // Keep this in sync with: pipeline/types/chat.py
@@ -36,4 +37,6 @@ export interface ChatData {
             hour: number
         }>
     }
+    // Community for this chat and match
+    communityConfig?: CommunityData
 }
