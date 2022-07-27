@@ -7,7 +7,7 @@ import { getChatTitle } from '../chat/ChatHeader'
 
 import './ChatPreview.css'
 
-export function ChatPreview({ match, users, community }) {
+function ChatPreview({ match, users, community }) {
     // eslint-disable-next-line camelcase
     const { id, release_timestamp, participants } = match
 
@@ -33,3 +33,5 @@ export function ChatPreview({ match, users, community }) {
         </Link>
     )
 }
+
+export default ChatPreview

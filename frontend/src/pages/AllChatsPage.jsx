@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { useCurrentAuthUser } from '../app/login'
 import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
-import { ChatPreview } from '../app/inbox'
+import { ChatInbox } from '../app/inbox'
 
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
@@ -16,24 +16,6 @@ export default function AllChatsPage() {
         {}
     )
     const matchedUsers = useGetManyUserData(matchedUserIds, getUserData)
-
-    const matchEls =
-        matches.length > 0 ? (
-            matches
-                .sort((a, b) => b.release_timestamp - a.release_timestamp)
-                .map((m) => (
-                    <ChatPreview
-                        key={m.id}
-                        match={m}
-                        users={matchedUsers}
-                        community={m.communityConfig}
-                    />
-                ))
-        ) : (
-            <div className="Page">
-                <p>No matches yet.</p>
-            </div>
-        )
 
     return (
         <div className="AllChatsPage FullHeight LightBackground">
@@ -51,7 +33,7 @@ export default function AllChatsPage() {
                     </span>
                 </p>
             </div>
-            <div className="Inbox">{matchEls}</div>
+            <ChatInbox chats={matches} users={matchedUsers} />
         </div>
     )
 }
