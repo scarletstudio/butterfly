@@ -79,7 +79,7 @@ export function useGetManyMatchData(userId, communityIdMap) {
 }
 
 /*
- * Hook to get all of a user's matches across al of their communities.
+ * Hook to get all of a user's matches across all of their communities.
  * Fetches from Firebase to avoid dependency on API, so user must be logged in.
  */
 export function useGetAllUserMatches(uid) {
