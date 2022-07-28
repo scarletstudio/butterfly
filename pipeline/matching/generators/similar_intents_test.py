@@ -166,3 +166,54 @@ def test_mult_match_intent():
         ),
     ]
     assert actual4 == expected4
+
+
+# test case where input requires users to have at least two common intents
+# def test_two_min_common():
+
+#     tutoring = Intent(code="tutoring", name="Tutoring", side=Side.BLANK)
+#     chess = Intent(code="chess", name="Chess", side=Side.BLANK)
+#     singing = Intent(code="sing", name="Singing", side=Side.BLANK)
+#     guitar = Intent(code="guitar", name="Guitar", side=Side.BLANK)
+
+#     seek_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.SEEKING)
+#     give_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.GIVING)
+#     seek_sing = Intent(code="sing", name="Singing Lessons", side=Side.SEEKING)
+#     give_sing = Intent(code="sing", name="Singing Lessons", side=Side.GIVING)
+#     seek_guitar = Intent(
+#         code="guitar", name="Guitar Lessons", side=Side.SEEKING
+#     )
+#     give_guitar = Intent(code="guitar", name="Guitar Lessons", side=Side.GIVING)
+#     seek_chess = Intent(code="chess", name="Chess", side=Side.SEEKING)
+#     give_chess = Intent(code="chess", name="Chess", side=Side.GIVING)
+
+#     inp5 = MatchingInput(
+#         community="test",
+#         release="2022-06-26",
+#         users=[
+#             User(uid="1", displayName="A", intents=[give_guitar, seek_tutoring]),
+#             User(uid="2", displayName="B", intents=[give_chess, seek_tutoring]),
+#             User(uid="3", displayName="C", intents=[seek_guitar, give_sing]),
+#             User(uid="4", displayName="D", intents=[give_tutoring, seek_chess]),
+#         ],
+#         recent_matches=[],
+#         intents=[tutoring, chess, singing, guitar],
+#     )
+#     # 2 and 4 should be the only match in the match list
+#     generator = SimilarIntentsGenerator(min_common=2)
+#     actual5 = list(generator.generate(inp5))
+
+#     expected_intent6 = IntentMatch(code="tutoring", seeker="2", giver="4")
+#     expected_intent7 = IntentMatch(code="chess", seeker="4", giver="2")
+
+#     expected5 = [
+#         Match(
+#             users={"2", "4"},
+#             metadata=MatchMetadata(
+#                 generator="similarIntentsGenerator",
+#                 score=1,
+#                 matchingIntents=[expected_intent7, expected_intent6],
+#             ),
+#         ),
+#     ]
+#     assert actual5 == expected5
