@@ -7,17 +7,12 @@ def notifications_per_user(
     notifications: List[NotificationInfo],
 ) -> List[NotificationInfo]:
     # iterates through list of notifications and returns notificationInfo
-    lst_notifications: List[NotificationInfo] = []
+    list_notifications: List[NotificationInfo] = []
+    recipients = set()
     for notification in notifications:
-        print(notification)
-        if len(notification.messagers) >= 1:
-            pass
-            # if notification.notification_type == NotificationType.CHECK_MATCH:
-            #     lst_notifications.append(
-            #         NotificationInfo(
-            #             recipient="",
-            #             notification_type=NotificationType.CHECK_MATCH,
-            #             messagers=["B"],
-            #         )
-            #     )
-    return lst_notifications
+        if notification.recipient.uid in recipients:
+            continue
+
+        list_notifications.append(notification)
+        recipients.add(notification.recipient.uid)
+    return list_notifications
