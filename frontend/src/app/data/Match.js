@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react'
-import { equalTo, getDatabase, onValue, orderByChild, query, ref } from 'firebase/database'
+import {
+    equalTo,
+    getDatabase,
+    limitToLast,
+    onValue,
+    orderByChild,
+    query,
+    ref,
+} from 'firebase/database'
 
 import { DB_PATH } from '../constants'
 import { COMMUNITY_CONFIG } from '../../config/communities'
@@ -25,6 +33,20 @@ export function useGetMatches(communityId, userId) {
     return matches
 }
 
+function getLatestChatMessage(communityId, chatId) {
+    const db = getDatabase()
+    const messagesPath = `${DB_PATH.MESSAGES}/${communityId}/${chatId}`
+    const messagesRef = query(ref(db, messagesPath), orderByChild('timestamp'), limitToLast(1))
+    return new Promise((resolve) => {
+        onValue(messagesRef, (snap) => {
+            const data = snap.val() || {}
+            const key = Object.keys(data)?.[0]
+            const message = key && { key, ...data?.[key] }
+            resolve(message)
+        })
+    })
+}
+
 /*
  * Returns a Promise to get data of matches for a user in a community.
  * Retrieves data directly from Firebase, requires user to be authenticated.
@@ -41,7 +63,14 @@ export function getMatchData(userId, communityId) {
                 ...m,
                 community: communityId,
             }))
-            resolve({ communityId, matches: matchList })
+            // Get latest message for each chat, if any
+            const promises = matchList.map(async (m) => {
+                const data = await getLatestChatMessage(communityId, m.id)
+                return { ...m, latestMessage: data }
+            })
+            Promise.all(promises).then((matchesWithLatestMessage) => {
+                resolve({ communityId, matches: matchesWithLatestMessage })
+            })
         })
     })
 }
