@@ -1,6 +1,19 @@
 import { CommunityData } from '../../config/communities'
 import { UserData } from './UserData'
 
+export interface MessageData {
+    // ID for the message, unique within the chat
+    key: string
+    // User ID of the user who sent this message
+    from: string
+    // Timestamp in milliseconds when the message was sent
+    timestamp: number
+    // Type of message, currently the only value is 'MESSAGE'
+    type: string
+    // Content of the message
+    message: string
+}
+
 // Keep this in sync with: pipeline/types/chat.py
 export interface ChatData {
     // ID for the match this chat is for, release tag plus match key
@@ -37,6 +50,8 @@ export interface ChatData {
             hour: number
         }>
     }
+    // Latest message for this chat, if any
+    latestMessage?: MessageData
     // Community for this chat and match
     communityConfig?: CommunityData
 }
