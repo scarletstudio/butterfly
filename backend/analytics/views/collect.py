@@ -4,8 +4,6 @@ from ninja import Router, Schema
 
 from backend.utils import SERVER_TIMESTAMP, format_json, get_db
 
-SHOULD_SAVE = False
-
 router = Router()
 
 
@@ -23,7 +21,5 @@ def post_analytics_data(request, event: AnalyticsEvent):
     # Save event to database
     db = get_db()
     ref = db.reference("analytics")
-    # TODO: Remove this check to actually saved the event
-    if SHOULD_SAVE:
-        ref.push(record)
+    ref.push(record)
     return format_json(message="Event saved successfully.")
