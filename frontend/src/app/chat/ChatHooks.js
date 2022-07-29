@@ -137,5 +137,6 @@ export async function sendMessage(chatId, data) {
         community: data?.community,
         release: data?.release,
         chat: data?.chat,
+        user: data?.from,
     })
 }
