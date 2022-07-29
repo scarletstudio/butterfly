@@ -35,6 +35,4 @@ def test_update_invalid_attribute(mock_db):
     }
     expected = format_json(status=200, message="Event saved successfully.")
     assert_response_match(actual, expected)
-    # TODO: Update this test to check that the mock push is called correctly
-    # mock_push.assert_called_once_with(expected_event)
-    mock_push.assert_not_called()
+    mock_push.assert_called_once_with(expected_event)
