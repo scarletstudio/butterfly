@@ -51,7 +51,6 @@ class SimilarSchedulesGenerator(MatchGenerator):
             else:
                 user_2_i += 1
 
-        # get k,v in list and use value as match (look up iterating over python dictionaries)
         matches = []
         for match in potential_matches.values():
             if len(match.metadata.matchingAvailability) >= self.min_common:
