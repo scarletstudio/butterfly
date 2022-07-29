@@ -19,7 +19,7 @@ class MatchStars:
     # ID of the user who gave the rating
     from_user: UserId
     # Number of stars given
-    value: StarsValue
+    value: float
     # Community of the match this rating is for
     community: Community
     # Key of the match this rating is for

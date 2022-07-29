@@ -1,7 +1,7 @@
-from typing import DefaultDict, Iterator
+from typing import DefaultDict, Iterator, List
 
 from pipeline.matching.core import MatchRanker
-from pipeline.types import Match, MatchingInput
+from pipeline.types import Match, MatchingInput, MatchStars
 
 RANKER_MATCH_STARS = "matchStarsRanker"
 
@@ -45,3 +45,40 @@ class MatchStarsRanker(MatchRanker):
             key=lambda m: generator_avg_rating[m.metadata.generator],
             reverse=True,
         )  # sorts based on highest average ranking
+
+
+def normalize(match_stars_list: List[MatchStars]) -> List[MatchStars]:
+    user_avg_rating: DefaultDict[str, float] = DefaultDict(
+        float
+    )  # dict to hold average user ratings
+    user_match_count: DefaultDict[str, int] = DefaultDict(
+        int
+    )  # dict to hold number of ratings from each user
+
+    for match in match_stars_list:  # updates average rating for each user
+        user = match.from_user
+        if user in user_avg_rating:
+            user_avg_rating[user] = (
+                user_avg_rating[user] * user_match_count[user] + match.value
+            ) / (user_match_count[user] + 1)
+            user_match_count[user] += 1
+        else:
+            user_avg_rating[user] = match.value
+            user_match_count[user] = 1
+
+    normalized_list = []
+
+    for match in match_stars_list:
+        normalized_list.append(
+            MatchStars(
+                from_user=match.from_user,
+                value=match.value - user_avg_rating[match.from_user],
+                community=match.community,
+                match=match.match,
+                users=match.users,
+                generator=match.generator,
+                timestamp=match.timestamp,
+            )
+        )
+
+    return normalized_list
