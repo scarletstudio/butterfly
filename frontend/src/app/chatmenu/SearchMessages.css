@@ -1,0 +1,27 @@
+.Search .Input,
+.Search .ButtonSearch {
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+    min-height: var(--send-height);
+    max-height: var(--send-height);
+    font-size: 1em;
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.11);
+    border-color: rgba(0, 0, 0, 0);
+    outline-color: rgba(0, 0, 0, 0);
+}
+
+.Search .Input {
+    --input-width: calc(80% - var(--send-width));
+    min-width: var(--input-width);
+    border-top-left-radius: var(--chat-composer-radius);
+    border-bottom-left-radius: var(--chat-composer-radius);
+    padding: 1em;
+}
+
+.Search .ButtonSearch {
+    width: var(--send-width);
+    border-top-right-radius: var(--chat-composer-radius);
+    border-bottom-right-radius: var(--chat-composer-radius);
+    background-color: rgba(42, 222, 250, 1);
+}

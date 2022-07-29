@@ -37,8 +37,7 @@ def test_example():
             users={"1", "2"},
             metadata=MatchMetadata(
                 generator="similarSchedulesGenerator",
-                score=1,
-                matchingAvailability=[availability_2],
+                availability=[availability_2],
             ),
         ),
     ]
@@ -48,7 +47,9 @@ def test_example():
 
 # TODO: Add more test cases for your logic
 
+
 # Test where user does not have similar schdedules
+
 def test_no_similar_schedules():
     availability_1 = Availability(day=WeekdayCode.MON, hour=12)
     availability_2 = Availability(day=WeekdayCode.MON, hour=13)
@@ -111,3 +112,4 @@ def min_common_similar_schedules():
         ),
     ]
     assert actual == expected
+

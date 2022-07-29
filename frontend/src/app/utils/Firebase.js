@@ -7,6 +7,7 @@ const projectId = import.meta.env.VITE_firebase_projectId
 const storageBucket = import.meta.env.VITE_firebase_storageBucket
 const messagingSenderId = import.meta.env.VITE_firebase_messagingSenderId
 const appId = import.meta.env.VITE_firebase_appId
+const measurementId = import.meta.env.VITE_firebase_measurementId
 
 /*
  * This method should only be called once, `app`
@@ -20,6 +21,7 @@ export function createFirebaseApp() {
         storageBucket,
         messagingSenderId,
         appId,
+        measurementId,
     }
     const app = initializeApp(firebaseConfig)
     return app

@@ -10,9 +10,11 @@ import {
     ref,
     serverTimestamp,
 } from 'firebase/database'
+import { getAnalytics, logEvent } from 'firebase/analytics'
 import { MESSAGE_TYPE } from './ChatConstants'
 import { DB_PATH } from '../constants'
 import { getUserData } from '../data'
+import { saveEvent } from '../utils'
 
 /*
  * Hook that returns a state variable containing data
@@ -125,4 +127,16 @@ export async function sendMessage(chatId, data) {
     const messagesPath = `${DB_PATH.MESSAGES}/${chatId}`
     const messagesRef = ref(db, messagesPath)
     await push(messagesRef, messageValue)
+    const analytics = getAnalytics()
+    logEvent(analytics, 'send_chat_message', {
+        community: data?.community,
+        release: data?.release,
+        chat: data?.chat,
+    })
+    saveEvent('send_chat_message', {
+        community: data?.community,
+        release: data?.release,
+        chat: data?.chat,
+        user: data?.from,
+    })
 }

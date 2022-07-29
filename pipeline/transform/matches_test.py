@@ -4,13 +4,28 @@ from pipeline.transform.matches import (
     convert_matches_from_df,
     filter_recent_matches,
 )
-from pipeline.types import Match
+from pipeline.types import Match, MatchMetadata
 
 
-def test_convert_matches_from_df():
+def test_convert_matches_from_df():  # no metadata is passed
     df = pd.DataFrame([{"users": {"A", "B"}, "extraData": "ignore"}])
     actual = convert_matches_from_df.run(df)
-    expected = [Match(users={"A", "B"})]
+    expected = [
+        Match(users={"A", "B"}, metadata=MatchMetadata(generator="blank"))
+    ]
+    assert actual == expected
+
+
+def test_convert_matches_from_df_using_metadata():  # metadata is passed using the blue generator
+    df = pd.DataFrame(
+        [{"users": {"A", "B"}, "metadata": {"generator": "blueGenerator"}}]
+    )
+    actual = convert_matches_from_df.run(df)
+    expected = [
+        Match(
+            users={"A", "B"}, metadata=MatchMetadata(generator="blueGenerator")
+        )
+    ]
     assert actual == expected
 
 

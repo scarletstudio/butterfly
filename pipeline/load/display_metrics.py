@@ -20,6 +20,10 @@ def render_counts_per_user(users: List[User], counts: Dict[UserId, int]) -> str:
     return joined
 
 
+def render_user_emails(users: List[User]) -> str:
+    return "\n".join([u.email for u in users])
+
+
 @task
 def display_internal_matching_metrics(
     output: MatchingOutput, metrics: MatchingMetrics
@@ -29,4 +33,6 @@ def display_internal_matching_metrics(
     proposed_matches_per_user = render_counts_per_user(
         output.users, metrics.n_proposed_matches_per_user
     )
+    matched_user_emails = render_user_emails(output.users)
     logger.info(f"\nMatches Proposed per User:\n{proposed_matches_per_user}")
+    logger.info(f"\nEmails of Matched Users:\n{matched_user_emails}")
