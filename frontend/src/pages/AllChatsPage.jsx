@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useCurrentAuthUser } from '../app/login'
 import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
 import { ChatInbox } from '../app/inbox'
+import { saveEvent } from '../app/utils'
 
 const ChatInboxHeader = () => (
     <div className="Header Light">
@@ -33,6 +34,13 @@ export default function AllChatsPage() {
         {}
     )
     const matchedUsers = useGetManyUserData(matchedUserIds, getUserData)
+    useEffect(() => {
+        if (authUser?.uid) {
+            saveEvent('view_chat_inbox', {
+                user: authUser.uid,
+            })
+        }
+    }, [authUser?.uid])
 
     return (
         <div className="AllChatsPage FullHeight LightBackground">
