@@ -35,20 +35,22 @@ def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
         return pd.DataFrame()
     logger.info(f"Extracted {len(user_chat_records)} user-chat records.")
     # loop over values --> chats.values()
-    users: List[User] = []
-    ids: Set[UserId] = set()
+    # users: List[User] = []
+    ids: Set[ChatMatchId] = set()
     chatList: List[ChatData] = []
+
     for key in user_chat_records.keys():
         if user_chat_records[key]["id"] not in ids:
 
             timestamp = user_chat_records[key]["release_timestamp"]
             id = user_chat_records[key]["id"]
             participants = user_chat_records[key]["participants"]
+            logger.info(f"participants: {participants}")
             rtag = user_chat_records[key]["release_tag"]
             chatdata_title = user_chat_records[key]["title"]
             raw_metadata = user_chat_records[key].get("metadata", {})
             parsed_md = MatchMetadata(**raw_metadata)
-
+            # run extract_message
             cd1 = ChatData(
                 release_timestamp=timestamp,
                 chat_match_id=id,
@@ -59,9 +61,15 @@ def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
                 metadata=parsed_md,
                 messages=[],
             )
-
+            chatList.append(cd1)
+            ids.add(id)
     # find and delete one of the duplicates
+    logger.info(f"ids: {ids}, Chatlist: {chatList}")
     return pd.DataFrame({"A": []})
+
+
+# additional function
+# given a userId return a User object instead of participants in Dict[UserId, User] format
 
 
 def extract_message_data(
@@ -72,8 +80,7 @@ def extract_message_data(
     message_records = message_ref.get()
     if not message_records:
         logger.info(f"No message records for commmnity: {community}/{chatid}")
-        # msg1 = Message()
-        # return msg1
+        return pd.DataFrame()  # will give error TODO: fix this
     logger.info(f"Extracted {len(message_records)} message records.")
     l_messages: List[Message] = []
     for message in message_records.values():
