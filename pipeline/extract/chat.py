@@ -1,8 +1,19 @@
+from typing import List, Set
+
 import pandas as pd
 import prefect
 from prefect import task
 
-from pipeline.types import Community, Match
+from pipeline.types import (
+    ChatData,
+    ChatMatchId,
+    Community,
+    Match,
+    MatchMetadata,
+    Message,
+    User,
+    UserId,
+)
 
 # TODO:
 # fix naming conventions
@@ -17,13 +28,60 @@ from pipeline.types import Community, Match
 @task
 def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
     logger = prefect.context.get("logger")
-    chat_ref = db.reference(f"messages/{community}")
-    chat_records = chat_ref.get()
-    if not chat_records:
+    chat_ref = db.reference(f"matches/{community}")
+    user_chat_records = chat_ref.get()
+    if not user_chat_records:
         logger.info(f"No user-chat records for commmnity: {community}")
         return pd.DataFrame()
-    logger.info(f"Extracted {len(chat_records)} user-chat records.")
+    logger.info(f"Extracted {len(user_chat_records)} user-chat records.")
     # loop over values --> chats.values()
-    # for record in chat_records.value():
+    users: List[User] = []
+    ids: Set[UserId] = set()
+    chatList: List[ChatData] = []
+    for key in user_chat_records.keys():
+        if user_chat_records[key]["id"] not in ids:
+
+            timestamp = user_chat_records[key]["release_timestamp"]
+            id = user_chat_records[key]["id"]
+            participants = user_chat_records[key]["participants"]
+            rtag = user_chat_records[key]["release_tag"]
+            chatdata_title = user_chat_records[key]["title"]
+            raw_metadata = user_chat_records[key].get("metadata", {})
+            parsed_md = MatchMetadata(**raw_metadata)
+
+            cd1 = ChatData(
+                release_timestamp=timestamp,
+                chat_match_id=id,
+                community_id="sds",
+                participants=participants,
+                release_tag=rtag,
+                title=chatdata_title,
+                metadata=parsed_md,
+                messages=[],
+            )
+
     # find and delete one of the duplicates
     return pd.DataFrame({"A": []})
+
+
+def extract_message_data(
+    db, community: Community, chatid: ChatMatchId
+) -> List[Message]:  # helper function
+    logger = prefect.context.get("logger")
+    message_ref = db.reference(f"messages/{community}/{chatid}")
+    message_records = message_ref.get()
+    if not message_records:
+        logger.info(f"No message records for commmnity: {community}/{chatid}")
+        # msg1 = Message()
+        # return msg1
+    logger.info(f"Extracted {len(message_records)} message records.")
+    l_messages: List[Message] = []
+    for message in message_records.values():
+        m = Message(
+            from_user=message["from"],
+            timestamp=message["timestamp"],
+            message_type=message["type"],
+            message=message["message"],
+        )
+    l_messages.append(m)
+    return l_messages
