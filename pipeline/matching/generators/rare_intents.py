@@ -40,7 +40,7 @@ class RareIntentsGenerator(MatchGenerator):
         return percentDict
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
-    
+
         # getting a percentage of rareness for every given
         percentDict = self.percentage(inp)
         # add all rare givers to this dictionary to later match them
@@ -82,7 +82,7 @@ class RareIntentsGenerator(MatchGenerator):
                                 },
                                 metadata=MatchMetadata(
                                     generator="rareIntentsGenerator",
-                                    rareIntents=[
+                                    intents=[
                                         IntentMatch(
                                             code=intents_in_community.code,
                                             seeker=users_in_community.uid,
@@ -113,7 +113,7 @@ class RareIntentsGenerator(MatchGenerator):
                                 checking_same_user == False
                             ):  # this is to make sure that we are not making a match between one user
                                 if key in matches:
-                                    matches[key].metadata.rareIntents.append(
+                                    matches[key].metadata.intents.append(
                                         IntentMatch(
                                             code=intents_in_community.code,
                                             seeker=users_in_community.uid,
@@ -148,7 +148,7 @@ class RareIntentsGenerator(MatchGenerator):
         #                         },
         #                         metadata=MatchMetadata(
         #                             generator="rareIntentsGenerator",
-        #                             rareIntents=[
+        #                             intents=[
         #                                 IntentMatch(
         #                                     code=intents_in_community.code,
         #                                     seeker=users_in_community.uid,
@@ -166,7 +166,7 @@ class RareIntentsGenerator(MatchGenerator):
         #                 #         },
         #                 #         metadata=MatchMetadata(
         #                 #             generator="rareIntentsGenerator",
-        #                 #             rareIntents=[
+        #                 #             intents=[
         #                 #                 IntentMatch(
         #                 #                     code=intents_in_community.code,
         #                 #                     seeker=users_in_community.uid,
