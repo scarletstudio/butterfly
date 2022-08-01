@@ -2,14 +2,14 @@ import React from 'react'
 import './ChatInbox.css'
 import ChatPreview from './ChatPreview'
 import { ChatData, UserData } from '../types'
-import { fetchFromBackend, useBackendFetchJson } from '../utils'
 
 interface ChatInboxProps {
     chats: ChatData[]
     users: { [uid: string]: UserData }
+    blockedUsers: Record<string, never>
 }
 
-const ChatInbox = ({ chats, users }: ChatInboxProps) => {
+const ChatInbox = ({ chats, users, blockedUsers }: ChatInboxProps) => {
     const mostRecentFirst = (a, b) => b.release_timestamp - a.release_timestamp
     const sortedChats = chats.sort(mostRecentFirst)
 
@@ -31,6 +31,7 @@ const ChatInbox = ({ chats, users }: ChatInboxProps) => {
             {noChatsEl}
             {chatEls}
             <div className="BlockInbox">block users here</div>
+            {Object.keys(blockedUsers)}
         </div>
     )
 }

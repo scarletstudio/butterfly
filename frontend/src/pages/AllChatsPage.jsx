@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useCurrentAuthUser } from '../app/login'
 import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
 import { ChatInbox } from '../app/inbox'
-import { saveEvent } from '../app/utils'
+import { saveEvent, useBackendFetchJson } from '../app/utils'
 
 const ChatInboxHeader = () => (
     <div className="Header Light">
@@ -23,6 +23,24 @@ const ChatInboxHeader = () => (
     </div>
 )
 
+// find the blocked accounts of the user
+function FetchBlockedUsers(myUid) {
+    const [res] = useBackendFetchJson({
+        route: `/chat/block/user/${myUid}`,
+        deps: [myUid],
+        isValid: myUid,
+    })
+    const blockedUsers = res?.blocks || []
+    // create a blocked user dictionary
+    const reduceList = blockedUsers.reduce((accumulator, item) => {
+        if (item.blocked === true) {
+            accumulator[item.uid] = item.blocked
+        }
+        return accumulator
+    }, {})
+    return reduceList
+}
+
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
     const matches = useGetAllUserMatches(authUser?.uid)
@@ -33,6 +51,9 @@ export default function AllChatsPage() {
         }),
         {}
     )
+
+    const blockedUsers = FetchBlockedUsers(authUser?.uid)
+
     const matchedUsers = useGetManyUserData(matchedUserIds, getUserData)
     useEffect(() => {
         if (authUser?.uid) {
@@ -45,7 +66,7 @@ export default function AllChatsPage() {
     return (
         <div className="AllChatsPage FullHeight LightBackground">
             <ChatInboxHeader />
-            <ChatInbox chats={matches} users={matchedUsers} />
+            <ChatInbox chats={matches} users={matchedUsers} blockedUsers={blockedUsers} />
         </div>
     )
 }
