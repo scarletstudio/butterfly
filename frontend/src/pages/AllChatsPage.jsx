@@ -46,18 +46,15 @@ export default function AllChatsPage() {
     const matches = useGetAllUserMatches(authUser?.uid)
     const blockedUsers = useFetchBlockedUsers(authUser?.uid)
 
-    const unblockedMatches = matches.filter(
-        (match) =>
-            !Object.keys(match.participants).some((participant) =>
-                Object.keys(blockedUsers).includes(participant)
-            )
-    )
+    const matchesWithBlocks = matches.map((match) => ({
+        ...match,
+        hasBlockedUser: Object.keys(match.participants).some(
+            (participant) => participant in blockedUsers
+        ),
+    }))
 
-    const blockedMatches = matches.filter((match) =>
-        Object.keys(match.participants).some((participant) =>
-            Object.keys(blockedUsers).includes(participant)
-        )
-    )
+    const unblockedMatches = matchesWithBlocks.filter((m) => !m.hasBlockedUser)
+    const blockedMatches = matchesWithBlocks.filter((m) => m.hasBlockedUser)
 
     const matchedUserIds = matches.reduce(
         (agg, m) => ({
@@ -81,9 +78,11 @@ export default function AllChatsPage() {
             <ChatInboxHeader />
             <ChatInbox chats={unblockedMatches} users={matchedUsers} />
 
-            {/* TODO: Make this a collapsable element & hide it if no blockedMatches are present */}
-            <h1>Hidden Conversations</h1>
-            <ChatInbox chats={blockedMatches} users={matchedUsers} />
+            {/* TODO: Make this a collapsable element */}
+            <div className={blockedMatches.length === 0 ? 'Hidden' : ''}>
+                <h1>Hidden Conversations</h1>
+                <ChatInbox chats={blockedMatches} users={matchedUsers} />
+            </div>
         </div>
     )
 }
