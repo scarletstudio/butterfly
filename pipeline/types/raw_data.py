@@ -15,3 +15,4 @@ RawUserCommunityMemberships = Dict[Community, RawCommunityMembership]
 RawUserInterests = Dict[UserId, Dict[InterestCode, bool]]
 # Three-level dictionary that indicates which intents a user selected
 RawUserIntents = Dict[UserId, Dict[IntentCode, Dict[Side, bool]]]
+RawAnalytics = Dict
