@@ -13,6 +13,7 @@ UserGroup = Tuple[UserId, ...]
 class User:
     uid: UserId
     displayName: str
+    location: str
     interests: List[Interest] = field(default_factory=list)
     intents: List[Intent] = field(default_factory=list)
     schedule: List[Availability] = field(default_factory=list)
