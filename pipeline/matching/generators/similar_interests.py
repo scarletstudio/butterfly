@@ -8,7 +8,7 @@ GENERATOR_SIMILAR_INTERESTS = "similarInterestsGenerator"
 
 
 class SimilarInterestsGenerator(MatchGenerator):
-    def __init__(self, min_common: int = 0):
+    def __init__(self, min_common: int = 1):
         self.min_common = min_common
         super().__init__(name=GENERATOR_SIMILAR_INTERESTS)
 
@@ -39,6 +39,6 @@ class SimilarInterestsGenerator(MatchGenerator):
             metadata = MatchMetadata(
                 generator=GENERATOR_SIMILAR_INTERESTS,
                 score=calculate_score,
-                commonInterests=list(sorted(common_interest)),
+                interests=list(sorted(common_interest)),
             )
             yield Match(users={user_one.uid, user_two.uid}, metadata=metadata)
