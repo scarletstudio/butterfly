@@ -1,3 +1,4 @@
+/* global document */
 import { fetchFromBackend } from './Fetch'
 
 export function saveEvent(eventType, data) {
@@ -5,8 +6,13 @@ export function saveEvent(eventType, data) {
         route: '/analytics/collect/',
         options: {
             method: 'POST',
-            // eslint-disable-next-line camelcase
-            body: JSON.stringify({ event_type: eventType, data }),
+            body: JSON.stringify({
+                // eslint-disable-next-line camelcase
+                event_type: eventType,
+                host: document.location.host,
+                page_url: document.location.pathname,
+                data,
+            }),
         },
     })
 }

@@ -9,6 +9,8 @@ router = Router()
 
 class AnalyticsEvent(Schema):
     event_type: str
+    host: str
+    page_url: str
     data: Dict[str, Any]
 
 
