@@ -6,10 +6,9 @@ import { ChatData, UserData } from '../types'
 interface ChatInboxProps {
     chats: ChatData[]
     users: { [uid: string]: UserData }
-    blockedUsers: Record<string, never>
 }
 
-const ChatInbox = ({ chats, users, blockedUsers }: ChatInboxProps) => {
+const ChatInbox = ({ chats, users }: ChatInboxProps) => {
     const mostRecentFirst = (a, b) => b.release_timestamp - a.release_timestamp
     const sortedChats = chats.sort(mostRecentFirst)
 
@@ -24,14 +23,11 @@ const ChatInbox = ({ chats, users, blockedUsers }: ChatInboxProps) => {
             const com = c?.communityConfig || {}
             return <ChatPreview key={c.id} match={c} users={users} community={com} />
         })
-    // TODO: hide blocked users chat
 
     return (
         <div className="ChatInbox">
             {noChatsEl}
             {chatEls}
-            <div className="BlockInbox">block users here</div>
-            {Object.keys(blockedUsers)}
         </div>
     )
 }

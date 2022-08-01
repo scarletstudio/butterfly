@@ -24,7 +24,7 @@ const ChatInboxHeader = () => (
 )
 
 // find the blocked accounts of the user
-function FetchBlockedUsers(myUid) {
+function useFetchBlockedUsers(myUid) {
     const [res] = useBackendFetchJson({
         route: `/chat/block/user/${myUid}`,
         deps: [myUid],
@@ -44,6 +44,21 @@ function FetchBlockedUsers(myUid) {
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
     const matches = useGetAllUserMatches(authUser?.uid)
+    const blockedUsers = useFetchBlockedUsers(authUser?.uid)
+
+    const unblockedMatches = matches.filter(
+        (match) =>
+            !Object.keys(match.participants).some((participant) =>
+                Object.keys(blockedUsers).includes(participant)
+            )
+    )
+
+    const blockedMatches = matches.filter((match) =>
+        Object.keys(match.participants).some((participant) =>
+            Object.keys(blockedUsers).includes(participant)
+        )
+    )
+
     const matchedUserIds = matches.reduce(
         (agg, m) => ({
             ...agg,
@@ -51,8 +66,6 @@ export default function AllChatsPage() {
         }),
         {}
     )
-
-    const blockedUsers = FetchBlockedUsers(authUser?.uid)
 
     const matchedUsers = useGetManyUserData(matchedUserIds, getUserData)
     useEffect(() => {
@@ -66,7 +79,11 @@ export default function AllChatsPage() {
     return (
         <div className="AllChatsPage FullHeight LightBackground">
             <ChatInboxHeader />
-            <ChatInbox chats={matches} users={matchedUsers} blockedUsers={blockedUsers} />
+            <ChatInbox chats={unblockedMatches} users={matchedUsers} />
+
+            {/* TODO: Make this a collapsable element & hide it if no blockedMatches are present */}
+            <h1>Hidden Conversations</h1>
+            <ChatInbox chats={blockedMatches} users={matchedUsers} />
         </div>
     )
 }
