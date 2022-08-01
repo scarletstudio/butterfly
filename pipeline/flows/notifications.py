@@ -1,4 +1,5 @@
 import datetime
+import itertools
 from typing import Dict, List
 
 import prefect
@@ -12,18 +13,37 @@ from pipeline.types import ChatData, NotificationInfo, NotificationInput
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
+# this simple task is a placeholder for the extract chatdata task
 @prefect.task
-def get_users_to_notify(inp: NotificationInput) -> List[NotificationInfo]:
+def return_pseudo_chatdata() -> List[ChatData]:
+    fake_extracted_chats = [
+        ChatData(release_timestamp=datetime.datetime.now()),
+        ChatData(release_timestamp=datetime.datetime.now()),
+        ChatData(release_timestamp=datetime.datetime.now()),
+    ]
+    return fake_extracted_chats
+
+
+@prefect.task
+def get_notifications(inp: List[ChatData]) -> List[NotificationInfo]:
     logger = prefect.context.get("logger")
-    # add other types of notifiers once they are implemented
-    notifier = NewMessageNotifier()
+    # add other types of notifiers to list once they are implemented
+    notifier_lst = [NewMessageNotifier()]
     logger.info("Generating notifications")
-    # refactor to account for additional notification types once they're implemented
-    notif_info_lst = notifier.get_notifications(inp=inp)
+    notif_info_lst = []
+    for chatdata in inp:
+        notif_input = NotificationInput(
+            chatdata=chatdata, run_datetime=datetime.datetime.now()
+        )
+        for notifier in notifier_lst:
+            notif_info = notifier.get_notifications(inp=notif_input)
+            notif_info_lst.append(notif_info)
+    # flatten notif_info_lst, which is a list of lists
+    flat_notif_info_lst = list(itertools.chain(*notif_info_lst))
     logger.info(
-        f"Done. Number of notifications generated: {len(notif_info_lst)}"
+        f"Done. Number of notifications generated: {len(flat_notif_info_lst)}"
     )
-    return notif_info_lst
+    return flat_notif_info_lst
 
 
 def notif_hierarchy(notifs: List[NotificationInfo]) -> List[NotificationInfo]:
@@ -69,25 +89,15 @@ def notifications_flow(defaults: Dict = {}) -> Flow:
         db = initialize_firebase_for_prefect(
             secret_database_url, secret_admin_credentials
         )
-    """
-    Extract chat data for the community in current release
+        """
+        Extract chat data for the community in current release
 
-     * Will contain messages and information about the match
+        * Will contain messages and information about the match
 
-     * David is working on implementing this; add it to flow once he's finished
-    """
-    # TODO: add chat data extraction
-
-    # Extract users in the community
-    df_users = extract_users(db, param_community)
-
-    # Transform users from dataframe to user objects
-    users_w_profile = convert_users_from_df(df_users)
-
-    # check hierarchy of notifications
-    chatdata = ChatData(release_timestamp=datetime.datetime.now())
-    inp = NotificationInput(
-        chatdata=chatdata, run_datetime=datetime.datetime.now()
-    )
-    notifs = get_users_to_notify(inp=inp)
-    final_notifications = notif_hierarchy(notifs=notifs)
+        * David is working on implementing this; add it to flow once he's finished
+        """
+        # TODO: add chat data extraction
+        pseudo_chatadata = return_pseudo_chatdata()
+        # Truncate list of notifications by hierarchy
+        notifications = get_notifications(inp=pseudo_chatadata)
+        final_notifications = notif_hierarchy(notifs=notifications)
