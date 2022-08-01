@@ -37,7 +37,7 @@ def test_one_similar_interest():
             metadata=MatchMetadata(
                 generator="similarInterestsGenerator",
                 score=(1 / 3),
-                commonInterests=["swimming"],
+                interests=["swimming"],
             ),
         ),
     ]
@@ -100,7 +100,7 @@ def test_one_with_many_interest():
             metadata=MatchMetadata(
                 generator="similarInterestsGenerator",
                 score=(1 / 5),
-                commonInterests=["painting"],
+                interests=["painting"],
             ),
         ),
     ]
