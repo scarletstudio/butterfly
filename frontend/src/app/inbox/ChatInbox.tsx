@@ -2,6 +2,7 @@ import React from 'react'
 import './ChatInbox.css'
 import ChatPreview from './ChatPreview'
 import { ChatData, UserData } from '../types'
+import { fetchFromBackend, useBackendFetchJson } from '../utils'
 
 interface ChatInboxProps {
     chats: ChatData[]
@@ -23,11 +24,13 @@ const ChatInbox = ({ chats, users }: ChatInboxProps) => {
             const com = c?.communityConfig || {}
             return <ChatPreview key={c.id} match={c} users={users} community={com} />
         })
+    // TODO: hide blocked users chat
 
     return (
         <div className="ChatInbox">
             {noChatsEl}
             {chatEls}
+            <div className="BlockInbox">block users here</div>
         </div>
     )
 }
