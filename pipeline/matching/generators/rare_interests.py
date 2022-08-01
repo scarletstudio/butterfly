@@ -35,7 +35,7 @@ class RareInterestsGenerator(MatchGenerator):
                     metadata=MatchMetadata(
                         generator="rareInterestsGenerator",
                         score=round(rarityScore, 2),
-                        rareInterests=rareInterests_,
+                        interests=rareInterests_,
                     ),
                 )
             ]
@@ -85,7 +85,7 @@ class RareInterestsGenerator(MatchGenerator):
                 metadata=MatchMetadata(
                     generator="rareInterestsGenerator",
                     score=round(rarityScore, 2),
-                    rareInterests=rareInterests_,
+                    interests=rareInterests_,
                 ),
             )
         ]
