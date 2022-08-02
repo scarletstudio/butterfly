@@ -4,6 +4,7 @@ import { ConversationStarterProps } from './ConversationStarter'
 import { pluralize } from '../utils'
 import { CommunityData } from '../../config/communities'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface InterestsStarterProps {
     chatInterests: Array<string>
     communityData: CommunityData
@@ -36,4 +37,5 @@ const InterestsStarter = ({ chat, community }: ConversationStarterProps) => (
         communityData={community || { interests: [] }}
     />
 )
+
 export default InterestsStarter
