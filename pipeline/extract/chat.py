@@ -34,7 +34,6 @@ def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
         logger.info(f"No user-chat records for commmnity: {community}")
         return pd.DataFrame()
     logger.info(f"Extracted {len(user_chat_records)} user-chat records.")
-    # loop over values --> chats.values()
     # users: List[User] = []
     ids: Set[ChatMatchId] = set()
     chatList: List[ChatData] = []
@@ -50,7 +49,14 @@ def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
             chatdata_title = user_chat_records[key]["title"]
             raw_metadata = user_chat_records[key].get("metadata", {})
             parsed_md = MatchMetadata(**raw_metadata)
+
             # run extract_message
+            ext_message = extract_message_data(
+                db, community=community, chatid=id
+            )
+            if ext_message:
+                logger.info(f"Extracted message: {ext_message}")
+
             cd1 = ChatData(
                 release_timestamp=timestamp,
                 chat_match_id=id,
@@ -70,6 +76,8 @@ def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
 
 # additional function
 # given a userId return a User object instead of participants in Dict[UserId, User] format
+# def getUser(db, community: Community, userid: UserId) -> {UserId: User}:
+# pass
 
 
 def extract_message_data(
@@ -80,15 +88,16 @@ def extract_message_data(
     message_records = message_ref.get()
     if not message_records:
         logger.info(f"No message records for commmnity: {community}/{chatid}")
-        return pd.DataFrame()  # will give error TODO: fix this
-    logger.info(f"Extracted {len(message_records)} message records.")
-    l_messages: List[Message] = []
-    for message in message_records.values():
-        m = Message(
-            from_user=message["from"],
-            timestamp=message["timestamp"],
-            message_type=message["type"],
-            message=message["message"],
-        )
-    l_messages.append(m)
+    if message_records:
+        logger.info(f"Extracted {len(message_records)} message records.")
+        l_messages: List[Message] = []
+        for message in message_records.values():
+            print(message)
+            m = Message(
+                from_user=message["from"],
+                timestamp=message["timestamp"],
+                message_type=message["type"],
+                message=message["message"],
+            )
+        l_messages.append(m)
     return l_messages
