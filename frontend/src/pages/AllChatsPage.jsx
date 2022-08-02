@@ -45,14 +45,14 @@ export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
     const matches = useGetAllUserMatches(authUser?.uid)
     const blockedUsers = useFetchBlockedUsers(authUser?.uid)
-
+    // map to check if blocked user from dictionary is present in inbox
     const matchesWithBlocks = matches.map((match) => ({
         ...match,
         hasBlockedUser: Object.keys(match.participants).some(
             (participant) => participant in blockedUsers
         ),
     }))
-
+    // separate blocked and unblocked chats
     const unblockedMatches = matchesWithBlocks.filter((m) => !m.hasBlockedUser)
     const blockedMatches = matchesWithBlocks.filter((m) => m.hasBlockedUser)
 
