@@ -12,6 +12,7 @@
 }
 
 .Search .Input {
+    position: relative;
     --input-width: calc(80% - var(--send-width));
     min-width: var(--input-width);
     border-top-left-radius: var(--chat-composer-radius);
@@ -23,5 +24,13 @@
     width: var(--send-width);
     border-top-right-radius: var(--chat-composer-radius);
     border-bottom-right-radius: var(--chat-composer-radius);
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
     background-color: rgba(42, 222, 250, 1);
+}
+
+.Search .text-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
