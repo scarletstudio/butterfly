@@ -1,3 +1,4 @@
+export * from './Analytics'
 export * from './DateTime'
 export * from './Events'
 export * from './Fetch'
