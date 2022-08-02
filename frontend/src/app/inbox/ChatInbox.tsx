@@ -21,7 +21,7 @@ const ChatInbox = ({ chats, users }: ChatInboxProps) => {
         sortedChats.length > 0 &&
         sortedChats.map((c) => {
             const com = c?.communityConfig || {}
-            return <ChatPreview key={c.id} match={c} users={users} community={com} />
+            return <ChatPreview key={c.id} match={c} users={users} community={com} chatData={c} />
         })
 
     return (
