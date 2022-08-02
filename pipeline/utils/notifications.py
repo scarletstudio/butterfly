@@ -2,6 +2,8 @@ from typing import List
 
 from pipeline.types import NotificationInfo, NotificationType, User
 
+PRIORITY = {NotificationType.CHECK_MESSAGE: 1, NotificationType.RATE_MATCH: 2}
+
 
 def notifications_per_user(
     notifications: List[NotificationInfo],
@@ -16,3 +18,15 @@ def notifications_per_user(
         list_notifications.append(notification)
         recipients.add(notification.recipient.uid)
     return list_notifications
+
+
+def get_notif_priority(notification: NotificationInfo) -> int:
+    return PRIORITY[notification.notification_type]
+
+
+def priority_notifications_per_user(
+    notifications: List[NotificationInfo],
+) -> List[NotificationInfo]:
+    sorted_notifs = sorted(notifications, key=get_notif_priority)
+    final_notifs = notifications_per_user(sorted_notifs)
+    return final_notifs
