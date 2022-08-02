@@ -86,11 +86,11 @@ def extract_message_data(
     logger = prefect.context.get("logger")
     message_ref = db.reference(f"messages/{community}/{chatid}")
     message_records = message_ref.get()
+    l_messages: List[Message] = []
     if not message_records:
         logger.info(f"No message records for commmnity: {community}/{chatid}")
     if message_records:
         logger.info(f"Extracted {len(message_records)} message records.")
-        l_messages: List[Message] = []
         for message in message_records.values():
             print(message)
             m = Message(
