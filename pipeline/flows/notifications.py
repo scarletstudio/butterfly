@@ -1,13 +1,13 @@
 import datetime
 import itertools
-from typing import Dict, List
+from typing import Dict, List, Tuple, Union
 
 import prefect
 from prefect import Flow, Parameter
 from prefect.tasks.secrets import PrefectSecret
 
 from pipeline.extract import extract_users
-from pipeline.notifications import NewMessageNotifier
+from pipeline.notifications import NewMessageNotifier, NewMessageRender
 from pipeline.transform import convert_users_from_df
 from pipeline.types import ChatData, NotificationInfo, NotificationInput
 from pipeline.utils.firebase import initialize_firebase_for_prefect
@@ -75,6 +75,19 @@ def notif_hierarchy(notifs: List[NotificationInfo]) -> List[NotificationInfo]:
     return list(truncated_notif_info.values())
 
 
+def assign_renderers(
+    notifs: List[NotificationInfo],
+) -> List[Tuple[NotificationInfo, Union[NewMessageRender, None]]]:
+    # include other renderers to Union in type definition once they are implemented
+    notifs_with_renderers = []
+    # include other renderers to dictionary once they are implemented
+    renders = {"check_message": NewMessageRender()}
+    for notif in notifs:
+        render = renders.get(notif.notification_type.value)
+    notifs_with_renderers.append((notif, render))
+    return notifs_with_renderers
+
+
 def notifications_flow(defaults: Dict = {}) -> Flow:
     with Flow(name="notification_flow") as flow:
         # Retrieve community parameter
@@ -101,3 +114,5 @@ def notifications_flow(defaults: Dict = {}) -> Flow:
         # Truncate list of notifications by hierarchy
         notifications = get_notifications(inp=pseudo_chatadata)
         final_notifications = notif_hierarchy(notifs=notifications)
+        # Assign renderers to notifications
+        notifs_with_renderers = assign_renderers(notifs=final_notifications)
