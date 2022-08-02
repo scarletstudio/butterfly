@@ -10,9 +10,11 @@ import {
     ref,
     serverTimestamp,
 } from 'firebase/database'
+import { getAnalytics, logEvent } from 'firebase/analytics'
 import { MESSAGE_TYPE } from './ChatConstants'
 import { DB_PATH } from '../constants'
 import { getUserData } from '../data'
+import { saveEvent } from '../utils'
 
 /*
  * Hook that returns a state variable containing data
@@ -22,7 +24,14 @@ export function useGetChatData(chatId) {
     const [data, setData] = useState({})
 
     useEffect(() => {
+        // Do not try to fetch if ID is nullish, return empty function from hook
+        if (!chatId) return () => undefined
         const db = getDatabase()
+        // TODO(vinesh): Clean up this hack. We are joining the community ID to
+        // the match ID to the user ID to get the user-match record. For now,
+        // this is an easy way to add community ID to the chat data response
+        // without adding it via a context or in the match dataclass.
+        const communityId = chatId.split('/')[0]
         const chatPath = `${DB_PATH.MATCHES}/${chatId}`
         const chatRef = ref(db, chatPath)
         // Fetch chat data
@@ -41,6 +50,7 @@ export function useGetChatData(chatId) {
             setData({
                 isLoaded: true,
                 exists: snap.exists(),
+                communityId,
                 ...val,
                 participants: participantData,
             })
@@ -117,4 +127,16 @@ export async function sendMessage(chatId, data) {
     const messagesPath = `${DB_PATH.MESSAGES}/${chatId}`
     const messagesRef = ref(db, messagesPath)
     await push(messagesRef, messageValue)
+    const analytics = getAnalytics()
+    logEvent(analytics, 'send_chat_message', {
+        community: data?.community,
+        release: data?.release,
+        chat: data?.chat,
+    })
+    saveEvent('send_chat_message', {
+        community: data?.community,
+        release: data?.release,
+        chat: data?.chat,
+        user: data?.from,
+    })
 }

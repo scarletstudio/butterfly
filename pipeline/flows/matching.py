@@ -3,7 +3,7 @@ import sys
 sys.path.append("./")
 
 import datetime
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import prefect
 from prefect import Flow, Parameter
@@ -18,6 +18,7 @@ from pipeline.extract import (
     extract_recent_matches,
     extract_users,
 )
+from pipeline.load.display_metrics import display_internal_matching_metrics
 from pipeline.load.release import delete_previous_release, upload_matches
 from pipeline.load.validation import validate_and_log_matches
 from pipeline.matching.core import MatchingEngine
@@ -25,18 +26,21 @@ from pipeline.matching.engines.config import ENGINES
 from pipeline.transform import (
     augment_users_with_intents,
     augment_users_with_interests,
+    compute_internal_matching_metrics,
     convert_matches_from_df,
     convert_users_from_df,
     filter_recent_matches,
     get_matching_input,
     transform_matches_for_load,
 )
-from pipeline.types import EngineId, Match, MatchingInput, User
+from pipeline.types import EngineId, Match, MatchingInput, MatchingOutput, User
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
 
 @prefect.task
-def compute_matches(inp: MatchingInput, engine_id: EngineId) -> List[Match]:
+def compute_matches(
+    inp: MatchingInput, engine_id: EngineId
+) -> Tuple[MatchingOutput, List[Match]]:
     """Get a matching engine by ID, then run it on the given inputs."""
     logger = prefect.context.get("logger")
     Engine = ENGINES.get(engine_id, None)
@@ -44,11 +48,11 @@ def compute_matches(inp: MatchingInput, engine_id: EngineId) -> List[Match]:
         msg = f"No engine found for ID: `{engine_id}`"
         logger.warning(msg)
         raise ValueError(msg)
-    engine: MatchingEngine = Engine()
+    engine: MatchingEngine = Engine(return_internal_data=True)
     logger.info(f"Running matching engine: `{engine_id}`")
     output = engine.run(inp)
     logger.info(f"Done. Output {len(output.matches)} matches.")
-    return output.matches
+    return output, output.matches
 
 
 def matching_flow(defaults: Dict = {}) -> Flow:
@@ -89,12 +93,11 @@ def matching_flow(defaults: Dict = {}) -> Flow:
 
         # Transform extracted data to matching inputs
         users_w_profile = convert_users_from_df(df_users)
-        # TODO(vinesh, azucena): Add this transform back when it is ready
-        # users_w_intents = augment_users_with_intents(
-        #     users_w_profile, raw_intents
-        # )
+        users_w_intents = augment_users_with_intents(
+            users_w_profile, raw_intents
+        )
         users_w_data = augment_users_with_interests(
-            users_w_profile, raw_interests
+            users_w_intents, raw_interests
         )
         matches = convert_matches_from_df(df_matches)
         recent_matches = filter_recent_matches(matches, param_release)
@@ -110,11 +113,15 @@ def matching_flow(defaults: Dict = {}) -> Flow:
             intent_upvotes=intent_upvotes,
             match_stars=match_stars,
         )
-        output_matches = compute_matches(inp, param_engine)
+        matching_output, output_matches = compute_matches(inp, param_engine)
         # Validate using users without additional data added
         passed = validate_and_log_matches(
             users_w_profile, recent_matches, output_matches
         )
+
+        computed_metrics = compute_internal_matching_metrics(matching_output)
+
+        display_internal_matching_metrics(matching_output, computed_metrics)
 
         # Do not prepare output matches for loading unless validation passed
         df_output_matches = transform_matches_for_load(

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Callable, Iterator, List, Set
+from typing import Callable, Dict, Iterator, List, Set
 
 from pipeline.types.community import Community
 from pipeline.types.intent import Intent
@@ -54,3 +54,10 @@ class MatchingOutput:
     users: List[User]
     matches: List[Match]
     internal_data: MatchingInternalData = MatchingInternalData()
+
+
+@dataclass
+class MatchingMetrics:
+    # A dictionary where keys -> users and values -> integers
+    n_proposed_matches_per_user: Dict = field(default_factory=dict)
+    # More metrics will be added in the future
