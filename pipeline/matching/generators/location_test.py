@@ -40,6 +40,7 @@ def test_example():
             users={"1", "2", "3"},
             metadata=MatchMetadata(
                 generator="locationGenerator",
+                score=0.0,
                 location=["Kacek", "Kacek", "Kacek"],
             ),
         )
@@ -81,6 +82,7 @@ def test_example2():
             users={"1", "3"},
             metadata=MatchMetadata(
                 generator="locationGenerator",
+                score=0.0,
                 location=["Kacek", "Kacek"],
             ),
         ),
@@ -88,6 +90,7 @@ def test_example2():
             users={"2", "4"},
             metadata=MatchMetadata(
                 generator="locationGenerator",
+                score=3.605551275463989,
                 location=["Off-Campus", "Cunningham"],
             ),
         ),
@@ -139,6 +142,7 @@ def test_example3():
             users={"1", "3"},
             metadata=MatchMetadata(
                 generator="locationGenerator",
+                score=0.0,
                 location=["Kacek", "Kacek"],
             ),
         ),
@@ -146,6 +150,7 @@ def test_example3():
             users={"4", "6"},
             metadata=MatchMetadata(
                 generator="locationGenerator",
+                score=1.0,
                 location=["Cunningham", "McCormick Student Village"],
             ),
         ),
@@ -153,6 +158,7 @@ def test_example3():
             users={"2", "5"},
             metadata=MatchMetadata(
                 generator="locationGenerator",
+                score=2.23606797749979,
                 location=["Off-Campus", "The Quad"],
             ),
         ),

@@ -9,10 +9,7 @@ GENERATOR_LOCATION = "locationGenerator"
 
 
 class LocationGenerator(MatchGenerator):
-    def __init__(self):  # , min_common: int = 0):
-        # Minimum number of interests users must have in common to be eligible
-        # for a similar interests match.
-        # self.min_common = min_common  # don't know if I need
+    def __init__(self):
         super().__init__(name=GENERATOR_LOCATION)
 
     def generate(self, inp: MatchingInput) -> Iterator[Match]:
@@ -31,10 +28,13 @@ class LocationGenerator(MatchGenerator):
         matches: List[Match] = []
         # stores other matches
         otherMatches: List[Match] = []
-        # closest location to the current user
-        closestLoc = User(uid="None", displayName="None", location="None")
+        # closest user to the current user
+        closestUser = User(uid="None", displayName="None", location="None")
+        # current user
+        currUser = User(uid="None", displayName="None", location="None")
         # the distance between two users
-        score = 0.0
+        score = 10.0
+        flag = False
 
         # if there in an odd number of user the last user will get assigned to lastUser
         # other will remain as a "None" user
@@ -44,126 +44,97 @@ class LocationGenerator(MatchGenerator):
             lastUser = inp.users[-1]
             del inp.users[-1]
 
-        # checks for users that are in the same building
-        for i in range(len(inp.users)):
-            for j in range(i, len(inp.users)):
-                if inp.users[i].location == inp.users[j].location:
-                    matches.append(
-                        Match(
-                            users={inp.users[i].uid, inp.users[j].uid},
-                            metadata=MatchMetadata(
-                                generator=GENERATOR_LOCATION,
-                                score=0.0,
-                                location=[inp.users[i].location],
-                            ),
-                        )
-                    )
-                    # if there is a match delete the second user after creating the match
-                    del inp.users[j]
+        userPairs = list(itertools.combinations(inp.users, r=2))
 
-        for i in range(len(inp.users)):
-            for j in range(i, len(inp.users)):
-                fstULoc = inp.users[i].location
-                sndULoc = inp.users[j].location
+        # while userPairs != []:
+        for fstUser, sndUser in userPairs:
+            if fstUser.location == sndUser.location:
+                if (
+                    lastUser.uid == "None"
+                    or fstUser.location != lastUser.location
+                ):
+                    yield Match(
+                        users={fstUser.uid, sndUser.uid},
+                        metadata=MatchMetadata(
+                            generator=GENERATOR_LOCATION,
+                            score=0.0,
+                            location=[fstUser.location, sndUser.location],
+                        ),
+                    )
+
+                elif fstUser.location == lastUser.location:
+                    yield Match(
+                        users={fstUser.uid, sndUser.uid, lastUser.uid},
+                        metadata=MatchMetadata(
+                            generator=GENERATOR_LOCATION,
+                            score=0.0,
+                            location=[
+                                fstUser.location,
+                                sndUser.location,
+                                lastUser.location,
+                            ],
+                        ),
+                    )
+                    lastUser = User(
+                        uid="None", displayName="None", location="None"
+                    )
+
+                userPairs = [
+                    users
+                    for users in userPairs
+                    if users[0] != fstUser and users[1] != fstUser
+                ]
+                userPairs = [
+                    users
+                    for users in userPairs
+                    if users[0] != sndUser and users[1] != sndUser
+                ]
+
+        # print(userPairs)
+        while not flag:
+
+            for fstUser, sndUser in userPairs:
+                fstULoc = dorms[fstUser.location]
+                sndULoc = dorms[sndUser.location]
                 dist = math.sqrt(
                     pow(int(fstULoc[0]) - int(sndULoc[0]), 2)
                     + pow(int(fstULoc[2:]) - int(sndULoc[2:]), 2)
                 )
 
                 if dist < score:
-                    closestLoc = inp.users[j]
+                    closestUser = sndUser
+                    currUser = fstUser
                     score = dist
 
-                otherMatches.append(
-                    Match(
-                        users={inp.users[i].uid, inp.users[j].uid},
-                        metadata=MatchMetadata(
-                            generator=GENERATOR_LOCATION,
-                            score=score,
-                            location=[fstULoc, sndULoc],
-                        ),
-                    )
-                )
+            # otherMatches.append(
+            yield Match(
+                users={currUser.uid, closestUser.uid},
+                metadata=MatchMetadata(
+                    generator=GENERATOR_LOCATION,
+                    score=score,
+                    location=[currUser.location, closestUser.location],
+                ),
+            )
+            # )
 
-                inp.users.remove(closestLoc)
+            userPairs = [
+                users
+                for users in userPairs
+                if users[0] != currUser and users[1] != currUser
+            ]
+            userPairs = [
+                users
+                for users in userPairs
+                if users[0] != closestUser and users[1] != closestUser
+            ]
+            score = 10.0
 
-        matches += otherMatches
+            if userPairs == []:
+                flag = True
 
-        # # different combinations from the list of users
-        # userPairs = list(itertools.combinations(inp.users, r=2))
+        # matches.append(otherMatches)
 
-        # idx = 0
-        # # checking for pairs with the same location and appending them to the list (matches)
-        # for fstUser, sndUser in userPairs:
-        #     if fstUser.location == sndUser.location:
-        #         metadata = MatchMetadata(
-        #             generator=GENERATOR_LOCATION,
-        #             score=1.0,
-        #             location=[fstUser.location, sndUser.location],
-        #         )
-        #         matches.append(
-        #             Match(users={fstUser.uid, sndUser.uid}, metadata=metadata)
-        #         )
-
-        #         # elif (
-        #         #     abs(fstLoc[0] - sndLoc[0]) <= 1
-        #         #     and abs(fstLoc[2:] - sndLoc[2:]) <= 1
-        #         # ):
-        #         #     metadata = MatchMetadata(
-        #         #         generator=GENERATOR_LOCATION,
-        #         #         score=1.0,  # NEED TO FIX
-        #         #         location=[fstUser.location, sndUser.location],
-        #         #     )
-        #         #     matches.append(
-        #         #         Match(users={fstUser.uid, sndUser.uid}, metadata=metadata)
-        #         #     )
-
-        #         # if the locations match, delete every other pair in userPairs that contains either user
-        #         for i in userPairs:
-        #             if i.__contains__(fstUser) or i.__contains__(sndUser):
-        #                 userPairs.remove(i)
-
-        # #print(matches)
-
-        # # checking for pairs with close locations and appending them to the list (matches)
-        # for fstUser, sndUser in userPairs:
-        #     # location based off of user's dorm building
-        #     fstLoc = dorms[fstUser.location]
-        #     sndLoc = dorms[sndUser.location]
-        #     if (
-        #         abs(int(fstLoc[0]) - int(sndLoc[0])) <= 1
-        #         and abs(int(fstLoc[2:]) - int(sndLoc[2:])) <= 1
-        #     ):
-        #         metadata = MatchMetadata(
-        #             generator=GENERATOR_LOCATION,
-        #             score=1.0,  # NEED TO FIX
-        #             location=[fstUser.location, sndUser.location],
-        #         )
-        #         matches.append(
-        #             Match(users={fstUser.uid, sndUser.uid}, metadata=metadata)
-        #         )
-        #         # if the locations are close enough, delete every other pair in userPairs that contains either user
-        #         for i in userPairs:
-        #             if i.__contains__(fstUser) or i.__contains__(sndUser):
-        #                 userPairs.remove(i)
-
-        # #print(matches)
-
-        # # appending the rest of the matches with far locations to the list (matches)
-        # for fstUser, sndUser in userPairs:
-        #     metadata = MatchMetadata(
-        #         generator=GENERATOR_LOCATION,
-        #         score=1.0,  # NEED TO FIX
-        #         location=[fstUser.location, sndUser.location],
-        #     )
-        #     matches.append(
-        #         Match(users={fstUser.uid, sndUser.uid}, metadata=metadata)
-        #     )
-        #     # delete every other pair in userPairs that contains either user
-        #     for i in userPairs:
-        #         if i.__contains__(fstUser) or i.__contains__(sndUser):
-        #             userPairs.remove(i)
         # print(matches)
 
-        for m in matches:
-            yield m
+        # for m in matches:
+        #     yield m
