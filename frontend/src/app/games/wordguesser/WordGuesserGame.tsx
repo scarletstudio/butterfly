@@ -30,8 +30,24 @@ const RESULT_CLASSES = {
     not_in_word: 'NotInWord',
 }
 
-function padGuess(guess) {
-    return guess + BLANK.repeat(WORD_LENGTH - guess.length)
+const padGuess = (guess) => guess + BLANK.repeat(WORD_LENGTH - guess.length)
+
+/*
+ * Aggregates a list of guess records into a dictionary with the latest result
+ * for each letter that has been guessed.
+ */
+const getKeyResults = (guesses: Array<GuessRecord>) => {
+    return guesses.reduce((keyResults, { guess, results }) => {
+        const guessResults = guess.split('').reduce(
+            (agg, letter, i) => ({
+                ...agg,
+                [letter]: results?.[i],
+            }),
+            {}
+        )
+
+        return { ...keyResults, ...guessResults }
+    }, {})
 }
 
 const Header = () => {
@@ -81,27 +97,34 @@ const Board = ({ guesses = [] }: { guesses: Array<GuessRecord> }) => {
     )
 }
 
-const KeyTile = ({ letter, onClick }) => {
+const KeyTile = ({ letter, onClick, result = '' }) => {
+    const resultClass = RESULT_CLASSES?.[result] || ''
     const onKeyDown = (e) => e.keyCode === 13 && onClick()
     return (
-        <div className="KeyTile" role="button" onClick={onClick} onKeyDown={onKeyDown} tabIndex={0}>
+        <div
+            className={`KeyTile ${resultClass}`}
+            role="button"
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+            tabIndex={0}
+        >
             {letter}
         </div>
     )
 }
 
-const Keyboard = ({ setGuess, submit }) => {
-    const addLetter = (letter) => {
-        setGuess((prev) => {
+const Keyboard = ({ setGuess, submitGuess, results }) => {
+    const addLetter = (letter: string) => {
+        setGuess((prev: string) => {
             if (prev?.length >= WORD_LENGTH) return prev
             return prev + letter
         })
     }
     const deleteLetter = () => {
-        setGuess((prev) => {
+        setGuess((prev: string) => {
             const length = prev?.length
             if (length === 0) return prev
-            return prev.substr(0, length - 1)
+            return prev.substring(0, length - 1)
         })
     }
 
@@ -109,13 +132,18 @@ const Keyboard = ({ setGuess, submit }) => {
     const deleteKey = <KeyTile key={DELETE_KEY} letter={deleteIcon} onClick={deleteLetter} />
 
     const enterIcon = <FontAwesomeIcon icon={faRightToBracket} />
-    const enterKey = <KeyTile key={ENTER_KEY} letter={enterIcon} onClick={submit} />
+    const enterKey = <KeyTile key={ENTER_KEY} letter={enterIcon} onClick={submitGuess} />
 
     const rowEls = KEYBOARD_ROWS.map((row, i) => {
         const keyEls = row
             .split('')
             .map((letter) => (
-                <KeyTile key={letter} letter={letter} onClick={() => addLetter(letter)} />
+                <KeyTile
+                    key={letter}
+                    letter={letter}
+                    onClick={() => addLetter(letter)}
+                    result={results?.[letter]}
+                />
             ))
         const isLastRow = i === KEYBOARD_ROWS.length - 1
         return (
@@ -133,9 +161,13 @@ const Keyboard = ({ setGuess, submit }) => {
 export function WordGuesserGame({ gameState }: { gameState: GameState }) {
     const [nextGuess, setNextGuess] = useState('')
 
+    // Add the next guess as a preview on the game board
     const pastGuesses = gameState?.guesses || []
     const nextGuessRecord = { guess: padGuess(nextGuess), results: [] }
     const guesses = [...pastGuesses, nextGuessRecord]
+
+    // Derive which letters have been used and their latest result
+    const keyResults = getKeyResults(guesses)
 
     const submitGuess = () => {
         if (pastGuesses.length >= GUESSES) return
@@ -149,7 +181,7 @@ export function WordGuesserGame({ gameState }: { gameState: GameState }) {
         <div className="WordGuesserGame">
             <Header />
             <Board guesses={guesses} />
-            <Keyboard setGuess={setNextGuess} submit={submitGuess} />
+            <Keyboard setGuess={setNextGuess} submitGuess={submitGuess} results={keyResults} />
         </div>
     )
 }
