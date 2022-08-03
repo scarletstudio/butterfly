@@ -84,7 +84,7 @@ def assign_renderers(
     renderers = {"check_message": NewMessageRender()}
     for notif in notifs:
         renderer = renderers.get(notif.notification_type.value)
-    notifs_with_renderers.append((notif, renderer))
+        notifs_with_renderers.append((notif, renderer))
     return notifs_with_renderers
 
 
