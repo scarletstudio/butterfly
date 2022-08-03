@@ -2,7 +2,12 @@ from typing import List
 
 from pipeline.types import NotificationInfo, NotificationType, User
 
-PRIORITY = {NotificationType.CHECK_MESSAGE: 1, NotificationType.RATE_MATCH: 2}
+PRIORITY = {
+    NotificationType.CHECK_MESSAGE: 1,
+    NotificationType.RATE_MATCH: 2,
+    NotificationType.EDIT_PROFILE: 3,
+    NotificationType.CHECK_MATCH: 4,
+}
 
 
 def notifications_per_user(
