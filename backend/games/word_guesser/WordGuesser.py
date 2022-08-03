@@ -28,7 +28,7 @@ WORD_LIST = [
 ]
 
 
-class ClassicWordle:
+class WordGuesser:
     def __init__(self):
         # represents the state of the game, index 0 will hold the "goal word"
         self.game_board: List[str] = [""]
@@ -103,7 +103,7 @@ class ClassicWordle:
 
     # performs all logic checks on a word to determine if it is valid
     # returns correctness of guess then adds new set of k,v pairs to guesses
-    def guess_wordle(self, guess: str):
+    def guess_word(self, guess: str):
         if self.validate_guess(guess):
             # add guess to game_board
             self.game_board.append(guess)
