@@ -25,25 +25,18 @@ function FetchBlockedUsers(myUid: string, blockUid: string) {
     return blockedUsers.find((user: { uid: string }) => user?.uid === blockUid)?.blocked || false
 }
 
+async function updateBlock(blockUid: string, shouldBlock: boolean) {
+    await fetchFromBackend({
+        route: `/chat/block/user/${this?.BlockUserProps?.myUid}/${blockUid}/${shouldBlock}`,
+        options: { method: 'POST' },
+    })
+}
+
 // create user tile to display participants
 const CreateUserTile = ({ user, myUid }) => {
     const blockUid = user?.uid
     // create a useState for updating blocked status
     const [isActive, setActive] = useState(FetchBlockedUsers(myUid, blockUid))
-    // method for blocking
-    const doBlock = async () => {
-        await fetchFromBackend({
-            route: `/chat/block/user/${myUid}/${blockUid}/true`,
-            options: { method: 'POST' },
-        })
-    }
-    // method for unblocking
-    const doUnblock = async () => {
-        await fetchFromBackend({
-            route: `/chat/block/user/${myUid}/${blockUid}/false`,
-            options: { method: 'POST' },
-        })
-    }
 
     return (
         <div className={isActive ? 'BlockedUser' : ''}>
@@ -55,7 +48,7 @@ const CreateUserTile = ({ user, myUid }) => {
                         iconBefore={faLock}
                         primary
                         onClick={() => {
-                            doBlock()
+                            updateBlock(blockUid, true)
                             setActive(true)
                         }}
                     />
@@ -64,7 +57,7 @@ const CreateUserTile = ({ user, myUid }) => {
                         iconBefore={faLockOpen}
                         primary={false}
                         onClick={() => {
-                            doUnblock()
+                            updateBlock(blockUid, false)
                             setActive(false)
                         }}
                     />
