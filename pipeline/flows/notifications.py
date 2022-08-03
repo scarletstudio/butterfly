@@ -81,10 +81,10 @@ def assign_renderers(
     # Include other renderers to Union in type definition once they are implemented
     notifs_with_renderers = []
     # Include other renderers to dictionary once they are implemented
-    renders = {"check_message": NewMessageRender()}
+    renderers = {"check_message": NewMessageRender()}
     for notif in notifs:
-        render = renders.get(notif.notification_type.value)
-    notifs_with_renderers.append((notif, render))
+        renderer = renderers.get(notif.notification_type.value)
+    notifs_with_renderers.append((notif, renderer))
     return notifs_with_renderers
 
 
