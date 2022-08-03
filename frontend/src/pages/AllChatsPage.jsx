@@ -88,7 +88,7 @@ export default function AllChatsPage() {
             <ChatInbox chats={unblockedMatches} users={matchedUsers} />
 
             <div className={blockedMatches.length === 0 ? 'Hidden' : ''}>
-                <div className="Header Light">
+                <div className="HiddenInbox">
                     <h5>Hidden Conversations</h5>
                     <button type="button" className="btn" onClick={handleInboxOpening}>
                         {!isOpen ? (

@@ -1,3 +1,14 @@
 .ChatInbox {
     margin-top: 5px;
 }
+.HiddenInbox {
+    background: var(--color-theme-contrast);
+    color: var(--color-text);
+    box-shadow: 0 0 5px 1px var(--color-theme-accent);
+    padding: 1.5em;
+    box-sizing: border-box;
+    display: flex;
+}
+.btn {
+    margin: 15px;
+}
