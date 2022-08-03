@@ -1,8 +1,6 @@
 from random import randint
 from typing import Dict, List
 
-from String import isalpha
-
 MAX_GUESSES = 6
 WORD_LIST = [
     "adieu",
@@ -50,7 +48,7 @@ class WordGuesser:
 
         # randomize next word
         new_word_index = randint(0, 19)  # nosec
-        goal_word = WORD_LIST[new_word_index]
+        self.goal_word = WORD_LIST[new_word_index]
 
     # clears all previous progress and calls checkWin() to determine final results
     # will return a victory or failure string
@@ -73,9 +71,9 @@ class WordGuesser:
         tmp_keys = ""
         tmp_results = []
         for k, v in self.guesses.items():
-            if k.contains("guess"):
+            if "guess" in k:
                 tmp_keys = v
-            if k.contains("results"):
+            if "results" in k:
                 tmp_results = v
             self.progress[tmp_keys] = tmp_results
 
@@ -106,16 +104,20 @@ class WordGuesser:
     def guess_word(self, guess: str) -> Dict:
         if self.validate_guess(guess):
             # check the correctness
-            curr_results: List[str] = [""]
-            for i, char in enumerate(guess.split()):
-                if char.lower() in self.goal_word.split()[i]:
-                    curr_results[i] = "correct"
-                elif (char.lower() in self.goal_word.split()) and (
-                    char.lower() is not self.goal_word.split()[i]
-                ):
-                    curr_results[i] = "in_word"
+            curr_results: List[str] = []
+            goal = self.goal_word
+            print("goal: " + goal)
+            print("guess: " + guess)
+            i = 0
+            for char in guess:
+                if char is goal[i]:
+                    curr_results.append("correct")
+                elif (char in goal) and (char is not goal[i]):
+                    curr_results.append("in_word")
                 else:
-                    curr_results[i] = "not_in_word"
+                    curr_results.append("not_in_word")
+                i += 1
+            print(curr_results)
 
             # overwrites previous guesses dict and appends it to a list
             self.guesses["guess"] = guess
