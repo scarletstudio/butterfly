@@ -74,7 +74,7 @@ const BlockUserInner = ({ participants, myUid }: BlockUserProps) => {
                 <CreateUserTile
                     key={participant?.uid}
                     user={participant}
-                    value={participant?.uid in blockedUsers || false}
+                    value={blockedUsers[participant?.uid] || false}
                 />
             ))}
         </div>
