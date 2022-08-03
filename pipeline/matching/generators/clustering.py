@@ -55,18 +55,15 @@ def converts_user_data_to_vector(users_w_data):
                 if interest.name == interests[i]:
                     user_vector[i] = 1
         for intent in user.intents:
-            if intent.name == intents[0] and intent.side.SEEKING:
-                user_vector[5] = 1
-            if intent.name == intents[0] and intent.side.GIVING:
-                user_vector[6] = 1
-            if intent.name == intents[1] and intent.side.SEEKING:
-                user_vector[7] = 1
-            if intent.name == intents[1] and intent.side.GIVING:
-                user_vector[8] = 1
-            if intent.name == intents[2] and intent.side.SEEKING:
-                user_vector[9] = 1
-            if intent.name == intents[2] and intent.side.GIVING:
-                user_vector[10] = 1
+            c = 0
+            for i in range(5, 11):
+                if intent.name == intents[c]:
+                    if (i % 2 == 1) and intent.side.SEEKING:
+                        user_vector[i] = 1
+                    if (i % 2 == 0) and intent.side.GIVING:
+                        user_vector[i] = 1
+                if i % 2 == 0:
+                    c += 1
         vectors.append((user.uid, user_vector))
         user_vector = [0] * 11
     return vectors
