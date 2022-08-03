@@ -1,5 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser } from '../app/login'
 import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
@@ -45,6 +48,12 @@ export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
     const matches = useGetAllUserMatches(authUser?.uid)
     const blockedUsers = useFetchBlockedUsers(authUser?.uid)
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleInboxOpening = () => {
+        setIsOpen((prev) => !prev)
+    }
+
     // map to check if blocked user from dictionary is present in inbox
     const matchesWithBlocks = matches.map((match) => ({
         ...match,
@@ -78,10 +87,18 @@ export default function AllChatsPage() {
             <ChatInboxHeader />
             <ChatInbox chats={unblockedMatches} users={matchedUsers} />
 
-            {/* TODO: Make this a collapsable element */}
             <div className={blockedMatches.length === 0 ? 'Hidden' : ''}>
-                <h1>Hidden Conversations</h1>
-                <ChatInbox chats={blockedMatches} users={matchedUsers} />
+                <div className="Header Light">
+                    <h5>Hidden Conversations</h5>
+                    <button type="button" className="btn" onClick={handleInboxOpening}>
+                        {!isOpen ? (
+                            <FontAwesomeIcon icon={faChevronDown} />
+                        ) : (
+                            <FontAwesomeIcon icon={faChevronUp} />
+                        )}
+                    </button>
+                </div>
+                {isOpen && <ChatInbox chats={blockedMatches} users={matchedUsers} />}
             </div>
         </div>
     )
