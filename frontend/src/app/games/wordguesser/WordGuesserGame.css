@@ -25,6 +25,18 @@
     text-align: center;
 }
 
+.GuessTile.Correct {
+    background: lightgreen;
+}
+
+.GuessTile.NotInWord {
+    background: darkgray;
+}
+
+.GuessTile.InWord {
+    background: yellow;
+}
+
 .GuessTile,
 .KeyTile {
     display: inline-block;

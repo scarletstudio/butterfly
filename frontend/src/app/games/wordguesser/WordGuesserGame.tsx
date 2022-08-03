@@ -4,9 +4,35 @@ import { faDeleteLeft, faRightToBracket } from '@fortawesome/free-solid-svg-icon
 
 import './WordGuesserGame.css'
 
-const BLANK = ' '
+interface GuessRecord {
+    guess: string
+    results: Array<string>
+}
+
+interface GameState {
+    guesses?: Array<GuessRecord>
+}
+
 const WORD_LENGTH = 5
 const GUESSES = 6
+
+const BLANK = ' '
+const EMPTY_WORD = BLANK.repeat(WORD_LENGTH)
+const EMPTY_GUESS: GuessRecord = { guess: EMPTY_WORD, results: [] }
+
+const DELETE_KEY = 'DEL'
+const ENTER_KEY = 'ENTER'
+const KEYBOARD_ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM']
+
+const RESULT_CLASSES = {
+    correct: 'Correct',
+    in_word: 'InWord',
+    not_in_word: 'NotInWord',
+}
+
+function padGuess(guess) {
+    return guess + BLANK.repeat(WORD_LENGTH - guess.length)
+}
 
 const Header = () => {
     return (
@@ -19,33 +45,32 @@ const Header = () => {
     )
 }
 
-const GuessTile = ({ letter }) => {
-    return <div className="GuessTile">{letter}</div>
+const GuessTile = ({ letter, result }) => {
+    const resultClass = RESULT_CLASSES?.[result] || ''
+    return <div className={`GuessTile ${resultClass}`}>{letter}</div>
 }
 
-const GuessRow = ({ guess }) => {
-    const letters = guess.split('')
+const GuessRow = ({ guess }: { guess: GuessRecord }) => {
+    const guessWord = guess.guess || ''
+    const letters = guessWord.split('')
     return (
         <div className="GuessRow">
             {letters.map((letter, i) => {
                 const key = `${i}-${letter}`
-                const tileEl = <GuessTile key={key} letter={letter} />
+                const result = guess.results?.[i]
+                const tileEl = <GuessTile key={key} letter={letter} result={result} />
                 return i < WORD_LENGTH && tileEl
             })}
         </div>
     )
 }
 
-const Board = ({ guesses = [] }: { guesses: Array<string> }) => {
-    const wordArray = Array.from(Array(WORD_LENGTH).keys())
+const Board = ({ guesses = [] }: { guesses: Array<GuessRecord> }) => {
     const guessArray = Array.from(Array(GUESSES).keys())
-    const emptyGuess = wordArray.map(() => BLANK).join('')
     const rows = guessArray.map((i) => {
-        const guess = guesses?.[i] || emptyGuess
-        // Add extra spaces to a guess
-        const paddedGuess = guess + emptyGuess
+        const guess = guesses?.[i] || EMPTY_GUESS
         const key = `${i}-${guess}`
-        return { key, guess: paddedGuess }
+        return { key, guess }
     })
     return (
         <div className="GameBoard">
@@ -55,10 +80,6 @@ const Board = ({ guesses = [] }: { guesses: Array<string> }) => {
         </div>
     )
 }
-
-const DELETE_KEY = 'DEL'
-const ENTER_KEY = 'ENTER'
-const KEYBOARD_ROWS = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM']
 
 const KeyTile = ({ letter, onClick }) => {
     const onKeyDown = (e) => e.keyCode === 13 && onClick()
@@ -83,10 +104,13 @@ const Keyboard = ({ setGuess, submit }) => {
             return prev.substr(0, length - 1)
         })
     }
+
     const deleteIcon = <FontAwesomeIcon icon={faDeleteLeft} />
     const deleteKey = <KeyTile key={DELETE_KEY} letter={deleteIcon} onClick={deleteLetter} />
+
     const enterIcon = <FontAwesomeIcon icon={faRightToBracket} />
     const enterKey = <KeyTile key={ENTER_KEY} letter={enterIcon} onClick={submit} />
+
     const rowEls = KEYBOARD_ROWS.map((row, i) => {
         const keyEls = row
             .split('')
@@ -102,19 +126,25 @@ const Keyboard = ({ setGuess, submit }) => {
             </div>
         )
     })
-    return <div className="Keyboard">{rowEls}</div>
-}
 
-interface GameState {
-    guesses?: Array<string>
+    return <div className="Keyboard">{rowEls}</div>
 }
 
 export function WordGuesserGame({ gameState }: { gameState: GameState }) {
     const [nextGuess, setNextGuess] = useState('')
-    // eslint-disable-next-line no-console
-    const submitGuess = () => console.log(`Next Guess: ${nextGuess}`)
+
     const pastGuesses = gameState?.guesses || []
-    const guesses = [...pastGuesses, nextGuess]
+    const nextGuessRecord = { guess: padGuess(nextGuess), results: [] }
+    const guesses = [...pastGuesses, nextGuessRecord]
+
+    const submitGuess = () => {
+        if (pastGuesses.length >= GUESSES) return
+        if (nextGuess.length !== WORD_LENGTH) return
+        // eslint-disable-next-line no-console
+        console.log(`Next Guess: ${nextGuess}`)
+        setNextGuess('')
+    }
+
     return (
         <div className="WordGuesserGame">
             <Header />
