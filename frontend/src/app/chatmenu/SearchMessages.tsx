@@ -79,14 +79,15 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
     /*
     const clearSearch = () => {
         return setValue('')
-    }
-    */
+    } */
 
     // Creates the Seach bar and Button
     // This goes in between the span <i class="fa-duotone fa-circle-x icon" onClick={clearSearch}></i>
     return (
         <div className="Search">
-            <span className="text-icon">X</span>
+            {/* <span role="button" className="text-icon" onClick={clearSearch}>
+                X
+    </span> */}
             <textarea
                 className="Input"
                 placeholder="Search Messages"
