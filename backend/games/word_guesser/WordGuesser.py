@@ -31,18 +31,22 @@ WORD_LIST = [
 class WordGuesser:
     def __init__(self):
         # represents the state of the game, index 0 will hold the "goal word"
-        self.game_board: List[str] = [""]
-        self.guesses = {"guess1": "", "results": []}
+        self.guesses = {"guess": "", "results": []}
+        self.game_board: List[Dict] = [{}]
+        self.progress: Dict = {}
+        self.goal_word = ""
+        self.guess_count = 0
+
+    def clear_data(self):
+        self.guesses = {"guess": "", "results": []}
+        self.game_board: List[Dict] = [{}]
+        self.progress: Dict = {}
         self.goal_word = ""
         self.guess_count = 0
 
     # clears any previous activity and randomizes a word to initialize the list
     def start_game(self):
-        # clear past game data
-        self.guesses = {"guess1": "", "results1": []}
-        self.game_board: List[str] = [""]
-        self.goal_word = ""
-        self.guess_count = 0
+        self.clear_data()
 
         # randomize next word
         new_word_index = randint(0, 19)  # nosec
@@ -51,10 +55,7 @@ class WordGuesser:
     # clears all previous progress and calls checkWin() to determine final results
     # will return a victory or failure string
     def end_game(self) -> str:
-        self.guesses = {"guess1": "", "results1": []}
-        self.game_board = [""]
-        self.goal_word = ""
-        self.guess_count = 0
+        self.clear_data()
 
         if self.check_win():
             return "You guessed the word!! Nice Job"
@@ -69,7 +70,6 @@ class WordGuesser:
     """
 
     def track_progress(self) -> Dict:
-        progress = {}
         tmp_keys = ""
         tmp_results = []
         for k, v in self.guesses.items():
@@ -77,9 +77,9 @@ class WordGuesser:
                 tmp_keys = v
             if k.contains("results"):
                 tmp_results = v
-            progress[tmp_keys] = tmp_results
+            self.progress[tmp_keys] = tmp_results
 
-        return progress
+        return self.progress
 
     # checks to see if win/lose conditions have been satisfied
     # meant to run after each guess, and after MAX_GUESS has been reached
@@ -95,7 +95,7 @@ class WordGuesser:
         if len(guess) != 5:
             print("Word length must be 5.")
             return False
-        if not isalpha():
+        if not guess.isalpha():
             print("Word can only contain letters, uppercase or lowercase")
             return False
         return True
@@ -103,11 +103,8 @@ class WordGuesser:
 
     # performs all logic checks on a word to determine if it is valid
     # returns correctness of guess then adds new set of k,v pairs to guesses
-    def guess_word(self, guess: str):
+    def guess_word(self, guess: str) -> Dict:
         if self.validate_guess(guess):
-            # add guess to game_board
-            self.game_board.append(guess)
-
             # check the correctness
             curr_results: List[str] = [""]
             for i, char in enumerate(guess.split()):
@@ -120,18 +117,18 @@ class WordGuesser:
                 else:
                     curr_results[i] = "not_in_word"
 
-            # track all guesses by labling them guess1, guess2, etc and inputing them as new dict entries
-            key = "guess" + str(self.guess_count)
-            value = "results" + str(self.guess_count)
-            self.guesses[key] = guess
-            self.guesses[value] = curr_results
+            # overwrites previous guesses dict and appends it to a list
+            self.guesses["guess"] = guess
+            self.guesses["results"] = curr_results
+            self.game_board.append(self.guesses)
             self.guess_count += 1
 
             # track progress here to update overall board
             self.track_progress()
+
             # check to see if win/lose conditions apply
             if self.guess_count >= MAX_GUESSES:
                 self.end_game()
-
         else:
             print("Invalid guess, please try again.")
+        return self.guesses
