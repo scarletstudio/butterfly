@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDeleteLeft, faRightToBracket } from '@fortawesome/free-solid-svg-icons'
+
 import './WordGuesserGame.css'
 
-const BLANK = '_'
+const BLANK = ' '
 const WORD_LENGTH = 5
 const GUESSES = 6
 
 const Header = () => {
     return (
         <div className="GameHeader">
-            <h2>Word Guesser</h2>
+            <h2 className="Title">Word Guesser</h2>
             <p>
-                You have {GUESSES} guesses to find the {WORD_LENGTH}-letter word.
+                Find the {WORD_LENGTH}-letter word in {GUESSES} guesses.
             </p>
         </div>
     )
@@ -26,7 +29,8 @@ const GuessRow = ({ guess }) => {
         <div className="GuessRow">
             {letters.map((letter, i) => {
                 const key = `${i}-${letter}`
-                return <GuessTile key={key} letter={letter} />
+                const tileEl = <GuessTile key={key} letter={letter} />
+                return i < WORD_LENGTH && tileEl
             })}
         </div>
     )
@@ -38,11 +42,13 @@ const Board = ({ guesses = [] }: { guesses: Array<string> }) => {
     const emptyGuess = wordArray.map(() => BLANK).join('')
     const rows = guessArray.map((i) => {
         const guess = guesses?.[i] || emptyGuess
+        // Add extra spaces to a guess
+        const paddedGuess = guess + emptyGuess
         const key = `${i}-${guess}`
-        return { key, guess }
+        return { key, guess: paddedGuess }
     })
     return (
-        <div className="Board">
+        <div className="GameBoard">
             {rows.map(({ key, guess }) => (
                 <GuessRow key={key} guess={guess} />
             ))}
@@ -77,8 +83,10 @@ const Keyboard = ({ setGuess, submit }) => {
             return prev.substr(0, length - 1)
         })
     }
-    const deleteKey = <KeyTile key={DELETE_KEY} letter={DELETE_KEY} onClick={deleteLetter} />
-    const enterKey = <KeyTile key={ENTER_KEY} letter={ENTER_KEY} onClick={submit} />
+    const deleteIcon = <FontAwesomeIcon icon={faDeleteLeft} />
+    const deleteKey = <KeyTile key={DELETE_KEY} letter={deleteIcon} onClick={deleteLetter} />
+    const enterIcon = <FontAwesomeIcon icon={faRightToBracket} />
+    const enterKey = <KeyTile key={ENTER_KEY} letter={enterIcon} onClick={submit} />
     const rowEls = KEYBOARD_ROWS.map((row, i) => {
         const keyEls = row
             .split('')
