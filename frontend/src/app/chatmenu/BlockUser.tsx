@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './BlockUser.css'
 
 import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
@@ -13,16 +13,21 @@ interface BlockUserProps {
     myUid: string
 }
 
-// find the blocked accounts of the user
-function FetchBlockedUsers(myUid: string, blockUid: string) {
+function useFetchBlockedUsers(myUid: string) {
     const [res] = useBackendFetchJson({
         route: `/chat/block/user/${myUid}`,
         deps: [myUid],
         isValid: myUid,
     })
     const blockedUsers = res?.blocks || []
-
-    return blockedUsers.find((user: { uid: string }) => user?.uid === blockUid)?.blocked || false
+    // create a blocked user dictionary
+    return blockedUsers.reduce(
+        (agg, user: { uid: string; blocked: boolean }) => ({
+            ...agg,
+            [user.uid]: user.blocked,
+        }),
+        {}
+    )
 }
 
 async function updateBlock(blockUid: string, shouldBlock: boolean) {
@@ -33,46 +38,44 @@ async function updateBlock(blockUid: string, shouldBlock: boolean) {
 }
 
 // create user tile to display participants
-const CreateUserTile = ({ user, myUid }) => {
+const CreateUserTile = ({ user, value }) => {
     const blockUid = user?.uid
-    // create a useState for updating blocked status
-    const [isActive, setActive] = useState(FetchBlockedUsers(myUid, blockUid))
+    const [blocked, setIsBlocked] = useState(value)
+
+    const blockHandler = () => {
+        const newValue = !value
+        updateBlock(blockUid, newValue)
+        setIsBlocked(newValue)
+    }
+    useEffect(() => {
+        setIsBlocked(value)
+    }, [value])
 
     return (
-        <div className={isActive ? 'BlockedUser' : ''}>
-            <div className="Tile">
-                <UserTile user={user} />
-                <div className="Buttons">
-                    <Button
-                        label="Block"
-                        iconBefore={faLock}
-                        primary
-                        onClick={() => {
-                            updateBlock(blockUid, true)
-                            setActive(true)
-                        }}
-                    />
-                    <Button
-                        label="Unblock"
-                        iconBefore={faLockOpen}
-                        primary={false}
-                        onClick={() => {
-                            updateBlock(blockUid, false)
-                            setActive(false)
-                        }}
-                    />
-                </div>
-            </div>
+        <div className={blocked ? 'BlockedUser' : ''}>
+            <UserTile user={user} />
+            <Button
+                label={blocked ? 'Unblock' : 'Block'}
+                iconBefore={blocked ? faLockOpen : faLock}
+                primary
+                onClick={blockHandler}
+            />
         </div>
     )
 }
 
 // show the users within the chat
 const BlockUserInner = ({ participants, myUid }: BlockUserProps) => {
+    const blockedUsers = useFetchBlockedUsers(myUid)
+
     return (
         <div className="UserRow">
-            {participants.map((user) => (
-                <CreateUserTile key={user?.uid} user={user} myUid={myUid} />
+            {participants.map((participant) => (
+                <CreateUserTile
+                    key={participant?.uid}
+                    user={participant}
+                    value={participant?.uid in blockedUsers || false}
+                />
             ))}
         </div>
     )
