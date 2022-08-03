@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { CommunityData } from '../../config/communities'
 import InterestsStarter from './InterestsStarter'
 
 export default {
@@ -9,44 +9,64 @@ export default {
 
 const Template = (args) => <InterestsStarter {...args} />
 
-export const ManyOfBothInterests = Template.bind({})
-ManyOfBothInterests.args = {
-    chat: { metadata: { interests: ['Chess', 'Art', 'Movies', 'Fashion', 'Sports'] } },
-    community: {
-        interests: [
-            { code: 'running', name: 'Running' },
-            { code: 'biking', name: 'Biking' },
-            { code: 'swimming', name: 'Swimming' },
-        ],
-    },
-}
-
 export const ManyChatInterests = Template.bind({})
 ManyChatInterests.args = {
-    chat: { metadata: { interests: ['Chess', 'Art', 'Movies', 'Fashion', 'Sports'] } },
+    chat: { metadata: { interests: ['chess', 'art', 'sports'] } },
+    community: {
+        id: 'sds',
+        name: 'Scarlet Data Studio',
+        intents: [
+            { code: 'tech-careers', name: 'Learn about careers in technology' },
+            { code: 'involve-iit', name: 'Get more involved at Illinois Tech' },
+            { code: 'watch-recs', name: 'Get show and movie recommendations' },
+        ],
+        interests: [
+            { code: 'chess', name: 'Chess' },
+            { code: 'art', name: 'Art' },
+            { code: 'movies', name: 'Movies' },
+            { code: 'fashion', name: 'Fashion' },
+            { code: 'sports', name: 'Sports' },
+        ],
+    },
 }
 
 export const OneChatInterest = Template.bind({})
 OneChatInterest.args = {
-    chat: { metadata: { interests: ['Art'] } },
-}
-
-export const ManyCommunityInterests = Template.bind({})
-ManyCommunityInterests.args = {
-    communityData: {
+    chat: { metadata: { interests: ['art'] } },
+    community: {
+        id: 'sds',
+        name: 'Scarlet Data Studio',
+        intents: [
+            { code: 'tech-careers', name: 'Learn about careers in technology' },
+            { code: 'involve-iit', name: 'Get more involved at Illinois Tech' },
+            { code: 'watch-recs', name: 'Get show and movie recommendations' },
+        ],
         interests: [
             { code: 'chess', name: 'Chess' },
-            { code: 'apple', name: 'Apple' },
+            { code: 'art', name: 'Art' },
+            { code: 'movies', name: 'Movies' },
+            { code: 'fashion', name: 'Fashion' },
+            { code: 'sports', name: 'Sports' },
         ],
     },
 }
 
-export const OneCommunityInterest = Template.bind({})
-OneCommunityInterest.args = {
-    communityData: {
-        interests: [{ code: 'apple', name: 'Apple' }],
+export const NoCommonInterests = Template.bind({})
+NoCommonInterests.args = {
+    community: {
+        id: 'sds',
+        name: 'Scarlet Data Studio',
+        intents: [
+            { code: 'tech-careers', name: 'Learn about careers in technology' },
+            { code: 'involve-iit', name: 'Get more involved at Illinois Tech' },
+            { code: 'watch-recs', name: 'Get show and movie recommendations' },
+        ],
+        interests: [
+            { code: 'chess', name: 'Chess' },
+            { code: 'art', name: 'Art' },
+            { code: 'movies', name: 'Movies' },
+            { code: 'fashion', name: 'Fashion' },
+            { code: 'sports', name: 'Sports' },
+        ],
     },
 }
-
-export const NoCommonInterests = Template.bind({})
-NoCommonInterests.args = {}

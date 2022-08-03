@@ -11,19 +11,18 @@ interface InterestsStarterProps {
 }
 
 const InterestsStarterInner = ({ chatInterests, communityData }: InterestsStarterProps) => {
-    const communityInterests = communityData.interests
-    const communityStringInterests: Array<string> = []
-    communityInterests.forEach((x) => {
-        communityStringInterests.push(x.name)
+    const nInterest = pluralize(chatInterests.length, 'interest')
+    const commonChatInterests = chatInterests.map((interest) => {
+        return (communityData.interests || []).find((x) => {
+            return x?.code === interest
+        })?.name
     })
-    const combinedInterests = chatInterests.concat(communityStringInterests)
-    const nInterest = pluralize(combinedInterests.length, 'interest')
-    const joinedInterest = combinedInterests.join(', ')
-    const anyInterest = `Fun fact, your common interest ${nInterest} ${
-        combinedInterests.length === 1 ? 'is' : 'are'
-    }: ${joinedInterest}!`
-    const noInterest = 'Fun fact, you do not share any interest in common!'
-    const message = combinedInterests.length > 0 ? anyInterest : noInterest
+    const joinedInterest = commonChatInterests.join(', ')
+    const anyInterest = `Fun fact, you have ${nInterest} in common, which ${
+        commonChatInterests.length === 1 ? 'is' : 'are'
+    } ${joinedInterest}!`
+    const noInterest = 'Unfortunately, you do not share any interest in common!'
+    const message = commonChatInterests.length > 0 ? anyInterest : noInterest
     return (
         <div className="Interests-Starter">
             <p>{message}</p>
@@ -34,7 +33,7 @@ const InterestsStarterInner = ({ chatInterests, communityData }: InterestsStarte
 const InterestsStarter = ({ chat, community }: ConversationStarterProps) => (
     <InterestsStarterInner
         chatInterests={chat?.metadata?.interests || []}
-        communityData={community || { interests: [] }}
+        communityData={community}
     />
 )
 
