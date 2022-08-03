@@ -78,9 +78,9 @@ def notif_hierarchy(notifs: List[NotificationInfo]) -> List[NotificationInfo]:
 def assign_renderers(
     notifs: List[NotificationInfo],
 ) -> List[Tuple[NotificationInfo, Union[NewMessageRender, None]]]:
-    # include other renderers to Union in type definition once they are implemented
+    # Include other renderers to Union in type definition once they are implemented
     notifs_with_renderers = []
-    # include other renderers to dictionary once they are implemented
+    # Include other renderers to dictionary once they are implemented
     renders = {"check_message": NewMessageRender()}
     for notif in notifs:
         render = renders.get(notif.notification_type.value)
@@ -116,3 +116,5 @@ def notifications_flow(defaults: Dict = {}) -> Flow:
         final_notifications = notif_hierarchy(notifs=notifications)
         # Assign renderers to notifications
         notifs_with_renderers = assign_renderers(notifs=final_notifications)
+
+    return flow
