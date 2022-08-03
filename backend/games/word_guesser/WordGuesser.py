@@ -30,14 +30,14 @@ class WordGuesser:
     def __init__(self):
         # represents the state of the game, index 0 will hold the "goal word"
         self.guesses = {"guess": "", "results": []}
-        self.game_board: List[Dict] = [{}]
+        self.game_board: List[str] = []
         self.progress: Dict = {}
-        self.goal_word = ""
+        self.goal_word = "basic"
         self.guess_count = 0
 
     def clear_data(self):
         self.guesses = {"guess": "", "results": []}
-        self.game_board: List[Dict] = [{}]
+        self.game_board: List[str] = []
         self.progress: Dict = {}
         self.goal_word = ""
         self.guess_count = 0
@@ -47,15 +47,14 @@ class WordGuesser:
         self.clear_data()
 
         # randomize next word
-        new_word_index = randint(0, 19)  # nosec
+        new_word_index = randint(0, len(WORD_LIST) - 1)  # nosec
         self.goal_word = WORD_LIST[new_word_index]
 
     # clears all previous progress and calls checkWin() to determine final results
     # will return a victory or failure string
     def end_game(self) -> str:
-        self.clear_data()
-
-        if self.check_win():
+        output = self.check_win()
+        if output == True:
             return "You guessed the word!! Nice Job"
         else:
             return "You failed to guess the word in 6 guesses. better luck next time."
@@ -82,9 +81,10 @@ class WordGuesser:
     # checks to see if win/lose conditions have been satisfied
     # meant to run after each guess, and after MAX_GUESS has been reached
     def check_win(self) -> bool:
-        if self.game_board[-1] == self.goal_word:
+        idx = len(self.game_board) - 1
+        if self.game_board[idx] == self.goal_word:
             return True
-        elif self.guess_count >= MAX_GUESSES:
+        elif self.guess_count > 6:
             return False
         return False
 
@@ -122,14 +122,17 @@ class WordGuesser:
             # overwrites previous guesses dict and appends it to a list
             self.guesses["guess"] = guess
             self.guesses["results"] = curr_results
-            self.game_board.append(self.guesses)
+            self.game_board.append(self.guesses["guess"])
+            print("game board: ")
+            print(self.game_board)
             self.guess_count += 1
-
+            print(self.guess_count)
+            print("")
             # track progress here to update overall board
             self.track_progress()
 
             # check to see if win/lose conditions apply
-            if self.guess_count >= MAX_GUESSES:
+            if self.guess_count == 6:
                 self.end_game()
         else:
             print("Invalid guess, please try again.")

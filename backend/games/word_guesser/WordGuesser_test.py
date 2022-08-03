@@ -26,12 +26,6 @@ WORD_LIST = [
     "minor",
 ]
 
-# basic expected behavior
-def test_constructor():
-    game = WordGuesser()
-
-    assert game.goal_word == ""
-
 
 def test_start_game():
     game = WordGuesser()
@@ -40,34 +34,86 @@ def test_start_game():
     assert word in WORD_LIST
 
 
-def test_guesses():
+# hard code goal word and bad guess
+def test_bad_guess():
     game = WordGuesser()
-    game.start_game()
     word = game.goal_word
 
     game.guess_word("minor")
-    tmp_guess = {
+    expected_guess = {
         "guess": "minor",
         "results": [
-            "correct",
-            "not_in_word",
             "not_in_word",
             "in_word",
             "not_in_word",
+            "not_in_word",
+            "not_in_word",
         ],
     }
-    assert game.guesses["guess"] == tmp_guess["guess"]
+    assert game.guesses == expected_guess
 
 
-# def test_invalid_guesses():
-#     game = WordGuesser()
-#     game.start_game()
-#     word = game.goal_word
+# hard code goal word and good guess
+def test_good_guess():
+    game = WordGuesser()
+    word = game.goal_word
 
-#     game.guess_word("lower")
-#     game.guess_word("porky")
-#     game.guess_word("crane")
-#     game.guess_word("plows")
-#     game.guess_word("weigh")
-#     game.guess_word("house")
-#     game.guess_word("testy")
+    game.guess_word("basic")
+    expected_guess = {
+        "guess": "basic",
+        "results": [
+            "correct",
+            "correct",
+            "correct",
+            "correct",
+            "correct",
+        ],
+    }
+    assert game.guesses == expected_guess
+
+
+def test_check_win():
+    game = WordGuesser()
+    word = game.goal_word
+
+    game.guess_word("lower")
+    game.guess_word("porky")
+    game.guess_word("crane")
+    game.guess_word("basic")
+    assert game.check_win() == True
+    assert game.end_game() == "You guessed the word!! Nice Job"
+
+
+def test_check_lose():
+    game = WordGuesser()
+    word = game.goal_word
+
+    game.guess_word("lower")
+    game.guess_word("porky")
+    game.guess_word("crane")
+    game.guess_word("plows")
+    game.guess_word("weigh")
+    game.guess_word("house")
+    game.guess_word("testy")
+    assert game.check_win() == False
+    assert (
+        game.end_game()
+        == "You failed to guess the word in 6 guesses. better luck next time."
+    )
+
+
+def test_validation():
+    game = WordGuesser()
+
+    normal_word = game.validate_guess("guess")
+    assert normal_word == True
+
+    normal_word = game.validate_guess("gue1s")
+    assert normal_word == False
+
+    normal_word = game.validate_guess("guesses")
+    assert normal_word == False
+
+
+def test_track_progress():
+    pass
