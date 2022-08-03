@@ -1,7 +1,7 @@
 import React from 'react'
 import './InterestsStarter.css'
 import { ConversationStarterProps } from './ConversationStarter'
-import { pluralize } from '../utils'
+import { pluralize } from '../utils/Utils'
 import { CommunityData } from '../../config/communities'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
