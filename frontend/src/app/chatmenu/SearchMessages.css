@@ -30,6 +30,7 @@
 
 .Search .text-icon {
     position: absolute;
+    cursor: pointer;
     top: 120px;
     left: 450px;
 }

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import './SearchMessages.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { ChatMenuPageProps, MessagesData } from './ChatMenuPage'
 import { Message } from '../chat/Message'
 import { ChatData } from '../types'
@@ -76,24 +76,21 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
             doSearch()
         }
     }
-    /*
-    const clearSearch = () => {
-        return setValue('')
-    } */
 
     // Creates the Seach bar and Button
-    // This goes in between the span <i class="fa-duotone fa-circle-x icon" onClick={clearSearch}></i>
     return (
         <div className="Search">
-            {/* <span role="button" className="text-icon" onClick={clearSearch}>
-                X
-    </span> */}
             <textarea
                 className="Input"
                 placeholder="Search Messages"
                 value={value}
                 onChange={handleChange}
                 onKeyDown={searchOnCtrlEnter}
+            />
+            <FontAwesomeIcon
+                onClick={() => setValue('')}
+                icon={faXmark}
+                className={value === '' ? 'Hidden' : 'text-icon'}
             />
             <button type="button" onClick={doSearch} className="ButtonSearch">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
