@@ -1,0 +1,78 @@
+.WordGuesserGame {
+    --gap-size: 2px;
+    --letter-size: 55px;
+    --key-size: 30px;
+    --keys: 10;
+    --block-size: calc(var(--key-size) + calc(var(--gap-size) * 2));
+    --total-width: calc(var(--block-size) * var(--keys));
+    width: var(--total-width);
+}
+
+.GameHeader {
+    text-align: center;
+}
+
+.GameHeader .Title {
+    margin: 0;
+}
+
+.GameBoard {
+    padding-bottom: calc(var(--key-size) * 0.5);
+}
+
+.GuessRow,
+.KeyboardRow {
+    text-align: center;
+}
+
+.GuessTile.Correct,
+.KeyTile.Correct {
+    background: lightgreen;
+}
+
+.GuessTile.NotInWord,
+.KeyTile.NotInWord {
+    background: darkgray;
+}
+
+.GuessTile.InWord,
+.KeyTile.InWord {
+    background: yellow;
+}
+
+.GuessTile,
+.KeyTile {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    border-radius: 15%;
+    background: lightgray;
+    margin: var(--gap-size);
+}
+
+.GuessTile {
+    width: var(--letter-size);
+    height: var(--letter-size);
+    line-height: var(--letter-size);
+    font-size: calc(var(--letter-size) * 0.5);
+    border-radius: calc(var(--letter-size) * 0.1);
+}
+
+.KeyTile {
+    width: var(--key-size);
+    height: var(--key-size);
+    line-height: var(--key-size);
+    font-size: calc(var(--key-size) * 0.65);
+    border-radius: calc(var(--key-size) * 0.15);
+    /* Make keyboard tiles non-highlightable by cursor */
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.KeyTile:hover {
+    cursor: pointer;
+    background: darkgray;
+}
