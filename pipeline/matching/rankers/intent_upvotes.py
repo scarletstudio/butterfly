@@ -43,22 +43,30 @@ class IntentUpvotesRanker(MatchRanker):
 
         while currMatch != failMatch:
             currMatchGiver = currMatch.metadata.matchingIntents[0].giver
-            currMatchIntent = currMatch.metadata.matchingIntents[0].code
-            for i in ups:
-                if i.to_user == currMatchGiver and i.intent == currMatchIntent:
-                    flag = True
-                    if upvotedLst.__contains__(currMatch):
-                        upvotedDict[
-                            (upvotedLst.index(currMatch), currMatchIntent)
-                        ] += i.value
-                    else:
-                        upvotedLst.append(currMatch)
-                        upvotedDict[
-                            (len(upvotedLst) - 1, currMatchIntent)
-                        ] = i.value
 
-            if flag == False:
+            if currMatch.metadata.matchingIntents != []:
+                currMatchIntent = currMatch.metadata.matchingIntents[0].code
+                for i in ups:
+                    if (
+                        i.to_user == currMatchGiver
+                        and i.intent == currMatchIntent
+                    ):
+                        flag = True
+                        if upvotedLst.__contains__(currMatch):
+                            upvotedDict[
+                                (upvotedLst.index(currMatch), currMatchIntent)
+                            ] += i.value
+                        else:
+                            upvotedLst.append(currMatch)
+                            upvotedDict[
+                                (len(upvotedLst) - 1, currMatchIntent)
+                            ] = i.value
+
+                if flag == False:
+                    lst.append(currMatch)
+            else:
                 lst.append(currMatch)
+
             try:
                 currMatch = next(proposed)
             except:

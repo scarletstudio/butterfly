@@ -35,6 +35,7 @@ class MatchMetadata:
     generator: GeneratorId = "blank"
     # Score assigned to this match for ranking purposes
     score: float = 0
+    location: List[str] = field(default_factory=list)
     # Letters in common in the names of matched users
     commonLetters: List[str] = field(default_factory=list)
     # Codes of interests relevant to this match
