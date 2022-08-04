@@ -19,9 +19,10 @@ export async function fetchFromBackend({ route, options = {} }) {
  * deps: React state variables for hook to depend on
  * isValid: if true, send the request, otherwise, skip it
  */
-export function useRawFetchJson({ url, options = {}, deps = [], isValid = true }) {
+export function useRawFetchJson({ url, options = {}, deps = [], isValid }) {
     const [response, setResponse] = useState(null)
     const [error, setError] = useState(null)
+    const shouldGetData = isValid !== undefined && isValid !== null
     useEffect(() => {
         async function getData() {
             try {
@@ -32,7 +33,7 @@ export function useRawFetchJson({ url, options = {}, deps = [], isValid = true }
                 setError(err)
             }
         }
-        if (isValid) getData()
+        if (shouldGetData) getData()
     }, deps)
     return [response, error]
 }

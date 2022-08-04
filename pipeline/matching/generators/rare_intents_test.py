@@ -47,7 +47,7 @@ def testOne():
             users={"1", "3"},
             metadata=MatchMetadata(
                 generator="rareIntentsGenerator",
-                rareIntents=[expected_intent],
+                intents=[expected_intent],
             ),
         ),
     ]
@@ -180,21 +180,21 @@ def testFour():  # testing multiple matches
             users={"1", "5"},
             metadata=MatchMetadata(
                 generator="rareIntentsGenerator",
-                rareIntents=[expected_intent2],
+                intents=[expected_intent2],
             ),
         ),
         Match(
             users={"3", "5"},
             metadata=MatchMetadata(
                 generator="rareIntentsGenerator",
-                rareIntents=[expected_intent3],
+                intents=[expected_intent3],
             ),
         ),
         Match(
             users={"2", "5"},
             metadata=MatchMetadata(
                 generator="rareIntentsGenerator",
-                rareIntents=[expected_intent1],
+                intents=[expected_intent1],
             ),
         ),
     ]
@@ -265,7 +265,7 @@ def testSix():  # match between two users over multiple intents
             users={"1", "2"},
             metadata=MatchMetadata(
                 generator="rareIntentsGenerator",
-                rareIntents=[expected_intent2, expected_intent1],
+                intents=[expected_intent2, expected_intent1],
             ),
         ),
     ]

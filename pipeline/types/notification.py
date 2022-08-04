@@ -24,7 +24,7 @@ class NotificationInput:
     run_datetime: datetime.datetime
 
 
-@dataclass
+@dataclass(order=True)
 class NotificationInfo:
     # the recipient of the notification, represented as a User object
     recipient: User
