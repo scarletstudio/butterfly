@@ -17,6 +17,8 @@ def test_update_invalid_attribute(mock_db):
     url = "/analytics/collect/"
     data = {
         "event_type": "page_view",
+        "host": "localhost",
+        "page_url": "/butterfly/me",
         "data": {
             "page_id": "edit_profile",
             "duration_ms": 2103,
@@ -27,6 +29,8 @@ def test_update_invalid_attribute(mock_db):
     # Verify that the request was successful and that the mock push occurred
     expected_event = {
         "event_type": "page_view",
+        "host": "localhost",
+        "page_url": "/butterfly/me",
         "data": {
             "page_id": "edit_profile",
             "duration_ms": 2103,
