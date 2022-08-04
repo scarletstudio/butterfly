@@ -18,6 +18,7 @@ from pipeline.types import (
     User,
 )
 from pipeline.utils.firebase import initialize_firebase_for_prefect
+from pipeline.utils.notifications import priority_notifications_per_user
 
 NOTIFIERS = [NewMessageNotifier()]
 RENDERERS = {NotificationType.CHECK_MESSAGE: NewMessageRender()}
@@ -68,33 +69,11 @@ def get_notifications(inp: List[ChatData]) -> List[NotificationInfo]:
 
 
 @prefect.task
-def notif_hierarchy(notifs: List[NotificationInfo]) -> List[NotificationInfo]:
-    """
-    Truncates the NotificationInfo list based on a hierarchy of notifications, which is as follows:
-    1. check match (highest)
-    2. check message
-    3. rate match
-    4. edit profile (lowest)
-    """
-    truncated_notif_info = {}
-    for notif in notifs:
-        if notif.notification_type.value == "check_match":
-            truncated_notif_info[notif.recipient.uid] = notif
-        elif notif.notification_type.value == "check_message":
-            notif_in_trunc = truncated_notif_info.get(notif.recipient.uid)
-            if notif_in_trunc is None:
-                truncated_notif_info[notif.recipient.uid] = notif
-            elif notif_in_trunc.notification_type.value != "check_match":
-                truncated_notif_info[notif.recipient.uid] = notif
-        elif notif.notification_type.value == "rate_match":
-            notif_in_trunc = truncated_notif_info.get(notif.recipient.uid)
-            if notif_in_trunc is None:
-                truncated_notif_info[notif.recipient.uid] = notif
-            elif notif_in_trunc.notification_type.value == "edit_profile":
-                truncated_notif_info[notif.recipient.uid] = notif
-        else:
-            truncated_notif_info[notif.recipient.uid] = notif
-    return list(truncated_notif_info.values())
+def priority_notifications(
+    notifs: List[NotificationInfo],
+) -> List[NotificationInfo]:
+    final_notifs = priority_notifications_per_user(notifications=notifs)
+    return final_notifs
 
 
 @prefect.task
@@ -137,8 +116,8 @@ def notifications_flow(defaults: Dict = {}) -> Flow:
         pseudo_chatadata = return_pseudo_chatdata(param_community)
         # Truncate list of notifications by hierarchy
         notifications = get_notifications(inp=pseudo_chatadata)
-        final_notifications = notif_hierarchy(notifs=notifications)
+        final_notifs = priority_notifications(notifs=notifications)
         # Assign renderers to notifications
-        notifs_with_renderers = render_notifications(notifs=final_notifications)
+        notifs_with_renderers = render_notifications(notifs=final_notifs)
 
     return flow
