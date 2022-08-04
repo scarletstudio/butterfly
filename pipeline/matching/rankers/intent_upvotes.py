@@ -42,9 +42,8 @@ class IntentUpvotesRanker(MatchRanker):
         )
 
         while currMatch != failMatch:
-            currMatchGiver = currMatch.metadata.matchingIntents[0].giver
-
             if currMatch.metadata.matchingIntents != []:
+                currMatchGiver = currMatch.metadata.matchingIntents[0].giver
                 currMatchIntent = currMatch.metadata.matchingIntents[0].code
                 for i in ups:
                     if (
@@ -66,7 +65,6 @@ class IntentUpvotesRanker(MatchRanker):
                     lst.append(currMatch)
             else:
                 lst.append(currMatch)
-
             try:
                 currMatch = next(proposed)
             except:

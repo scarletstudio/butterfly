@@ -17,7 +17,6 @@ class User:
     displayName: str = ""
     email: str = ""
     photo_url: str = ""
-    location: str = ""
     communities: UserCommunityMemberships = field(default_factory=dict)
     latest_login: datetime.datetime = field(
         default_factory=lambda: datetime.datetime.fromtimestamp(0)
