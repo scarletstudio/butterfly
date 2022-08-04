@@ -53,7 +53,6 @@ def test_bad_guess():
     assert game.guesses == expected_guess
 
 
-# hard code goal word and good guess
 def test_good_guess():
     game = WordGuesser()
     word = game.goal_word
@@ -116,4 +115,31 @@ def test_validation():
 
 
 def test_track_progress():
-    pass
+    game = WordGuesser()
+    game.guess_word("lower")
+    game.guess_word("porky")
+    game.guess_word("crane")
+    progress = {
+        "lower": [
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+        ],
+        "porky": [
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+        ],
+        "crane": [
+            "in_word",
+            "not_in_word",
+            "in_word",
+            "not_in_word",
+            "not_in_word",
+        ],
+    }
+    assert progress == game.progress
