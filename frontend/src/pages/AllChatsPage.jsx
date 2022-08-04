@@ -5,9 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 import { useCurrentAuthUser } from '../app/login'
-import { getUserData, useGetManyUserData, useGetAllUserMatches } from '../app/data'
+import {
+    getUserData,
+    useGetManyUserData,
+    useGetAllUserMatches,
+    useFetchBlockedUsers,
+} from '../app/data'
 import { ChatInbox } from '../app/inbox'
-import { saveEvent, useBackendFetchJson } from '../app/utils'
+import { saveEvent } from '../app/utils'
 
 const ChatInboxHeader = () => (
     <div className="Header Light">
@@ -25,24 +30,6 @@ const ChatInboxHeader = () => (
         </p>
     </div>
 )
-
-// find the blocked accounts of the user
-function useFetchBlockedUsers(myUid) {
-    const [res] = useBackendFetchJson({
-        route: `/chat/block/user/${myUid}`,
-        deps: [myUid],
-        isValid: myUid,
-    })
-    const blockedUsers = res?.blocks || []
-    // create a blocked user dictionary
-    const reduceList = blockedUsers.reduce((accumulator, item) => {
-        if (item.blocked === true) {
-            accumulator[item.uid] = item.blocked
-        }
-        return accumulator
-    }, {})
-    return reduceList
-}
 
 export default function AllChatsPage() {
     const authUser = useCurrentAuthUser()
@@ -82,21 +69,30 @@ export default function AllChatsPage() {
         }
     }, [authUser?.uid])
 
+    const icon = isOpen ? (
+        <FontAwesomeIcon icon={faChevronUp} />
+    ) : (
+        <FontAwesomeIcon icon={faChevronDown} />
+    )
+
     return (
         <div className="AllChatsPage FullHeight LightBackground">
             <ChatInboxHeader />
             <ChatInbox chats={unblockedMatches} users={matchedUsers} />
 
             <div className={blockedMatches.length === 0 ? 'Hidden' : ''}>
-                <div className="HiddenInbox">
-                    <h5>Hidden Conversations</h5>
-                    <button type="button" className="btn" onClick={handleInboxOpening}>
-                        {!isOpen ? (
-                            <FontAwesomeIcon icon={faChevronDown} />
-                        ) : (
-                            <FontAwesomeIcon icon={faChevronUp} />
-                        )}
-                    </button>
+                <div className="Header Light">
+                    <div className="HiddenInboxHeader">
+                        <h5>Hidden Conversations</h5>
+                        <button
+                            type="button"
+                            className="HiddenInboxButton"
+                            onClick={handleInboxOpening}
+                        >
+                            {icon}
+                        </button>
+                    </div>
+                    <p>These chats are hidden because they include users that you have blocked.</p>
                 </div>
                 {isOpen && <ChatInbox chats={blockedMatches} users={matchedUsers} />}
             </div>

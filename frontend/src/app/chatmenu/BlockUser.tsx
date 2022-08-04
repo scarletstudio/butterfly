@@ -7,7 +7,7 @@ import { ChatMenuPageProps } from './ChatMenuPage'
 import { UserData } from '../types/UserData'
 import { Button, UserTile } from '../ui'
 import { fetchFromBackend } from '../utils'
-import { useFetchBlockedUsers } from '../data/blocked'
+import { useFetchBlockedUsers } from '../data'
 
 interface BlockUserProps {
     participants: UserData[]
