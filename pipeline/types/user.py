@@ -11,7 +11,7 @@ UserId = str
 UserGroup = Tuple[UserId, ...]
 
 
-@dataclass
+@dataclass(order=True)
 class User:
     uid: UserId
     displayName: str = ""
