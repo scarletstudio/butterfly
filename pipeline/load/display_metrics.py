@@ -25,7 +25,7 @@ def render_user_emails(users: List[User]) -> str:
     return "\n".join([u.email for u in users])
 
 
-def dispaly_intent_distribution_in_matches(matches: List[Match]):
+def render_intent_distribution_in_matches(matches: List[Match]):
     distribution = (
         MatchingMetricsCollector().intent_distribution_in_selected_matches(
             matches
@@ -39,7 +39,7 @@ def dispaly_intent_distribution_in_matches(matches: List[Match]):
     return output
 
 
-def dispaly_intent_distribution_in_community(users: List[User]):
+def render_intent_distribution_in_community(users: List[User]):
     (
         distribution_1,
         distribution_2,
@@ -66,5 +66,18 @@ def display_internal_matching_metrics(
         output.users, metrics.n_proposed_matches_per_user
     )
     matched_user_emails = render_user_emails(output.users)
+    counts_per_intent_in_matches = render_intent_distribution_in_matches(
+        output.matches
+    )
+    counts_per_intent_in_community = render_intent_distribution_in_community(
+        output.users
+    )
+
     logger.info(f"\nMatches Proposed per User:\n{proposed_matches_per_user}")
     logger.info(f"\nEmails of Matched Users:\n{matched_user_emails}")
+    logger.info(
+        f"\nTotal Count of Intent in Final Set of Matches:\n{counts_per_intent_in_matches}"
+    )
+    logger.info(
+        f"\nTotal Count of Intent in Community:\n{counts_per_intent_in_community}"
+    )

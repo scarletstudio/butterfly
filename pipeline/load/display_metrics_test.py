@@ -1,8 +1,9 @@
 import pytest
 
 from pipeline.load.display_metrics import (
-    dispaly_intent_distribution_in_matches,
     render_counts_per_user,
+    render_intent_distribution_in_community,
+    render_intent_distribution_in_matches,
     render_user_emails,
 )
 from pipeline.types import IntentMatch, Match, MatchMetadata, User
@@ -45,7 +46,7 @@ def test_render_user_emails():
     assert actual == expected
 
 
-def test_dispaly_intent_distribution_in_matches():
+def test_display_intent_distribution_in_matches():
 
     matches = [
         Match(
@@ -92,7 +93,7 @@ def test_dispaly_intent_distribution_in_matches():
         ),
     ]
 
-    actual = dispaly_intent_distribution_in_matches(matches)
+    actual = render_intent_distribution_in_matches(matches)
 
     expected = (
         "guitar : 1\n"
@@ -134,7 +135,7 @@ def test_dispaly_intent_distribution_in_matches():
             ),
         ]
 
-        actual = display_intent_distribution_in_community(users)
+        actual = render_intent_distribution_in_community(users)
 
         # will return two dictionaries,
         # first is the givers and their count and second are the seekers and their count
