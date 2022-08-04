@@ -79,7 +79,7 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
 
     // Creates the Seach bar and Button
     return (
-        <div className="Search">
+        <>
             <textarea
                 className="Input"
                 placeholder="Search Messages"
@@ -102,7 +102,7 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
                     totalMessages={messages}
                 />
             </div>
-        </div>
+        </>
     )
 }
 
