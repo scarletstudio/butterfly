@@ -1,7 +1,8 @@
+from typing import List
 from unittest.mock import MagicMock
 
 from pipeline.extract.analytics import extract_analytics
-from pipeline.types import RawAnalytics
+from pipeline.types import AnalyticsEvent
 
 
 def test_extract_analytics():
@@ -15,14 +16,21 @@ def test_extract_analytics():
     }
     mock_get_analytics = MagicMock(return_value=raw_analytics)
     mock_db = MagicMock()
-    mock_db.reference("analytics/test").get = mock_get_analytics
+    mock_db.reference("analytics").get = mock_get_analytics
 
     # Run Prefect task with mock
-    actual: RawAnalytics = extract_analytics.run(mock_db)
+    actual: List[AnalyticsEvent] = extract_analytics.run(mock_db)
 
     # Verify that database was queried once with no parameters
     mock_get_analytics.assert_called_once_with()
 
     # Verify that output matches expected type and content
-    expected: RawAnalytics = raw_analytics
+    expected: List[AnalyticsEvent] = [
+        AnalyticsEvent(
+            event_type="view_chat_inbox",
+            data={"user": "abc"},
+            timestamp=1659311549216,
+        )
+    ]
+
     assert actual == expected
