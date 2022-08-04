@@ -10,5 +10,6 @@
     display: flex;
 }
 .btn {
+    cursor: pointer;
     margin: 15px;
 }
