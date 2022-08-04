@@ -2,28 +2,18 @@ from random import randint
 from typing import Dict, List
 
 MAX_GUESSES = 6
-WORD_LIST = [
-    "adieu",
-    "odium",
-    "shade",
-    "resin",
-    "alert",
-    "haunt",
-    "orate",
-    "media",
-    "blind",
-    "route",
-    "audio",
-    "pause",
-    "alien",
-    "canoe",
-    "plane",
-    "rouse",
-    "fraud",
-    "atone",
-    "raise",
-    "minor",
-]
+
+# initialize valid guesses and possible solutions
+SOLUTIONS: str
+VALID_WORDS: str
+
+solutions_file = open("backend/games/word_guesser/WordGuesser_Solutions.txt")
+guesses_file = open("backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
+SOLUTIONS = solutions_file.read()
+SOLUTION_LIST = SOLUTIONS.splitlines()
+
+VALID_WORDS = guesses_file.read()
+VALID_WORDS_LIST = VALID_WORDS.splitlines()
 
 
 class WordGuesser:
@@ -44,8 +34,8 @@ class WordGuesser:
     def start_game(self):
         self.clear_data()
 
-        new_word_index = randint(0, len(WORD_LIST) - 1)  # nosec
-        self.goal_word = WORD_LIST[new_word_index]
+        new_word_index = randint(0, len(SOLUTION_LIST) - 1)  # nosec
+        self.goal_word = SOLUTION_LIST[new_word_index]
 
     def end_game(self) -> str:
         output = self.check_win()
@@ -80,6 +70,8 @@ class WordGuesser:
         if len(guess) != 5:
             return False
         if not guess.isalpha():
+            return False
+        if guess not in VALID_WORDS:
             return False
         return True
 
