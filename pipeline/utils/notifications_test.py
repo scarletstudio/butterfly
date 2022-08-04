@@ -86,12 +86,12 @@ def test_return_prioritized_notif_for_one_user():
     actual = priority_notifications_per_user(notifications)
     expected = [
         NotificationInfo(
-            recipient=User(uid="A"),
-            notification_type=NotificationType.RATE_MATCH,
-        ),
-        NotificationInfo(
             recipient=User(uid="B"),
             notification_type=NotificationType.CHECK_MESSAGE,
+        ),
+        NotificationInfo(
+            recipient=User(uid="A"),
+            notification_type=NotificationType.RATE_MATCH,
         ),
         NotificationInfo(
             recipient=User(uid="C"),
@@ -102,39 +102,43 @@ def test_return_prioritized_notif_for_one_user():
     assert equal_lists(actual, expected)
 
 
-# def test_return_prioritized_notif_for_one_user():
-#     notifications = [
-#         NotificationInfo(
-#             recipient=User(uid="A"),
-#             notification_type=NotificationType.RATE_MATCH,
-#         ),
-#         NotificationInfo(
-#             recipient=User(uid="B"),
-#             notification_type=NotificationType.CHECK_MATCH,
-#         ),
-#         NotificationInfo(
-#             recipient=User(uid="C"),
-#             notification_type=NotificationType.CHECK_MATCH,
-#         ),
-#         NotificationInfo(
-#             recipient=User(uid="B"),
-#             notification_type=NotificationType.CHECK_MESSAGE,
-#         ),
-#     ]
-#     actual = priority_notifications_per_user(notifications)
-#     expected = [
-#         NotificationInfo(
-#             recipient=User(uid="A"),
-#             notification_type=NotificationType.RATE_MATCH,
-#         ),
-#         NotificationInfo(
-#             recipient=User(uid="B"),
-#             notification_type=NotificationType.CHECK_MESSAGE,
-#         ),
-#         NotificationInfo(
-#             recipient=User(uid="C"),
-#             notification_type=NotificationType.CHECK_MATCH,
-#         ),
-#     ]
+def test_return_prioritized_notif_for_two_users():
+    notifications = [
+        NotificationInfo(
+            recipient=User(uid="A"),
+            notification_type=NotificationType.RATE_MATCH,
+        ),
+        NotificationInfo(
+            recipient=User(uid="B"),
+            notification_type=NotificationType.CHECK_MATCH,
+        ),
+        NotificationInfo(
+            recipient=User(uid="C"),
+            notification_type=NotificationType.EDIT_PROFILE,
+        ),
+        NotificationInfo(
+            recipient=User(uid="B"),
+            notification_type=NotificationType.CHECK_MESSAGE,
+        ),
+        NotificationInfo(
+            recipient=User(uid="C"),
+            notification_type=NotificationType.RATE_MATCH,
+        ),
+    ]
+    actual = priority_notifications_per_user(notifications)
+    expected = [
+        NotificationInfo(
+            recipient=User(uid="B"),
+            notification_type=NotificationType.CHECK_MESSAGE,
+        ),
+        NotificationInfo(
+            recipient=User(uid="A"),
+            notification_type=NotificationType.RATE_MATCH,
+        ),
+        NotificationInfo(
+            recipient=User(uid="C"),
+            notification_type=NotificationType.RATE_MATCH,
+        ),
+    ]
 
-#     assert equal_lists(actual, expected)
+    assert equal_lists(actual, expected)

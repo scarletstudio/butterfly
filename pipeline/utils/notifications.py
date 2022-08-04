@@ -32,6 +32,7 @@ def get_notif_priority(notification: NotificationInfo) -> int:
 def priority_notifications_per_user(
     notifications: List[NotificationInfo],
 ) -> List[NotificationInfo]:
+    # sorts notifications by priority and returns 1 notification for each user
     sorted_notifs = sorted(notifications, key=get_notif_priority)
     final_notifs = notifications_per_user(sorted_notifs)
     return final_notifs
