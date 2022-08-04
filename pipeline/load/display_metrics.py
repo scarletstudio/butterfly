@@ -4,7 +4,8 @@ from typing import Dict, List
 import prefect
 from prefect import task
 
-from pipeline.types import MatchingMetrics, MatchingOutput, User, UserId
+from pipeline.matching.evaluation.metrics import MatchingMetricsCollector
+from pipeline.types import Match, MatchingMetrics, MatchingOutput, User, UserId
 
 
 def render_counts_per_user(users: List[User], counts: Dict[UserId, int]) -> str:
@@ -22,6 +23,37 @@ def render_counts_per_user(users: List[User], counts: Dict[UserId, int]) -> str:
 
 def render_user_emails(users: List[User]) -> str:
     return "\n".join([u.email for u in users])
+
+
+def dispaly_intent_distribution_in_matches(matches: List[Match]):
+    distribution = (
+        MatchingMetricsCollector().intent_distribution_in_selected_matches(
+            matches
+        )
+    )
+
+    output = ""
+    for intent, count in distribution.items():
+        output += str(intent) + " : " + str(count) + "\n"
+
+    return output
+
+
+def dispaly_intent_distribution_in_community(users: List[User]):
+    (
+        distribution_1,
+        distribution_2,
+    ) = MatchingMetricsCollector().intent_distribution_in_community(users)
+
+    output = "Giving Intent:" + "\n"
+    for intent, count in distribution_1.items():
+        output += str(intent) + " : " + str(count) + "\n"
+
+    output += "Seeking Intent:" + "\n"
+    for intent, count in distribution_2.items():
+        output += str(intent) + " : " + str(count) + "\n"
+
+    return output
 
 
 @task

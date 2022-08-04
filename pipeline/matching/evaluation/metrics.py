@@ -3,9 +3,11 @@ from typing import Dict, Iterator, List, Tuple
 
 from pipeline.types import (
     GeneratorId,
+    Intent,
     Match,
     MatchingInput,
     MatchingMetrics,
+    Side,
     User,
 )
 
@@ -51,3 +53,49 @@ class MatchingMetricsCollector:
             t = (selected, proposed)
             generator_selection_rate[key] = t
         return generator_selection_rate
+
+    def intent_distribution_in_selected_matches(
+        self, matches: List[Match]
+    ) -> Dict[str, int]:
+        total_count: Dict[str, int] = {}
+
+        for match in matches:
+            for intent in match.metadata.intents:
+                if intent.code in total_count:
+                    total_count[intent.code] = total_count[intent.code] + 1
+                else:
+                    total_count[intent.code] = 1
+
+            for intent in match.metadata.rareIntents:
+                if intent.code in total_count:
+                    total_count[intent.code] = total_count[intent.code] + 1
+                else:
+                    total_count[intent.code] = 1
+
+        return total_count
+
+    def intent_distribution_in_community(
+        self, users: List[User]
+    ) -> Tuple[Dict, Dict]:
+
+        total_count_giving: Dict[str, int] = {}
+        total_count_seeking: Dict[str, int] = {}
+
+        for user in users:
+            for intent in user.intents:
+                if intent.side == Side.GIVING:
+                    if intent.code in total_count_giving:
+                        total_count_giving[intent.code] = (
+                            total_count_giving[intent.code] + 1
+                        )
+                    else:
+                        total_count_giving[intent.code] = 1
+                else:
+                    if intent.code in total_count_seeking:
+                        total_count_seeking[intent.code] = (
+                            total_count_seeking[intent.code] + 1
+                        )
+                    else:
+                        total_count_seeking[intent.code] = 1
+
+        return total_count_giving, total_count_seeking
