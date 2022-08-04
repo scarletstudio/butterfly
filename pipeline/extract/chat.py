@@ -26,15 +26,14 @@ from pipeline.types import (
 
 
 @task
-def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
+def extract_recent_chatdata(db, community: Community) -> List[ChatData]:
     logger = prefect.context.get("logger")
     chat_ref = db.reference(f"matches/{community}")
     user_chat_records = chat_ref.get()
     if not user_chat_records:
         logger.info(f"No user-chat records for commmnity: {community}")
-        return pd.DataFrame()
+        return []
     logger.info(f"Extracted {len(user_chat_records)} user-chat records.")
-    # users: List[User] = []
     ids: Set[ChatMatchId] = set()
     chatList: List[ChatData] = []
 
@@ -69,15 +68,19 @@ def extract_recent_chatdata(db, community: Community) -> pd.DataFrame:
             )
             chatList.append(cd1)
             ids.add(id)
-    # find and delete one of the duplicates
-    logger.info(f"ids: {ids}, Chatlist: {chatList}")
-    return pd.DataFrame({"A": []})
+    logger.info(
+        f"Converted to {len(chatList)} chat records with {len(ids)} user ID's."
+    )
+    logger.info(f"IDs: {ids}\n \nChatList: {chatList}")
+    df_recent_chatdata = pd.DataFrame(chatList)
+    logger.info("Returned {} rows, {} cols.".format(*df_recent_chatdata.shape))
+    return chatList  # pd.DataFrame({"A": []})
 
 
 # additional function
 # given a userId return a User object instead of participants in Dict[UserId, User] format
 # def getUser(db, community: Community, userid: UserId) -> {UserId: User}:
-# pass
+#  pass
 
 
 def extract_message_data(
@@ -92,7 +95,6 @@ def extract_message_data(
     if message_records:
         logger.info(f"Extracted {len(message_records)} message records.")
         for message in message_records.values():
-            print(message)
             m = Message(
                 from_user=message["from"],
                 timestamp=message["timestamp"],
