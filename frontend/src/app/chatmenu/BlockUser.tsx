@@ -6,28 +6,12 @@ import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 import { ChatMenuPageProps } from './ChatMenuPage'
 import { UserData } from '../types/UserData'
 import { Button, UserTile } from '../ui'
-import { fetchFromBackend, useBackendFetchJson } from '../utils'
+import { fetchFromBackend } from '../utils'
+import { useFetchBlockedUsers } from '../data/blocked'
 
 interface BlockUserProps {
     participants: UserData[]
     myUid: string
-}
-
-function useFetchBlockedUsers(myUid: string) {
-    const [res] = useBackendFetchJson({
-        route: `/chat/block/user/${myUid}`,
-        deps: [myUid],
-        isValid: myUid,
-    })
-    const blockedUsers = res?.blocks || []
-    // create a blocked user dictionary
-    return blockedUsers.reduce(
-        (agg, user: { uid: string; blocked: boolean }) => ({
-            ...agg,
-            [user.uid]: user.blocked,
-        }),
-        {}
-    )
 }
 
 async function updateBlock(myUid: string, blockUid: string, shouldBlock: boolean) {
