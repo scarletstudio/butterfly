@@ -1,66 +1,83 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './BlockUser.css'
-import '../ui/User.css'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUnlock, faUserLock } from '@fortawesome/free-solid-svg-icons'
+import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
 
 import { ChatMenuPageProps } from './ChatMenuPage'
 import { UserData } from '../types/UserData'
+import { Button, UserTile } from '../ui'
+import { fetchFromBackend, useBackendFetchJson } from '../utils'
 
 interface BlockUserProps {
     participants: UserData[]
+    myUid: string
+}
+
+function useFetchBlockedUsers(myUid: string) {
+    const [res] = useBackendFetchJson({
+        route: `/chat/block/user/${myUid}`,
+        deps: [myUid],
+        isValid: myUid,
+    })
+    const blockedUsers = res?.blocks || []
+    // create a blocked user dictionary
+    return blockedUsers.reduce(
+        (agg, user: { uid: string; blocked: boolean }) => ({
+            ...agg,
+            [user.uid]: user.blocked,
+        }),
+        {}
+    )
+}
+
+async function updateBlock(myUid: string, blockUid: string, shouldBlock: boolean) {
+    await fetchFromBackend({
+        route: `/chat/block/user/${myUid}/${blockUid}/${shouldBlock}`,
+        options: { method: 'POST' },
+    })
 }
 
 // create user tile to display participants
-const UserTile = ({ user }) => {
-    const { uid, displayName, photoURL } = user
-    const alt = `Profile image for ${displayName}.`
+const BlockUserTile = ({ user, value, submitBlock }) => {
+    const blockUid = user?.uid
+    const [blocked, setIsBlocked] = useState(value)
 
-    const doBlock = () => {
-        // TODO: Implement blocking the user method
+    const blockHandler = () => {
+        submitBlock(blockUid, !blocked)
+        setIsBlocked(!blocked)
     }
-
-    const doUnblock = () => {
-        // TODO: Implement unblocking the user method
-    }
+    useEffect(() => {
+        setIsBlocked(value)
+    }, [value])
 
     return (
-        <div className="UserTile">
-            <div className="ProfileImage">
-                <img src={photoURL} alt={alt} className="Image" />
-            </div>
-            <div className="DisplayName">
-                <span>{displayName}</span>
-            </div>
-            <div>
-                <button type="button">
-                    <FontAwesomeIcon
-                        onClick={doBlock}
-                        icon={faUserLock}
-                        className="IconBeforeBlock"
-                    />
-                    Block
-                </button>
-                <button type="button">
-                    <FontAwesomeIcon
-                        onClick={doUnblock}
-                        icon={faUnlock}
-                        className="IconBeforeUnblock"
-                    />
-                    Unblock
-                </button>
-            </div>
+        <div className={blocked ? 'BlockedUser' : ''}>
+            <UserTile user={user} />
+            <Button
+                label={blocked ? 'Unblock' : 'Block'}
+                iconBefore={blocked ? faLockOpen : faLock}
+                primary
+                onClick={blockHandler}
+            />
         </div>
     )
 }
 
 // show the users within the chat
-const BlockUserInner = ({ participants }: BlockUserProps) => {
+const BlockUserInner = ({ participants, myUid }: BlockUserProps) => {
+    const blockedUsers = useFetchBlockedUsers(myUid)
+    const submitBlock = (blockUid: string, shouldBlock: boolean) =>
+        updateBlock(myUid, blockUid, shouldBlock)
+
     return (
         <div className="UserRow">
-            {participants.map((user) => (
-                <UserTile key={user?.uid} user={user} />
+            {participants.map((participant) => (
+                <BlockUserTile
+                    key={participant?.uid}
+                    user={participant}
+                    value={blockedUsers[participant?.uid] || false}
+                    submitBlock={submitBlock}
+                />
             ))}
         </div>
     )
@@ -70,6 +87,7 @@ const BlockUserInner = ({ participants }: BlockUserProps) => {
 const BlockUser = ({ chat }: ChatMenuPageProps) => (
     <BlockUserInner
         participants={Object.values(chat?.participants).filter((user) => user?.uid !== chat?.for)}
+        myUid={chat?.for}
     />
 )
 
