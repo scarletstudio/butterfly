@@ -38,7 +38,7 @@ async function updateBlock(myUid: string, blockUid: string, shouldBlock: boolean
 }
 
 // create user tile to display participants
-const CreateUserTile = ({ user, value, submitBlock }) => {
+const BlockUserTile = ({ user, value, submitBlock }) => {
     const blockUid = user?.uid
     const [blocked, setIsBlocked] = useState(value)
 
@@ -72,7 +72,7 @@ const BlockUserInner = ({ participants, myUid }: BlockUserProps) => {
     return (
         <div className="UserRow">
             {participants.map((participant) => (
-                <CreateUserTile
+                <BlockUserTile
                     key={participant?.uid}
                     user={participant}
                     value={blockedUsers[participant?.uid] || false}
