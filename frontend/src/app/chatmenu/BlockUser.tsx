@@ -30,22 +30,21 @@ function useFetchBlockedUsers(myUid: string) {
     )
 }
 
-async function updateBlock(blockUid: string, shouldBlock: boolean) {
+async function updateBlock(myUid: string, blockUid: string, shouldBlock: boolean) {
     await fetchFromBackend({
-        route: `/chat/block/user/${this?.BlockUserProps?.myUid}/${blockUid}/${shouldBlock}`,
+        route: `/chat/block/user/${myUid}/${blockUid}/${shouldBlock}`,
         options: { method: 'POST' },
     })
 }
 
 // create user tile to display participants
-const CreateUserTile = ({ user, value }) => {
+const CreateUserTile = ({ user, value, submitBlock }) => {
     const blockUid = user?.uid
     const [blocked, setIsBlocked] = useState(value)
 
     const blockHandler = () => {
-        const newValue = !value
-        updateBlock(blockUid, newValue)
-        setIsBlocked(newValue)
+        submitBlock(blockUid, !blocked)
+        setIsBlocked(!blocked)
     }
     useEffect(() => {
         setIsBlocked(value)
@@ -67,6 +66,8 @@ const CreateUserTile = ({ user, value }) => {
 // show the users within the chat
 const BlockUserInner = ({ participants, myUid }: BlockUserProps) => {
     const blockedUsers = useFetchBlockedUsers(myUid)
+    const submitBlock = (blockUid: string, shouldBlock: boolean) =>
+        updateBlock(myUid, blockUid, shouldBlock)
 
     return (
         <div className="UserRow">
@@ -75,6 +76,7 @@ const BlockUserInner = ({ participants, myUid }: BlockUserProps) => {
                     key={participant?.uid}
                     user={participant}
                     value={blockedUsers[participant?.uid] || false}
+                    submitBlock={submitBlock}
                 />
             ))}
         </div>
