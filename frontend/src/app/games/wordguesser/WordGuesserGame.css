@@ -5,7 +5,7 @@
     --keys: 10;
     --block-size: calc(var(--key-size) + calc(var(--gap-size) * 2));
     --total-width: calc(var(--block-size) * var(--keys));
-    width: var(--total-width);
+    padding-bottom: 1em;
 }
 
 .GameHeader {
