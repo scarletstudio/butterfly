@@ -13,6 +13,11 @@ interface GameState {
     guesses?: Array<GuessRecord>
 }
 
+interface GameProps {
+    gameState: GameState
+    submitGuess(word: string): void
+}
+
 const WORD_LENGTH = 5
 const GUESSES = 6
 
@@ -53,7 +58,7 @@ const getKeyResults = (guesses: Array<GuessRecord>) => {
 const Header = () => {
     return (
         <div className="GameHeader">
-            <h2 className="Title">Word Guesser</h2>
+            <h2 className="Title">Vocable</h2>
             <p>
                 Find the {WORD_LENGTH}-letter word in {GUESSES} guesses.
             </p>
@@ -158,7 +163,7 @@ const Keyboard = ({ setGuess, submitGuess, results }) => {
     return <div className="Keyboard">{rowEls}</div>
 }
 
-export function WordGuesserGame({ gameState }: { gameState: GameState }) {
+export function WordGuesserGame({ gameState, submitGuess }: GameProps) {
     const [nextGuess, setNextGuess] = useState('')
 
     // Add the next guess as a preview on the game board
@@ -169,11 +174,10 @@ export function WordGuesserGame({ gameState }: { gameState: GameState }) {
     // Derive which letters have been used and their latest result
     const keyResults = getKeyResults(guesses)
 
-    const submitGuess = () => {
+    const submitNextGuess = () => {
         if (pastGuesses.length >= GUESSES) return
         if (nextGuess.length !== WORD_LENGTH) return
-        // eslint-disable-next-line no-console
-        console.log(`Next Guess: ${nextGuess}`)
+        submitGuess(nextGuess)
         setNextGuess('')
     }
 
@@ -181,7 +185,7 @@ export function WordGuesserGame({ gameState }: { gameState: GameState }) {
         <div className="WordGuesserGame">
             <Header />
             <Board guesses={guesses} />
-            <Keyboard setGuess={setNextGuess} submitGuess={submitGuess} results={keyResults} />
+            <Keyboard setGuess={setNextGuess} submitGuess={submitNextGuess} results={keyResults} />
         </div>
     )
 }

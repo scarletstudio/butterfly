@@ -11,11 +11,15 @@ const Template = (args) => <WordGuesserGame {...args} />
 
 const noLettersInWord = ['not_in_word', 'not_in_word', 'not_in_word', 'not_in_word', 'not_in_word']
 
+// eslint-disable-next-line no-console
+const submitGuess = (word) => console.log(`Next Guess: ${word}`)
+
 export const NoGuesses = Template.bind({})
 NoGuesses.args = {}
 
 export const OneGuess = Template.bind({})
 OneGuess.args = {
+    submitGuess,
     gameState: {
         guesses: [
             {
@@ -28,6 +32,7 @@ OneGuess.args = {
 
 export const SomeGuesses = Template.bind({})
 SomeGuesses.args = {
+    submitGuess,
     gameState: {
         guesses: [
             { guess: 'GHOST', results: noLettersInWord },
@@ -39,6 +44,7 @@ SomeGuesses.args = {
 
 export const FullGuesses = Template.bind({})
 FullGuesses.args = {
+    submitGuess,
     gameState: {
         guesses: [
             { guess: 'GHOST', results: noLettersInWord },
