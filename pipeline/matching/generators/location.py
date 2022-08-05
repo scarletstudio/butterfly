@@ -39,10 +39,14 @@ class LocationGenerator(MatchGenerator):
             lastUser = inp.users[-1]
             del inp.users[-1]
 
+        # different combinations of the users
         userPairs = list(itertools.combinations(inp.users, r=2))
 
+        # checks the pairs if both users location is the same
         for fstUser, sndUser in userPairs:
             if fstUser.location == sndUser.location:
+                # then checks if the odd user's location is the same as the pair's
+                # if it yield as a group of three
                 if fstUser.location == lastUser.location:
                     yield Match(
                         users={fstUser.uid, sndUser.uid, lastUser.uid},
@@ -56,10 +60,11 @@ class LocationGenerator(MatchGenerator):
                             ],
                         ),
                     )
+                    # reset lastUser
                     lastUser = User(
                         uid="None", displayName="None", location="None"
                     )
-
+                # else yield as a pair
                 else:
                     yield Match(
                         users={fstUser.uid, sndUser.uid},
@@ -70,6 +75,7 @@ class LocationGenerator(MatchGenerator):
                         ),
                     )
 
+                # update the pairs in userPairs to not contain either of the users from the most recent yield
                 userPairs = [
                     users
                     for users in userPairs
@@ -82,20 +88,24 @@ class LocationGenerator(MatchGenerator):
                 ]
 
         while userPairs != []:
-
             for fstUser, sndUser in userPairs:
+                # the coordinate locations of the two users
                 fstULoc = dorms[fstUser.location]
                 sndULoc = dorms[sndUser.location]
+                # the distance between the two users
                 dist = math.sqrt(
                     pow(int(fstULoc[0]) - int(sndULoc[0]), 2)
                     + pow(int(fstULoc[2:]) - int(sndULoc[2:]), 2)
                 )
 
+                # if the distance is less than the current score
+                # update currUser to fstUser, closestUser to sndUser, and score to dist
                 if dist < score:
-                    closestUser = sndUser
                     currUser = fstUser
+                    closestUser = sndUser
                     score = dist
 
+            # if there is no odd user yield as a pair
             if lastUser.uid == "None":
                 yield Match(
                     users={currUser.uid, closestUser.uid},
@@ -105,10 +115,8 @@ class LocationGenerator(MatchGenerator):
                         location=[currUser.location, closestUser.location],
                     ),
                 )
-            elif (
-                dorms[currUser.location] == dorms[lastUser.location]
-                or dorms[closestUser.location] == dorms[lastUser.location]
-            ):
+            # else yield as a group of three
+            else:
                 yield Match(
                     users={currUser.uid, closestUser.uid, lastUser.uid},
                     metadata=MatchMetadata(
@@ -121,7 +129,10 @@ class LocationGenerator(MatchGenerator):
                         ],
                     ),
                 )
+                # reset lastUser
+                lastUser = User(uid="None", displayName="None", location="None")
 
+            # update userPairs to not include pairs with the users from the most current match
             userPairs = [
                 users
                 for users in userPairs
@@ -132,4 +143,6 @@ class LocationGenerator(MatchGenerator):
                 for users in userPairs
                 if users[0] != closestUser and users[1] != closestUser
             ]
+
+            # reset score
             score = 11.0

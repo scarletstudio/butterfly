@@ -220,3 +220,80 @@ def test_example4():
     ]
 
     assert actual == expected
+
+
+def test_example5():
+    inp = MatchingInput(
+        community="test",
+        release="2022-06-26",
+        users=[
+            User(
+                uid="1",
+                displayName="A",
+                location="Kacek",
+            ),
+            User(uid="2", displayName="B", location="Off-Campus"),
+            User(
+                uid="3",
+                displayName="C",
+                location="Kacek",
+            ),
+            User(
+                uid="4",
+                displayName="D",
+                location="Cunningham",
+            ),
+            User(
+                uid="5",
+                displayName="E",
+                location="Rowe Village",
+            ),
+            User(
+                uid="6",
+                displayName="F",
+                location="McCormick Student Village",
+            ),
+            User(
+                uid="7",
+                displayName="G",
+                location="Cunningham",
+            ),
+        ],
+        recent_matches=[],
+    )
+
+    generator = LocationGenerator()
+    actual = list(generator.generate(inp))
+
+    expected = [
+        Match(
+            users={"1", "3"},
+            metadata=MatchMetadata(
+                generator="locationGenerator",
+                score=0.0,
+                location=["Kacek", "Kacek"],
+            ),
+        ),
+        Match(
+            users={"4", "6", "7"},
+            metadata=MatchMetadata(
+                generator="locationGenerator",
+                score=1.0,
+                location=[
+                    "Cunningham",
+                    "McCormick Student Village",
+                    "Cunningham",
+                ],
+            ),
+        ),
+        Match(
+            users={"2", "5"},
+            metadata=MatchMetadata(
+                generator="locationGenerator",
+                score=1.4142135623730951,
+                location=["Off-Campus", "Rowe Village"],
+            ),
+        ),
+    ]
+
+    assert actual == expected
