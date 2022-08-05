@@ -42,6 +42,8 @@ export const COMMUNITY_CONFIG: CommunityConfig = {
             { code: 'movies', name: 'Movies' },
             { code: 'fashion', name: 'Fashion' },
             { code: 'sports', name: 'Sports' },
+            { code: 'design', name: 'Design' },
+            { code: 'ai', name: 'AI' },
         ],
     },
     esi: {
