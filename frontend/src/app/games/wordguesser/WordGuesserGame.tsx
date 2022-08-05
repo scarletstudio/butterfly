@@ -11,11 +11,14 @@ interface GuessRecord {
 
 interface GameState {
     guesses?: Array<GuessRecord>
+    message?: string
+    victory?: boolean
 }
 
 interface GameProps {
     gameState: GameState
     submitGuess(word: string): void
+    restartGame(): void
 }
 
 const WORD_LENGTH = 5
@@ -43,32 +46,45 @@ const padGuess = (guess) => guess + BLANK.repeat(WORD_LENGTH - guess.length)
  */
 const getKeyResults = (guesses: Array<GuessRecord>) => {
     return guesses.reduce((keyResults, { guess, results }) => {
-        const guessResults = guess.split('').reduce(
-            (agg, letter, i) => ({
-                ...agg,
-                [letter]: results?.[i],
-            }),
-            {}
-        )
+        const guessResults = guess.split('').reduce((prevResults, letter, i) => {
+            const keyResult = results?.[i]
+            const newResults = { ...prevResults, [letter]: results?.[i] }
+            return keyResult ? newResults : prevResults
+        }, {})
 
         return { ...keyResults, ...guessResults }
     }, {})
 }
 
-const Header = () => {
+const Header = ({ message, isOver, restartGame }) => {
+    const onKeyDown = (e) => e.keyCode === 13 && restartGame()
+    const restartButton = (
+        <span
+            role="button"
+            className="Link"
+            tabIndex={0}
+            onClick={restartGame}
+            onKeyDown={onKeyDown}
+        >
+            Restart Game
+        </span>
+    )
     return (
         <div className="GameHeader">
             <h2 className="Title">Vocable</h2>
             <p>
                 Find the {WORD_LENGTH}-letter word in {GUESSES} guesses.
             </p>
+            <p>{message}</p>
+            <p>{isOver && restartButton}</p>
         </div>
     )
 }
 
 const GuessTile = ({ letter, result }) => {
+    const upperLetter = letter.toUpperCase()
     const resultClass = RESULT_CLASSES?.[result] || ''
-    return <div className={`GuessTile ${resultClass}`}>{letter}</div>
+    return <div className={`GuessTile ${resultClass}`}>{upperLetter}</div>
 }
 
 const GuessRow = ({ guess }: { guess: GuessRecord }) => {
@@ -118,14 +134,16 @@ const KeyTile = ({ letter, onClick, result = '' }) => {
     )
 }
 
-const Keyboard = ({ setGuess, submitGuess, results }) => {
+const Keyboard = ({ setGuess, submitGuess, results, isOver }) => {
     const addLetter = (letter: string) => {
+        if (isOver) return
         setGuess((prev: string) => {
             if (prev?.length >= WORD_LENGTH) return prev
             return prev + letter
         })
     }
     const deleteLetter = () => {
+        if (isOver) return
         setGuess((prev: string) => {
             const length = prev?.length
             if (length === 0) return prev
@@ -146,8 +164,8 @@ const Keyboard = ({ setGuess, submitGuess, results }) => {
                 <KeyTile
                     key={letter}
                     letter={letter}
-                    onClick={() => addLetter(letter)}
-                    result={results?.[letter]}
+                    onClick={() => addLetter(letter.toLowerCase())}
+                    result={results?.[letter.toLowerCase()]}
                 />
             ))
         const isLastRow = i === KEYBOARD_ROWS.length - 1
@@ -163,7 +181,7 @@ const Keyboard = ({ setGuess, submitGuess, results }) => {
     return <div className="Keyboard">{rowEls}</div>
 }
 
-export function WordGuesserGame({ gameState, submitGuess }: GameProps) {
+export function WordGuesserGame({ gameState, submitGuess, restartGame }: GameProps) {
     const [nextGuess, setNextGuess] = useState('')
 
     // Add the next guess as a preview on the game board
@@ -174,6 +192,10 @@ export function WordGuesserGame({ gameState, submitGuess }: GameProps) {
     // Derive which letters have been used and their latest result
     const keyResults = getKeyResults(guesses)
 
+    // Derive end condition
+    const isVictory = gameState?.victory
+    const isOver = isVictory || pastGuesses.length >= GUESSES
+
     const submitNextGuess = () => {
         if (pastGuesses.length >= GUESSES) return
         if (nextGuess.length !== WORD_LENGTH) return
@@ -183,9 +205,14 @@ export function WordGuesserGame({ gameState, submitGuess }: GameProps) {
 
     return (
         <div className="WordGuesserGame">
-            <Header />
+            <Header message={gameState?.message} isOver={isOver} restartGame={restartGame} />
             <Board guesses={guesses} />
-            <Keyboard setGuess={setNextGuess} submitGuess={submitNextGuess} results={keyResults} />
+            <Keyboard
+                setGuess={setNextGuess}
+                submitGuess={submitNextGuess}
+                results={keyResults}
+                isOver={isOver}
+            />
         </div>
     )
 }

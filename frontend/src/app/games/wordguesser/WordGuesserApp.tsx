@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getDatabase, onValue, ref } from 'firebase/database'
 
 import { WordGuesserGame } from './WordGuesserGame'
+import { useCurrentAuthUser } from '../../login'
 import { fetchFromBackend } from '../../utils'
 
 interface AppProps {
@@ -13,6 +14,7 @@ interface AppProps {
  */
 export function useGameState(gameId: string) {
     const [gameState, setGameState] = useState({})
+    useCurrentAuthUser()
 
     useEffect(() => {
         if (!gameId) return () => undefined
@@ -39,8 +41,16 @@ async function submitGameGuess(gameId: string, word: string) {
     })
 }
 
+async function restartGameById(gameId: string) {
+    await fetchFromBackend({
+        route: `/games/wordguesser/${gameId}/restart`,
+        options: { method: 'POST' },
+    })
+}
+
 export function WordGuesserApp({ gameId }: AppProps) {
     const gameState = useGameState(gameId)
     const submitGuess = (word: string) => submitGameGuess(gameId, word)
-    return <WordGuesserGame {...{ gameState, submitGuess }} />
+    const restartGame = () => restartGameById(gameId)
+    return <WordGuesserGame {...{ gameState, submitGuess, restartGame }} />
 }

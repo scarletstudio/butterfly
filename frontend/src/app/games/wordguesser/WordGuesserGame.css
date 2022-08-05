@@ -16,6 +16,14 @@
     margin: 0;
 }
 
+.GameHeader .Link {
+    text-decoration: underline;
+}
+
+.GameHeader .Link:hover {
+    cursor: pointer;
+}
+
 .GameBoard {
     padding-bottom: calc(var(--key-size) * 0.5);
 }

@@ -8,13 +8,14 @@ from backend.utils import format_json
 
 @with_mock_db
 def test_submit_guess(mock_db):
+    # TODO: Validate mock database calls
     mock_update = MagicMock()
     mock_db.reference("games/wordguesser/test").update = mock_update
 
     c = Client()
     game_id = "test"
     url = f"/games/wordguesser/{game_id}/guess"
-    data = {"word": "HELLO"}
+    data = {"word": "hatch"}
     actual = c.post(url, data, content_type="application/json")
 
     expected = format_json(status=200, message="Guess submitted successfully.")
