@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCheckDouble, faCircleCheck, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentAuthUser } from '../login'
 import { formatShortDate } from '../utils'
 import { UserDisc } from '../ui'
@@ -30,8 +30,7 @@ export default function ChatPreview({ match, users, community, chatData }) {
     const userClass = matchedUsers.length === 1 ? 'Single' : 'Group'
     const authUser = useCurrentAuthUser()
     const currentChat: ChatData = chatData
-    // console.log(authUser?.uid)
-    // console.log(currentChat.latestMessage?.from)
+
     return (
         <Link to={`/chats/${community?.id}/${id}`} className="NoDecorate">
             <div className="ChatPreview">
@@ -43,10 +42,12 @@ export default function ChatPreview({ match, users, community, chatData }) {
                 <div className="ReleasePreview">
                     <p>{formatShortDate(release_timestamp)}</p>
                     <div>
-                        {authUser?.uid === currentChat.id ? (
-                            <FontAwesomeIcon icon={faCheck} />
+                        {authUser?.uid === currentChat.latestMessage?.from ? (
+                            <FontAwesomeIcon icon={faCircleCheck} className="readIcon" />
                         ) : (
-                            <p />
+                            <div className="readIcon">
+                                <FontAwesomeIcon icon={faMoon} />
+                            </div>
                         )}
                     </div>
                 </div>
