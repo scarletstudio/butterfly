@@ -2,11 +2,15 @@ import React, { useState } from 'react'
 
 export function Game({ sentences, answer }) {
     const [result, setResult] = useState()
+    const [attempt, setAttempt] = useState(2)
     function checkAnswer(index) {
         if (index === answer) {
             setResult('Correct!')
-        } else {
-            setResult(`Incorrect. The lie is: ${sentences[answer]}`)
+        } else if (attempt <= 2 && attempt > 0) {
+            setResult(`Incorrect. Try again!`)
+            setAttempt(attempt - 1)
+        } else if (attempt === 0) {
+            setResult(`The lie is: ${sentences[answer]}`)
         }
     }
     return (
@@ -20,6 +24,7 @@ export function Game({ sentences, answer }) {
                     <span>{sentence}</span>
                 </div>
             ))}
+            <p>Attempts: {attempt}</p>
             <p>{result}</p>
         </div>
     )
