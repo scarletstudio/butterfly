@@ -61,3 +61,5 @@ class MatchMetadata:
     # Similar to matchingAvailability, but where availability is limited
     # TODO(#259): Deprecate this field, use `availability` instead
     limitedAvailability: List[Availability] = field(default_factory=list)
+    # Location for the match
+    location: List[str] = field(default_factory=list)
