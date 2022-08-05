@@ -165,3 +165,58 @@ def test_example3():
     ]
 
     assert actual == expected
+
+
+def test_example4():
+    inp = MatchingInput(
+        community="test",
+        release="2022-06-26",
+        users=[
+            User(
+                uid="1",
+                displayName="A",
+                location="Kacek",
+            ),
+            User(uid="2", displayName="B", location="Off-Campus"),
+            User(
+                uid="3",
+                displayName="C",
+                location="Kacek",
+            ),
+            User(
+                uid="4",
+                displayName="D",
+                location="Cunningham",
+            ),
+            User(
+                uid="5",
+                displayName="E",
+                location="Cunningham",
+            ),
+        ],
+        recent_matches=[],
+    )
+
+    generator = LocationGenerator()
+    actual = list(generator.generate(inp))
+
+    expected = [
+        Match(
+            users={"1", "3"},
+            metadata=MatchMetadata(
+                generator="locationGenerator",
+                score=0.0,
+                location=["Kacek", "Kacek"],
+            ),
+        ),
+        Match(
+            users={"2", "4", "5"},
+            metadata=MatchMetadata(
+                generator="locationGenerator",
+                score=3.605551275463989,
+                location=["Off-Campus", "Cunningham", "Cunningham"],
+            ),
+        ),
+    ]
+
+    assert actual == expected

@@ -1,6 +1,6 @@
 import itertools
 import math
-from typing import Iterator, List
+from typing import Iterator
 
 from pipeline.matching.core import MatchGenerator
 from pipeline.types import Match, MatchingInput, MatchMetadata, User
@@ -24,17 +24,12 @@ class LocationGenerator(MatchGenerator):
             "The Quad": "2x1",
             "Off-Campus": "0x0",
         }
-        # store same location matches
-        matches: List[Match] = []
-        # stores other matches
-        otherMatches: List[Match] = []
         # closest user to the current user
         closestUser = User(uid="None", displayName="None", location="None")
         # current user
         currUser = User(uid="None", displayName="None", location="None")
         # the distance between two users
-        score = 10.0
-        flag = False
+        score = 11.0
 
         # if there in an odd number of user the last user will get assigned to lastUser
         # other will remain as a "None" user
@@ -46,23 +41,9 @@ class LocationGenerator(MatchGenerator):
 
         userPairs = list(itertools.combinations(inp.users, r=2))
 
-        # while userPairs != []:
         for fstUser, sndUser in userPairs:
             if fstUser.location == sndUser.location:
-                if (
-                    lastUser.uid == "None"
-                    or fstUser.location != lastUser.location
-                ):
-                    yield Match(
-                        users={fstUser.uid, sndUser.uid},
-                        metadata=MatchMetadata(
-                            generator=GENERATOR_LOCATION,
-                            score=0.0,
-                            location=[fstUser.location, sndUser.location],
-                        ),
-                    )
-
-                elif fstUser.location == lastUser.location:
+                if fstUser.location == lastUser.location:
                     yield Match(
                         users={fstUser.uid, sndUser.uid, lastUser.uid},
                         metadata=MatchMetadata(
@@ -79,6 +60,16 @@ class LocationGenerator(MatchGenerator):
                         uid="None", displayName="None", location="None"
                     )
 
+                else:
+                    yield Match(
+                        users={fstUser.uid, sndUser.uid},
+                        metadata=MatchMetadata(
+                            generator=GENERATOR_LOCATION,
+                            score=0.0,
+                            location=[fstUser.location, sndUser.location],
+                        ),
+                    )
+
                 userPairs = [
                     users
                     for users in userPairs
@@ -90,8 +81,7 @@ class LocationGenerator(MatchGenerator):
                     if users[0] != sndUser and users[1] != sndUser
                 ]
 
-        # print(userPairs)
-        while not flag:
+        while userPairs != []:
 
             for fstUser, sndUser in userPairs:
                 fstULoc = dorms[fstUser.location]
@@ -106,16 +96,31 @@ class LocationGenerator(MatchGenerator):
                     currUser = fstUser
                     score = dist
 
-            # otherMatches.append(
-            yield Match(
-                users={currUser.uid, closestUser.uid},
-                metadata=MatchMetadata(
-                    generator=GENERATOR_LOCATION,
-                    score=score,
-                    location=[currUser.location, closestUser.location],
-                ),
-            )
-            # )
+            if lastUser.uid == "None":
+                yield Match(
+                    users={currUser.uid, closestUser.uid},
+                    metadata=MatchMetadata(
+                        generator=GENERATOR_LOCATION,
+                        score=score,
+                        location=[currUser.location, closestUser.location],
+                    ),
+                )
+            elif (
+                dorms[currUser.location] == dorms[lastUser.location]
+                or dorms[closestUser.location] == dorms[lastUser.location]
+            ):
+                yield Match(
+                    users={currUser.uid, closestUser.uid, lastUser.uid},
+                    metadata=MatchMetadata(
+                        generator=GENERATOR_LOCATION,
+                        score=score,
+                        location=[
+                            currUser.location,
+                            closestUser.location,
+                            lastUser.location,
+                        ],
+                    ),
+                )
 
             userPairs = [
                 users
@@ -127,14 +132,4 @@ class LocationGenerator(MatchGenerator):
                 for users in userPairs
                 if users[0] != closestUser and users[1] != closestUser
             ]
-            score = 10.0
-
-            if userPairs == []:
-                flag = True
-
-        # matches.append(otherMatches)
-
-        # print(matches)
-
-        # for m in matches:
-        #     yield m
+            score = 11.0
