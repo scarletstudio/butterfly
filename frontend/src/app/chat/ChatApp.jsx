@@ -52,15 +52,21 @@ export function ChatAppInner({ chatId, header, conversation, composer }) {
 export function ChatApp({ chatId, header, conversation, composer }) {
     const authUser = useCurrentAuthUser()
     const myUserId = authUser?.uid
-    const chat = useGetChatData(`${chatId}~${myUserId}`)
+    const fullChatId = chatId && myUserId && `${chatId}~${myUserId}`
+    const chat = useGetChatData(fullChatId)
     const messages = useGetMessages(chatId)
 
     const sendChatMessage = (raw) => {
         const message = raw?.trim()
         if (!myUserId || !message) return
         sendMessage(chatId, {
+            // Data actually needed to send the message
             message,
             from: myUserId,
+            // Additional data forlogging analytics
+            community: chat?.communityId,
+            release: chat?.release_tag,
+            chat: chatId,
         })
     }
 

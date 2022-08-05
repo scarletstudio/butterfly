@@ -1,4 +1,5 @@
 from pipeline.types.basic import *
+from pipeline.types.chat import *
 from pipeline.types.community import *
 from pipeline.types.engine import *
 from pipeline.types.intent import *
@@ -6,6 +7,7 @@ from pipeline.types.intent_match import *
 from pipeline.types.interest import *
 from pipeline.types.match import *
 from pipeline.types.match_metadata import *
+from pipeline.types.notification import *
 from pipeline.types.rating import *
 from pipeline.types.raw_data import *
 from pipeline.types.release import *

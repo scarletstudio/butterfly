@@ -9,10 +9,6 @@
     border-bottom-style: solid;
 }
 
-.Inbox {
-    margin-top: 5px;
-}
-
 .ChatPreview .UserPreview,
 .ChatPreview .MessagePreview,
 .ChatPreview .ReleasePreview {
