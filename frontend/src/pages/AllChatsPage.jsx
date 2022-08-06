@@ -100,6 +100,11 @@ export default function AllChatsPage() {
                 </div>
                 {isOpen && <ChatInbox chats={blockedMatches} users={matchedUsers} />}
             </div>
+            <div className="Padded Centered">
+                <p>
+                    Want to <Link to="/games/vocable">play a game?</Link>
+                </p>
+            </div>
         </div>
     )
 }

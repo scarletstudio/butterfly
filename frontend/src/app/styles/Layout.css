@@ -28,6 +28,10 @@
     margin-bottom: 0;
 }
 
+.Padded {
+    padding: 1em;
+}
+
 /* Cards */
 
 .CardRow {
