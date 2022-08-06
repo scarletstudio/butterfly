@@ -31,7 +31,7 @@ def get_or_start_game(game_id: str) -> WordGuesser:
         games_by_id[game_id] = game
         db = get_db()
         ref = db.reference(f"games/wordguesser/{game_id}")
-        ref.set({"started": True})
+        ref.set({"started": True, "goal": game.goal_word})
     return game
 
 
@@ -51,13 +51,16 @@ def post_restart(request, game_id: str):
 @router.post("/{game_id}/guess")
 def post_guess(request, game_id: str, guess: Guess):
     # Fetch previous game state from the database, if any
+    game = get_or_start_game(game_id)
     db = get_db()
     path = f"games/wordguesser/{game_id}"
     game_ref = db.reference(path)
     previous_state = game_ref.get() or {}
 
+    # Sync game to goal word in db
+    game.goal_word = previous_state.get("goal")
+
     # Get game class and use the guess to update the game state
-    game = get_or_start_game(game_id)
     next_state = get_next_game_state(game, guess.word, previous_state)
     print(f"Goal Word: {game.goal_word}")
     game_ref.set(next_state)
