@@ -6,7 +6,7 @@ import prefect
 from prefect import Flow, Parameter
 from prefect.tasks.secrets import PrefectSecret
 
-from pipeline.extract import extract_users
+from pipeline.extract import extract_recent_chatdata, extract_users
 from pipeline.notifications import NewMessageNotifier, NewMessageRender
 from pipeline.transform import convert_users_from_df
 from pipeline.types import (
@@ -113,9 +113,9 @@ def notifications_flow(defaults: Dict = {}) -> Flow:
         * David is working on implementing this; add it to flow once he's finished
         """
         # TODO: add chat data extraction
-        pseudo_chatadata = return_pseudo_chatdata(param_community)
+        chatdata = extract_recent_chatdata(db, param_community)
         # Truncate list of notifications by hierarchy
-        notifications = get_notifications(inp=pseudo_chatadata)
+        notifications = get_notifications(inp=chatdata)
         final_notifs = priority_notifications(notifs=notifications)
         # Assign renderers to notifications
         notifs_with_renderers = render_notifications(notifs=final_notifs)
