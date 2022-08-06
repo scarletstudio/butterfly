@@ -1,3 +1,4 @@
+from enum import IntEnum
 from random import randint
 from typing import Dict, List
 
@@ -7,21 +8,34 @@ MAX_GUESSES = 6
 SOLUTIONS: str
 VALID_WORDS: str
 
-solutions_file = open("backend/games/word_guesser/WordGuesser_Solutions.txt")
-guesses_file = open("backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
-SOLUTIONS = solutions_file.read()
-SOLUTION_LIST = SOLUTIONS.splitlines()
+try:
+    solutions_file = open(
+        "backend/games/word_guesser/WordGuesser_Solutions.txt"
+    )
+    guesses_file = open(
+        "backend/games/word_guesser/WordGuesser_ValidGuesses.txt"
+    )
+    SOLUTIONS = solutions_file.read()
+    SOLUTION_LIST = SOLUTIONS.splitlines()
 
-VALID_WORDS = guesses_file.read()
-VALID_WORDS_LIST = VALID_WORDS.splitlines()
+    VALID_WORDS = guesses_file.read()
+    VALID_WORDS_LIST = VALID_WORDS.splitlines()
+except:
+    print("Files not readable. Check file or file path.")
+
+
+class CorrectnessScore(IntEnum):
+    correct = 3
+    in_word = 2
+    not_in_word = 1
 
 
 class WordGuesser:
-    def __init__(self):
+    def __init__(self, goal=None):
         self.guesses = {"guess": "", "results": []}
         self.game_board: List[str] = []
         self.progress: Dict = {}
-        self.goal_word = "basic"
+        self.goal_word = goal
         self.guess_count = 0
 
     def clear_data(self):
@@ -54,7 +68,6 @@ class WordGuesser:
             if "results" in k:
                 tmp_results = v
             self.progress[tmp_keys] = tmp_results
-        print(self.progress)
         return self.progress
 
     def check_win(self) -> bool:
@@ -77,17 +90,16 @@ class WordGuesser:
 
     def guess_word(self, guess: str) -> Dict:
         if self.validate_guess(guess):
-            curr_results: List[str] = []
+            curr_results: List[int] = []
             goal = self.goal_word
-            i = 0
-            for char in guess:
+
+            for i, char in enumerate(guess):
                 if char is goal[i]:
-                    curr_results.append("correct")
+                    curr_results.append(CorrectnessScore.correct.value)
                 elif (char in goal) and (char is not goal[i]):
-                    curr_results.append("in_word")
+                    curr_results.append(CorrectnessScore.in_word.value)
                 else:
-                    curr_results.append("not_in_word")
-                i += 1
+                    curr_results.append(CorrectnessScore.not_in_word.value)
 
             # note that the previous guess is overwritten
             self.guesses["guess"] = guess
