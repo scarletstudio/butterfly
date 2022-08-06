@@ -10,7 +10,6 @@
     --keys: 10;
     --block-size: calc(var(--key-size) + calc(var(--gap-size) * 2));
     --total-width: calc(var(--block-size) * var(--keys));
-    padding-bottom: 1em;
 }
 
 .GameHeader {
@@ -31,6 +30,10 @@
 
 .GameBoard {
     padding-bottom: calc(var(--key-size) * 0.5);
+}
+
+.Keyboard {
+    padding-bottom: 1em;
 }
 
 .GuessRow,
