@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from unittest.mock import MagicMock
 
@@ -12,6 +13,8 @@ def test_extract_analytics():
             "data": {"user": "abc"},
             "event_type": "view_chat_inbox",
             "timestamp": 1659311549216,
+            "host": "localhost",
+            "page_url": "/butterfly/me",
         }
     }
     mock_get_analytics = MagicMock(return_value=raw_analytics)
@@ -29,7 +32,9 @@ def test_extract_analytics():
         AnalyticsEvent(
             event_type="view_chat_inbox",
             data={"user": "abc"},
-            timestamp=1659311549216,
+            timestamp=datetime.fromtimestamp(1659311549216 // 1000),
+            host="localhost",
+            page_url="/butterfly/me",
         )
     ]
 

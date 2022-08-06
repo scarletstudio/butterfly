@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from prefect import task
@@ -7,14 +8,16 @@ from pipeline.types import AnalyticsEvent
 
 @task
 def extract_analytics(db) -> List[AnalyticsEvent]:
-    ref = db.reference(f"analytics/")
+    ref = db.reference("analytics")
     raw = ref.get()
     list_of_analytics = []
     for record in raw.values():
         event = AnalyticsEvent(
-            event_type=record["event_type"] if "event_type" in record else None,
-            data=record["data"] if "data" in record else None,
-            timestamp=record["timestamp"] if "timestamp" in record else None,
+            event_type=record.get("event_type"),
+            data=record.get("data"),
+            timestamp=datetime.fromtimestamp(record.get("timestamp") // 1000),
+            host=record.get("host"),
+            page_url=record.get("page_url"),
         )
         list_of_analytics.append(event)
     return list_of_analytics

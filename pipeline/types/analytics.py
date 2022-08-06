@@ -1,3 +1,4 @@
+import datetime
 from dataclasses import dataclass
 from typing import Any, Dict
 
@@ -6,4 +7,6 @@ from typing import Any, Dict
 class AnalyticsEvent:
     event_type: str
     data: Dict[str, Any]
-    timestamp: int
+    timestamp: datetime.datetime
+    host: str
+    page_url: str
