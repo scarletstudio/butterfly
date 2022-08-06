@@ -1,9 +1,11 @@
-from typing import List, Set
+from typing import Dict, List, Set
 
 import pandas as pd
 import prefect
 from prefect import task
 
+from pipeline.extract.users import extract_users
+from pipeline.transform.users import convert_users_into_hash
 from pipeline.types import (
     ChatData,
     ChatMatchId,
@@ -14,15 +16,6 @@ from pipeline.types import (
     User,
     UserId,
 )
-
-# TODO:
-# fix naming conventions
-
-# add extract_chat_data in imports in flows/matching.py
-# call your funciton in the flow after the other extract tasks
-
-# Later: Write a function to join user objects and chatdata using user.uid
-# Function to join chatdata and all messages relating to that chat
 
 
 @task
@@ -36,6 +29,9 @@ def extract_recent_chatdata(db, community: Community) -> List[ChatData]:
     logger.info(f"Extracted {len(user_chat_records)} user-chat records.")
     ids: Set[ChatMatchId] = set()
     chatList: List[ChatData] = []
+
+    df_users = extract_users.run(db, community)
+    users = convert_users_into_hash(df_users)
 
     for key in user_chat_records.keys():
         if user_chat_records[key]["id"] not in ids:
@@ -56,6 +52,12 @@ def extract_recent_chatdata(db, community: Community) -> List[ChatData]:
             if ext_message:
                 logger.info(f"Extracted message: {ext_message}")
 
+            ext_users = extract_user_data(
+                db, community=community, participants=participants, users=users
+            )
+            if ext_users:
+                logger.info(f"Extracted users: {ext_users}")
+
             cd1 = ChatData(
                 release_timestamp=timestamp,
                 chat_match_id=id,
@@ -64,7 +66,7 @@ def extract_recent_chatdata(db, community: Community) -> List[ChatData]:
                 release_tag=rtag,
                 title=chatdata_title,
                 metadata=parsed_md,
-                messages=[],
+                messages=ext_message,
             )
             chatList.append(cd1)
             ids.add(id)
@@ -74,13 +76,17 @@ def extract_recent_chatdata(db, community: Community) -> List[ChatData]:
     logger.info(f"IDs: {ids}\n \nChatList: {chatList}")
     df_recent_chatdata = pd.DataFrame(chatList)
     logger.info("Returned {} rows, {} cols.".format(*df_recent_chatdata.shape))
-    return chatList  # pd.DataFrame({"A": []})
+    return chatList
 
 
 # additional function
 # given a userId return a User object instead of participants in Dict[UserId, User] format
-# def getUser(db, community: Community, userid: UserId) -> {UserId: User}:
-#  pass
+def extract_user_data(
+    db, community: Community, participants: Dict, users: Dict[UserId, User]
+) -> Dict[UserId, User]:
+    for key in participants.keys():
+        participants[key] = users[key]
+    return participants
 
 
 def extract_message_data(
@@ -94,7 +100,9 @@ def extract_message_data(
         logger.info(f"No message records for commmnity: {community}/{chatid}")
     if message_records:
         logger.info(f"Extracted {len(message_records)} message records.")
+        print(message_records)
         for message in message_records.values():
+            print(message)
             m = Message(
                 from_user=message["from"],
                 timestamp=message["timestamp"],

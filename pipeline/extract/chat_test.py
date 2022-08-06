@@ -1,10 +1,7 @@
 from unittest.mock import MagicMock
 
 from pipeline.extract.chat import extract_message_data, extract_recent_chatdata
-
-
-def test_extract_chatdata():
-    pass
+from pipeline.types import Message
 
 
 def test_extract_recent_chatdata_EMPTY_CHAT_RECORDS():
@@ -23,32 +20,22 @@ def test_extract_recent_chatdata_EMPTY_CHAT_RECORDS():
     assert actual == expected
 
 
-"""
 def test_extract_message_data():  # testing the message extraction
     # Creating mock database to not call the actual database
     messages = {
-        "testid1": {
-            "msg1": {
-                "from": "user_id_a",
-                "timestamp": 1649030400132,
-                "type": "MESSAGE",
-                "message": "Hi everyone!",
-            },
-            "msg2": {
-                "from": "user_id_b",
-                "timestamp": 1649030400783,
-                "type": "MESSAGE",
-                "message": "How's it going?",
-            },
-        }
+        "message_1": {
+            "from": "user_id_a",
+            "timestamp": 1649030400132,
+            "type": "MESSAGE",
+            "message": "Hi everyone!",
+        },
     }
     mock_get_msgs = MagicMock(return_value=messages)
     mock_db = MagicMock()
-    mock_db.reference("messages/test").get = mock_get_msgs
+    mock_db.reference("messages/community_a").get = mock_get_msgs
 
     # run prefect using mock
     actual = extract_message_data(mock_db, "test", "testid1")
-    # actual = actual_df.to_dict(orient="records")
 
     mock_get_msgs.assert_called_once_with()
 
@@ -61,7 +48,6 @@ def test_extract_message_data():  # testing the message extraction
     expected = [eMsg]
 
     assert actual == expected
-"""
 
 
 def test_extract_message_data_EMPTY_MSG_RECORDS():
@@ -79,3 +65,47 @@ def test_extract_message_data_EMPTY_MSG_RECORDS():
         []
     )  # expecting an empty message in the event that there is no message records
     assert actual == expected
+
+
+# Commented it out because I would have to create an additional mock database for users thus spending more time
+# Though, when running in Prefect the logger statements for extract_recent_chatdata() meet our expectations.
+"""
+def test_extract_chatdata():
+    matches = {
+                "2022-04-04~match_a~user_id_a": {
+                    "for": "user_id_a",
+                    "id": "2022-04-01~match_a",
+                    "participants": {
+                        "user_id_a": True,
+                        "user_id_b": True,
+                    },
+                    "release_tag": "2022-04-04",
+                    "release_timestamp": 1649030400000,
+                    "title": "Your Match"
+                    },
+        }
+
+    mock_get_chatdata = MagicMock(return_value=matches)
+    mock_db = MagicMock()
+    mock_db.reference("matches/test").get = mock_get_chatdata
+
+    actual = extract_recent_chatdata.run(mock_db, "test")
+
+    mock_get_chatdata.assert_called_once_with()
+
+    expected = [ChatData(
+            release_timestamp=1649030400000,
+            chat_match_id= "2022-04-01~match_a",
+            community_id= 'test',
+            participants={
+                "user_id_a": True,
+                "user_id_b": True,
+                },
+            release_tag= "2022-04-04",
+            title=None,
+            metadata={},
+            messages=[],
+            )
+    ]
+    assert actual == expected
+"""

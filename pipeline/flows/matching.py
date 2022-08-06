@@ -91,7 +91,6 @@ def matching_flow(defaults: Dict = {}) -> Flow:
         raw_interests = extract_interests(db, param_community)
         match_stars = extract_match_stars(db, param_community)
         intent_upvotes = extract_intent_upvotes(db, param_community)
-        chat_data = extract_recent_chatdata(db, param_community)
 
         # Transform extracted data to matching inputs
         users_w_profile = convert_users_from_df(df_users)
