@@ -1,11 +1,15 @@
+.WordGuesserPage {
+    padding: 1.5em 0;
+}
+
 .WordGuesserGame {
     --gap-size: 2px;
     --letter-size: 55px;
     --key-size: 30px;
+    --key-height: 55px;
     --keys: 10;
     --block-size: calc(var(--key-size) + calc(var(--gap-size) * 2));
     --total-width: calc(var(--block-size) * var(--keys));
-    width: var(--total-width);
 }
 
 .GameHeader {
@@ -16,8 +20,20 @@
     margin: 0;
 }
 
+.GameHeader .Link {
+    text-decoration: underline;
+}
+
+.GameHeader .Link:hover {
+    cursor: pointer;
+}
+
 .GameBoard {
     padding-bottom: calc(var(--key-size) * 0.5);
+}
+
+.Keyboard {
+    padding-bottom: 1em;
 }
 
 .GuessRow,
@@ -60,8 +76,8 @@
 
 .KeyTile {
     width: var(--key-size);
-    height: var(--key-size);
-    line-height: var(--key-size);
+    height: var(--key-height);
+    line-height: var(--key-height);
     font-size: calc(var(--key-size) * 0.65);
     border-radius: calc(var(--key-size) * 0.15);
     /* Make keyboard tiles non-highlightable by cursor */
