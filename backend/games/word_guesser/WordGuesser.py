@@ -1,3 +1,4 @@
+import os
 from random import randint
 from typing import Dict, List
 
@@ -7,8 +8,9 @@ MAX_GUESSES = 6
 SOLUTIONS: str
 VALID_WORDS: str
 
-solutions_file = open("./backend/games/word_guesser/WordGuesser_Solutions.txt")
-guesses_file = open("./backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
+package_directory = os.path.dirname(os.path.abspath(__file__))
+solutions_file = open(f"{package_directory}/WordGuesser_Solutions.txt")
+guesses_file = open(f"{package_directory}/WordGuesser_ValidGuesses.txt")
 SOLUTIONS = solutions_file.read()
 SOLUTION_LIST = SOLUTIONS.splitlines()
 
