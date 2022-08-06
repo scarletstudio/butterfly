@@ -31,6 +31,6 @@ class RatingReminderNotifier(Notifier):
                     )
                 return remind_users
             else:
-                return List([])
+                return list([])
         else:
-            return List([])
+            return list([])
