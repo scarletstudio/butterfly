@@ -6,7 +6,8 @@ from pipeline.load.display_metrics import (
     render_intent_distribution_in_matches,
     render_user_emails,
 )
-from pipeline.types import IntentMatch, Match, MatchMetadata, User
+from pipeline.matching.evaluation.metrics import MatchingMetricsCollector
+from pipeline.types import Intent, IntentMatch, Match, MatchMetadata, Side, User
 
 
 def test_render_counts_per_user():
@@ -93,7 +94,10 @@ def test_display_intent_distribution_in_matches():
         ),
     ]
 
-    actual = render_intent_distribution_in_matches(matches)
+    a = MatchingMetricsCollector().intent_distribution_in_selected_matches(
+        matches
+    )
+    actual = render_intent_distribution_in_matches(a)
 
     expected = (
         "guitar : 1\n"
@@ -104,49 +108,47 @@ def test_display_intent_distribution_in_matches():
     )
     assert actual == expected
 
-    def test_intent_distribution_in_community():
-        tutoring = Intent(code="tutoring", name="Tutoring", side=Side.BLANK)
-        seek_tutoring = Intent(
-            code="tutoring", name="Tutoring", side=Side.SEEKING
-        )
-        give_tutoring = Intent(
-            code="tutoring", name="Tutoring", side=Side.GIVING
-        )
-        comedy = Intent(code="comedy", name="Comedy", side=Side.BLANK)
-        seek_comedy = Intent(code="comedy", name="Comedy", side=Side.SEEKING)
-        give_comedy = Intent(code="comedy", name="Comedy", side=Side.GIVING)
 
-        users = [
-            User(
-                uid="A",
-                displayName="User A",
-                intents=[seek_tutoring, seek_comedy],
-            ),
-            User(uid="B", displayName="User B", intents=[seek_tutoring]),
-            User(
-                uid="C",
-                displayName="User C",
-                intents=[give_tutoring, seek_comedy],
-            ),
-            User(
-                uid="D",
-                displayName="User D",
-                intents=[seek_tutoring, give_comedy],
-            ),
-        ]
+def test_intent_distribution_in_community():
+    tutoring = Intent(code="tutoring", name="Tutoring", side=Side.BLANK)
+    seek_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.SEEKING)
+    give_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.GIVING)
+    comedy = Intent(code="comedy", name="Comedy", side=Side.BLANK)
+    seek_comedy = Intent(code="comedy", name="Comedy", side=Side.SEEKING)
+    give_comedy = Intent(code="comedy", name="Comedy", side=Side.GIVING)
 
-        actual = render_intent_distribution_in_community(users)
+    users = [
+        User(
+            uid="A",
+            displayName="User A",
+            intents=[seek_tutoring, seek_comedy],
+        ),
+        User(uid="B", displayName="User B", intents=[seek_tutoring]),
+        User(
+            uid="C",
+            displayName="User C",
+            intents=[give_tutoring, seek_comedy],
+        ),
+        User(
+            uid="D",
+            displayName="User D",
+            intents=[seek_tutoring, give_comedy],
+        ),
+    ]
 
-        # will return two dictionaries,
-        # first is the givers and their count and second are the seekers and their count
+    a = MatchingMetricsCollector().intent_distribution_in_community(users)
+    actual = render_intent_distribution_in_community(a)
 
-        expected = (
-            "Giving Intent:\n"
-            "tutoring : 1\n"
-            "comedy : 1\n"
-            "Seeking Intent:\n"
-            "tutoring : 3\n"
-            "comedy : 2\n"
-        )
+    # will return two dictionaries,
+    # first is the givers and their count and second are the seekers and their count
 
-        actual == actual
+    expected = (
+        "Giving Intent:\n"
+        "tutoring : 1\n"
+        "comedy : 1\n"
+        "Seeking Intent:\n"
+        "tutoring : 3\n"
+        "comedy : 2\n"
+    )
+
+    actual == expected

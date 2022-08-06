@@ -1,10 +1,9 @@
 from operator import itemgetter
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import prefect
 from prefect import task
 
-from pipeline.matching.evaluation.metrics import MatchingMetricsCollector
 from pipeline.types import Match, MatchingMetrics, MatchingOutput, User, UserId
 
 
@@ -25,13 +24,8 @@ def render_user_emails(users: List[User]) -> str:
     return "\n".join([u.email for u in users])
 
 
-def render_intent_distribution_in_matches(matches: List[Match]):
-    distribution = (
-        MatchingMetricsCollector().intent_distribution_in_selected_matches(
-            matches
-        )
-    )
-
+def render_intent_distribution_in_matches(distribution: Dict[str, int]):
+    # metrics. distribution_in_final_set
     output = ""
     for intent, count in distribution.items():
         output += str(intent) + " : " + str(count) + "\n"
@@ -39,11 +33,13 @@ def render_intent_distribution_in_matches(matches: List[Match]):
     return output
 
 
-def render_intent_distribution_in_community(users: List[User]):
+def render_intent_distribution_in_community(
+    distribution: Tuple[Dict[str, int], Dict[str, int]]
+):
     (
         distribution_1,
         distribution_2,
-    ) = MatchingMetricsCollector().intent_distribution_in_community(users)
+    ) = distribution
 
     output = "Giving Intent:" + "\n"
     for intent, count in distribution_1.items():
@@ -67,10 +63,10 @@ def display_internal_matching_metrics(
     )
     matched_user_emails = render_user_emails(output.users)
     counts_per_intent_in_matches = render_intent_distribution_in_matches(
-        output.matches
+        metrics.distribution_in_final_set
     )
     counts_per_intent_in_community = render_intent_distribution_in_community(
-        output.users
+        metrics.distribution_in_community
     )
 
     logger.info(f"\nMatches Proposed per User:\n{proposed_matches_per_user}")
