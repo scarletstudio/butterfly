@@ -7,8 +7,8 @@ MAX_GUESSES = 6
 SOLUTIONS: str
 VALID_WORDS: str
 
-solutions_file = open("backend/games/word_guesser/WordGuesser_Solutions.txt")
-guesses_file = open("backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
+solutions_file = open("./backend/games/word_guesser/WordGuesser_Solutions.txt")
+guesses_file = open("./backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
 SOLUTIONS = solutions_file.read()
 SOLUTION_LIST = SOLUTIONS.splitlines()
 
