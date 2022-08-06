@@ -1,7 +1,11 @@
+.WordGuesserPage {
+    padding: 1.5em 0;
+}
+
 .WordGuesserGame {
     --gap-size: 2px;
     --letter-size: 55px;
-    --key-size: 30px;
+    --key-size: 32px;
     --keys: 10;
     --block-size: calc(var(--key-size) + calc(var(--gap-size) * 2));
     --total-width: calc(var(--block-size) * var(--keys));

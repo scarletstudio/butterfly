@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { getDatabase, onValue, ref } from 'firebase/database'
 
 import { WordGuesserGame } from './WordGuesserGame'
-import { useCurrentAuthUser } from '../../login'
 import { fetchFromBackend } from '../../utils'
 
 interface AppProps {
@@ -14,7 +13,6 @@ interface AppProps {
  */
 export function useGameState(gameId: string) {
     const [gameState, setGameState] = useState({})
-    useCurrentAuthUser()
 
     useEffect(() => {
         if (!gameId) return () => undefined
