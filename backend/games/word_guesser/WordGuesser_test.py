@@ -1,13 +1,22 @@
+import os
+
 import pytest
 
 from backend.games.word_guesser.WordGuesser import WordGuesser
 
 SOLUTIONS: str
 
-solutions_file = open("backend/games/word_guesser/WordGuesser_Solutions.txt")
-guesses_file = open("backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
+# solutions_file Sourced from: https://github.com/Kinkelin/WordleCompetition/blob/main/data/official/shuffled_real_wordles.txt
+# guesses_file Sourced from: https://github.com/Kinkelin/WordleCompetition/blob/main/data/official/official_allowed_guesses.txt
+
+package_directory = os.path.dirname(os.path.abspath(__file__))
+solutions_file = open(f"{package_directory}/WordGuesser_Solutions.txt")
+guesses_file = open(f"{package_directory}/WordGuesser_ValidGuesses.txt")
 SOLUTIONS = solutions_file.read()
 SOLUTION_LIST = SOLUTIONS.splitlines()
+
+VALID_WORDS = guesses_file.read()
+VALID_WORDS_LIST = VALID_WORDS.splitlines()
 
 
 def test_start_game():
@@ -18,7 +27,7 @@ def test_start_game():
 
 
 def test_bad_guess():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     word = game.goal_word
 
     game.guess_word("minor")
@@ -36,7 +45,7 @@ def test_bad_guess():
 
 
 def test_good_guess():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     word = game.goal_word
 
     game.guess_word("basic")
@@ -54,7 +63,7 @@ def test_good_guess():
 
 
 def test_check_win():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     word = game.goal_word
 
     game.guess_word("lower")
@@ -66,7 +75,7 @@ def test_check_win():
 
 
 def test_check_lose():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     word = game.goal_word
 
     game.guess_word("lower")
@@ -83,7 +92,7 @@ def test_check_lose():
 
 
 def test_more_than_six_guesses():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     word = game.goal_word
 
     game.guess_word("lower")
@@ -101,7 +110,7 @@ def test_more_than_six_guesses():
 
 
 def test_validation():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     invalid_guess = {
         "guess": "INVALID",
         "results": [
@@ -119,6 +128,9 @@ def test_validation():
     normal_word = game.validate_guess("gue1s")
     assert normal_word == False
 
+    normal_word = game.validate_guess("ggagg")
+    assert normal_word == False
+
     normal_word = game.validate_guess("guesses")
     assert normal_word == False
 
@@ -130,7 +142,7 @@ def test_validation():
 
 
 def test_track_progress():
-    game = WordGuesser()
+    game = WordGuesser(goal="basic")
     game.guess_word("lower")
     game.guess_word("porky")
     game.guess_word("crane")

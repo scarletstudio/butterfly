@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 from random import randint
 from typing import Dict, List
 
@@ -8,22 +9,31 @@ MAX_GUESSES = 6
 SOLUTIONS: str
 VALID_WORDS: str
 
-package_directory = os.path.dirname(os.path.abspath(__file__))
-solutions_file = open(f"{package_directory}/WordGuesser_Solutions.txt")
-guesses_file = open(f"{package_directory}/WordGuesser_ValidGuesses.txt")
-SOLUTIONS = solutions_file.read()
-SOLUTION_LIST = SOLUTIONS.splitlines()
+try:
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    solutions_file = open(f"{package_directory}/WordGuesser_Solutions.txt")
+    guesses_file = open(f"{package_directory}/WordGuesser_ValidGuesses.txt")
+    SOLUTIONS = solutions_file.read()
+    SOLUTION_LIST = SOLUTIONS.splitlines()
 
-VALID_WORDS = guesses_file.read()
-VALID_WORDS_LIST = VALID_WORDS.splitlines()
+    VALID_WORDS = guesses_file.read()
+    VALID_WORDS_LIST = VALID_WORDS.splitlines()
+except:
+    print("Files not readable. Check file or file path.")
+
+
+class CorrectnessScore(Enum):
+    correct = "correct"
+    in_word = "in_word"
+    not_in_word = "not_in_word"
 
 
 class WordGuesser:
-    def __init__(self):
+    def __init__(self, goal="basic"):
         self.guesses = {"guess": "", "results": []}
         self.game_board: List[str] = []
         self.progress: Dict = {}
-        self.goal_word = "basic"
+        self.goal_word = goal
         self.guess_count = 0
 
     def clear_data(self):
@@ -43,8 +53,9 @@ class WordGuesser:
         output = self.check_win()
         if output == True:
             return "You guessed the word!! Nice Job"
-        else:
-            return "You failed to guess the word in 6 guesses. better luck next time."
+        return (
+            "You failed to guess the word in 6 guesses. better luck next time."
+        )
 
     # holds game history
     def track_progress(self) -> Dict:
@@ -56,7 +67,6 @@ class WordGuesser:
             if "results" in k:
                 tmp_results = v
             self.progress[tmp_keys] = tmp_results
-        print(self.progress)
         return self.progress
 
     def check_win(self) -> bool:
@@ -73,7 +83,7 @@ class WordGuesser:
             return False
         if not guess.isalpha():
             return False
-        if guess not in VALID_WORDS:
+        if guess not in VALID_WORDS_LIST:
             return False
         return True
 
@@ -81,15 +91,14 @@ class WordGuesser:
         if self.validate_guess(guess):
             curr_results: List[str] = []
             goal = self.goal_word
-            i = 0
-            for char in guess:
+
+            for i, char in enumerate(guess):
                 if char is goal[i]:
-                    curr_results.append("correct")
+                    curr_results.append(CorrectnessScore.correct.value)
                 elif (char in goal) and (char is not goal[i]):
-                    curr_results.append("in_word")
+                    curr_results.append(CorrectnessScore.in_word.value)
                 else:
-                    curr_results.append("not_in_word")
-                i += 1
+                    curr_results.append(CorrectnessScore.not_in_word.value)
 
             # note that the previous guess is overwritten
             self.guesses["guess"] = guess
