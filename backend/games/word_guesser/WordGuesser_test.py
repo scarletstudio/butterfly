@@ -28,11 +28,11 @@ def test_bad_guess():
     expected_guess = {
         "guess": "minor",
         "results": [
-            1,
-            2,
-            1,
-            1,
-            1,
+            "not_in_word",
+            "in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
         ],
     }
     assert game.guesses == expected_guess
@@ -46,11 +46,11 @@ def test_good_guess():
     expected_guess = {
         "guess": "basic",
         "results": [
-            3,
-            3,
-            3,
-            3,
-            3,
+            "correct",
+            "correct",
+            "correct",
+            "correct",
+            "correct",
         ],
     }
     assert game.guesses == expected_guess
@@ -119,6 +119,9 @@ def test_validation():
     normal_word = game.validate_guess("guess")
     assert normal_word == True
 
+    normal_word = game.validate_guess("guess")
+    assert normal_word == False
+
     normal_word = game.validate_guess("gue1s")
     assert normal_word == False
 
@@ -139,25 +142,25 @@ def test_track_progress():
     game.guess_word("crane")
     progress = {
         "lower": [
-            1,
-            1,
-            1,
-            1,
-            1,
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
         ],
         "porky": [
-            1,
-            1,
-            1,
-            1,
-            1,
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
+            "not_in_word",
         ],
         "crane": [
-            2,
-            1,
-            2,
-            1,
-            1,
+            "in_word",
+            "not_in_word",
+            "in_word",
+            "not_in_word",
+            "not_in_word",
         ],
     }
     assert progress == game.progress

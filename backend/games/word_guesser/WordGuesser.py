@@ -1,4 +1,5 @@
-from enum import IntEnum
+import os
+from enum import Enum
 from random import randint
 from typing import Dict, List
 
@@ -9,12 +10,9 @@ SOLUTIONS: str
 VALID_WORDS: str
 
 try:
-    solutions_file = open(
-        "backend/games/word_guesser/WordGuesser_Solutions.txt"
-    )
-    guesses_file = open(
-        "backend/games/word_guesser/WordGuesser_ValidGuesses.txt"
-    )
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    solutions_file = open(f"{package_directory}/WordGuesser_Solutions.txt")
+    guesses_file = open(f"{package_directory}/WordGuesser_ValidGuesses.txt")
     SOLUTIONS = solutions_file.read()
     SOLUTION_LIST = SOLUTIONS.splitlines()
 
@@ -24,14 +22,14 @@ except:
     print("Files not readable. Check file or file path.")
 
 
-class CorrectnessScore(IntEnum):
-    correct = 3
-    in_word = 2
-    not_in_word = 1
+class CorrectnessScore(Enum):
+    correct = "correct"
+    in_word = "in_word"
+    not_in_word = "not_in_word"
 
 
 class WordGuesser:
-    def __init__(self, goal=None):
+    def __init__(self, goal="basic"):
         self.guesses = {"guess": "", "results": []}
         self.game_board: List[str] = []
         self.progress: Dict = {}
@@ -55,8 +53,9 @@ class WordGuesser:
         output = self.check_win()
         if output == True:
             return "You guessed the word!! Nice Job"
-        else:
-            return "You failed to guess the word in 6 guesses. better luck next time."
+        return (
+            "You failed to guess the word in 6 guesses. better luck next time."
+        )
 
     # holds game history
     def track_progress(self) -> Dict:
@@ -84,13 +83,14 @@ class WordGuesser:
             return False
         if not guess.isalpha():
             return False
-        if guess not in VALID_WORDS:
+        if guess in self.game_board:
+            print("checked")
             return False
         return True
 
     def guess_word(self, guess: str) -> Dict:
         if self.validate_guess(guess):
-            curr_results: List[int] = []
+            curr_results: List[str] = []
             goal = self.goal_word
 
             for i, char in enumerate(guess):
