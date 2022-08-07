@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from backend.games.word_guesser.WordGuesser import WordGuesser
@@ -7,10 +9,14 @@ SOLUTIONS: str
 # solutions_file Sourced from: https://github.com/Kinkelin/WordleCompetition/blob/main/data/official/shuffled_real_wordles.txt
 # guesses_file Sourced from: https://github.com/Kinkelin/WordleCompetition/blob/main/data/official/official_allowed_guesses.txt
 
-solutions_file = open("backend/games/word_guesser/WordGuesser_Solutions.txt")
-guesses_file = open("backend/games/word_guesser/WordGuesser_ValidGuesses.txt")
+package_directory = os.path.dirname(os.path.abspath(__file__))
+solutions_file = open(f"{package_directory}/WordGuesser_Solutions.txt")
+guesses_file = open(f"{package_directory}/WordGuesser_ValidGuesses.txt")
 SOLUTIONS = solutions_file.read()
 SOLUTION_LIST = SOLUTIONS.splitlines()
+
+VALID_WORDS = guesses_file.read()
+VALID_WORDS_LIST = VALID_WORDS.splitlines()
 
 
 def test_start_game():
@@ -119,10 +125,10 @@ def test_validation():
     normal_word = game.validate_guess("guess")
     assert normal_word == True
 
-    normal_word = game.validate_guess("guess")
+    normal_word = game.validate_guess("gue1s")
     assert normal_word == False
 
-    normal_word = game.validate_guess("gue1s")
+    normal_word = game.validate_guess("ggagg")
     assert normal_word == False
 
     normal_word = game.validate_guess("guesses")

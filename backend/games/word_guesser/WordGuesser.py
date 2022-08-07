@@ -83,8 +83,7 @@ class WordGuesser:
             return False
         if not guess.isalpha():
             return False
-        if guess in self.game_board:
-            print("checked")
+        if guess not in VALID_WORDS_LIST:
             return False
         return True
 
