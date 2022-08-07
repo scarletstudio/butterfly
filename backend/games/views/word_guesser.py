@@ -57,8 +57,8 @@ def post_guess(request, game_id: str, guess: Guess):
     game_ref = db.reference(path)
     previous_state = game_ref.get() or {}
 
-    # Sync game to goal word in db
-    game.goal_word = previous_state.get("goal")
+    # Sync game to goal word in db, if exists
+    game.goal_word = previous_state.get("goal", game.goal_word)
 
     # Get game class and use the guess to update the game state
     next_state = get_next_game_state(game, guess.word, previous_state)
