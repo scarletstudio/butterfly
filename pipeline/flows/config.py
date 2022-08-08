@@ -1,3 +1,4 @@
+from pipeline.flows.analytics import analytics_flow
 from pipeline.flows.matching import matching_flow
 from pipeline.flows.notifications import notifications_flow
 
@@ -14,5 +15,11 @@ FLOWS = {
     "notifications": {
         "flow": notifications_flow,
         "defaults": {"community": "demo"},
+    },
+    "analytics": {
+        "flow": analytics_flow,
+        "defaults": {
+            "community": "demo",
+        },
     },
 }
