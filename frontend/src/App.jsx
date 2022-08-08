@@ -18,6 +18,7 @@ import JoinPage from './pages/JoinPage'
 import StatusPage from './pages/StatusPage'
 import MockLoginPage from './pages/MockLoginPage'
 import StyleGuidePage from './pages/StyleGuide'
+import WordGuesserPage from './pages/WordGuesserPage'
 
 const BASE_URL = '/butterfly'
 const REDIRECT_PATHNAME_KEY = 'butterfly__pathname'
@@ -49,6 +50,9 @@ function AppRouting() {
                 <Route path="chats">
                     <Route index element={<AllChatsPage />} />
                     <Route path=":communityId/:chatId" element={<ChatPage />} />
+                </Route>
+                <Route path="games">
+                    <Route path="vocable" element={<WordGuesserPage />} />
                 </Route>
                 <Route path="status" element={<StatusPage />} />
                 <Route path="mocklogin" element={<MockLoginPage />} />
