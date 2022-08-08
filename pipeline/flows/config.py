@@ -18,8 +18,6 @@ FLOWS = {
     },
     "analytics": {
         "flow": analytics_flow,
-        "defaults": {
-            "community": "demo",
-        },
+        "defaults": {},
     },
 }

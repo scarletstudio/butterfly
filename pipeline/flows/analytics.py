@@ -7,7 +7,10 @@ from prefect.tasks.core.constants import Constant
 from prefect.tasks.secrets import PrefectSecret
 
 from pipeline.extract.analytics import extract_analytics
-from pipeline.transform.analytics import filter_chat_community
+from pipeline.transform.analytics import (
+    filter_chat_community,
+    filter_chat_events,
+)
 from pipeline.transform.chat_analytics import compute_chat_analytics
 from pipeline.utils.firebase import initialize_firebase_for_prefect
 
@@ -29,7 +32,7 @@ def analytics_flow(defaults: Dict = {}) -> Flow:
         )
 
         events = extract_analytics(db)
-        all_chats = filter_chat_community(events, param_community)
-        percentage_sds = compute_chat_analytics(all_chats)
+        all_chats = filter_chat_events(events)
+        compute_chat_analytics(all_chats)
 
     return flow
