@@ -131,7 +131,6 @@ class RareIntentsGenerator(MatchGenerator):
                                     giver=giver_user.uid,
                                 )
                             )
-
                         else:
                             matches[key] = rare_match
 
