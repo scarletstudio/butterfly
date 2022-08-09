@@ -15,7 +15,6 @@ from pipeline.extract import (
     extract_intents,
     extract_interests,
     extract_match_stars,
-    extract_recent_chatdata,
     extract_recent_matches,
     extract_users,
 )
