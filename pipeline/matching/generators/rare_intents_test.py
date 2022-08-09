@@ -47,7 +47,7 @@ def testOne():
             users={"1", "3"},
             metadata=MatchMetadata(
                 generator="rareIntentsGenerator",
-                rareIntents=[expected_intent],
+                intents=[expected_intent],
             ),
         ),
     ]

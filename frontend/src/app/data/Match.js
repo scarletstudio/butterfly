@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react'
-import { equalTo, getDatabase, onValue, orderByChild, query, ref } from 'firebase/database'
+import {
+    equalTo,
+    getDatabase,
+    limitToLast,
+    onValue,
+    orderByChild,
+    query,
+    ref,
+} from 'firebase/database'
 
 import { DB_PATH } from '../constants'
 import { COMMUNITY_CONFIG } from '../../config/communities'
-import { useGetManyUserData } from './User'
+import { getUserData, useGetManyUserData } from './User'
 
 /*
  * Hook to get community matches for a user.
@@ -25,6 +33,20 @@ export function useGetMatches(communityId, userId) {
     return matches
 }
 
+function getLatestChatMessage(communityId, chatId) {
+    const db = getDatabase()
+    const messagesPath = `${DB_PATH.MESSAGES}/${communityId}/${chatId}`
+    const messagesRef = query(ref(db, messagesPath), orderByChild('timestamp'), limitToLast(1))
+    return new Promise((resolve) => {
+        onValue(messagesRef, (snap) => {
+            const data = snap.val() || {}
+            const key = Object.keys(data)?.[0]
+            const message = key && { key, ...data?.[key] }
+            resolve(message)
+        })
+    })
+}
+
 /*
  * Returns a Promise to get data of matches for a user in a community.
  * Retrieves data directly from Firebase, requires user to be authenticated.
@@ -41,7 +63,14 @@ export function getMatchData(userId, communityId) {
                 ...m,
                 community: communityId,
             }))
-            resolve({ communityId, matches: matchList })
+            // Get latest message for each chat, if any
+            const promises = matchList.map(async (m) => {
+                const data = await getLatestChatMessage(communityId, m.id)
+                return { ...m, latestMessage: data }
+            })
+            Promise.all(promises).then((matchesWithLatestMessage) => {
+                resolve({ communityId, matches: matchesWithLatestMessage })
+            })
         })
     })
 }
@@ -53,6 +82,7 @@ export function useGetManyMatchData(userId, communityIdMap) {
     const [communityMatches, setCommunityMatches] = useState({})
     // Try to fetch new matches whenever the input updates
     useEffect(() => {
+        if (!userId) return
         // Filter out community IDs that were already fetched
         Object.keys(communityIdMap)
             .filter((k) => !(k in communityMatches))
@@ -78,12 +108,13 @@ export function useGetManyMatchData(userId, communityIdMap) {
 }
 
 /*
- * Hook to get all of a user's matches across al of their communities.
+ * Hook to get all of a user's matches across all of their communities.
+ * Fetches from Firebase to avoid dependency on API, so user must be logged in.
  */
 export function useGetAllUserMatches(uid) {
-    const myUser = useGetManyUserData({ [uid]: true })?.[uid]
-    const myCommunities = myUser?.communities || {}
-    const matchesByCommunity = useGetManyMatchData(uid, myCommunities)
+    const user = useGetManyUserData({ [uid]: true }, getUserData)?.[uid]
+    const communities = user?.communities || {}
+    const matchesByCommunity = useGetManyMatchData(uid, communities)
     // Combine matches from all communities into one array, with community data
     const matches = Object.values(matchesByCommunity)
         .reduce((arr, val) => [...arr, ...val], [])

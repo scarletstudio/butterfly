@@ -1,0 +1,12 @@
+.BlockedUser {
+    opacity: 0.5;
+}
+
+.UserTile .DisplayName {
+    font-size: 25px;
+    padding: 0.5em;
+}
+
+.UserTile {
+    --image-size: 65px;
+}

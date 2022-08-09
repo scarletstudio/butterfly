@@ -18,7 +18,8 @@ def validate_and_log_matches(
     names = {u.uid: u.displayName for u in users}
     for m in output_matches:
         match_names = ", ".join([names[uid] for uid in m.users])
-        logger.info(f"\t{match_names}")
+        generator = m.metadata.generator
+        logger.info(f"\t{match_names} ({generator})")
     try:
         total, t2, t3 = validate_matches(output_matches, users, recent_matches)
     except MatchValidationError as err:

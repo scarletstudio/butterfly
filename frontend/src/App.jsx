@@ -3,6 +3,7 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import React, { useEffect } from 'react'
 
+import { getAnalytics } from 'firebase/analytics'
 import { FirebaseAppContext, createFirebaseApp } from './app/utils'
 
 import Layout from './pages/Layout'
@@ -17,6 +18,7 @@ import JoinPage from './pages/JoinPage'
 import StatusPage from './pages/StatusPage'
 import MockLoginPage from './pages/MockLoginPage'
 import StyleGuidePage from './pages/StyleGuide'
+import WordGuesserPage from './pages/WordGuesserPage'
 
 const BASE_URL = '/butterfly'
 const REDIRECT_PATHNAME_KEY = 'butterfly__pathname'
@@ -49,6 +51,9 @@ function AppRouting() {
                     <Route index element={<AllChatsPage />} />
                     <Route path=":communityId/:chatId" element={<ChatPage />} />
                 </Route>
+                <Route path="games">
+                    <Route path="vocable" element={<WordGuesserPage />} />
+                </Route>
                 <Route path="status" element={<StatusPage />} />
                 <Route path="mocklogin" element={<MockLoginPage />} />
                 <Route path="resources">
@@ -62,6 +67,7 @@ function AppRouting() {
 
 export default function App() {
     const firebaseApp = createFirebaseApp()
+    getAnalytics()
     return (
         <div className="App Theme">
             <FirebaseAppContext.Provider value={firebaseApp}>
