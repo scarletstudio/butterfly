@@ -77,6 +77,9 @@ class SimilarIntentsGenerator(MatchGenerator):
                                 all_matches[
                                     key
                                 ].metadata.intents.append(intent_match)
+                                all_matches[key].metadata.intents.append(
+                                    intent_match
+                                )
                         else:
                             new_match = Match(
                                 users={anchor_user.uid, inner_user.uid},
