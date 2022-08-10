@@ -98,7 +98,7 @@ class RareIntentsGenerator(MatchGenerator):
                         },
                         metadata=MatchMetadata(
                             generator="rareIntentsGenerator",
-                            rareIntents=[
+                            intents=[
                                 IntentMatch(
                                     code=intent_code,
                                     seeker=seeker_user.uid,
@@ -123,7 +123,7 @@ class RareIntentsGenerator(MatchGenerator):
                         checking_same_user == False
                     ):  # this is to make sure that we are not making a match between one user
                         if key in matches:
-                            matches[key].metadata.rareIntents.append(
+                            matches[key].metadata.intents.append(
                                 IntentMatch(
                                     code=intent_code,
                                     seeker=seeker_user.uid,
