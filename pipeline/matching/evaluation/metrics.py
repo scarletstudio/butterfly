@@ -60,13 +60,13 @@ class MatchingMetricsCollector:
         total_count: Dict[str, int] = {}
 
         for match in matches:
-            for intent in match.metadata.intents:
-                if intent.code in total_count:
-                    total_count[intent.code] = total_count[intent.code] + 1
-                else:
-                    total_count[intent.code] = 1
+            intent_type = []
+            if match.metadata.generator == "rareIntentsGenerator":
+                intent_type = match.metadata.rareIntents
+            elif match.metadata.generator == "similarIntentsGenerator":
+                intent_type = match.metadata.intents
 
-            for intent in match.metadata.rareIntents:
+            for intent in intent_type:
                 if intent.code in total_count:
                     total_count[intent.code] = total_count[intent.code] + 1
                 else:

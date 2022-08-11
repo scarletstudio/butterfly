@@ -58,9 +58,10 @@ class MatchingOutput:
 
 @dataclass
 class MatchingMetrics:
+
+    distribution_in_community: Tuple = field(default_factory=tuple)
+    distribution_in_final_set: Dict = field(default_factory=dict)
     # A dictionary where keys -> users and values -> integers
-    distribution_in_final_set: Dict[str, int]
-    distribution_in_community: Tuple[Dict[str, int], Dict[str, int]]
     n_proposed_matches_per_user: Dict = field(default_factory=dict)
 
     # More metrics will be added in the future
