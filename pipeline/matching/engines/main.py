@@ -1,6 +1,7 @@
 from pipeline.matching.core import MatchingEngine, MatchRanker
 from pipeline.matching.finalizers import FallbacksFinalizer
 from pipeline.matching.generators import (
+    ClusteringGenerator,
     CommonLettersGenerator,
     LimitedSchedulesGenerator,
     RareIntentsGenerator,
@@ -34,6 +35,7 @@ class MainMatchingEngine(MatchingEngine):
                 RareInterestsGenerator(),
                 LimitedSchedulesGenerator(),
                 CommonLettersGenerator(min_common=5),
+                ClusteringGenerator(),
             ],
             ranker=MultiRanker(
                 rankers=[
