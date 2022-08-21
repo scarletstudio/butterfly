@@ -54,145 +54,84 @@ class RareIntentsGenerator(MatchGenerator):
         match: List[Match] = []
 
         # key is giving name and value is list of users
-        rareUsers = defaultdict(list)
+        rareGivingIntentUserMap = defaultdict(list)
+        rareSeekingIntentUserMap = defaultdict(list)
 
         for user in inp.users:
             for intent in user.intents:
+                if intent.code in rareDict and (intent.side == Side.SEEKING):
+                    rareSeekingIntentUserMap[intent.code].append(user)
+
                 if intent.code in rareDict and (intent.side == Side.GIVING):
-                    rareUsers[intent.code].append(user)
+                    rareGivingIntentUserMap[intent.code].append(user)
+
+        # for user in inp.users:
+        #     for intent in user.intents:
+        #         if intent.code in rareSeekingIntentUserMap and (intent.side == Side.SEEKING):
+        #             rareSeekingIntentUserMap[intent.code].append(user)
 
         # holds matches made
         matches: Dict[str, Match] = {}
         # append matches to a dictionary
         # before doing so sort the id and place it as the key so it could be cleaned out
 
-        # check if rare giving has a seeker, then make match
-        for intent_code, giver_user_list in rareUsers.items():
-            for users_in_community in inp.users:
-                for intents_in_community in users_in_community.intents:
-                    if intents_in_community.code == intent_code and (
-                        intents_in_community.side == Side.SEEKING
-                    ):
-                        for giver_user in giver_user_list:
-                            rare_match = Match(
-                                users={
-                                    users_in_community.uid,
-                                    giver_user.uid,
-                                },
-                                metadata=MatchMetadata(
-                                    generator="rareIntentsGenerator",
-                                    intents=[
-                                        IntentMatch(
-                                            code=intents_in_community.code,
-                                            seeker=users_in_community.uid,
-                                            giver=giver_user.uid,
-                                        )
-                                    ],
-                                ),
+        # rareSeekingIntentUserMap --> intent, user list
+
+        # comparing
+        for (
+            intent_code,
+            giver_user_list,
+        ) in (
+            rareGivingIntentUserMap.items()
+        ):  # I think something is failing here line 89/90
+            seeked_user_list = rareSeekingIntentUserMap[
+                intent_code
+            ]  # maybe not appending properly but I can't seem to find the issue
+
+            for seeker_user in seeked_user_list:
+
+                for giver_user in giver_user_list:
+                    rare_match = Match(
+                        users={
+                            seeker_user.uid,
+                            giver_user.uid,
+                        },
+                        metadata=MatchMetadata(
+                            generator="rareIntentsGenerator",
+                            intents=[
+                                IntentMatch(
+                                    code=intent_code,
+                                    seeker=seeker_user.uid,
+                                    giver=giver_user.uid,
+                                )
+                            ],
+                        ),
+                    )
+                    user_one_in_match = seeker_user.uid
+                    user_two_in_match = giver_user.uid
+
+                    checking_same_user = False
+
+                    if int(user_one_in_match) > int(user_two_in_match):
+                        key = user_two_in_match + "_" + user_one_in_match
+                    elif int(user_one_in_match) == int(user_two_in_match):
+                        checking_same_user = True
+                    else:
+                        key = user_one_in_match + "_" + user_two_in_match
+
+                    if (
+                        checking_same_user == False
+                    ):  # this is to make sure that we are not making a match between one user
+                        if key in matches:
+                            matches[key].metadata.intents.append(
+                                IntentMatch(
+                                    code=intent_code,
+                                    seeker=seeker_user.uid,
+                                    giver=giver_user.uid,
+                                )
                             )
-                            user_one_in_match = users_in_community.uid
-                            user_two_in_match = giver_user.uid
 
-                            checking_same_user = False
-
-                            if int(user_one_in_match) > int(user_two_in_match):
-                                key = (
-                                    user_two_in_match + "_" + user_one_in_match
-                                )
-                            elif int(user_one_in_match) == int(
-                                user_two_in_match
-                            ):
-                                checking_same_user = True
-                            else:
-                                key = (
-                                    user_one_in_match + "_" + user_two_in_match
-                                )
-
-                            if (
-                                checking_same_user == False
-                            ):  # this is to make sure that we are not making a match between one user
-                                if key in matches:
-                                    matches[key].metadata.intents.append(
-                                        IntentMatch(
-                                            code=intents_in_community.code,
-                                            seeker=users_in_community.uid,
-                                            giver=giver_user.uid,
-                                        )
-                                    )
-
-                                else:
-                                    matches[key] = rare_match
+                        else:
+                            matches[key] = rare_match
 
         yield from matches.values()
-
-        # Alternate solution to removing duplicates
-
-        # # holds matches made
-        # matches = []
-        # #append matches to a dictionary
-        # #before doing so sort the id and place it as the key so it could be cleaned out
-
-        # # check if rare giving has a seeker, then make match
-        # for intent_code, giver_user_list in rareUsers.items():
-        #     for users_in_community in inp.users:
-        #         for intents_in_community in users_in_community.intents:
-        #             if intents_in_community.code == intent_code and (
-        #                 intents_in_community.side == Side.SEEKING
-        #             ):
-        #                 for giver_user in giver_user_list:
-        #                     m = Match(
-        #                         users={
-        #                             users_in_community.uid,
-        #                             giver_user.uid,
-        #                         },
-        #                         metadata=MatchMetadata(
-        #                             generator="rareIntentsGenerator",
-        #                             intents=[
-        #                                 IntentMatch(
-        #                                     code=intents_in_community.code,
-        #                                     seeker=users_in_community.uid,
-        #                                     giver=giver_user.uid,
-        #                                 )
-        #                             ],
-        #                         ),
-        #                     )
-        #                     matches.append(m)
-        #                 # else:
-        #                 #     m = Match(
-        #                 #         users={
-        #                 #             users_in_community.uid,
-        #                 #             value.uid,
-        #                 #         },
-        #                 #         metadata=MatchMetadata(
-        #                 #             generator="rareIntentsGenerator",
-        #                 #             intents=[
-        #                 #                 IntentMatch(
-        #                 #                     code=intents_in_community.code,
-        #                 #                     seeker=users_in_community.uid,
-        #                 #                     giver=value.uid,
-        #                 #                 )
-        #                 #             ],
-        #                 #         ),
-        #                 #     )
-        #                 #     matches.append(m)
-
-        # # getting rid of duplicates
-        # matchesNoDuplicates = []
-
-        # for i in matches:
-        #     user_A_uid = list(i.users)[0]
-        #     user_B_uid = list(i.users)[1]
-
-        #     for (j) in matches:  # checking if users share the same id, then remove it
-        #         user_C_uid = list(j.users)[0]
-        #         user_D_uid = list(j.users)[1]
-
-        #         if i.users.union(j.users) == i.users:#(user_A_uid == user_C_uid and user_B_uid == user_D_uid) or (user_A_uid == user_D_uid and user_B_uid == user_C_uid):
-        #             if i not in matchesNoDuplicates:
-        #                 matchesNoDuplicates.append(i)
-        #                 matches.remove(j)
-        #         else:
-        #             if i not in matchesNoDuplicates:
-        #                 matchesNoDuplicates.append(i)
-
-        # yield from matchesNoDuplicates

@@ -2,9 +2,12 @@ import pytest
 
 from pipeline.load.display_metrics import (
     render_counts_per_user,
+    render_intent_distribution_in_community,
+    render_intent_distribution_in_matches,
     render_user_emails,
 )
-from pipeline.types import User
+from pipeline.matching.evaluation.metrics import MatchingMetricsCollector
+from pipeline.types import Intent, IntentMatch, Match, MatchMetadata, Side, User
 
 
 def test_render_counts_per_user():
@@ -42,3 +45,110 @@ def test_render_user_emails():
 
     expected = "ayman@iit.edu\n" "bridget@iit.edu\n" "chunter@iit.edu"
     assert actual == expected
+
+
+def test_display_intent_distribution_in_matches():
+
+    matches = [
+        Match(
+            users={"1", "3"},
+            metadata=MatchMetadata(
+                generator="similarIntentsGenerator",
+                score=1,
+                intents=[
+                    IntentMatch(code="guitar", seeker="3", giver="1"),
+                    IntentMatch(code="sing", seeker="1", giver="3"),
+                ],
+            ),
+        ),
+        Match(
+            users={"2", "4"},
+            metadata=MatchMetadata(
+                generator="similarIntentsGenerator",
+                score=1,
+                intents=[
+                    IntentMatch(code="chess", seeker="4", giver="2"),
+                    IntentMatch(code="tutoring", seeker="2", giver="4"),
+                ],
+            ),
+        ),
+        Match(
+            users={"1", "3"},
+            metadata=MatchMetadata(
+                generator="rareIntentsGenerator",
+                rareIntents=[IntentMatch(code="comedy", seeker="1", giver="3")],
+            ),
+        ),
+        Match(
+            users={"1", "2"},
+            metadata=MatchMetadata(
+                generator="similarInterestsGenerator",
+                commonInterests=["painting"],
+            ),
+        ),
+        Match(
+            users={"1", "2"},
+            metadata=MatchMetadata(
+                generator="limitedSchedulesGenerator",
+            ),
+        ),
+    ]
+
+    a = MatchingMetricsCollector().intent_distribution_in_selected_matches(
+        matches
+    )
+    actual = render_intent_distribution_in_matches(a)
+
+    expected = (
+        "guitar : 1\n"
+        "sing : 1\n"
+        "chess : 1\n"
+        "tutoring : 1\n"
+        "comedy : 1\n"
+    )
+    assert actual == expected
+
+
+def test_intent_distribution_in_community():
+    tutoring = Intent(code="tutoring", name="Tutoring", side=Side.BLANK)
+    seek_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.SEEKING)
+    give_tutoring = Intent(code="tutoring", name="Tutoring", side=Side.GIVING)
+    comedy = Intent(code="comedy", name="Comedy", side=Side.BLANK)
+    seek_comedy = Intent(code="comedy", name="Comedy", side=Side.SEEKING)
+    give_comedy = Intent(code="comedy", name="Comedy", side=Side.GIVING)
+
+    users = [
+        User(
+            uid="A",
+            displayName="User A",
+            intents=[seek_tutoring, seek_comedy],
+        ),
+        User(uid="B", displayName="User B", intents=[seek_tutoring]),
+        User(
+            uid="C",
+            displayName="User C",
+            intents=[give_tutoring, seek_comedy],
+        ),
+        User(
+            uid="D",
+            displayName="User D",
+            intents=[seek_tutoring, give_comedy],
+        ),
+    ]
+
+    a = MatchingMetricsCollector().intent_distribution_in_community(users)
+    actual = render_intent_distribution_in_community(a)
+
+    # will return two dictionaries,
+    # first is the givers and their count and second are the seekers and their count
+
+    expected = (
+        "Giving Intent:\n"
+        "tutoring : 1\n"
+        "comedy : 1\n"
+        "Seeking Intent:\n"
+        "tutoring : 3\n"
+        "comedy : 2\n"
+    )
+
+    actual == expected
