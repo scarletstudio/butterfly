@@ -1,3 +1,4 @@
+from pipeline.types.analytics import *
 from pipeline.types.basic import *
 from pipeline.types.chat import *
 from pipeline.types.community import *
