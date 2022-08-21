@@ -1,9 +1,6 @@
-import sys
 import unittest
 
-from average_rating import calculate_analytics
-
-sys.path.insert(0, "/workspace/butterfly/pipeline/scripts/")
+from pipeline.scripts.average_rating import calculate_analytics
 
 
 class TestAverageRating(unittest.TestCase):

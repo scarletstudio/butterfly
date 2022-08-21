@@ -1,6 +1,6 @@
 import sys
 
-sys.path.insert(0, "/workspace/butterfly/backend/utils/")
+sys.path.append("./")
 
 
 def calculate_analytics(matches):
@@ -19,7 +19,7 @@ def calculate_analytics(matches):
 
 
 def average_rating():
-    from firebase import get_db, initialize_firebase_for_api
+    from backend.utils.firebase import get_db, initialize_firebase_for_api
 
     initialize_firebase_for_api()
     if len(sys.argv) > 1:
