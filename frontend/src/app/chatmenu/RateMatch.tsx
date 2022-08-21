@@ -27,6 +27,7 @@ const RateMatchInner = ({ generator = 'blank', ...props }: RateMatchProps) => {
     const handleMouseLeave = () => {
         setIsHovering(false)
     }
+    
     function changeRating(num: number) {
         if (rating === num) {
             setRating(0)

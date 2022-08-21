@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import './SearchMessages.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { ChatMenuPageProps, MessagesData } from './ChatMenuPage'
 import { Message } from '../chat/Message'
 import { ChatData } from '../types'
@@ -39,8 +39,11 @@ const MessagesInner = ({ chat, filteredMessages, totalMessages }) => {
     )
 }
 
+function cleanText(value: string) {
+    return value?.toLowerCase().trim()
+}
 const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
-    const [value, setValue] = useState<string>()
+    const [value, setValue] = useState<string>('')
     const [filteredMessages, setfilteredMessages] = useState<MessagesData[] | undefined>()
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -51,16 +54,12 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
     const doSearch = () => {
         setfilteredMessages(
             messages?.filter((text) => {
-                const searchString: string = value ?? ''
+                const searchString: string = cleanText(value)
+                const messageText: string = cleanText(text.message)
 
-                return (
-                    text.message.toLowerCase().includes(searchString.toLowerCase()) && // Changes the message to lowercase
-                    searchString !== '' && // Checks for whitespaces
-                    searchString.trim()
-                )
+                return searchString !== '' && messageText?.includes(searchString)
             })
         )
-        setValue('')
     }
 
     const searchOnCtrlEnter = (e: {
@@ -80,13 +79,18 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
 
     // Creates the Seach bar and Button
     return (
-        <div className="Search">
+        <>
             <textarea
                 className="Input"
                 placeholder="Search Messages"
                 value={value}
                 onChange={handleChange}
                 onKeyDown={searchOnCtrlEnter}
+            />
+            <FontAwesomeIcon
+                onClick={() => setValue('')}
+                icon={faXmark}
+                className={value === '' ? 'Hidden' : 'text-icon'}
             />
             <button type="button" onClick={doSearch} className="ButtonSearch">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -98,7 +102,7 @@ const SearchMessagesInner = ({ messages, chat }: SearchMessagesProps) => {
                     totalMessages={messages}
                 />
             </div>
-        </div>
+        </>
     )
 }
 
