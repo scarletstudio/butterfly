@@ -20,6 +20,14 @@ interface RateMatchProps {
 // eslint-disable-next-line no-empty-pattern
 const RateMatchInner = ({ generator = 'blank', ...props }: RateMatchProps) => {
     const [rating, setRating] = useState<number>(0)
+    const [isHovering, setIsHovering] = useState(false)
+    const handleMouseEnter = () => {
+        setIsHovering(true)
+    }
+    const handleMouseLeave = () => {
+        setIsHovering(false)
+    }
+    
     function changeRating(num: number) {
         if (rating === num) {
             setRating(0)
@@ -49,7 +57,10 @@ const RateMatchInner = ({ generator = 'blank', ...props }: RateMatchProps) => {
             })
             // "Rating successfully submitted."
         }
+        setRating(0)
     }
+    const numbers = [1, 2, 3, 4, 5]
+
     return (
         <div>
             <p>
@@ -69,59 +80,30 @@ const RateMatchInner = ({ generator = 'blank', ...props }: RateMatchProps) => {
             </p>
             <p>Submit a rating so we can give you better matches in the future!</p>
             <div>
-                <button
-                    className={rating >= 1 ? 'selected' : 'unselected'}
-                    onClick={() => changeRating(1)}
-                    onKeyDown={() => changeRating(1)}
-                    type="submit"
-                >
-                    <span className={rating >= 1 ? 'selected' : 'unselected'}>
-                        <FontAwesomeIcon icon={faStar} />
-                    </span>
-                </button>
-
-                <button
-                    className={rating >= 2 ? 'selected' : 'unselected'}
-                    onClick={() => changeRating(2)}
-                    onKeyDown={() => changeRating(2)}
-                    type="submit"
-                >
-                    <span className={rating >= 2 ? 'selected' : 'unselected'}>
-                        <FontAwesomeIcon icon={faStar} />
-                    </span>
-                </button>
-                <button
-                    className={rating >= 3 ? 'selected' : 'unselected'}
-                    onClick={() => changeRating(3)}
-                    onKeyDown={() => changeRating(3)}
-                    type="submit"
-                >
-                    <span className={rating >= 3 ? 'selected' : 'unselected'}>
-                        <FontAwesomeIcon icon={faStar} />
-                    </span>
-                </button>
-                <button
-                    className={rating >= 4 ? 'selected' : 'unselected'}
-                    onClick={() => changeRating(4)}
-                    onKeyDown={() => changeRating(4)}
-                    type="submit"
-                >
-                    <span className={rating >= 4 ? 'selected' : 'unselected'}>
-                        <FontAwesomeIcon icon={faStar} />
-                    </span>
-                </button>
-                <button
-                    className={rating >= 5 ? 'selected' : 'unselected'}
-                    onClick={() => changeRating(5)}
-                    onKeyDown={() => changeRating(5)}
-                    type="submit"
-                >
-                    <span className={rating >= 5 ? 'selected' : 'unselected'}>
-                        <FontAwesomeIcon icon={faStar} />
-                    </span>
-                </button>
+                {numbers.map((number, i) => (
+                    <button
+                        key={`${number}-${1}`}
+                        className={rating >= number ? 'selected' : 'unselected'}
+                        style={{ cursor: isHovering ? 'pointer' : 'default' }}
+                        onClick={() => changeRating(number)}
+                        onKeyDown={() => changeRating(number)}
+                        type="submit"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <span className={rating >= number ? 'selected' : 'unselected'}>
+                            <FontAwesomeIcon icon={faStar} />
+                        </span>
+                    </button>
+                ))}
             </div>
-            <button type="submit" onClick={submitRating}>
+            <button
+                type="submit"
+                onClick={submitRating}
+                style={{ cursor: isHovering ? 'pointer' : 'default' }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
                 SUBMIT
             </button>
         </div>

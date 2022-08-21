@@ -13,3 +13,11 @@
     color: blue;
     font-size: 50px;
 }
+
+.hover {
+    cursor: pointer;
+}
+
+.notHover {
+    cursor: default;
+}
