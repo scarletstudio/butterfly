@@ -1,0 +1,13 @@
+.ChatInbox {
+    margin-top: 5px;
+}
+
+.HiddenInboxHeader {
+    display: flex;
+}
+
+.HiddenInboxButton {
+    cursor: pointer;
+    margin: 15px;
+    border-radius: 5px;
+}

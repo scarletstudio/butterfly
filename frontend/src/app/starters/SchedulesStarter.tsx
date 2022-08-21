@@ -3,17 +3,29 @@ import './SchedulesStarter.css'
 import { ConversationStarterProps } from './ConversationStarter'
 
 interface SchedulesStarterProps {
-    // TODO: Fill out the props for your component
+    availabilities: Array<{ day: string; hour: number }>
 }
 
-// TODO: Implement your component
-// eslint-disable-next-line no-empty-pattern
-const SchedulesStarterInner = ({}: SchedulesStarterProps) => {
-    return <div />
+export const SchedulesStarterInner = ({ availabilities }: SchedulesStarterProps) => {
+    return (
+        <div>
+            <p>
+                You both have similar schedules! If you want to schedule a call together, you are
+                both available at these times:
+            </p>
+            <ul>
+                {availabilities.map((time, index) => (
+                    <li key={`${time.day}-${time.hour}`}>
+                        {time.day} {time.hour}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
 }
 
-// TODO: Pass your component its props
-// eslint-disable-next-line no-unused-vars
-const SchedulesStarter = ({ chat }: ConversationStarterProps) => <SchedulesStarterInner />
+const SchedulesStarter = ({ chat }: ConversationStarterProps) => (
+    <SchedulesStarterInner availabilities={chat?.metadata?.availability || []} />
+)
 
 export default SchedulesStarter

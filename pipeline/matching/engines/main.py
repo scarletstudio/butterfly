@@ -1,6 +1,7 @@
 from pipeline.matching.core import MatchingEngine, MatchRanker
 from pipeline.matching.finalizers import FallbacksFinalizer
 from pipeline.matching.generators import (
+    ClusteringGenerator,
     CommonLettersGenerator,
     LimitedSchedulesGenerator,
     RareIntentsGenerator,
@@ -23,7 +24,7 @@ ENGINE_MAIN = "mainEngine"
 
 
 class MainMatchingEngine(MatchingEngine):
-    def __init__(self):
+    def __init__(self, **kwargs):
         super().__init__(
             name=ENGINE_MAIN,
             generators=[
@@ -34,6 +35,7 @@ class MainMatchingEngine(MatchingEngine):
                 RareInterestsGenerator(),
                 LimitedSchedulesGenerator(),
                 CommonLettersGenerator(min_common=5),
+                ClusteringGenerator(),
             ],
             ranker=MultiRanker(
                 rankers=[
@@ -46,4 +48,5 @@ class MainMatchingEngine(MatchingEngine):
                 ]
             ),
             finalizer=FallbacksFinalizer(n_retries=10),
+            **kwargs
         )

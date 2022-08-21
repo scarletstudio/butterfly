@@ -9,10 +9,6 @@
     border-bottom-style: solid;
 }
 
-.Inbox {
-    margin-top: 5px;
-}
-
 .ChatPreview .UserPreview,
 .ChatPreview .MessagePreview,
 .ChatPreview .ReleasePreview {
@@ -66,4 +62,8 @@
 .ChatPreview .UserPreview.Group .UserDisc:nth-child(2) {
     margin-top: -35px;
     margin-left: 20px;
+}
+
+.readIcon {
+    font-size: 16px;
 }

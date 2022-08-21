@@ -1,6 +1,7 @@
 import React from 'react'
 
 import BlockUser from './BlockUser'
+import { getMockUser } from '../mock'
 
 export default {
     title: 'Chat Menu Pages/BlockUser',
@@ -9,8 +10,35 @@ export default {
 
 const Template = (args) => <BlockUser {...args} />
 
-// TODO: Set args with the props to test a case of your component
-export const Case1 = Template.bind({})
-Case1.args = {}
+// two user chat
+const twoChatData = {
+    chat: {
+        for: 'pradeep',
+        participants: {
+            quyen: getMockUser('quyen'),
+            pradeep: getMockUser('pradeep'),
+        },
+    },
+}
+
+// three user chat
+const threeChatData = {
+    chat: {
+        for: 'pradeep',
+        participants: {
+            si_woo: getMockUser('si_woo'),
+            quyen: getMockUser('quyen'),
+            pradeep: getMockUser('pradeep'),
+        },
+    },
+}
+
+// TODO: add in block and unblock case
+
+export const twoUsers = Template.bind({})
+twoUsers.args = { ...twoChatData }
+
+export const threeUsers = Template.bind({})
+threeUsers.args = { ...threeChatData }
 
 // TODO: Add more cases to test your component

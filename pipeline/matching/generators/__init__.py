@@ -1,3 +1,4 @@
+from pipeline.matching.generators.clustering import *
 from pipeline.matching.generators.common_letters import *
 from pipeline.matching.generators.limited_schedules import *
 from pipeline.matching.generators.rare_intents import *

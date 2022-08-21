@@ -10,12 +10,21 @@ from pipeline.types import Intent, RawUserIntents, Side, User
 def augment_users_with_intents(
     users: List[User], raw_intents: RawUserIntents
 ) -> List[User]:
-    # TODO: Implement your transform task
-    logger = prefect.context.get("logger")
-    logger.info("Azu was here!")
-    intent = Intent(code="tutoring", side=Side.SEEKING, name="tutoring")
-    intent2 = Intent(code="tutoring", side=Side.GIVING, name="tutoring")
-    return [
-        User(uid="1", displayName="A", intents=[intent]),
-        User(uid="2", displayName="B", intents=[intent, intent2]),
-    ]
+
+    for user in users:
+        intents_lst = []
+        user_intents_dict = raw_intents.get(user.uid, {})
+        for key, intents_dict in user_intents_dict.items():
+            for side, value in intents_dict.items():
+                if not value:
+                    continue
+                if side == Side.SEEKING.value:
+                    intents_lst.append(
+                        Intent(code=key, side=Side.SEEKING, name=key)
+                    )
+                if side == Side.GIVING.value:
+                    intents_lst.append(
+                        Intent(code=key, side=Side.GIVING, name=key)
+                    )
+        user.intents = intents_lst
+    return users
